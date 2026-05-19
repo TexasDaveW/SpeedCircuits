@@ -256,23 +256,14 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 16: hand-authored — see circuit jsons/16-pot-controlled-led-threshold.json. Do not EXPORT_ONLY=15.
   {
     name: '16-pot-controlled-led-threshold',
-    build: () => [
-      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
-      { instanceId: nextId('cross-cube'), catalogId: 'cross-cube', gridX: 5, gridY: 4, rotation: 0 },
-      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 6, gridY: 4, rotation: 0 },
-      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 6, gridY: 5, rotation: 270 },
-      { instanceId: nextId('npn'), catalogId: 'npn', gridX: 6, gridY: 6, rotation: 90 },
-      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 6, gridY: 7, rotation: 0 },
-      { instanceId: nextId('resistor-10k'), catalogId: 'resistor-10k', gridX: 4, gridY: 4, rotation: 0 },
-      { instanceId: nextId('potentiometer'), catalogId: 'potentiometer', gridX: 4, gridY: 5, rotation: 270 },
-      { instanceId: nextId('resistor-10k'), catalogId: 'resistor-10k', gridX: 4, gridY: 6, rotation: 90 },
-      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 4, gridY: 7, rotation: 0 },
-      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
-      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 5, gridY: 5, rotation: 180 },
-      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 5, gridY: 6, rotation: 0 },
-    ],
+    build: () => {
+      throw new Error(
+        'Lesson 16 is hand-authored; edit circuit jsons/16-pot-controlled-led-threshold.json',
+      )
+    },
   },
 ]
 
