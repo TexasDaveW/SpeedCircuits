@@ -247,6 +247,15 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 6, gridY: 7, rotation: 0 },
     ],
   },
+  // Lesson 15: hand-authored — see circuit jsons/15-pot-controlled-rgb-mixer.json (3 pots + straights/corners). Do not EXPORT_ONLY=14.
+  {
+    name: '15-pot-controlled-rgb-mixer',
+    build: () => {
+      throw new Error(
+        'Lesson 15 is hand-authored; edit circuit jsons/15-pot-controlled-rgb-mixer.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -264,6 +273,7 @@ const DISPLAY_NAMES = [
   'Two-Button Parallel Logic',
   'Morse Code LED',
   'Variable LED Brightness',
+  'Pot-Controlled RGB Mixer',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -281,6 +291,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Two tact buttons are wired in parallel. Press either button to light the LED — an OR gate. Both pressed also works. One shared resistor and LED sit below the merge point.',
   'Use one button as a Morse key. A quick tap (dot) and a longer press (dash) blink the LED. Try spelling S: three short, three long, three short. Timing is up to you — the circuit only turns the LED on while the button is held.',
   'Turn the potentiometer to change LED brightness. The 470Ω resistor sets a safe maximum; the pot and corner route the wiper into the red LED. More resistance dims the light, less resistance makes it brighter.',
+  'Three potentiometers each feed an RGB channel through its own 470Ω resistor. Turn one or more pots to dim or brighten red, green, and blue and mix colors on the LED — the same layout as RGB color mixing, but with smooth analog control instead of buttons.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
