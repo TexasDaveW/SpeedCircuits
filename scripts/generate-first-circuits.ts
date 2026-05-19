@@ -128,6 +128,37 @@ function buildLedFadeOffCircuit(): PlacedTile[] {
   return buildParallelCapLedDirect(6, [{ catalogId: 'slide-switch', rotation: 90 }])
 }
 
+/** Cap ∥ LED with LED on center column and cap on east (swap of lesson 21). */
+function buildParallelCapLedSwapped(
+  splitY: number,
+  trunkBeforeSplit: Part[] = [],
+  trunkResistor = 'resistor-1k',
+): PlacedTile[] {
+  const mergeY = splitY + 2
+  const tiles: PlacedTile[] = [tile('power-tile', 5, 3)]
+  let y = 4
+  for (const part of trunkBeforeSplit) {
+    tiles.push(tile(part.catalogId, 5, y, part.rotation ?? 90))
+    y += 1
+  }
+  tiles.push(
+    tile(trunkResistor, 5, y, 90),
+    tile('t-connector', 5, splitY, 90),
+    tile('led-red', 5, splitY + 1, 90),
+    tile('t-connector', 5, mergeY, 90),
+    tile('ground-tile', 5, mergeY + 1),
+    tile('corner-cube', 6, splitY, 180),
+    tile('cap-1000u', 6, splitY + 1, 90),
+    tile('corner-cube', 6, mergeY, 270),
+  )
+  return tiles
+}
+
+/** Lesson 22: cap∥LED fade-on — LED center, cap east (mirror layout of lesson 21). */
+function buildLedFadeOnCircuit(): PlacedTile[] {
+  return buildParallelCapLedSwapped(6, [{ catalogId: 'slide-switch', rotation: 90 }])
+}
+
 /** Three parallel branches (150Ω → 1kΩ), left to right = bright → dim LED bar. */
 function buildLedBarBrightnessComparison(): PlacedTile[] {
   return [
@@ -399,6 +430,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '21-led-fade-off-circuit',
     build: () => buildLedFadeOffCircuit(),
   },
+  {
+    name: '22-led-fade-on-circuit',
+    build: () => buildLedFadeOnCircuit(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -423,6 +458,7 @@ const DISPLAY_NAMES = [
   'Capacitor Charge Demo',
   'Capacitor Discharge Demo',
   'LED Fade-Off Circuit',
+  'LED Fade-On Circuit',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -447,6 +483,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'USB → 470Ω → red LED → 1000µF capacitor → ground. When power is first applied, the empty cap draws charging current and the LED flashes bright, then fades over about 1–2 seconds as the cap fills (τ ≈ R×C ≈ 0.5 s). Once charged, DC current stops and the LED goes out — unlike a resistor, a capacitor stores energy instead of passing steady current forever. Orient the LED so conventional current flows anode (north) to cathode (south).',
   'Hold the tact button to charge the 1000µF capacitor through the center 470Ω resistor. The cap and the east branch (470Ω + red LED) are in parallel. Release the button — USB disconnects, but the charged cap powers the LED through the east branch and it fades out over about 1–2 seconds as the cap empties. Orient the LED at 90° (anode north, cathode south). Put the cap + toward the power side.',
   'USB → slide switch → 1kΩ → split: 1000µF cap (center) and red LED (east) in parallel — no second resistor on the LED branch. Flip the switch on to charge both; flip off and watch the LED fade out over several seconds as the cap empties through the LED. Lesson 20 used a tact button and a 470Ω on the LED branch; here the LED sits directly across the cap for a smoother fade-off.',
+  'USB → slide switch → 1kΩ → split: red LED on the center column and 1000µF cap on the east branch in parallel. Flip the switch on — the LED starts dim and brightens over several seconds as the capacitor charges (fade-on). Flip off to see it fade out. Layout swaps lesson 21 (cap center, LED east); the LED is on the center column here. LED at 90° (anode north); cap + toward power.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
