@@ -265,6 +265,17 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  {
+    name: '17-adjustable-voltage-divider',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('resistor-10k'), catalogId: 'resistor-10k', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('potentiometer'), catalogId: 'potentiometer', gridX: 5, gridY: 5, rotation: 270 },
+      { instanceId: nextId('resistor-10k'), catalogId: 'resistor-10k', gridX: 5, gridY: 6, rotation: 90 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 5, rotation: 180 },
+    ],
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -284,6 +295,7 @@ const DISPLAY_NAMES = [
   'Variable LED Brightness',
   'Pot-Controlled RGB Mixer',
   'Pot-Controlled LED Threshold',
+  'Adjustable Voltage Divider',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -303,6 +315,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Turn the potentiometer to change LED brightness. The 470Ω resistor sets a safe maximum; the pot and corner route the wiper into the red LED. More resistance dims the light, less resistance makes it brighter.',
   'Three potentiometers each feed an RGB channel through its own 470Ω resistor. Turn one or more pots to dim or brighten red, green, and blue and mix colors on the LED — the same layout as RGB color mixing, but with smooth analog control instead of buttons.',
   'A potentiometer and two 10kΩ resistors form a voltage divider on the transistor base. Turn the pot until the base voltage crosses the switching point — the LED snaps between off and on instead of fading smoothly like lesson 14.',
+  'USB and ground bracket a pot between two 10kΩ resistors. Turning the knob moves the wiper tap from near 0 V to near 5 V. The east corner marks the adjustable output — this same divider idea feeds the base in lesson 16.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
