@@ -272,6 +272,10 @@
   cursor: cell;
 }
 
+.circuit-canvas.place-mode {
+  cursor: crosshair;
+}
+
 .circuit-canvas.panning {
   cursor: grabbing !important;
 }

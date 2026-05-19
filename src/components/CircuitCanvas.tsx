@@ -120,7 +120,13 @@ export function CircuitCanvas({
     zoomRef.current = zoom
     panRef.current = pan
   }, [zoom, pan])
+
   const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
+  const [placementRotation, setPlacementRotation] = useState<Rotation>(0)
+
+  useEffect(() => {
+    setPlacementRotation(0)
+  }, [pendingCatalogId])
   const [marquee, setMarquee] = useState<{
     x0: number
     y0: number
@@ -204,26 +210,50 @@ export function CircuitCanvas({
       })
     }
 
-    const highlightCell = clipboardActive ? hoverCell ?? pasteTarget : null
+    const placementCell = pendingCatalogId ? hoverCell : null
+    const pasteCell = clipboardActive ? (hoverCell ?? pasteTarget) : null
+    const highlightCell = placementCell ?? pasteCell
+
     if (highlightCell) {
       const hx = highlightCell.gx * GRID_CELL
       const hy = highlightCell.gy * GRID_CELL
-      const occupied = tiles.some(
+      const cellOccupied = tiles.some(
         (t) => t.gridX === highlightCell.gx && t.gridY === highlightCell.gy,
       )
-      const isSelected =
-        pasteTarget?.gx === highlightCell.gx && pasteTarget?.gy === highlightCell.gy
-      ctx.fillStyle = occupied
+      const isPasteTarget =
+        clipboardActive &&
+        pasteTarget?.gx === highlightCell.gx &&
+        pasteTarget?.gy === highlightCell.gy
+      ctx.fillStyle = cellOccupied
         ? 'rgba(220, 80, 80, 0.22)'
-        : isSelected
+        : isPasteTarget
           ? 'rgba(77, 159, 255, 0.35)'
           : 'rgba(77, 159, 255, 0.18)'
       ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
-      ctx.strokeStyle = occupied
+      ctx.strokeStyle = cellOccupied
         ? 'rgba(220, 80, 80, 0.85)'
         : 'rgba(77, 159, 255, 0.9)'
-      ctx.lineWidth = isSelected ? 3 : 2
+      ctx.lineWidth = isPasteTarget ? 3 : 2
       ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
+    }
+
+    if (placementCell && pendingCatalogId) {
+      const entry = catalogById.get(pendingCatalogId)
+      if (entry) {
+        const cellOccupied = tiles.some(
+          (t) => t.gridX === placementCell.gx && t.gridY === placementCell.gy,
+        )
+        ctx.save()
+        ctx.globalAlpha = cellOccupied ? 0.38 : 0.72
+        drawTile(
+          ctx,
+          placementCell.gx * GRID_CELL,
+          placementCell.gy * GRID_CELL,
+          entry,
+          placementRotation,
+        )
+        ctx.restore()
+      }
     }
 
     if (marquee) {
@@ -243,9 +273,13 @@ export function CircuitCanvas({
     ctx.restore()
 
     if (pendingCatalogId) {
-      ctx.fillStyle = 'rgba(77, 159, 255, 0.12)'
+      ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
-      ctx.fillText('Click a grid cell on the plate to place the tile', 16, h - 16)
+      ctx.fillText(
+        'Click a cell to place · R to rotate · Esc to cancel',
+        16,
+        h - 16,
+      )
     } else if (clipboardActive) {
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
@@ -271,6 +305,7 @@ export function CircuitCanvas({
     clipboardActive,
     pasteTarget,
     hoverCell,
+    placementRotation,
     marquee,
   ])
 
@@ -297,7 +332,13 @@ export function CircuitCanvas({
     const instanceId = crypto.randomUUID()
     onTilesChange([
       ...tiles,
-      { instanceId, catalogId, gridX: gx, gridY: gy, rotation: 0 as Rotation },
+      {
+        instanceId,
+        catalogId,
+        gridX: gx,
+        gridY: gy,
+        rotation: placementRotation,
+      },
     ])
     onSelectionChange([instanceId])
     onPendingClear()
@@ -441,7 +482,7 @@ export function CircuitCanvas({
   }
 
   const updateHoverCell = (e: React.PointerEvent) => {
-    if (!clipboardActive) {
+    if (!clipboardActive && !pendingCatalogId) {
       setHoverCell(null)
       return
     }
@@ -574,6 +615,14 @@ export function CircuitCanvas({
     )
   }, [selectedIds, tiles, onTilesChange])
 
+  const rotatePlacementOrSelection = useCallback(() => {
+    if (pendingCatalogId) {
+      setPlacementRotation((r) => nextRotation(r))
+      return
+    }
+    rotateSelected()
+  }, [pendingCatalogId, rotateSelected])
+
   function isEditableTarget(target: EventTarget | null): boolean {
     const el = target as HTMLElement | null
     if (!el) return false
@@ -590,11 +639,11 @@ export function CircuitCanvas({
       if (e.ctrlKey || e.metaKey || e.altKey) return
 
       e.preventDefault()
-      rotateSelected()
+      rotatePlacementOrSelection()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [rotateSelected])
+  }, [rotatePlacementOrSelection])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -652,8 +701,8 @@ export function CircuitCanvas({
         </button>
         <button
           type="button"
-          onClick={rotateSelected}
-          disabled={selectedIds.length === 0}
+          onClick={rotatePlacementOrSelection}
+          disabled={selectedIds.length === 0 && !pendingCatalogId}
           title="Rotate 90° clockwise"
         >
           Rotate (R)
@@ -663,8 +712,8 @@ export function CircuitCanvas({
       <canvas
         ref={canvasRef}
         className={`circuit-canvas${clipboardActive ? ' paste-mode' : ''}${
-          isPanning ? ' panning' : ''
-        }`}
+          pendingCatalogId ? ' place-mode' : ''
+        }${isPanning ? ' panning' : ''}`}
         title="Hold Ctrl or Space and drag to pan · scroll to zoom"
         onContextMenu={handleContextMenu}
         onPointerDown={handlePointerDown}

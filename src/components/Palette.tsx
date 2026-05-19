@@ -68,7 +68,7 @@ export function Palette({ tiles, pendingCatalogId, onPick }: PaletteProps) {
     <aside className="palette">
       <header className="palette-header">
         <h1>SpeedCircuits</h1>
-        <p>Select a tile, then click the plate to place it.</p>
+        <p>Select a tile, hover the plate to preview, then click to place.</p>
         <div className="palette-tree-actions">
           <button type="button" onClick={expandAll}>
             Expand all
