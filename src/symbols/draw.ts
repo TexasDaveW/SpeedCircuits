@@ -138,23 +138,73 @@ function drawDiode(ctx: CanvasRenderingContext2D, b: SymbolBounds, schottky = fa
   }
 }
 
+function drawLedArrow(
+  ctx: CanvasRenderingContext2D,
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+) {
+  const angle = Math.atan2(y1 - y0, x1 - x0)
+  const head = Math.max(3, Math.hypot(x1 - x0, y1 - y0) * 0.35)
+  ctx.moveTo(x0, y0)
+  ctx.lineTo(x1, y1)
+  ctx.moveTo(x1, y1)
+  ctx.lineTo(
+    x1 - head * Math.cos(angle - 0.45),
+    y1 - head * Math.sin(angle - 0.45),
+  )
+  ctx.moveTo(x1, y1)
+  ctx.lineTo(
+    x1 - head * Math.cos(angle + 0.45),
+    y1 - head * Math.sin(angle + 0.45),
+  )
+}
+
 function drawLed(ctx: CanvasRenderingContext2D, b: SymbolBounds, rgb = false) {
-  drawDiode(ctx, b)
   prep(ctx)
   const cy = midY(b)
   const cx = midX(b)
-  const arr = b.w * 0.12
+  const base = b.x + b.w * 0.4
+  const tip = b.x + b.w * 0.58
+  const halfH = b.h * 0.36
+
+  // Anode/cathode leads into diode body
   ctx.beginPath()
-  ctx.moveTo(cx + arr, cy - arr)
-  ctx.lineTo(cx + arr * 2.2, cy - arr * 2)
-  ctx.moveTo(cx + arr, cy + arr)
-  ctx.lineTo(cx + arr * 2.2, cy + arr * 2)
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(base, cy)
+  ctx.moveTo(tip, cy)
+  ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
+
+  // Diode triangle (anode → cathode, left to right)
+  ctx.beginPath()
+  ctx.moveTo(base, cy)
+  ctx.lineTo(tip, cy - halfH)
+  ctx.lineTo(tip, cy + halfH)
+  ctx.closePath()
+  ctx.stroke()
+
+  // Cathode bar
+  ctx.beginPath()
+  ctx.moveTo(base, cy - halfH)
+  ctx.lineTo(base, cy + halfH)
+  ctx.stroke()
+
+  // Light emission arrows (up-right and down-right from cathode)
+  const arrLen = b.w * 0.14
+  const arrX = tip + b.w * 0.04
+  ctx.beginPath()
+  drawLedArrow(ctx, arrX, cy - halfH * 0.35, arrX + arrLen, cy - halfH * 0.35 - arrLen * 0.85)
+  drawLedArrow(ctx, arrX, cy + halfH * 0.35, arrX + arrLen, cy + halfH * 0.35 + arrLen * 0.85)
+  ctx.stroke()
+
+  // RGB: third lead (cathode/common) to south port
   if (rgb) {
-    ctx.font = `bold ${b.h * 0.35}px system-ui,sans-serif`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('RGB', cx, cy + b.h * 0.05)
+    ctx.beginPath()
+    ctx.moveTo(cx, cy + halfH * 0.15)
+    ctx.lineTo(cx, b.y + b.h)
+    ctx.stroke()
   }
 }
 
