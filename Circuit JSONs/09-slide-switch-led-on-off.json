@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "name": "Slide-Switch LED On/Off",
+  "lesson": {
+    "title": "Slide-Switch LED On/Off",
+    "description": "Flip the slide switch to connect or disconnect the path. Unlike the pushbutton, the switch stays on or off until you move it again. Current flows USB → switch → 470Ω → red LED → ground when the switch is on."
+  },
+  "exportedAt": "2026-05-19T04:16:49.919Z",
+  "tiles": [
+    {
+      "instanceId": "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "b27e4426-b40f-492b-add0-f357deafdc07",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 270
+    },
+    {
+      "instanceId": "6bb5cca5-c228-4a4b-b09f-00adb12bec1d",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a28f6daf-a25c-4ee6-a797-1bd20cb3f7ea",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "e94066bb-395a-4f2f-8627-3c7d5a2b5f2f",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "a3cbfec6-dd77-486a-9d38-eb14dbfa5954",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "b27e4426-b40f-492b-add0-f357deafdc07",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "b27e4426-b40f-492b-add0-f357deafdc07",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "a3cbfec6-dd77-486a-9d38-eb14dbfa5954",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6bb5cca5-c228-4a4b-b09f-00adb12bec1d",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "a3cbfec6-dd77-486a-9d38-eb14dbfa5954",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6bb5cca5-c228-4a4b-b09f-00adb12bec1d",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a28f6daf-a25c-4ee6-a797-1bd20cb3f7ea",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a28f6daf-a25c-4ee6-a797-1bd20cb3f7ea",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "e94066bb-395a-4f2f-8627-3c7d5a2b5f2f",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e94066bb-395a-4f2f-8627-3c7d5a2b5f2f",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2:west",
+      "e94066bb-395a-4f2f-8627-3c7d5a2b5f2f:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "1dd394cd-0fd0-4fac-9a72-e8fef1d33ec2:south",
+      "b27e4426-b40f-492b-add0-f357deafdc07:north",
+      "net:USB_VCC"
+    ],
+    [
+      "a3cbfec6-dd77-486a-9d38-eb14dbfa5954:west",
+      "b27e4426-b40f-492b-add0-f357deafdc07:east"
+    ],
+    [
+      "6bb5cca5-c228-4a4b-b09f-00adb12bec1d:north",
+      "a3cbfec6-dd77-486a-9d38-eb14dbfa5954:south"
+    ],
+    [
+      "6bb5cca5-c228-4a4b-b09f-00adb12bec1d:south",
+      "a28f6daf-a25c-4ee6-a797-1bd20cb3f7ea:north"
+    ],
+    [
+      "a28f6daf-a25c-4ee6-a797-1bd20cb3f7ea:south",
+      "e94066bb-395a-4f2f-8627-3c7d5a2b5f2f:north"
+    ]
+  ]
+}

@@ -179,24 +179,28 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '09-slide-switch-led-on-off',
     build: () => [
       { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
-      { instanceId: nextId('slide-switch'), catalogId: 'slide-switch', gridX: 5, gridY: 4, rotation: 90 },
-      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 5, rotation: 90 },
-      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 5, gridY: 6, rotation: 270 },
-      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
+      { instanceId: nextId('slide-switch'), catalogId: 'slide-switch', gridX: 5, gridY: 4, rotation: 270 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 6, gridY: 5, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 6, gridY: 6, rotation: 270 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 6, gridY: 7, rotation: 0 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 4, rotation: 180 },
     ],
   },
   {
     name: '10-slide-switch-led-selector',
     build: () => [
       { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
-      { instanceId: nextId('slide-switch'), catalogId: 'slide-switch', gridX: 5, gridY: 4, rotation: 90 },
-      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 5, rotation: 90 },
-      { instanceId: nextId('led-green'), catalogId: 'led-green', gridX: 5, gridY: 6, rotation: 270 },
-      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 6, gridY: 4, rotation: 90 },
-      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 6, gridY: 5, rotation: 270 },
-      { instanceId: nextId('straight-cube'), catalogId: 'straight-cube', gridX: 6, gridY: 6, rotation: 0 },
-      { instanceId: nextId('cross-cube'), catalogId: 'cross-cube', gridX: 5, gridY: 7, rotation: 0 },
+      { instanceId: nextId('slide-switch'), catalogId: 'slide-switch', gridX: 5, gridY: 4, rotation: 180 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 4, rotation: 180 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 6, gridY: 5, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 6, gridY: 6, rotation: 270 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 4, gridY: 5, rotation: 90 },
+      { instanceId: nextId('led-green'), catalogId: 'led-green', gridX: 4, gridY: 6, rotation: 270 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 7, rotation: 270 },
+      { instanceId: nextId('t-connector'), catalogId: 't-connector', gridX: 5, gridY: 7, rotation: 180 },
       { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 8, rotation: 0 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 4, gridY: 4, rotation: 90 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 4, gridY: 7, rotation: 0 },
     ],
   },
 ]
@@ -223,8 +227,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'A 470Ω resistor feeds the RGB LED. All three color dies share one current path — you see mixed light. This is the simplest way to power a common RGB module.',
   'Turn the potentiometer to change how much current reaches the RGB LED through the wiper path. The corner routes the wiper into the LED while the resistor and pot stay in series from power.',
   'Press the tact button to close the switch. Current flows USB → button → 470Ω → red LED → ground only while you hold it down. Release the button and the path opens.',
-  '',
-  '',
+  'Flip the slide switch to connect or disconnect the path. Unlike the pushbutton, the switch stays on or off until you move it again. Current flows USB → switch → 470Ω → red LED → ground when the switch is on.',
+  'The SPDT slide switch selects between two paths. Flip it one way for the green LED (west column) and the other for the red LED (east column). Only the selected branch gets power; both share the same ground return.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
@@ -254,8 +258,15 @@ const exportThrough = Math.min(
   Number(process.env.EXPORT_THROUGH ?? 4),
   CIRCUITS.length,
 )
+const exportOnly = process.env.EXPORT_ONLY
+const loopStart =
+  exportOnly !== undefined && exportOnly !== '' ? Number(exportOnly) : 0
+const loopEnd =
+  exportOnly !== undefined && exportOnly !== ''
+    ? loopStart + 1
+    : exportThrough
 
-for (let i = 0; i < exportThrough; i++) {
+for (let i = loopStart; i < loopEnd; i++) {
   idCounter = 0
   const { name, build } = CIRCUITS[i]!
   const tiles = build()

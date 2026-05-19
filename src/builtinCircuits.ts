@@ -1,0 +1,79 @@
+import type { CircuitLesson } from './types'
+
+/** Lesson circuits bundled at build time from `circuit jsons/*.json`. */
+const jsonModules = import.meta.glob('../circuit jsons/*.json', {
+  eager: true,
+}) as Record<string, { default: unknown } | unknown>
+
+function moduleDocument(mod: unknown): unknown {
+  if (mod != null && typeof mod === 'object' && 'default' in mod) {
+    return (mod as { default: unknown }).default
+  }
+  return mod
+}
+
+function idFromPath(path: string): string {
+  const name = path.split('/').pop() ?? path
+  return name.replace(/\.json$/i, '')
+}
+
+function orderFromId(id: string): number {
+  const match = /^(\d+)-/.exec(id)
+  return match ? Number(match[1]) : 999
+}
+
+function readName(doc: Record<string, unknown>): string {
+  if (typeof doc.name === 'string' && doc.name.trim()) return doc.name.trim()
+  const lesson = doc.lesson
+  if (lesson && typeof lesson === 'object' && !Array.isArray(lesson)) {
+    const title = (lesson as Record<string, unknown>).title
+    if (typeof title === 'string' && title.trim()) return title.trim()
+  }
+  return 'Circuit'
+}
+
+function readLesson(doc: Record<string, unknown>): CircuitLesson | undefined {
+  const lesson = doc.lesson
+  if (!lesson || typeof lesson !== 'object' || Array.isArray(lesson)) return undefined
+  const raw = lesson as Record<string, unknown>
+  const description =
+    typeof raw.description === 'string' ? raw.description.trim() : ''
+  if (!description) return undefined
+  const title =
+    typeof raw.title === 'string' && raw.title.trim() ? raw.title.trim() : undefined
+  return { title, description }
+}
+
+export interface BuiltinLesson {
+  id: string
+  order: number
+  name: string
+  lesson?: CircuitLesson
+  document: unknown
+}
+
+const BUILTIN_LESSONS: BuiltinLesson[] = Object.entries(jsonModules)
+  .map(([path, mod]) => {
+    const document = moduleDocument(mod)
+    const id = idFromPath(path)
+    const doc =
+      document != null && typeof document === 'object' && !Array.isArray(document)
+        ? (document as Record<string, unknown>)
+        : {}
+    return {
+      id,
+      order: orderFromId(id),
+      name: readName(doc),
+      lesson: readLesson(doc),
+      document,
+    }
+  })
+  .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+
+export function listBuiltinLessons(): readonly BuiltinLesson[] {
+  return BUILTIN_LESSONS
+}
+
+export function getBuiltinLesson(id: string): BuiltinLesson | undefined {
+  return BUILTIN_LESSONS.find((l) => l.id === id)
+}

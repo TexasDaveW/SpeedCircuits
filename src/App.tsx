@@ -4,7 +4,8 @@ import { LessonPanel } from './components/LessonPanel'
 import { Palette } from './components/Palette'
 import { exportCircuit } from './circuit'
 import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } from './circuitFile'
-import { parseCircuitJson } from './circuitImport'
+import { getBuiltinLesson } from './builtinCircuits'
+import { importCircuit, parseCircuitJson } from './circuitImport'
 import { catalogById } from './catalog'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
 import { copyTile, pasteTileAt, type TileClipboard } from './tileClipboard'
@@ -23,6 +24,7 @@ export default function App() {
   const [pendingCatalogId, setPendingCatalogId] = useState<string | null>(null)
   const [circuitName, setCircuitName] = useState('circuit')
   const [lesson, setLesson] = useState<CircuitLesson | null>(null)
+  const [activeLessonId, setActiveLessonId] = useState<string | null>(null)
   const [showLessonPanel, setShowLessonPanel] = useState(readLessonPanelVisible)
   const [exportJson, setExportJson] = useState<string | null>(null)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
@@ -53,10 +55,16 @@ export default function App() {
   )
 
   const loadCircuit = useCallback(
-    (tileList: PlacedTile[], name?: string, lessonInfo?: CircuitLesson | null) => {
+    (
+      tileList: PlacedTile[],
+      name?: string,
+      lessonInfo?: CircuitLesson | null,
+      builtinId?: string | null,
+    ) => {
       if (name?.trim()) setCircuitName(name.trim())
       const nextLesson = lessonInfo ?? null
       setLesson(nextLesson)
+      setActiveLessonId(builtinId ?? null)
       setTiles(tileList)
       setSelectedIds([])
       clearPlacementModes()
@@ -79,7 +87,31 @@ export default function App() {
       ) {
         return
       }
-      loadCircuit(result.tiles, result.name ?? suggestedName, result.lesson)
+      loadCircuit(result.tiles, result.name ?? suggestedName, result.lesson, null)
+    },
+    [tiles.length, loadCircuit],
+  )
+
+  const handleLoadBuiltinLesson = useCallback(
+    (lessonId: string) => {
+      const builtin = getBuiltinLesson(lessonId)
+      if (!builtin) {
+        setStatus('Lesson not found.', true)
+        return
+      }
+      if (
+        tiles.length > 0 &&
+        !window.confirm('Replace the current circuit with this lesson?')
+      ) {
+        return
+      }
+      const result = importCircuit(builtin.document)
+      if (!result.ok) {
+        setStatus(result.errors.join(' '), true)
+        return
+      }
+      loadCircuit(result.tiles, result.name ?? builtin.name, result.lesson ?? builtin.lesson, builtin.id)
+      setStatus(`Loaded lesson ${builtin.order}: ${builtin.name}.`)
     },
     [tiles.length, loadCircuit],
   )
@@ -155,6 +187,7 @@ export default function App() {
       setPendingCatalogId(null)
       setExportJson(null)
       setLesson(null)
+      setActiveLessonId(null)
       setStatus('Canvas cleared.')
     }
   }
@@ -263,6 +296,8 @@ export default function App() {
       <Palette
         tiles={tiles}
         pendingCatalogId={pendingCatalogId}
+        activeLessonId={activeLessonId}
+        onLoadLesson={handleLoadBuiltinLesson}
         onPick={(id) => {
           setPendingCatalogId(id)
           if (id) {

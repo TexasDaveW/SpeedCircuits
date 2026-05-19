@@ -7,11 +7,14 @@ import {
   type PaletteGroup,
 } from '../paletteGroups'
 import type { CatalogEntry, PlacedTile } from '../types'
+import { LessonPicker } from './LessonPicker'
 
 interface PaletteProps {
   tiles: PlacedTile[]
   pendingCatalogId: string | null
+  activeLessonId: string | null
   onPick: (catalogId: string | null) => void
+  onLoadLesson: (lessonId: string) => void
 }
 
 function countUsed(tiles: PlacedTile[], catalogId: string): number {
@@ -33,7 +36,13 @@ function groupItems() {
   })).filter(({ items }) => items.length > 0)
 }
 
-export function Palette({ tiles, pendingCatalogId, onPick }: PaletteProps) {
+export function Palette({
+  tiles,
+  pendingCatalogId,
+  activeLessonId,
+  onPick,
+  onLoadLesson,
+}: PaletteProps) {
   const grouped = useMemo(() => groupItems(), [])
   const allGroups = useMemo(() => grouped.map((g) => g.group), [grouped])
 
@@ -71,6 +80,7 @@ export function Palette({ tiles, pendingCatalogId, onPick }: PaletteProps) {
         <p>
           Select a tile, hover the plate to preview, R to rotate, then click to place.
         </p>
+        <LessonPicker activeLessonId={activeLessonId} onSelect={onLoadLesson} />
         <div className="palette-tree-actions">
           <button type="button" onClick={expandAll}>
             Expand all

@@ -31,10 +31,40 @@
   line-height: 1.4;
 }
 
+.lesson-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.65rem;
+}
+
+.lesson-picker-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9aa3b0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lesson-picker select {
+  width: 100%;
+  padding: 0.4rem 0.45rem;
+  border-radius: 5px;
+  border: 1px solid #4a5260;
+  background: #2f3540;
+  color: #e8eaed;
+  font-size: 0.78rem;
+}
+
+.lesson-picker select:focus {
+  outline: none;
+  border-color: #4d9fff;
+}
+
 .palette-tree-actions {
   display: flex;
   gap: 0.35rem;
-  margin-top: 0.65rem;
+  margin-top: 0.5rem;
 }
 
 .palette-tree-actions button {
