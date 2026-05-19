@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "name": "Power Supply Smoothing Demo",
+  "lesson": {
+    "title": "Power Supply Smoothing Demo",
+    "description": "Right after USB power, a 1000µF capacitor sits on the center column from V+ to ground — a bulk supply cap like on a real board. Tap the tact button on the east branch (470Ω + red LED). The cap holds the rail up during each pulse so the supply does not dip as sharply. Compare lesson 30, where the same cap value is in parallel with the LED only. Cap + toward power; LED east at 90°."
+  },
+  "exportedAt": "2026-05-19T23:14:46.318Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "cap-1000u-3",
+      "catalogId": "cap-1000u",
+      "name": "1000µF capacitor",
+      "category": "component",
+      "value": "1000µF",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-4",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-5",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-6",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-7",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "tact-button-9",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-10",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-11",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-12",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 270
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cap-1000u-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-1000u-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-6",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-12",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-7",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-10",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-11",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-12",
+        "side": "north"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-7:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "corner-cube-8:west",
+      "t-connector-2:east"
+    ],
+    [
+      "cap-1000u-3:north",
+      "t-connector-2:south"
+    ],
+    [
+      "cap-1000u-3:south",
+      "straight-cube-4:north"
+    ],
+    [
+      "straight-cube-4:south",
+      "straight-cube-5:north"
+    ],
+    [
+      "straight-cube-5:south",
+      "t-connector-6:north"
+    ],
+    [
+      "corner-cube-12:west",
+      "t-connector-6:east"
+    ],
+    [
+      "ground-tile-7:north",
+      "t-connector-6:south"
+    ],
+    [
+      "corner-cube-8:south",
+      "tact-button-9:north"
+    ],
+    [
+      "resistor-470-10:north",
+      "tact-button-9:south"
+    ],
+    [
+      "led-red-11:north",
+      "resistor-470-10:south"
+    ],
+    [
+      "corner-cube-12:north",
+      "led-red-11:south"
+    ]
+  ]
+}

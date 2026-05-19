@@ -166,6 +166,56 @@ function buildPushbuttonRcDelay(): PlacedTile[] {
   return buildParallelCapLedDirect(6, [{ catalogId: 'tact-button' }], 'resistor-4k7')
 }
 
+/** Lesson 30: tact + 470Ω + 1000µF∥LED — cap smooths rapid taps into steady glow. */
+function buildRcSmoothingCircuit(): PlacedTile[] {
+  return buildParallelCapLedDirect(6, [{ catalogId: 'tact-button' }], 'resistor-470')
+}
+
+/**
+ * Lesson 32: slide 0° — power west; south throw charges cap; east recalls LED.
+ * Hand-authored ref: circuit jsons/32-capacitor-memory-effect-demo.json
+ */
+function buildCapacitorMemoryEffectDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 3, 5),
+    tile('corner-cube', 3, 6, 0),
+    tile('slide-switch', 4, 6, 0),
+    tile('straight-cube', 5, 6, 0),
+    tile('resistor-470', 4, 7, 90),
+    tile('cap-1000u', 4, 8, 90),
+    tile('t-connector', 4, 9, 90),
+    tile('ground-tile', 4, 10),
+    tile('corner-cube', 6, 6, 180),
+    tile('led-red', 6, 7, 90),
+    tile('straight-cube', 6, 8, 90),
+    tile('corner-cube', 6, 9, 270),
+    tile('straight-cube', 5, 9, 180),
+  ]
+}
+
+/**
+ * Lesson 31: 1000µF on USB rail (center); load east = tact → 470Ω → LED.
+ * Bulk cap smooths supply when the load draws pulses (vs lesson 30 cap at load).
+ */
+function buildPowerSupplySmoothingDemo(): PlacedTile[] {
+  const splitY = 4
+  const mergeY = 8
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, splitY, 90),
+    tile('cap-1000u', 5, splitY + 1, 90),
+    tile('straight-cube', 5, splitY + 2, 90),
+    tile('straight-cube', 5, splitY + 3, 90),
+    tile('t-connector', 5, mergeY, 90),
+    tile('ground-tile', 5, mergeY + 1),
+    tile('corner-cube', 6, splitY, 180),
+    tile('tact-button', 6, splitY + 1, 90),
+    tile('resistor-470', 6, splitY + 2, 90),
+    tile('led-red', 6, splitY + 3, 90),
+    tile('corner-cube', 6, mergeY, 270),
+  ]
+}
+
 /**
  * Lesson 24 — hand-authored ref: circuit jsons/24-adjustable-rc-delay.json
  * Trunk col 5 (tact, 470Ω, pot 270°); corner bridges to RC col 6; LED branch col 7.
@@ -226,6 +276,39 @@ function buildCapacitorPolarityDemo(): PlacedTile[] {
     tile('led-red', 5, 6, 90),
     tile('cap-1000u', 5, 7, 90),
     tile('ground-tile', 5, 8),
+  ]
+}
+
+/** Lesson 28: series 100µF — brief LED pulse on switch edges, not steady light. */
+function buildCapacitorPulseCircuit(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('cap-100u', 5, 6, 90),
+    tile('led-red', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+  ]
+}
+
+/**
+ * Lesson 29: low-pass RC — pot wiper → 1k → T; cap via corner 90° on col 5; LED east.
+ * Hand-authored ref: circuit jsons/29-rc-filter-demo.json
+ */
+function buildRcFilterDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('resistor-470', 5, 4, 90),
+    tile('potentiometer', 5, 5, 270),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-1k', 6, 6, 90),
+    tile('t-connector', 6, 7, 0),
+    tile('corner-cube', 5, 7, 90),
+    tile('cap-100u', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+    tile('corner-cube', 7, 7, 180),
+    tile('led-red', 7, 8, 90),
+    tile('ground-tile', 7, 9),
   ]
 }
 
@@ -539,6 +622,36 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  {
+    name: '28-capacitor-pulse-circuit',
+    build: () => buildCapacitorPulseCircuit(),
+  },
+  // Lesson 29: hand-authored — see circuit jsons/29-rc-filter-demo.json. Do not EXPORT_ONLY=28.
+  {
+    name: '29-rc-filter-demo',
+    build: () => {
+      throw new Error(
+        'Lesson 29 is hand-authored; edit circuit jsons/29-rc-filter-demo.json',
+      )
+    },
+  },
+  {
+    name: '30-rc-smoothing-circuit',
+    build: () => buildRcSmoothingCircuit(),
+  },
+  {
+    name: '31-power-supply-smoothing-demo',
+    build: () => buildPowerSupplySmoothingDemo(),
+  },
+  // Lesson 32: hand-authored — see circuit jsons/32-capacitor-memory-effect-demo.json. Do not EXPORT_ONLY=31.
+  {
+    name: '32-capacitor-memory-effect-demo',
+    build: () => {
+      throw new Error(
+        'Lesson 32 is hand-authored; edit circuit jsons/32-capacitor-memory-effect-demo.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -569,6 +682,11 @@ const DISPLAY_NAMES = [
   'Capacitor Polarity Demo',
   'TBD',
   'Fast vs Slow RC Timing',
+  'Capacitor Pulse Circuit',
+  'RC Filter Demo',
+  'RC Smoothing Circuit',
+  'Power Supply Smoothing Demo',
+  'Capacitor Memory Effect Demo',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -599,6 +717,11 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Flip the slide switch on: USB → 470Ω → red LED → 1000µF cap → ground. Match the tile markings: + (west magnet) toward the LED, − (east) toward ground. Correct: LED responds when you switch on (flash/settle like lesson 19). Reversed: LED stays dark or weak — the cap cannot charge properly. Quick compare only; if the cap feels warm, switch off. Do not leave a large electrolytic reversed on USB power.',
   'Lesson 26 reserved. Big-capacitor energy storage is covered by lesson 20 (Capacitor Discharge Demo). A dedicated circuit may be added here later.',
   'Flip the slide switch on. Shared 470Ω feeds a T (top): west branch 100µF + red LED (fast), east branch 1000µF + red LED (slow). Watch both when you switch on or off — same R, different C. LEDs at 90°; cap + toward power on each branch.',
+  'Flip the slide switch on, then off. USB → 470Ω → 100µF capacitor → red LED → ground — the cap is in series, so it blocks steady DC once charged. You get a short flash when the switch changes (charge pulse on, discharge pulse off), not a steady glow like lesson 9. τ ≈ 47 ms with 100µF — much snappier than lesson 19’s 1000µF after the LED. LED at 90° (anode north); cap + toward power.',
+  'Turn the pot slowly — the red LED follows brightness through a low-pass filter (1kΩ + 100µF to ground, τ ≈ 0.1 s). Wiggle the knob quickly and the LED barely changes: the RC network passes slow changes and blocks fast ones. Compare lesson 14 (no capacitor), where the LED tracks every twitch. Pot 270° on column 5; filter node on column 6; cap on column 5 with + toward the junction; LED east at 90°.',
+  'Tap the tact button quickly. USB → button → 470Ω → split: 1000µF cap (center) and red LED (east) in parallel. The capacitor stores charge between taps and smooths the pulses — the LED stays lit or dims gradually instead of snapping off like lesson 8. Compare lesson 23 (4.7kΩ slows one long press) and lesson 29 (pot + small cap filters wiggles). τ ≈ 0.5 s; cap + toward power; LED east at 90°.',
+  'Right after USB power, a 1000µF capacitor sits on the center column from V+ to ground — a bulk supply cap like on a real board. Tap the tact button on the east branch (470Ω + red LED). The cap holds the rail up during each pulse so the supply does not dip as sharply. Compare lesson 30, where the same cap value is in parallel with the LED only. Cap + toward power; LED east at 90°.',
+  'Use the slide switch like a “store / recall” control. Flip west (charge): USB → 470Ω → 1000µF → ground — the cap stores energy (longer charge = more stored). Flip east (recall): the cap powers the red LED through the east branch while USB is off that path — the LED fades as the “memory” empties. Try a short charge vs a long charge and compare fade time. Cap on column 4 (+ toward north); charge on south throw; LED east at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
