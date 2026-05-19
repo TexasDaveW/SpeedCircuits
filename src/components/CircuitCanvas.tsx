@@ -45,6 +45,7 @@ interface CircuitCanvasProps {
   onPasteAtCell: (gx: number, gy: number) => boolean
   onTileClipboardChange: (clipboard: TileClipboard) => void
   onTilesChange: (tiles: PlacedTile[]) => void
+  onRemoveTiles: (instanceIds: string[]) => void
   onSelectionChange: (ids: string[]) => void
   onPendingClear: () => void
 }
@@ -111,6 +112,7 @@ export function CircuitCanvas({
   onPasteAtCell,
   onTileClipboardChange,
   onTilesChange,
+  onRemoveTiles,
   onSelectionChange,
   onPendingClear,
 }: CircuitCanvasProps) {
@@ -736,9 +738,7 @@ export function CircuitCanvas({
 
       if ((e.key === 'Delete' || e.key === 'Backspace') && selectedIds.length > 0) {
         e.preventDefault()
-        const remove = new Set(selectedIds)
-        onTilesChange(tiles.filter((t) => !remove.has(t.instanceId)))
-        onSelectionChange([])
+        onRemoveTiles(selectedIds)
       }
       if (e.key === 'Escape') {
         e.preventDefault()
@@ -749,7 +749,7 @@ export function CircuitCanvas({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [selectedIds, tiles, onTilesChange, onSelectionChange, onPendingClear])
+  }, [selectedIds, onRemoveTiles, onSelectionChange, onPendingClear])
 
   return (
     <div

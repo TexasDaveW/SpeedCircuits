@@ -1,74 +1,154 @@
 {
   "version": 1,
   "name": "RGB LED Color Mixing",
-  "exportedAt": "2026-05-19T04:05:01.699Z",
+  "lesson": {
+    "title": "RGB LED Color Mixing",
+    "description": "Three tact buttons each feed an RGB channel through its own 470Ω resistor. Press one or more buttons to turn on red, green, and/or blue and mix colors on the LED."
+  },
+  "exportedAt": "2026-05-19T05:14:07.819Z",
   "tiles": [
     {
-      "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+      "instanceId": "a12ee5f2-7473-4360-b822-bf88048213d1",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
+      "gridX": 4,
       "gridY": 3,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
+      "instanceId": "90121b3a-0a57-44ee-acbf-81f12b49319f",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
       "gridX": 5,
-      "gridY": 4,
+      "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+      "instanceId": "9cff2b38-0992-444d-9eb5-36df5a4638cf",
       "catalogId": "rgb-led",
       "name": "RGB LED",
       "category": "component",
       "value": "RGB",
-      "gridX": 6,
-      "gridY": 6,
+      "gridX": 4,
+      "gridY": 7,
       "rotation": 270
     },
     {
-      "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
-      "catalogId": "potentiometer",
-      "name": "Potentiometer",
-      "category": "component",
-      "value": "POT",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 270
-    },
-    {
-      "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+      "instanceId": "61964ece-2de6-4d11-a7e8-f7724dc36973",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 6,
-      "gridY": 7,
+      "gridX": 4,
+      "gridY": 8,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+      "instanceId": "888a576b-032c-45d0-9fcb-e7f1355c9595",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
+      "gridX": 3,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "c9f32bb6-5382-46d4-8d5a-c035524cf9f5",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 270
+    },
+    {
+      "instanceId": "1b3caafe-f9ac-4794-826e-0da18a7379f0",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "e0d86f0c-83fe-47ab-9fe8-7b6fff7aa8ad",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 3,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "05725f6f-413c-47c3-8a52-3d6d8c7ac0db",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 3,
       "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "6a5db5dc-5238-4153-acdc-79e07d2b65ef",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "50111e61-6a02-4ad7-b791-bd09cef512d9",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "8a671421-0269-4e50-9209-1601cbdbf80e",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 3,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "2a3ca178-7eae-45b7-ba0b-19ab579df58e",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 0
+    },
+    {
+      "instanceId": "2985b12a-bb9e-48da-9f2d-c531f1ae4e74",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
       "rotation": 180
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "instanceId": "a12ee5f2-7473-4360-b822-bf88048213d1",
         "side": "west"
       },
       "b": {
@@ -77,7 +157,7 @@
     },
     {
       "a": {
-        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "instanceId": "a12ee5f2-7473-4360-b822-bf88048213d1",
         "side": "south"
       },
       "b": {
@@ -86,94 +166,230 @@
     },
     {
       "a": {
-        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "instanceId": "a12ee5f2-7473-4360-b822-bf88048213d1",
         "side": "south"
       },
       "b": {
-        "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
+        "instanceId": "2a3ca178-7eae-45b7-ba0b-19ab579df58e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+        "instanceId": "90121b3a-0a57-44ee-acbf-81f12b49319f",
         "side": "north"
       },
       "b": {
-        "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+        "instanceId": "50111e61-6a02-4ad7-b791-bd09cef512d9",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+        "instanceId": "90121b3a-0a57-44ee-acbf-81f12b49319f",
         "side": "south"
       },
       "b": {
-        "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+        "instanceId": "c9f32bb6-5382-46d4-8d5a-c035524cf9f5",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
+        "instanceId": "9cff2b38-0992-444d-9eb5-36df5a4638cf",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "8a671421-0269-4e50-9209-1601cbdbf80e",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "9cff2b38-0992-444d-9eb5-36df5a4638cf",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "1b3caafe-f9ac-4794-826e-0da18a7379f0",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "9cff2b38-0992-444d-9eb5-36df5a4638cf",
         "side": "east"
       },
       "b": {
-        "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+        "instanceId": "c9f32bb6-5382-46d4-8d5a-c035524cf9f5",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+        "instanceId": "9cff2b38-0992-444d-9eb5-36df5a4638cf",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "61964ece-2de6-4d11-a7e8-f7724dc36973",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "61964ece-2de6-4d11-a7e8-f7724dc36973",
         "side": "south"
       },
       "b": {
         "net": "PLATE_GND"
       }
+    },
+    {
+      "a": {
+        "instanceId": "888a576b-032c-45d0-9fcb-e7f1355c9595",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "2a3ca178-7eae-45b7-ba0b-19ab579df58e",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "888a576b-032c-45d0-9fcb-e7f1355c9595",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "05725f6f-413c-47c3-8a52-3d6d8c7ac0db",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1b3caafe-f9ac-4794-826e-0da18a7379f0",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "6a5db5dc-5238-4153-acdc-79e07d2b65ef",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e0d86f0c-83fe-47ab-9fe8-7b6fff7aa8ad",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "05725f6f-413c-47c3-8a52-3d6d8c7ac0db",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e0d86f0c-83fe-47ab-9fe8-7b6fff7aa8ad",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "8a671421-0269-4e50-9209-1601cbdbf80e",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6a5db5dc-5238-4153-acdc-79e07d2b65ef",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "2a3ca178-7eae-45b7-ba0b-19ab579df58e",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "50111e61-6a02-4ad7-b791-bd09cef512d9",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "2985b12a-bb9e-48da-9f2d-c531f1ae4e74",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "2a3ca178-7eae-45b7-ba0b-19ab579df58e",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "2985b12a-bb9e-48da-9f2d-c531f1ae4e74",
+        "side": "west"
+      }
     }
   ],
   "nets": [
     [
-      "853b92e1-1b3b-48dd-a246-58e041c466c1:west",
-      "a7c138d0-16d1-4c8f-8451-77d95fb60222:south",
+      "61964ece-2de6-4d11-a7e8-f7724dc36973:south",
+      "a12ee5f2-7473-4360-b822-bf88048213d1:west",
       "net:PLATE_GND"
     ],
     [
-      "853b92e1-1b3b-48dd-a246-58e041c466c1:south",
-      "f8dfac49-4d5d-446f-9144-8aa39cf02965:north",
+      "2a3ca178-7eae-45b7-ba0b-19ab579df58e:north",
+      "a12ee5f2-7473-4360-b822-bf88048213d1:south",
       "net:USB_VCC"
     ],
     [
-      "c6a8fd07-f567-4c98-b37d-d4c391e5e219:north",
-      "f8dfac49-4d5d-446f-9144-8aa39cf02965:south"
+      "50111e61-6a02-4ad7-b791-bd09cef512d9:south",
+      "90121b3a-0a57-44ee-acbf-81f12b49319f:north"
     ],
     [
-      "c390db01-3f46-45c9-9404-e157bd484363:south",
-      "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3:north"
+      "90121b3a-0a57-44ee-acbf-81f12b49319f:south",
+      "c9f32bb6-5382-46d4-8d5a-c035524cf9f5:north"
     ],
     [
-      "a7c138d0-16d1-4c8f-8451-77d95fb60222:north",
-      "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3:south"
+      "8a671421-0269-4e50-9209-1601cbdbf80e:east",
+      "9cff2b38-0992-444d-9eb5-36df5a4638cf:west"
     ],
     [
-      "c390db01-3f46-45c9-9404-e157bd484363:west",
-      "c6a8fd07-f567-4c98-b37d-d4c391e5e219:east"
+      "1b3caafe-f9ac-4794-826e-0da18a7379f0:south",
+      "9cff2b38-0992-444d-9eb5-36df5a4638cf:north"
+    ],
+    [
+      "9cff2b38-0992-444d-9eb5-36df5a4638cf:east",
+      "c9f32bb6-5382-46d4-8d5a-c035524cf9f5:west"
+    ],
+    [
+      "61964ece-2de6-4d11-a7e8-f7724dc36973:north",
+      "9cff2b38-0992-444d-9eb5-36df5a4638cf:south"
+    ],
+    [
+      "2a3ca178-7eae-45b7-ba0b-19ab579df58e:west",
+      "888a576b-032c-45d0-9fcb-e7f1355c9595:east"
+    ],
+    [
+      "05725f6f-413c-47c3-8a52-3d6d8c7ac0db:north",
+      "888a576b-032c-45d0-9fcb-e7f1355c9595:south"
+    ],
+    [
+      "1b3caafe-f9ac-4794-826e-0da18a7379f0:north",
+      "6a5db5dc-5238-4153-acdc-79e07d2b65ef:south"
+    ],
+    [
+      "05725f6f-413c-47c3-8a52-3d6d8c7ac0db:south",
+      "e0d86f0c-83fe-47ab-9fe8-7b6fff7aa8ad:north"
+    ],
+    [
+      "8a671421-0269-4e50-9209-1601cbdbf80e:north",
+      "e0d86f0c-83fe-47ab-9fe8-7b6fff7aa8ad:south"
+    ],
+    [
+      "2a3ca178-7eae-45b7-ba0b-19ab579df58e:south",
+      "6a5db5dc-5238-4153-acdc-79e07d2b65ef:north"
+    ],
+    [
+      "2985b12a-bb9e-48da-9f2d-c531f1ae4e74:south",
+      "50111e61-6a02-4ad7-b791-bd09cef512d9:north"
+    ],
+    [
+      "2985b12a-bb9e-48da-9f2d-c531f1ae4e74:west",
+      "2a3ca178-7eae-45b7-ba0b-19ab579df58e:east"
     ]
-  ],
-  "lesson": {
-    "title": "RGB LED Color Mixing",
-    "description": "Turn the potentiometer to change how much current reaches the RGB LED through the wiper path. The corner routes the wiper into the LED while the resistor and pot stay in series from power."
-  }
+  ]
 }

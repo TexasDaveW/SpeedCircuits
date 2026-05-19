@@ -4,11 +4,12 @@ import { LessonPanel } from './components/LessonPanel'
 import { Palette } from './components/Palette'
 import { exportCircuit } from './circuit'
 import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } from './circuitFile'
-import { getBuiltinLesson } from './builtinCircuits'
+import { getBuiltinLesson, resolveBuiltinLessonId } from './builtinCircuits'
 import { importCircuit, parseCircuitJson } from './circuitImport'
 import { catalogById } from './catalog'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
 import { copyTile, pasteTileAt, type TileClipboard } from './tileClipboard'
+import { pushUndoSnapshot } from './tileUndo'
 import type { CircuitLesson, PlacedTile } from './types'
 import './App.css'
 
@@ -34,6 +35,11 @@ export default function App() {
     null,
   )
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const undoStackRef = useRef<PlacedTile[][]>([])
+
+  const clearUndoHistory = useCallback(() => {
+    undoStackRef.current = []
+  }, [])
 
   const clearPlacementModes = useCallback(() => {
     setPendingCatalogId(null)
@@ -65,13 +71,14 @@ export default function App() {
       const nextLesson = lessonInfo ?? null
       setLesson(nextLesson)
       setActiveLessonId(builtinId ?? null)
+      clearUndoHistory()
       setTiles(tileList)
       setSelectedIds([])
       clearPlacementModes()
       setExportJson(null)
       setStatus(`Loaded ${tileList.length} tile${tileList.length === 1 ? '' : 's'}.`)
     },
-    [clearPlacementModes],
+    [clearPlacementModes, clearUndoHistory],
   )
 
   const tryLoadJsonText = useCallback(
@@ -93,13 +100,15 @@ export default function App() {
   )
 
   const handleLoadBuiltinLesson = useCallback(
-    (lessonId: string) => {
-      const builtin = getBuiltinLesson(lessonId)
+    (lessonId: string, options?: { skipConfirm?: boolean }) => {
+      const resolvedId = resolveBuiltinLessonId(lessonId) ?? lessonId
+      const builtin = getBuiltinLesson(resolvedId)
       if (!builtin) {
         setStatus('Lesson not found.', true)
         return
       }
       if (
+        !options?.skipConfirm &&
         tiles.length > 0 &&
         !window.confirm('Replace the current circuit with this lesson?')
       ) {
@@ -177,9 +186,35 @@ export default function App() {
     setStatus('JSON preview shown below (click Preview JSON again to hide).')
   }
 
+  const handleRemoveTiles = useCallback(
+    (instanceIds: string[]) => {
+      if (instanceIds.length === 0) return
+      undoStackRef.current = pushUndoSnapshot(undoStackRef.current, tiles)
+      const remove = new Set(instanceIds)
+      setTiles(tiles.filter((t) => !remove.has(t.instanceId)))
+      setSelectedIds([])
+      setStatus(
+        `Removed ${instanceIds.length} tile${instanceIds.length === 1 ? '' : 's'}. Press ⌘Z to undo.`,
+      )
+    },
+    [tiles],
+  )
+
+  const handleUndo = useCallback(() => {
+    const prev = undoStackRef.current.pop()
+    if (!prev) {
+      setStatus('Nothing to undo.', true)
+      return
+    }
+    setTiles(prev)
+    setSelectedIds([])
+    setStatus('Undid last removal.')
+  }, [])
+
   const handleClear = () => {
     if (tiles.length === 0) return
     if (window.confirm('Remove all tiles from the canvas?')) {
+      undoStackRef.current = pushUndoSnapshot(undoStackRef.current, tiles)
       setTiles([])
       setSelectedIds([])
       setTileClipboard(null)
@@ -222,6 +257,17 @@ export default function App() {
   }, [pasteTarget, pasteAtCell])
 
   useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get('lesson')
+    if (!param) return
+    const id = resolveBuiltinLessonId(param)
+    if (!id) {
+      setStatus(`Unknown lesson "${param}".`, true)
+      return
+    }
+    handleLoadBuiltinLesson(id, { skipConfirm: true })
+  }, [handleLoadBuiltinLesson])
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isEditableTarget(e.target)) return
       const mod = e.metaKey || e.ctrlKey
@@ -257,6 +303,18 @@ export default function App() {
     handleSaveCircuit,
     handleOpenCircuit,
   ])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (isEditableTarget(e.target)) return
+      if (e.key !== 'z' && e.key !== 'Z') return
+      if (!(e.metaKey || e.ctrlKey) || e.shiftKey) return
+      e.preventDefault()
+      handleUndo()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [handleUndo])
 
   const canCopy = selectedIds.length === 1
   const pasteCellFree =
@@ -344,6 +402,9 @@ export default function App() {
           <button type="button" onClick={pasteFromClipboard} disabled={!canPaste} title="⌘V">
             Paste tile
           </button>
+          <button type="button" onClick={handleUndo} title="⌘Z">
+            Undo
+          </button>
           <button type="button" className="danger" onClick={handleClear}>
             Clear canvas
           </button>
@@ -374,6 +435,7 @@ export default function App() {
             onPasteAtCell={pasteAtCell}
             onTileClipboardChange={setTileClipboard}
             onTilesChange={setTiles}
+            onRemoveTiles={handleRemoveTiles}
             onSelectionChange={(ids) => {
               setSelectedIds(ids)
               if (ids.length > 0) setPasteTarget(null)

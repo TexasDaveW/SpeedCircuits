@@ -77,3 +77,20 @@ export function listBuiltinLessons(): readonly BuiltinLesson[] {
 export function getBuiltinLesson(id: string): BuiltinLesson | undefined {
   return BUILTIN_LESSONS.find((l) => l.id === id)
 }
+
+/** Resolve `7`, `07`, or `07-rgb-led-color-mixing` to a bundled lesson id. */
+export function resolveBuiltinLessonId(param: string): string | undefined {
+  const trimmed = param.trim()
+  if (!trimmed) return undefined
+  const exact = getBuiltinLesson(trimmed)
+  if (exact) return exact.id
+  const stem = trimmed.replace(/\.json$/i, '')
+  const byStem = getBuiltinLesson(stem)
+  if (byStem) return byStem.id
+  const n = Number(stem)
+  if (Number.isInteger(n) && n > 0) {
+    return BUILTIN_LESSONS.find((l) => l.order === n)?.id
+  }
+  const padded = stem.padStart(2, '0')
+  return BUILTIN_LESSONS.find((l) => l.id.startsWith(`${padded}-`))?.id
+}

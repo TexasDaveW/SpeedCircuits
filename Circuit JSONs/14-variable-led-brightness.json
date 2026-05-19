@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "name": "Variable LED Brightness",
+  "lesson": {
+    "title": "Variable LED Brightness",
+    "description": "Turn the potentiometer to change LED brightness. The 470Ω resistor sets a safe maximum; the pot and corner route the wiper into the red LED. More resistance dims the light, less resistance makes it brighter."
+  },
+  "exportedAt": "2026-05-19T04:43:38.773Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-470-2",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "potentiometer-3",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "corner-cube-4",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "led-red-5",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "potentiometer-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "potentiometer-3",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-4",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "resistor-470-2:north"
+    ],
+    [
+      "potentiometer-3:north",
+      "resistor-470-2:south"
+    ],
+    [
+      "corner-cube-4:west",
+      "potentiometer-3:east"
+    ],
+    [
+      "corner-cube-4:south",
+      "led-red-5:north"
+    ],
+    [
+      "ground-tile-6:north",
+      "led-red-5:south"
+    ]
+  ]
+}

@@ -46,6 +46,13 @@
   letter-spacing: 0.04em;
 }
 
+.lesson-picker-count {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #7a8494;
+}
+
 .lesson-picker select {
   width: 100%;
   padding: 0.4rem 0.45rem;

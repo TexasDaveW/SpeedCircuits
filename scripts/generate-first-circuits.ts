@@ -155,15 +155,12 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 6, rotation: 0 },
     ],
   },
+  // Lesson 7: hand-authored — see circuit jsons/07-rgb-led-color-mixing.json (3 pots + RGB). Do not EXPORT_ONLY=6.
   {
     name: '07-rgb-led-color-mixing',
-    build: () => [
-      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
-      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 4, rotation: 90 },
-      { instanceId: nextId('rgb-led'), catalogId: 'rgb-led', gridX: 5, gridY: 5, rotation: 270 },
-      { instanceId: nextId('potentiometer'), catalogId: 'potentiometer', gridX: 5, gridY: 6, rotation: 270 },
-      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
-    ],
+    build: () => {
+      throw new Error('Lesson 7 is hand-authored; edit circuit jsons/07-rgb-led-color-mixing.json')
+    },
   },
   {
     name: '08-pushbutton-led',
@@ -203,6 +200,53 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 4, gridY: 7, rotation: 0 },
     ],
   },
+  {
+    name: '11-two-button-series-logic',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('tact-button'), catalogId: 'tact-button', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('tact-button'), catalogId: 'tact-button', gridX: 5, gridY: 5, rotation: 90 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 6, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 5, gridY: 7, rotation: 270 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 8, rotation: 0 },
+    ],
+  },
+  {
+    name: '12-two-button-parallel-logic',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('t-connector'), catalogId: 't-connector', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('tact-button'), catalogId: 'tact-button', gridX: 5, gridY: 5, rotation: 90 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 4, rotation: 180 },
+      { instanceId: nextId('tact-button'), catalogId: 'tact-button', gridX: 6, gridY: 5, rotation: 90 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 6, rotation: 270 },
+      { instanceId: nextId('t-connector'), catalogId: 't-connector', gridX: 5, gridY: 6, rotation: 90 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 7, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 5, gridY: 8, rotation: 270 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 9, rotation: 0 },
+    ],
+  },
+  {
+    name: '13-morse-code-led',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('tact-button'), catalogId: 'tact-button', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 5, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 5, gridY: 6, rotation: 270 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
+    ],
+  },
+  {
+    name: '14-variable-led-brightness',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('potentiometer'), catalogId: 'potentiometer', gridX: 5, gridY: 5, rotation: 270 },
+      { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 5, rotation: 180 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 6, gridY: 6, rotation: 270 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 6, gridY: 7, rotation: 0 },
+    ],
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -216,6 +260,10 @@ const DISPLAY_NAMES = [
   'Pushbutton LED',
   'Slide-Switch LED On/Off',
   'Slide-Switch LED Selector',
+  'Two-Button Series Logic',
+  'Two-Button Parallel Logic',
+  'Morse Code LED',
+  'Variable LED Brightness',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -225,10 +273,14 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Power splits at the T connector. Each branch has its own 470Ω resistor and red LED, so both see supply voltage and can light independently.',
   'Same supply, two branches: a 150Ω resistor allows more current (brighter LED) and a 4.7kΩ resistor restricts current (dimmer LED). Compare brightness side by side.',
   'A 470Ω resistor feeds the RGB LED. All three color dies share one current path — you see mixed light. This is the simplest way to power a common RGB module.',
-  'Turn the potentiometer to change how much current reaches the RGB LED through the wiper path. The corner routes the wiper into the LED while the resistor and pot stay in series from power.',
+  'Three tact buttons each feed an RGB channel through its own 470Ω resistor. Press one or more buttons to turn on red, green, and/or blue and mix colors on the LED.',
   'Press the tact button to close the switch. Current flows USB → button → 470Ω → red LED → ground only while you hold it down. Release the button and the path opens.',
   'Flip the slide switch to connect or disconnect the path. Unlike the pushbutton, the switch stays on or off until you move it again. Current flows USB → switch → 470Ω → red LED → ground when the switch is on.',
   'The SPDT slide switch selects between two paths. Flip it one way for the green LED (west column) and the other for the red LED (east column). Only the selected branch gets power; both share the same ground return.',
+  'Two tact buttons are wired in series. The LED lights only when you press both at the same time — an AND gate. Press just one button and the path stays open.',
+  'Two tact buttons are wired in parallel. Press either button to light the LED — an OR gate. Both pressed also works. One shared resistor and LED sit below the merge point.',
+  'Use one button as a Morse key. A quick tap (dot) and a longer press (dash) blink the LED. Try spelling S: three short, three long, three short. Timing is up to you — the circuit only turns the LED on while the button is held.',
+  'Turn the potentiometer to change LED brightness. The 470Ω resistor sets a safe maximum; the pot and corner route the wiper into the red LED. More resistance dims the light, less resistance makes it brighter.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

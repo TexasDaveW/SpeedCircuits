@@ -12,7 +12,9 @@ export function LessonPicker({ activeLessonId, onSelect }: LessonPickerProps) {
 
   return (
     <label className="lesson-picker">
-      <span className="lesson-picker-label">Lesson</span>
+      <span className="lesson-picker-label">
+        Built-in lessons <span className="lesson-picker-count">({LESSONS.length})</span>
+      </span>
       <select
         value={activeLessonId ?? ''}
         onChange={(e) => {

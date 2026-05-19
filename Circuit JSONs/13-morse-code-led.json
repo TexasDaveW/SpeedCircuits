@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "name": "Morse Code LED",
+  "lesson": {
+    "title": "Morse Code LED",
+    "description": "Use one button as a Morse key. A quick tap (dot) and a longer press (dash) blink the LED. Try spelling S: three short, three long, three short. Timing is up to you — the circuit only turns the LED on while the button is held."
+  },
+  "exportedAt": "2026-05-19T04:42:32.932Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "tact-button-2",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-3",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-4",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ground-tile-5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-5:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "tact-button-2:north"
+    ],
+    [
+      "resistor-470-3:north",
+      "tact-button-2:south"
+    ],
+    [
+      "led-red-4:north",
+      "resistor-470-3:south"
+    ],
+    [
+      "ground-tile-5:north",
+      "led-red-4:south"
+    ]
+  ]
+}
