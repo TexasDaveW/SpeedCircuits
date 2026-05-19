@@ -8,6 +8,10 @@
  * - Parallel split (lesson 4+): trunk on column 5; top T at 90° (N←power, S↓center, E→branch);
  *   each branch gets its own resistor + LED; corners route the east branch; bottom T at 90°
  *   merges branches to ground. Use two red LEDs when branches must match Vf for measurements.
+ * - Parallel merge row: bottom T must share gridY with the east branch’s bottom corner (not the row
+ *   below the center-only part). If the east branch is taller (e.g. corner→R→LED→corner), pad the
+ *   center column with a straight-cube between the center part and the bottom T (see lesson 20).
+ * - Vertical LEDs in N–S chains: rotation 90° (anode north, cathode south), not 270°.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -56,6 +60,72 @@ function buildParallelTwoBranches(
     tile(ledCatalogId, 6, 6, 270),
     tile('corner-cube', 6, 7, 270),
   ]
+}
+
+/**
+ * Cap + LED in parallel after trunk R; tact on trunk for charge/discharge.
+ * splitY: top T row. East: corner→R→LED(90°)→corner (3 rows). Center: cap→straight→merge T.
+ */
+function buildParallelCapLedEastBranch(splitY: number, trunkBeforeSplit: Part[] = []): PlacedTile[] {
+  const mergeY = splitY + 3
+  const tiles: PlacedTile[] = [tile('power-tile', 5, 3)]
+  let y = 4
+  for (const part of trunkBeforeSplit) {
+    tiles.push(tile(part.catalogId, 5, y, part.rotation ?? 90))
+    y += 1
+  }
+  tiles.push(
+    tile('t-connector', 5, splitY, 90),
+    tile('cap-1000u', 5, splitY + 1, 90),
+    tile('straight-cube', 5, splitY + 2, 90),
+    tile('t-connector', 5, mergeY, 90),
+    tile('ground-tile', 5, mergeY + 1),
+    tile('corner-cube', 6, splitY, 180),
+    tile('resistor-470', 6, splitY + 1, 90),
+    tile('led-red', 6, splitY + 2, 90),
+    tile('corner-cube', 6, mergeY, 270),
+  )
+  return tiles
+}
+
+/** Lesson 20 layout — hand-authored reference in circuit jsons/20-capacitor-discharge-demo.json */
+function buildCapacitorDischargeDemo(): PlacedTile[] {
+  return buildParallelCapLedEastBranch(6, [{ catalogId: 'tact-button' }, { catalogId: 'resistor-470' }])
+}
+
+/**
+ * Cap ∥ LED: one trunk R, then split. East branch is LED only (no east R) — cap discharges
+ * directly through the LED for fade-off. Shorter east branch → merge at splitY+2 (no straight).
+ * Differs from lesson 20 (tact + 470 on trunk AND east).
+ */
+function buildParallelCapLedDirect(
+  splitY: number,
+  trunkBeforeSplit: Part[] = [],
+  trunkResistor = 'resistor-1k',
+): PlacedTile[] {
+  const mergeY = splitY + 2
+  const tiles: PlacedTile[] = [tile('power-tile', 5, 3)]
+  let y = 4
+  for (const part of trunkBeforeSplit) {
+    tiles.push(tile(part.catalogId, 5, y, part.rotation ?? 90))
+    y += 1
+  }
+  tiles.push(
+    tile(trunkResistor, 5, y, 90),
+    tile('t-connector', 5, splitY, 90),
+    tile('cap-1000u', 5, splitY + 1, 90),
+    tile('t-connector', 5, mergeY, 90),
+    tile('ground-tile', 5, mergeY + 1),
+    tile('corner-cube', 6, splitY, 180),
+    tile('led-red', 6, splitY + 1, 90),
+    tile('corner-cube', 6, mergeY, 270),
+  )
+  return tiles
+}
+
+/** Lesson 21: slide switch + cap∥LED (one 1k trunk R, LED-only east branch). */
+function buildLedFadeOffCircuit(): PlacedTile[] {
+  return buildParallelCapLedDirect(6, [{ catalogId: 'slide-switch', rotation: 90 }])
 }
 
 /** Three parallel branches (150Ω → 1kΩ), left to right = bright → dim LED bar. */
@@ -316,6 +386,19 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
     ],
   },
+  // Lesson 20: hand-authored — see circuit jsons/20-capacitor-discharge-demo.json. Do not EXPORT_ONLY=19.
+  {
+    name: '20-capacitor-discharge-demo',
+    build: () => {
+      throw new Error(
+        'Lesson 20 is hand-authored; edit circuit jsons/20-capacitor-discharge-demo.json',
+      )
+    },
+  },
+  {
+    name: '21-led-fade-off-circuit',
+    build: () => buildLedFadeOffCircuit(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -338,6 +421,8 @@ const DISPLAY_NAMES = [
   'Adjustable Voltage Divider',
   'LED Bar Brightness Comparison',
   'Capacitor Charge Demo',
+  'Capacitor Discharge Demo',
+  'LED Fade-Off Circuit',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -360,6 +445,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'USB and ground bracket a pot between two 10kΩ resistors. Turning the knob moves the wiper tap from near 0 V to near 5 V. The east corner marks the adjustable output — this same divider idea feeds the base in lesson 16.',
   'Three LEDs in a row share USB power; each branch has its own resistor (150Ω, 470Ω, 1kΩ). All light at once — red is brightest on the left, green is medium, blue is dimmest on the right. Compare the steps like a brightness bar (not a pot that turns them on one by one).',
   'USB → 470Ω → red LED → 1000µF capacitor → ground. When power is first applied, the empty cap draws charging current and the LED flashes bright, then fades over about 1–2 seconds as the cap fills (τ ≈ R×C ≈ 0.5 s). Once charged, DC current stops and the LED goes out — unlike a resistor, a capacitor stores energy instead of passing steady current forever. Orient the LED so conventional current flows anode (north) to cathode (south).',
+  'Hold the tact button to charge the 1000µF capacitor through the center 470Ω resistor. The cap and the east branch (470Ω + red LED) are in parallel. Release the button — USB disconnects, but the charged cap powers the LED through the east branch and it fades out over about 1–2 seconds as the cap empties. Orient the LED at 90° (anode north, cathode south). Put the cap + toward the power side.',
+  'USB → slide switch → 1kΩ → split: 1000µF cap (center) and red LED (east) in parallel — no second resistor on the LED branch. Flip the switch on to charge both; flip off and watch the LED fade out over several seconds as the cap empties through the LED. Lesson 20 used a tact button and a 470Ω on the LED branch; here the LED sits directly across the cap for a smoother fade-off.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

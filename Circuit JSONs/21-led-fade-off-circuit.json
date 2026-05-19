@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "name": "LED Fade-Off Circuit",
+  "lesson": {
+    "title": "LED Fade-Off Circuit",
+    "description": "USB → slide switch → 1kΩ → split: 1000µF cap (center) and red LED (east) in parallel — no second resistor on the LED branch. Flip the switch on to charge both; flip off and watch the LED fade out over several seconds as the cap empties through the LED. Lesson 20 used a tact button and a 470Ω on the LED branch; here the LED sits directly across the cap for a smoother fade-off."
+  },
+  "exportedAt": "2026-05-19T22:18:15.208Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "slide-switch-2",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-1k-3",
+      "catalogId": "resistor-1k",
+      "name": "1k resistor",
+      "category": "component",
+      "value": "1kΩ",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-4",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "cap-1000u-5",
+      "catalogId": "cap-1000u",
+      "name": "1000µF capacitor",
+      "category": "component",
+      "value": "1000µF",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-6",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-7",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 180
+    },
+    {
+      "instanceId": "led-red-9",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-10",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 270
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "slide-switch-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-1k-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-1k-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cap-1000u-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-1000u-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-6",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-7",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "north"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-7:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "slide-switch-2:north"
+    ],
+    [
+      "resistor-1k-3:north",
+      "slide-switch-2:south"
+    ],
+    [
+      "resistor-1k-3:south",
+      "t-connector-4:north"
+    ],
+    [
+      "corner-cube-8:west",
+      "t-connector-4:east"
+    ],
+    [
+      "cap-1000u-5:north",
+      "t-connector-4:south"
+    ],
+    [
+      "cap-1000u-5:south",
+      "t-connector-6:north"
+    ],
+    [
+      "corner-cube-10:west",
+      "t-connector-6:east"
+    ],
+    [
+      "ground-tile-7:north",
+      "t-connector-6:south"
+    ],
+    [
+      "corner-cube-8:south",
+      "led-red-9:north"
+    ],
+    [
+      "corner-cube-10:north",
+      "led-red-9:south"
+    ]
+  ]
+}
