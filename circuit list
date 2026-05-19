@@ -1,0 +1,100 @@
+LED + Resistor
+Reverse LED Polarity Test
+Two LEDs in Series
+Two LEDs in Parallel
+LED Brightness Comparison
+RGB LED Basic Colors
+RGB LED Color Mixing
+Pushbutton LED
+Slide-Switch LED On/Off
+Slide-Switch LED Selector
+Two-Button Series Logic
+Two-Button Parallel Logic
+Morse Code LED
+Variable LED Brightness
+Pot-Controlled RGB Mixer
+Pot-Controlled LED Threshold
+Adjustable Voltage Divider
+LED Bar Brightness Comparison
+Capacitor Charge Demo
+Capacitor Discharge Demo
+LED Fade-Off Circuit
+LED Fade-On Circuit
+Pushbutton RC Delay
+Adjustable RC Delay
+Capacitor Polarity Demo
+Big Capacitor Energy Storage
+Fast vs Slow RC Timing
+Capacitor Pulse Circuit
+RC Filter Demo
+RC Smoothing Circuit
+Power Supply Smoothing Demo
+Capacitor Memory Effect Demo
+Schottky Diode One-Way Current Demo
+Reverse Polarity Protection
+Diode OR Circuit
+LED Direction Indicator
+Diode Voltage Drop Demo
+Dual-Power Source OR Circuit
+Pushbutton Diode Isolation
+LED Logic Steering Circuit
+Inductor Kickback Demo
+Inductor Energy Storage
+Inductor + LED Pulse Demo
+Electromagnet Demo
+Coil Magnetic Field Demo
+Inductor Pulse Filter Demo
+LC Resonance Experiment
+Magnetic Pickup Experiment
+Hall Sensor Magnetic Detection
+Hall Sensor LED Trigger
+Hall Sensor Switch Circuit
+Hall Sensor Polarity Demo
+LDR Light Sensor
+Dark Detector
+Light Level Comparator
+Light-Controlled LED
+Light-Controlled Buzzer
+Thermistor Temperature Sensor
+Temperature-Controlled LED
+Temperature Alarm Circuit
+Microphone Sound Detector
+Clap Detector
+Sound-Activated LED
+Sound-Activated Buzzer
+Optical Interrupt Detector
+Beam Break Alarm
+Optical Pulse Counter
+Vibration Motor Driver
+Buzzer On/Off Circuit
+Variable Buzzer Pitch
+Variable Motor Speed
+Transistor Switch
+Transistor LED Driver
+Transistor Buzzer Driver
+Transistor Motor Driver
+High-Current LED Driver
+Transistor Signal Amplifier
+Darlington Pair Experiment
+Sensitive Touch Sensor
+Capacitive Touch Trigger
+Touch-Activated LED
+Touch-Activated Buzzer
+Touch-Activated Motor
+Transistor RC Timer
+Transistor Delay Circuit
+Light-Triggered Transistor Switch
+Dark-Triggered Transistor Switch
+Sound-Triggered Transistor Switch
+Hall-Triggered Transistor Switch
+Multi-Sensor Alarm Circuit
+LED Status Indicator System
+Motor + Sensor Control Circuit
+Buzzer + Sensor Alarm Circuit
+Sensor-Controlled RGB LED
+Multi-Input Logic Circuit
+Arduino LED Blink
+Arduino Pushbutton Input
+Arduino Analog Pot Control
+Arduino Sensor Monitor
+Arduino Multi-Sensor Interactive System

@@ -1,0 +1,327 @@
+{
+  "version": 1,
+  "name": "Pot-Controlled LED Threshold",
+  "lesson": {
+    "title": "Pot-Controlled LED Threshold",
+    "description": "A potentiometer and two 10kΩ resistors form a voltage divider on the transistor base. Turn the pot until the base voltage crosses the switching point — the LED snaps between off and on instead of fading smoothly like lesson 14."
+  },
+  "exportedAt": "2026-05-19T20:05:46.967Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "cross-cube-2",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 0
+    },
+    {
+      "instanceId": "resistor-470-3",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-4",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "npn-5",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-10k-7",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "potentiometer-8",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "resistor-10k-9",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-10",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "straight-cube-11",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-12",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "ground-tile-13",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cross-cube-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "npn-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "potentiometer-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "potentiometer-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "potentiometer-8",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-10",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-11",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-13",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-13",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-13:south",
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "cross-cube-2:north",
+      "net:USB_VCC",
+      "power-tile-1:south"
+    ],
+    [
+      "led-red-4:north",
+      "resistor-470-3:south"
+    ],
+    [
+      "led-red-4:south",
+      "npn-5:north"
+    ],
+    [
+      "ground-tile-6:north",
+      "npn-5:south"
+    ],
+    [
+      "potentiometer-8:north",
+      "resistor-10k-7:south"
+    ],
+    [
+      "potentiometer-8:south",
+      "resistor-10k-9:north"
+    ],
+    [
+      "corner-cube-10:west",
+      "potentiometer-8:east"
+    ],
+    [
+      "corner-cube-12:north",
+      "resistor-10k-9:south"
+    ],
+    [
+      "corner-cube-10:south",
+      "straight-cube-11:north"
+    ],
+    [
+      "ground-tile-13:north",
+      "straight-cube-11:south"
+    ]
+  ]
+}
