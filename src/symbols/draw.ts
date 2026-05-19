@@ -93,6 +93,16 @@ function drawCapacitor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.moveTo(cx + gap, b.y + b.h * 0.15)
   ctx.lineTo(cx + gap, b.y + b.h * 0.85)
   ctx.stroke()
+  // Polarity: west lead = +, east lead = − (matches catalog ports at 0°; rotates with tile)
+  const markSize = Math.max(8, b.h * 0.38)
+  ctx.save()
+  ctx.font = `700 ${markSize}px system-ui, sans-serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = STROKE
+  ctx.fillText('+', cx - gap, cy + b.h * 0.32)
+  ctx.fillText('−', cx + gap, cy + b.h * 0.32)
+  ctx.restore()
 }
 
 function drawInductor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
@@ -436,15 +446,19 @@ function drawPowerTile(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
   const cy = midY(b)
   const cx = midX(b)
+  const rectW = b.w * 0.3
+  const rectH = b.h * 0.52
+  const rectX = cx - rectW / 2
+  const rectY = cy - rectH / 2
   ctx.font = `bold ${b.h * 0.5}px system-ui,sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.fillText('+', cx - b.w * 0.1, cy - b.h * 0.05)
-  ctx.strokeRect(cx - b.w * 0.04, cy - b.h * 0.28, b.w * 0.32, b.h * 0.55)
+  ctx.fillText('+', rectX - b.w * 0.07, cy)
+  ctx.strokeRect(rectX, rectY, rectW, rectH)
   ctx.font = `${b.h * 0.2}px system-ui,sans-serif`
-  ctx.fillText('USB', cx + b.w * 0.14, cy + b.h * 0.08)
+  ctx.fillText('USB', cx, cy)
   ctx.beginPath()
-  ctx.moveTo(cx, cy + b.h * 0.32)
+  ctx.moveTo(cx, rectY + rectH)
   ctx.lineTo(cx, b.y + b.h * 0.92)
   ctx.stroke()
 }

@@ -12,6 +12,8 @@
  *   below the center-only part). If the east branch is taller (e.g. corner→R→LED→corner), pad the
  *   center column with a straight-cube between the center part and the bottom T (see lesson 20).
  * - Vertical LEDs in N–S chains: rotation 90° (anode north, cathode south), not 270°.
+ * - Pot in trunk (lesson 24): pot 270° on col 5; corner bridges pot east → RC column (col 6:
+ *   T→cap→merge→GND); LED branch one column further east (col 7). Do not stack pot 90° in col 5.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -157,6 +159,74 @@ function buildParallelCapLedSwapped(
 /** Lesson 22: cap∥LED fade-on — LED center, cap east (mirror layout of lesson 21). */
 function buildLedFadeOnCircuit(): PlacedTile[] {
   return buildParallelCapLedSwapped(6, [{ catalogId: 'slide-switch', rotation: 90 }])
+}
+
+/** Lesson 23: tact + 4.7k trunk R; cap∥LED — LED ramps up slowly while held (RC delay vs lesson 8). */
+function buildPushbuttonRcDelay(): PlacedTile[] {
+  return buildParallelCapLedDirect(6, [{ catalogId: 'tact-button' }], 'resistor-4k7')
+}
+
+/**
+ * Lesson 24 — hand-authored ref: circuit jsons/24-adjustable-rc-delay.json
+ * Trunk col 5 (tact, 470Ω, pot 270°); corner bridges to RC col 6; LED branch col 7.
+ */
+function buildAdjustableRcDelay(): PlacedTile[] {
+  const splitY = 7
+  const mergeY = splitY + 2
+  const rcCol = 6
+  const ledCol = 7
+  return [
+    tile('power-tile', 5, 3),
+    tile('tact-button', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('potentiometer', 5, 6, 270),
+    tile('corner-cube', rcCol, 6, 180),
+    tile('t-connector', rcCol, splitY, 90),
+    tile('cap-1000u', rcCol, splitY + 1, 90),
+    tile('t-connector', rcCol, mergeY, 90),
+    tile('ground-tile', rcCol, mergeY + 1),
+    tile('corner-cube', ledCol, splitY, 180),
+    tile('led-red', ledCol, splitY + 1, 90),
+    tile('corner-cube', ledCol, mergeY, 270),
+  ]
+}
+
+/**
+ * Two RC branches after shared 470Ω: T-split (0°) at splitY, T-merge (180°) at splitY+3.
+ * West fast: corner 90° → 100µF → LED → corner 0°. East slow: corner 180° → 1000µF → LED → corner 270°.
+ * Hand-authored ref: circuit jsons/27-fast-vs-slow-rc-timing.json
+ */
+function buildFastVsSlowRcTiming(): PlacedTile[] {
+  const splitY = 6
+  const mergeY = splitY + 3
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('t-connector', 5, splitY, 0),
+    tile('t-connector', 5, mergeY, 180),
+    tile('ground-tile', 5, mergeY + 1),
+    tile('corner-cube', 4, splitY, 90),
+    tile('cap-100u', 4, splitY + 1, 90),
+    tile('led-red', 4, splitY + 2, 90),
+    tile('corner-cube', 4, mergeY, 0),
+    tile('corner-cube', 6, splitY, 180),
+    tile('cap-1000u', 6, splitY + 1, 90),
+    tile('led-red', 6, splitY + 2, 90),
+    tile('corner-cube', 6, mergeY, 270),
+  ]
+}
+
+/** Lesson 25: slide switch + series 470Ω → LED → 1000µF (correct electrolytic polarity). */
+function buildCapacitorPolarityDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('led-red', 5, 6, 90),
+    tile('cap-1000u', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+  ]
 }
 
 /** Three parallel branches (150Ω → 1kΩ), left to right = bright → dim LED bar. */
@@ -434,6 +504,41 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '22-led-fade-on-circuit',
     build: () => buildLedFadeOnCircuit(),
   },
+  {
+    name: '23-pushbutton-rc-delay',
+    build: () => buildPushbuttonRcDelay(),
+  },
+  // Lesson 24: hand-authored — see circuit jsons/24-adjustable-rc-delay.json. Do not EXPORT_ONLY=23.
+  {
+    name: '24-adjustable-rc-delay',
+    build: () => {
+      throw new Error(
+        'Lesson 24 is hand-authored; edit circuit jsons/24-adjustable-rc-delay.json',
+      )
+    },
+  },
+  {
+    name: '25-capacitor-polarity-demo',
+    build: () => buildCapacitorPolarityDemo(),
+  },
+  // Lesson 26: TBD — covered by lesson 20. Keep circuit jsons/26-tbd.json empty. Do not EXPORT_ONLY=25.
+  {
+    name: '26-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 26 is TBD (see lesson 20); edit circuit jsons/26-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 27: hand-authored — see circuit jsons/27-fast-vs-slow-rc-timing.json. Do not EXPORT_ONLY=26.
+  {
+    name: '27-fast-vs-slow-rc-timing',
+    build: () => {
+      throw new Error(
+        'Lesson 27 is hand-authored; edit circuit jsons/27-fast-vs-slow-rc-timing.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -459,6 +564,11 @@ const DISPLAY_NAMES = [
   'Capacitor Discharge Demo',
   'LED Fade-Off Circuit',
   'LED Fade-On Circuit',
+  'Pushbutton RC Delay',
+  'Adjustable RC Delay',
+  'Capacitor Polarity Demo',
+  'TBD',
+  'Fast vs Slow RC Timing',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -484,6 +594,11 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Hold the tact button to charge the 1000µF capacitor through the center 470Ω resistor. The cap and the east branch (470Ω + red LED) are in parallel. Release the button — USB disconnects, but the charged cap powers the LED through the east branch and it fades out over about 1–2 seconds as the cap empties. Orient the LED at 90° (anode north, cathode south). Put the cap + toward the power side.',
   'USB → slide switch → 1kΩ → split: 1000µF cap (center) and red LED (east) in parallel — no second resistor on the LED branch. Flip the switch on to charge both; flip off and watch the LED fade out over several seconds as the cap empties through the LED. Lesson 20 used a tact button and a 470Ω on the LED branch; here the LED sits directly across the cap for a smoother fade-off.',
   'USB → slide switch → 1kΩ → split: red LED on the center column and 1000µF cap on the east branch in parallel. Flip the switch on — the LED starts dim and brightens over several seconds as the capacitor charges (fade-on). Flip off to see it fade out. Layout swaps lesson 21 (cap center, LED east); the LED is on the center column here. LED at 90° (anode north); cap + toward power.',
+  'Press and hold the tact button. A 4.7kΩ resistor and 1000µF capacitor (τ ≈ 4.7 s) slow the rise — the red LED on the east branch is in parallel with the cap, so it brightens gradually instead of snapping on like lesson 8. Release the button and the LED fades out as the cap discharges. Cap on the center column; LED east at 90° (anode north).',
+  'Press the tact button and turn the potentiometer. A 470Ω resistor sets a safe minimum; the pot (270°) feeds the RC column through a corner. The 1000µF cap and red LED are in parallel on columns 6–7 — more resistance = slower fade-on/off, less = faster. Cap on column 6, LED column 7 at 90° (anode north); cap + toward power.',
+  'Flip the slide switch on: USB → 470Ω → red LED → 1000µF cap → ground. Match the tile markings: + (west magnet) toward the LED, − (east) toward ground. Correct: LED responds when you switch on (flash/settle like lesson 19). Reversed: LED stays dark or weak — the cap cannot charge properly. Quick compare only; if the cap feels warm, switch off. Do not leave a large electrolytic reversed on USB power.',
+  'Lesson 26 reserved. Big-capacitor energy storage is covered by lesson 20 (Capacitor Discharge Demo). A dedicated circuit may be added here later.',
+  'Flip the slide switch on. Shared 470Ω feeds a T (top): west branch 100µF + red LED (fast), east branch 1000µF + red LED (slow). Watch both when you switch on or off — same R, different C. LEDs at 90°; cap + toward power on each branch.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

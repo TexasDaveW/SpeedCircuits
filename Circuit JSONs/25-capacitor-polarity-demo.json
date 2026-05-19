@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "name": "Capacitor Polarity Demo",
+  "lesson": {
+    "title": "Capacitor Polarity Demo",
+    "description": "Flip the slide switch on: USB → 470Ω → red LED → 1000µF cap → ground. Match the tile markings: + (west magnet) toward the LED, − (east) toward ground. Correct: LED responds when you switch on (flash/settle like lesson 19). Reversed: LED stays dark or weak — the cap cannot charge properly. Quick compare only; if the cap feels warm, switch off. Do not leave a large electrolytic reversed on USB power."
+  },
+  "exportedAt": "2026-05-19T22:34:27.761Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "slide-switch-2",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-3",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-4",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "cap-1000u-5",
+      "catalogId": "cap-1000u",
+      "name": "1000µF capacitor",
+      "category": "component",
+      "value": "1000µF",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "slide-switch-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cap-1000u-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-1000u-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "slide-switch-2:north"
+    ],
+    [
+      "resistor-470-3:north",
+      "slide-switch-2:south"
+    ],
+    [
+      "led-red-4:north",
+      "resistor-470-3:south"
+    ],
+    [
+      "cap-1000u-5:north",
+      "led-red-4:south"
+    ],
+    [
+      "cap-1000u-5:south",
+      "ground-tile-6:north"
+    ]
+  ]
+}
