@@ -165,41 +165,43 @@ function drawLed(ctx: CanvasRenderingContext2D, b: SymbolBounds, rgb = false) {
   prep(ctx)
   const cy = midY(b)
   const cx = midX(b)
-  const base = b.x + b.w * 0.4
-  const tip = b.x + b.w * 0.58
-  const halfH = b.h * 0.36
+  const halfH = b.h * 0.34
+  const bodyLeft = b.x + b.w * 0.36
+  const barX = b.x + b.w * 0.58
 
-  // Anode/cathode leads into diode body
+  // Single lead through the diode (IEEE-style)
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
-  ctx.lineTo(base, cy)
-  ctx.moveTo(tip, cy)
   ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
 
-  // Diode triangle (anode → cathode, left to right)
+  // Triangle points right; cathode bar at the tip (right)
   ctx.beginPath()
-  ctx.moveTo(base, cy)
-  ctx.lineTo(tip, cy - halfH)
-  ctx.lineTo(tip, cy + halfH)
+  ctx.moveTo(bodyLeft, cy - halfH)
+  ctx.lineTo(barX, cy)
+  ctx.lineTo(bodyLeft, cy + halfH)
   ctx.closePath()
   ctx.stroke()
 
-  // Cathode bar
   ctx.beginPath()
-  ctx.moveTo(base, cy - halfH)
-  ctx.lineTo(base, cy + halfH)
+  ctx.moveTo(barX, cy - halfH)
+  ctx.lineTo(barX, cy + halfH)
   ctx.stroke()
 
-  // Light emission arrows (up-right and down-right from cathode)
-  const arrLen = b.w * 0.14
-  const arrX = tip + b.w * 0.04
+  // Two parallel arrows above the triangle, pointing away (up-right)
+  const midDiode = (bodyLeft + barX) / 2
+  const arrowY = cy - halfH - b.h * 0.12
+  const arrLen = b.w * 0.1
+  const arrDx = arrLen * Math.SQRT1_2
+  const arrDy = -arrLen * Math.SQRT1_2
+  const gap = b.w * 0.032
+
   ctx.beginPath()
-  drawLedArrow(ctx, arrX, cy - halfH * 0.35, arrX + arrLen, cy - halfH * 0.35 - arrLen * 0.85)
-  drawLedArrow(ctx, arrX, cy + halfH * 0.35, arrX + arrLen, cy + halfH * 0.35 + arrLen * 0.85)
+  drawLedArrow(ctx, midDiode - gap, arrowY, midDiode - gap + arrDx, arrowY + arrDy)
+  drawLedArrow(ctx, midDiode + gap, arrowY, midDiode + gap + arrDx, arrowY + arrDy)
   ctx.stroke()
 
-  // RGB: four conductors — west/east main diode, north common, south channel
+  // RGB: extra north/south leads for channel pins
   if (rgb) {
     ctx.beginPath()
     ctx.moveTo(cx, cy - halfH * 0.15)
