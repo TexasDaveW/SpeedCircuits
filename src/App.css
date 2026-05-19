@@ -31,22 +31,85 @@
   line-height: 1.4;
 }
 
-.palette-section {
-  padding: 0.5rem 0.75rem;
+.palette-tree-actions {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
 }
 
-.palette-section h2 {
-  margin: 0 0 0.4rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.palette-tree-actions button {
+  flex: 1;
+  padding: 0.28rem 0.4rem;
+  font-size: 0.68rem;
+  border-radius: 5px;
+  border: 1px solid #3a414c;
+  background: #2f3540;
+  color: #b8c4d8;
+  cursor: pointer;
+}
+
+.palette-tree-actions button:hover {
+  border-color: #4d9fff;
+  color: #e8eaed;
+}
+
+.palette-tree {
+  padding: 0.25rem 0;
+}
+
+.palette-tree-group {
+  border-bottom: 1px solid #323842;
+}
+
+.palette-tree-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: #c8d0dc;
+  text-align: left;
+  cursor: pointer;
+}
+
+.palette-tree-toggle:hover {
+  background: #2c323c;
+}
+
+.palette-tree-toggle.has-selection {
+  background: rgba(77, 159, 255, 0.1);
+}
+
+.palette-tree-chevron {
+  display: inline-block;
+  width: 0.75rem;
+  font-size: 0.55rem;
+  color: #7d8796;
+  transition: transform 0.15s ease;
+}
+
+.palette-tree-toggle.open .palette-tree-chevron {
+  transform: rotate(90deg);
+}
+
+.palette-tree-label {
+  flex: 1;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.palette-tree-meta {
+  font-size: 0.68rem;
   color: #7d8796;
 }
 
-.palette-section ul {
+.palette-tree-items {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0.5rem 0.5rem 1.35rem;
   display: flex;
   flex-direction: column;
   gap: 4px;
