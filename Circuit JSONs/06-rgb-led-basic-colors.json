@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "name": "LED + Resistor",
-  "exportedAt": "2026-05-19T04:07:50.465Z",
+  "name": "RGB LED Basic Colors",
+  "exportedAt": "2026-05-19T04:07:50.470Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -25,11 +25,11 @@
       "rotation": 90
     },
     {
-      "instanceId": "led-red-3",
-      "catalogId": "led-red",
-      "name": "Red LED",
+      "instanceId": "rgb-led-3",
+      "catalogId": "rgb-led",
+      "name": "RGB LED",
       "category": "component",
-      "value": "RED",
+      "value": "RGB",
       "gridX": 5,
       "gridY": 5,
       "rotation": 270
@@ -81,13 +81,13 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-3",
+        "instanceId": "rgb-led-3",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "rgb-led-3",
         "side": "south"
       },
       "b": {
@@ -117,16 +117,16 @@
       "resistor-470-2:north"
     ],
     [
-      "led-red-3:north",
-      "resistor-470-2:south"
+      "resistor-470-2:south",
+      "rgb-led-3:north"
     ],
     [
       "ground-tile-4:north",
-      "led-red-3:south"
+      "rgb-led-3:south"
     ]
   ],
   "lesson": {
-    "title": "LED + Resistor",
-    "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
+    "title": "RGB LED Basic Colors",
+    "description": "A 470Ω resistor feeds the RGB LED. All three color dies share one current path — you see mixed light. This is the simplest way to power a common RGB module."
   }
 }

@@ -3,6 +3,7 @@ import { neighborOffset, oppositeSide, sidesAtRotation } from './geometry'
 import type {
   CircuitConnection,
   CircuitDocument,
+  CircuitLesson,
   PlacedTile,
   Side,
 } from './types'
@@ -129,12 +130,23 @@ export function buildNets(connections: CircuitConnection[]): string[][] {
   return [...groups.values()].map((s) => [...s].sort())
 }
 
-export function exportCircuit(tiles: PlacedTile[], name?: string): CircuitDocument {
+export function exportCircuit(
+  tiles: PlacedTile[],
+  name?: string,
+  lesson?: CircuitLesson,
+): CircuitDocument {
   const connections = buildConnections(tiles)
   const trimmed = name?.trim()
+  const description = lesson?.description?.trim()
   return {
     version: 1,
     name: trimmed || undefined,
+    lesson: description
+      ? {
+          title: lesson?.title?.trim() || trimmed || undefined,
+          description,
+        }
+      : undefined,
     exportedAt: new Date().toISOString(),
     tiles: tiles.map((t) => {
       const entry = catalogById.get(t.catalogId)!

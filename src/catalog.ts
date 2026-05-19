@@ -33,7 +33,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'buzzer', name: 'Buzzer', category: 'component', quantity: 1, valueLabel: 'BUZZ', typeLabel: 'OUTPUT', ports: ['west', 'east'], symbolId: 'buzzer' },
   { id: 'tact-button', name: 'Tact button', category: 'component', quantity: 2, valueLabel: 'BTN', typeLabel: 'SWITCH', ports: ['west', 'east'], symbolId: 'switch_momentary' },
   { id: 'slide-switch', name: 'Slide switch SPDT', category: 'component', quantity: 2, valueLabel: 'SPDT', typeLabel: 'SWITCH', ports: ['west', 'east', 'south'], symbolId: 'switch_spdt' },
-  { id: 'rgb-led', name: 'RGB LED', category: 'component', quantity: 1, valueLabel: 'RGB', typeLabel: 'LED', ports: ['west', 'east', 'south'], symbolId: 'led_rgb' },
+  { id: 'rgb-led', name: 'RGB LED', category: 'component', quantity: 1, valueLabel: 'RGB', typeLabel: 'LED', ports: ['north', 'east', 'south', 'west'], symbolId: 'led_rgb' },
   { id: 'led-red', name: 'Red LED', category: 'component', quantity: 2, valueLabel: 'RED', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
   { id: 'led-green', name: 'Green LED', category: 'component', quantity: 2, valueLabel: 'GRN', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
   { id: 'led-blue', name: 'Blue LED', category: 'component', quantity: 2, valueLabel: 'BLU', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },

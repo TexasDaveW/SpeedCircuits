@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CircuitCanvas } from './components/CircuitCanvas'
+import { LessonPanel } from './components/LessonPanel'
 import { Palette } from './components/Palette'
 import { exportCircuit } from './circuit'
 import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } from './circuitFile'
 import { parseCircuitJson } from './circuitImport'
 import { catalogById } from './catalog'
+import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
 import { copyTile, pasteTileAt, type TileClipboard } from './tileClipboard'
-import type { PlacedTile } from './types'
+import type { CircuitLesson, PlacedTile } from './types'
 import './App.css'
 
 function isEditableTarget(target: EventTarget | null): boolean {
@@ -20,6 +22,8 @@ export default function App() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [pendingCatalogId, setPendingCatalogId] = useState<string | null>(null)
   const [circuitName, setCircuitName] = useState('circuit')
+  const [lesson, setLesson] = useState<CircuitLesson | null>(null)
+  const [showLessonPanel, setShowLessonPanel] = useState(readLessonPanelVisible)
   const [exportJson, setExportJson] = useState<string | null>(null)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [statusIsError, setStatusIsError] = useState(false)
@@ -40,22 +44,26 @@ export default function App() {
     setStatusIsError(isError)
   }
 
-  const buildCircuitJson = useCallback((tileList: PlacedTile[], name: string) => {
-    const doc = exportCircuit(tileList, name)
-    return JSON.stringify(doc, null, 2)
-  }, [])
+  const buildCircuitJson = useCallback(
+    (tileList: PlacedTile[], name: string, lessonInfo?: CircuitLesson | null) => {
+      const doc = exportCircuit(tileList, name, lessonInfo ?? undefined)
+      return JSON.stringify(doc, null, 2)
+    },
+    [],
+  )
 
   const loadCircuit = useCallback(
-    (tileList: PlacedTile[], name?: string) => {
-      const displayName = name?.trim() || circuitName
+    (tileList: PlacedTile[], name?: string, lessonInfo?: CircuitLesson | null) => {
       if (name?.trim()) setCircuitName(name.trim())
+      const nextLesson = lessonInfo ?? null
+      setLesson(nextLesson)
       setTiles(tileList)
       setSelectedIds([])
       clearPlacementModes()
-      setExportJson(buildCircuitJson(tileList, displayName))
+      setExportJson(null)
       setStatus(`Loaded ${tileList.length} tile${tileList.length === 1 ? '' : 's'}.`)
     },
-    [buildCircuitJson, circuitName, clearPlacementModes],
+    [clearPlacementModes],
   )
 
   const tryLoadJsonText = useCallback(
@@ -71,14 +79,13 @@ export default function App() {
       ) {
         return
       }
-      loadCircuit(result.tiles, result.name ?? suggestedName)
+      loadCircuit(result.tiles, result.name ?? suggestedName, result.lesson)
     },
     [tiles.length, loadCircuit],
   )
 
   const handleSaveCircuit = useCallback(async () => {
-    const json = buildCircuitJson(tiles, circuitName)
-    setExportJson(json)
+    const json = buildCircuitJson(tiles, circuitName, lesson)
     const result = await saveCircuitJsonFile(json, circuitName)
     if (result === 'saved') {
       setStatus(
@@ -89,7 +96,7 @@ export default function App() {
     } else {
       setStatus('Could not save file.', true)
     }
-  }, [tiles, circuitName, buildCircuitJson])
+  }, [tiles, circuitName, lesson, buildCircuitJson])
 
   const handleOpenCircuit = useCallback(async () => {
     const opened = await openCircuitJsonFile()
@@ -117,7 +124,7 @@ export default function App() {
   }
 
   const handleCopyJson = async () => {
-    const json = exportJson ?? buildCircuitJson(tiles, circuitName)
+    const json = exportJson ?? buildCircuitJson(tiles, circuitName, lesson)
     if (!exportJson) setExportJson(json)
     try {
       await navigator.clipboard.writeText(json)
@@ -128,9 +135,14 @@ export default function App() {
   }
 
   const handlePreviewJson = () => {
-    const json = buildCircuitJson(tiles, circuitName)
+    if (exportJson) {
+      setExportJson(null)
+      setStatus('JSON preview hidden.')
+      return
+    }
+    const json = buildCircuitJson(tiles, circuitName, lesson)
     setExportJson(json)
-    setStatus('JSON preview updated below.')
+    setStatus('JSON preview shown below (click Preview JSON again to hide).')
   }
 
   const handleClear = () => {
@@ -142,6 +154,7 @@ export default function App() {
       setPasteTarget(null)
       setPendingCatalogId(null)
       setExportJson(null)
+      setLesson(null)
       setStatus('Canvas cleared.')
     }
   }
@@ -227,6 +240,17 @@ export default function App() {
 
   const canPaste = !!tileClipboard && !!pasteCellFree && !!quantityOk
 
+  const toggleLessonPanel = () => {
+    setShowLessonPanel((on) => {
+      const next = !on
+      writeLessonPanelVisible(next)
+      return next
+    })
+  }
+
+  const lessonTitle = lesson?.title?.trim() || circuitName
+  const lessonDescription = lesson?.description?.trim() || null
+
   return (
     <div className="app">
       <input
@@ -271,6 +295,14 @@ export default function App() {
           <button type="button" onClick={handleCopyJson}>
             Copy JSON
           </button>
+          <button
+            type="button"
+            className={showLessonPanel ? 'toggle-active' : undefined}
+            onClick={toggleLessonPanel}
+            aria-pressed={showLessonPanel}
+          >
+            Lesson notes
+          </button>
           <button type="button" onClick={copySelectedTile} disabled={!canCopy} title="⌘C">
             Copy tile
           </button>
@@ -296,26 +328,39 @@ export default function App() {
             <strong>Shift</strong>+click or drag a box to add to selection.
           </p>
         )}
-        <CircuitCanvas
-          tiles={tiles}
-          selectedIds={selectedIds}
-          pendingCatalogId={pendingCatalogId}
-          tileClipboard={tileClipboard}
-          pasteTarget={pasteTarget}
-          onPasteTargetChange={setPasteTarget}
-          onPasteAtCell={pasteAtCell}
-          onTileClipboardChange={setTileClipboard}
-          onTilesChange={setTiles}
-          onSelectionChange={(ids) => {
-            setSelectedIds(ids)
-            if (ids.length > 0) setPasteTarget(null)
-          }}
-          onPendingClear={clearPlacementModes}
-        />
+        <div className="workspace-body">
+          <CircuitCanvas
+            tiles={tiles}
+            selectedIds={selectedIds}
+            pendingCatalogId={pendingCatalogId}
+            tileClipboard={tileClipboard}
+            pasteTarget={pasteTarget}
+            onPasteTargetChange={setPasteTarget}
+            onPasteAtCell={pasteAtCell}
+            onTileClipboardChange={setTileClipboard}
+            onTilesChange={setTiles}
+            onSelectionChange={(ids) => {
+              setSelectedIds(ids)
+              if (ids.length > 0) setPasteTarget(null)
+            }}
+            onPendingClear={clearPlacementModes}
+          />
+          {showLessonPanel && (
+            <LessonPanel title={lessonTitle} description={lessonDescription} />
+          )}
+        </div>
         {exportJson && (
-          <pre className="json-preview" aria-label="Circuit JSON preview">
-            {exportJson}
-          </pre>
+          <div className="json-preview-wrap">
+            <div className="json-preview-header">
+              <span>JSON preview</span>
+              <button type="button" onClick={() => setExportJson(null)}>
+                Close
+              </button>
+            </div>
+            <pre className="json-preview" aria-label="Circuit JSON preview">
+              {exportJson}
+            </pre>
+          </div>
         )}
       </main>
     </div>

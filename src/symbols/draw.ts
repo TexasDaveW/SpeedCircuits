@@ -199,9 +199,11 @@ function drawLed(ctx: CanvasRenderingContext2D, b: SymbolBounds, rgb = false) {
   drawLedArrow(ctx, arrX, cy + halfH * 0.35, arrX + arrLen, cy + halfH * 0.35 + arrLen * 0.85)
   ctx.stroke()
 
-  // RGB: third lead (cathode/common) to south port
+  // RGB: four conductors — west/east main diode, north common, south channel
   if (rgb) {
     ctx.beginPath()
+    ctx.moveTo(cx, cy - halfH * 0.15)
+    ctx.lineTo(cx, b.y)
     ctx.moveTo(cx, cy + halfH * 0.15)
     ctx.lineTo(cx, b.y + b.h)
     ctx.stroke()
@@ -506,7 +508,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   inductor: defaultLeads2,
   diode: defaultLeads2,
   led: defaultLeads2,
-  led_rgb: defaultLeads3,
+  led_rgb: defaultLeads4,
   npn: defaultLeads3,
   nmos: defaultLeads3,
   potentiometer: defaultLeads3,

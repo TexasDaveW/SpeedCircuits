@@ -162,6 +162,54 @@
   min-width: 0;
 }
 
+.workspace-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.workspace-body .canvas-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+.lesson-panel {
+  flex-shrink: 0;
+  max-height: 9rem;
+  overflow-y: auto;
+  padding: 0.65rem 0.9rem;
+  background: #1e2430;
+  border-top: 1px solid #363c46;
+}
+
+.lesson-panel-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e8eaed;
+}
+
+.lesson-panel-description {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #b8c4d8;
+}
+
+.lesson-panel-empty {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #7a8494;
+  font-style: italic;
+}
+
+.workspace-actions button.toggle-active {
+  border-color: #4d9fff;
+  background: #2a3d52;
+  color: #e8f0ff;
+}
+
 .workspace-actions {
   display: flex;
   flex-wrap: wrap;
@@ -322,6 +370,32 @@
   cursor: grabbing !important;
 }
 
+.json-preview-wrap {
+  flex-shrink: 0;
+  border-top: 1px solid #363c46;
+  background: #1a1e24;
+}
+
+.json-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+  color: #9aa3b0;
+  border-bottom: 1px solid #2a3038;
+}
+
+.json-preview-header button {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
+  border-radius: 4px;
+  border: 1px solid #4a5260;
+  background: #343b48;
+  color: #e8eaed;
+  cursor: pointer;
+}
+
 .json-preview {
   max-height: 180px;
   margin: 0;
@@ -329,7 +403,5 @@
   overflow: auto;
   font-size: 0.72rem;
   line-height: 1.45;
-  background: #1a1e24;
-  border-top: 1px solid #363c46;
   color: #b8d4a8;
 }

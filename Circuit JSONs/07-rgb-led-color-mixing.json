@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "name": "RGB LED Color Mixing",
+  "exportedAt": "2026-05-19T04:05:01.699Z",
+  "tiles": [
+    {
+      "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+      "catalogId": "rgb-led",
+      "name": "RGB LED",
+      "category": "component",
+      "value": "RGB",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 180
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "853b92e1-1b3b-48dd-a246-58e041c466c1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f8dfac49-4d5d-446f-9144-8aa39cf02965",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "c6a8fd07-f567-4c98-b37d-d4c391e5e219",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "c390db01-3f46-45c9-9404-e157bd484363",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a7c138d0-16d1-4c8f-8451-77d95fb60222",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "853b92e1-1b3b-48dd-a246-58e041c466c1:west",
+      "a7c138d0-16d1-4c8f-8451-77d95fb60222:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "853b92e1-1b3b-48dd-a246-58e041c466c1:south",
+      "f8dfac49-4d5d-446f-9144-8aa39cf02965:north",
+      "net:USB_VCC"
+    ],
+    [
+      "c6a8fd07-f567-4c98-b37d-d4c391e5e219:north",
+      "f8dfac49-4d5d-446f-9144-8aa39cf02965:south"
+    ],
+    [
+      "c390db01-3f46-45c9-9404-e157bd484363:south",
+      "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3:north"
+    ],
+    [
+      "a7c138d0-16d1-4c8f-8451-77d95fb60222:north",
+      "e1a23f99-1f61-45f8-a92d-b9af1ac3c6d3:south"
+    ],
+    [
+      "c390db01-3f46-45c9-9404-e157bd484363:west",
+      "c6a8fd07-f567-4c98-b37d-d4c391e5e219:east"
+    ]
+  ],
+  "lesson": {
+    "title": "RGB LED Color Mixing",
+    "description": "Turn the potentiometer to change how much current reaches the RGB LED through the wiper path. The corner routes the wiper into the LED while the resistor and pot stay in series from power."
+  }
+}

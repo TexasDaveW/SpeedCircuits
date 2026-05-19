@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "name": "LED + Resistor",
-  "exportedAt": "2026-05-19T04:07:50.465Z",
+  "name": "Two LEDs in Series",
+  "exportedAt": "2026-05-19T04:07:50.468Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -15,11 +15,11 @@
       "plateGround": true
     },
     {
-      "instanceId": "resistor-470-2",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
+      "instanceId": "resistor-1k-2",
+      "catalogId": "resistor-1k",
+      "name": "1k resistor",
       "category": "component",
-      "value": "470Ω",
+      "value": "1kΩ",
       "gridX": 5,
       "gridY": 4,
       "rotation": 90
@@ -35,13 +35,23 @@
       "rotation": 270
     },
     {
-      "instanceId": "ground-tile-4",
+      "instanceId": "led-green-4",
+      "catalogId": "led-green",
+      "name": "Green LED",
+      "category": "component",
+      "value": "GRN",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ground-tile-5",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
       "gridX": 5,
-      "gridY": 6,
+      "gridY": 7,
       "rotation": 0,
       "plateGround": true
     }
@@ -71,13 +81,13 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "resistor-1k-2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "resistor-1k-2",
         "side": "south"
       },
       "b": {
@@ -91,13 +101,23 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "led-green-4",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "led-green-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
         "side": "south"
       },
       "b": {
@@ -107,26 +127,30 @@
   ],
   "nets": [
     [
-      "ground-tile-4:south",
+      "ground-tile-5:south",
       "net:PLATE_GND",
       "power-tile-1:west"
     ],
     [
       "net:USB_VCC",
       "power-tile-1:south",
-      "resistor-470-2:north"
+      "resistor-1k-2:north"
     ],
     [
       "led-red-3:north",
-      "resistor-470-2:south"
+      "resistor-1k-2:south"
     ],
     [
-      "ground-tile-4:north",
+      "led-green-4:north",
       "led-red-3:south"
+    ],
+    [
+      "ground-tile-5:north",
+      "led-green-4:south"
     ]
   ],
   "lesson": {
-    "title": "LED + Resistor",
-    "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
+    "title": "Two LEDs in Series",
+    "description": "Both LEDs share the same current in one path. With a 1kΩ limit resistor, they light dimmer than a single LED — each drops voltage along the chain."
   }
 }

@@ -1,12 +1,25 @@
 import { catalogById } from './catalog'
 import { inPlateBounds } from './plate'
-import type { PlacedTile, Rotation } from './types'
+import type { CircuitLesson, PlacedTile, Rotation } from './types'
 
 const VALID_ROTATIONS = new Set<Rotation>([0, 90, 180, 270])
 
 export type ImportResult =
-  | { ok: true; tiles: PlacedTile[]; name?: string }
+  | { ok: true; tiles: PlacedTile[]; name?: string; lesson?: CircuitLesson }
   | { ok: false; errors: string[] }
+
+function parseLesson(raw: Record<string, unknown>): CircuitLesson | undefined {
+  const lessonRaw = raw.lesson
+  if (!isRecord(lessonRaw)) return undefined
+  const description =
+    typeof lessonRaw.description === 'string' ? lessonRaw.description.trim() : ''
+  if (!description) return undefined
+  const title =
+    typeof lessonRaw.title === 'string' && lessonRaw.title.trim()
+      ? lessonRaw.title.trim()
+      : undefined
+  return { title, description }
+}
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return v != null && typeof v === 'object' && !Array.isArray(v)
@@ -99,8 +112,9 @@ export function importCircuit(raw: unknown): ImportResult {
   }
 
   const name = typeof raw.name === 'string' && raw.name.trim() ? raw.name.trim() : undefined
+  const lesson = parseLesson(raw)
 
-  return { ok: true, tiles: placed, name }
+  return { ok: true, tiles: placed, name, lesson }
 }
 
 export function parseCircuitJson(text: string): ImportResult {

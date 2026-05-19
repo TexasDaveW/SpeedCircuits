@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "name": "Two LEDs in Parallel",
+  "exportedAt": "2026-05-19T04:07:50.468Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-3",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-4",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-connector-5",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-7",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-8",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-9",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "corner-cube-10",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 270
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-5",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "north"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "corner-cube-7:west",
+      "t-connector-2:east"
+    ],
+    [
+      "resistor-470-3:north",
+      "t-connector-2:south"
+    ],
+    [
+      "led-red-4:north",
+      "resistor-470-3:south"
+    ],
+    [
+      "led-red-4:south",
+      "t-connector-5:north"
+    ],
+    [
+      "corner-cube-10:west",
+      "t-connector-5:east"
+    ],
+    [
+      "ground-tile-6:north",
+      "t-connector-5:south"
+    ],
+    [
+      "corner-cube-7:south",
+      "resistor-470-8:north"
+    ],
+    [
+      "led-red-9:north",
+      "resistor-470-8:south"
+    ],
+    [
+      "corner-cube-10:north",
+      "led-red-9:south"
+    ]
+  ],
+  "lesson": {
+    "title": "Two LEDs in Parallel",
+    "description": "Power splits at the T connector. Each branch has its own 470Ω resistor and red LED, so both see supply voltage and can light independently."
+  }
+}

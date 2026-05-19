@@ -60,10 +60,18 @@ export interface CircuitConnection {
   b: { instanceId: string; side: Side } | { net: 'PLATE_GND' | 'USB_VCC' }
 }
 
+export interface CircuitLesson {
+  /** Display title; defaults to circuit name when omitted */
+  title?: string
+  description: string
+}
+
 export interface CircuitDocument {
   version: 1
   /** User-visible circuit name (filename stem when saving) */
   name?: string
+  /** Teaching notes shown in the lesson panel */
+  lesson?: CircuitLesson
   exportedAt: string
   tiles: Array<{
     instanceId: string

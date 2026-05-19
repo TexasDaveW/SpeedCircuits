@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "name": "LED + Resistor",
-  "exportedAt": "2026-05-19T04:07:50.465Z",
+  "name": "Reverse LED Polarity Test",
+  "exportedAt": "2026-05-19T04:07:50.467Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -32,7 +32,7 @@
       "value": "RED",
       "gridX": 5,
       "gridY": 5,
-      "rotation": 270
+      "rotation": 90
     },
     {
       "instanceId": "ground-tile-4",
@@ -126,7 +126,7 @@
     ]
   ],
   "lesson": {
-    "title": "LED + Resistor",
-    "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
+    "title": "Reverse LED Polarity Test",
+    "description": "The LED is flipped compared to lesson 1. Current cannot flow the wrong way through an LED, so it stays dark. Swap polarity and it lights again."
   }
 }
