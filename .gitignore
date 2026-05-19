@@ -2,3 +2,5 @@ node_modules
 dist
 .DS_Store
 *.local
+scripts/.gen-bundle.mjs
+scripts/gen-bundle.mjs

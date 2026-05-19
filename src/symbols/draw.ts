@@ -379,10 +379,10 @@ function drawTouchPad(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
 }
 
 function drawGroundBars(ctx: CanvasRenderingContext2D, cx: number, cy: number, b: SymbolBounds) {
-  const w = b.w * 0.2
+  const w = b.w * 0.36
   for (let i = 0; i < 3; i++) {
     const y = cy + i * (b.h * 0.12)
-    const ww = w + i * (b.w * 0.08)
+    const ww = w - i * (b.w * 0.08)
     ctx.moveTo(cx - ww / 2, y)
     ctx.lineTo(cx + ww / 2, y)
   }
@@ -409,8 +409,9 @@ function drawGround(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
-function defaultLeadsGroundTile(_b: SymbolBounds): SymbolLeads {
-  return {}
+function defaultLeadsGroundTile(b: SymbolBounds): SymbolLeads {
+  const cx = midX(b)
+  return { north: { x: cx, y: b.y } }
 }
 
 function drawPower(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
@@ -444,8 +445,9 @@ function drawPowerTile(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
-function defaultLeadsPowerTile(_b: SymbolBounds): SymbolLeads {
-  return {}
+function defaultLeadsPowerTile(b: SymbolBounds): SymbolLeads {
+  const cx = midX(b)
+  return { south: { x: cx, y: b.y + b.h } }
 }
 
 function drawArduino(ctx: CanvasRenderingContext2D, b: SymbolBounds) {

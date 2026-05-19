@@ -32,10 +32,17 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
         seen.add(key)
         const undersideOnly =
           entry.category === 'ground' || entry.category === 'power'
+        // Underside plate contact uses a side not listed in ports (avoids shorting V+ to GND).
+        const plateSide: Side =
+          entry.category === 'power'
+            ? 'west'
+            : entry.category === 'ground'
+              ? 'south'
+              : (ports[0] ?? 'south')
         connections.push({
           a: {
             instanceId: tile.instanceId,
-            side: undersideOnly ? 'south' : (ports[0] ?? 'south'),
+            side: undersideOnly ? plateSide : (ports[0] ?? 'south'),
           },
           b: { net: 'PLATE_GND' },
         })
@@ -43,10 +50,12 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
     }
 
     if (entry.category === 'power') {
-      connections.push({
-        a: { instanceId: tile.instanceId, side: 'north' },
-        b: { net: 'USB_VCC' },
-      })
+      for (const side of ports) {
+        connections.push({
+          a: { instanceId: tile.instanceId, side },
+          b: { net: 'USB_VCC' },
+        })
+      }
     }
 
     for (const side of ports) {

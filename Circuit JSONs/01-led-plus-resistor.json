@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "name": "LED + Resistor",
+  "exportedAt": "2026-05-19T03:41:34.040Z",
+  "tiles": [
+    {
+      "instanceId": "power-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-1",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-1",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ground-1",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-1",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-1",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-1",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-1:south",
+      "net:PLATE_GND",
+      "power-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-1:south",
+      "resistor-1:north"
+    ],
+    [
+      "led-1:north",
+      "resistor-1:south"
+    ],
+    [
+      "ground-1:north",
+      "led-1:south"
+    ]
+  ]
+}

@@ -43,8 +43,8 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'schottky', name: 'Schottky diode', category: 'component', quantity: 5, valueLabel: 'DIODE', typeLabel: 'SCHOTTKY', ports: ['west', 'east'], symbolId: 'diode' },
   { id: 'inductor', name: 'Inductor', category: 'component', quantity: 3, valueLabel: 'IND', typeLabel: 'INDUCTOR', ports: ['west', 'east'], symbolId: 'inductor' },
   { id: 'arduino-cube', name: 'Arduino cube', category: 'arduino', quantity: 1, valueLabel: 'UNO', typeLabel: 'ARDUINO', ports: ['north', 'east', 'south', 'west'], symbolId: 'arduino' },
-  { id: 'power-tile', name: 'Power tile', category: 'power', quantity: 1, valueLabel: 'USB', typeLabel: 'POWER', ports: [], plateGround: true, symbolId: 'power_tile' },
-  { id: 'ground-tile', name: 'Ground tile', category: 'ground', quantity: 6, valueLabel: 'GND', typeLabel: 'GROUND', ports: [], plateGround: true, symbolId: 'ground_tile' },
+  { id: 'power-tile', name: 'Power tile', category: 'power', quantity: 1, valueLabel: 'USB', typeLabel: 'POWER', ports: ['south'], plateGround: true, symbolId: 'power_tile' },
+  { id: 'ground-tile', name: 'Ground tile', category: 'ground', quantity: 6, valueLabel: 'GND', typeLabel: 'GROUND', ports: ['north'], plateGround: true, symbolId: 'ground_tile' },
 ]
 
 export const catalogById = new Map(COMPONENT_CATALOG.map((e) => [e.id, e]))

@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "name": "Two LEDs in Parallel",
+  "exportedAt": "2026-05-19T03:24:44.198Z",
+  "tiles": [
+    {
+      "instanceId": "9266f3d2-ba52-4285-987a-c9d9b01fdc35",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "208cf04b-5757-4b6a-a30f-8b1dfaaf8221",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "3c5b31d9-9865-4d15-9471-2a6d1467b794",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "2666d9ae-0d74-45a2-8ec0-15d94f168eca",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 180,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "9266f3d2-ba52-4285-987a-c9d9b01fdc35",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "9266f3d2-ba52-4285-987a-c9d9b01fdc35",
+        "side": "north"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "208cf04b-5757-4b6a-a30f-8b1dfaaf8221",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "3c5b31d9-9865-4d15-9471-2a6d1467b794",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "2666d9ae-0d74-45a2-8ec0-15d94f168eca",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "2666d9ae-0d74-45a2-8ec0-15d94f168eca:south",
+      "9266f3d2-ba52-4285-987a-c9d9b01fdc35:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "9266f3d2-ba52-4285-987a-c9d9b01fdc35:north",
+      "net:USB_VCC"
+    ],
+    [
+      "208cf04b-5757-4b6a-a30f-8b1dfaaf8221:south",
+      "3c5b31d9-9865-4d15-9471-2a6d1467b794:north"
+    ]
+  ]
+}

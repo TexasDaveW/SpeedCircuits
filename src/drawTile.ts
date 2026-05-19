@@ -149,9 +149,9 @@ export function drawTile(
     drawMagnet(ctx, p.x, p.y, horizontal, size)
   }
 
+  // Power: V+ edge magnet + separate underside plate magnet. Ground: one edge magnet only; plate via pad.
   const singleUndersideMagnet =
-    entry.plateGround &&
-    (entry.category === 'ground' || entry.category === 'power')
+    entry.plateGround && entry.category === 'power'
   if (singleUndersideMagnet) {
     const ux = size / 2
     const uy = size - size * 0.06
