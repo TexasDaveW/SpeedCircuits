@@ -5,7 +5,7 @@
     "title": "Pot-Controlled LED Threshold",
     "description": "A potentiometer and two 10kΩ resistors form a voltage divider on the transistor base. Turn the pot until the base voltage crosses the switching point — the LED snaps between off and on instead of fading smoothly like lesson 14."
   },
-  "exportedAt": "2026-05-19T20:05:46.967Z",
+  "exportedAt": "2026-05-19T20:06:34.872Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -35,7 +35,7 @@
       "value": "470Ω",
       "gridX": 6,
       "gridY": 4,
-      "rotation": 90
+      "rotation": 0
     },
     {
       "instanceId": "led-red-4",
@@ -76,7 +76,7 @@
       "value": "10kΩ",
       "gridX": 4,
       "gridY": 4,
-      "rotation": 90
+      "rotation": 0
     },
     {
       "instanceId": "potentiometer-8",
@@ -103,30 +103,12 @@
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 180
-    },
-    {
-      "instanceId": "straight-cube-11",
-      "catalogId": "straight-cube",
-      "name": "Straight cube",
-      "category": "routing",
-      "gridX": 5,
-      "gridY": 6,
-      "rotation": 90
-    },
-    {
-      "instanceId": "corner-cube-12",
-      "catalogId": "corner-cube",
-      "name": "Corner cube",
-      "category": "routing",
       "gridX": 4,
       "gridY": 7,
       "rotation": 0
     },
     {
-      "instanceId": "ground-tile-13",
+      "instanceId": "ground-tile-11",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
@@ -135,6 +117,24 @@
       "gridY": 7,
       "rotation": 0,
       "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-12",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "corner-cube-13",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 0
     }
   ],
   "connections": [
@@ -168,12 +168,22 @@
     },
     {
       "a": {
-        "instanceId": "resistor-470-3",
-        "side": "south"
+        "instanceId": "cross-cube-2",
+        "side": "east"
       },
       "b": {
-        "instanceId": "led-red-4",
-        "side": "north"
+        "instanceId": "resistor-470-3",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cross-cube-2",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "resistor-10k-7",
+        "side": "east"
       }
     },
     {
@@ -194,6 +204,16 @@
       "b": {
         "instanceId": "ground-tile-6",
         "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-5",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "corner-cube-13",
+        "side": "east"
       }
     },
     {
@@ -203,16 +223,6 @@
       },
       "b": {
         "net": "PLATE_GND"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "resistor-10k-7",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "potentiometer-8",
-        "side": "north"
       }
     },
     {
@@ -231,7 +241,7 @@
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "corner-cube-12",
         "side": "west"
       }
     },
@@ -241,43 +251,33 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-12",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
         "instanceId": "corner-cube-10",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "straight-cube-11",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "straight-cube-11",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "ground-tile-13",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "ground-tile-13",
+        "instanceId": "ground-tile-11",
         "side": "south"
       },
       "b": {
         "net": "PLATE_GND"
       }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-12",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-13",
+        "side": "north"
+      }
     }
   ],
   "nets": [
     [
-      "ground-tile-13:south",
+      "ground-tile-11:south",
       "ground-tile-6:south",
       "net:PLATE_GND",
       "power-tile-1:west"
@@ -288,8 +288,12 @@
       "power-tile-1:south"
     ],
     [
-      "led-red-4:north",
-      "resistor-470-3:south"
+      "cross-cube-2:east",
+      "resistor-470-3:west"
+    ],
+    [
+      "cross-cube-2:west",
+      "resistor-10k-7:east"
     ],
     [
       "led-red-4:south",
@@ -300,28 +304,24 @@
       "npn-5:south"
     ],
     [
-      "potentiometer-8:north",
-      "resistor-10k-7:south"
+      "corner-cube-13:east",
+      "npn-5:west"
     ],
     [
       "potentiometer-8:south",
       "resistor-10k-9:north"
     ],
     [
-      "corner-cube-10:west",
+      "corner-cube-12:west",
       "potentiometer-8:east"
     ],
     [
-      "corner-cube-12:north",
+      "corner-cube-10:north",
       "resistor-10k-9:south"
     ],
     [
-      "corner-cube-10:south",
-      "straight-cube-11:north"
-    ],
-    [
-      "ground-tile-13:north",
-      "straight-cube-11:south"
+      "corner-cube-12:south",
+      "corner-cube-13:north"
     ]
   ]
 }
