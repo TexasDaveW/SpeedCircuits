@@ -62,6 +62,8 @@ export interface CircuitConnection {
 
 export interface CircuitDocument {
   version: 1
+  /** User-visible circuit name (filename stem when saving) */
+  name?: string
   exportedAt: string
   tiles: Array<{
     instanceId: string

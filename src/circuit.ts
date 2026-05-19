@@ -120,10 +120,12 @@ export function buildNets(connections: CircuitConnection[]): string[][] {
   return [...groups.values()].map((s) => [...s].sort())
 }
 
-export function exportCircuit(tiles: PlacedTile[]): CircuitDocument {
+export function exportCircuit(tiles: PlacedTile[], name?: string): CircuitDocument {
   const connections = buildConnections(tiles)
+  const trimmed = name?.trim()
   return {
     version: 1,
+    name: trimmed || undefined,
     exportedAt: new Date().toISOString(),
     tiles: tiles.map((t) => {
       const entry = catalogById.get(t.catalogId)!

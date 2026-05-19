@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { CircuitCanvas } from './components/CircuitCanvas'
 import { Palette } from './components/Palette'
 import { exportCircuit } from './circuit'
+import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } from './circuitFile'
+import { parseCircuitJson } from './circuitImport'
 import { catalogById } from './catalog'
 import { copyTile, pasteTileAt, type TileClipboard } from './tileClipboard'
 import type { PlacedTile } from './types'
@@ -17,13 +19,15 @@ export default function App() {
   const [tiles, setTiles] = useState<PlacedTile[]>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [pendingCatalogId, setPendingCatalogId] = useState<string | null>(null)
+  const [circuitName, setCircuitName] = useState('circuit')
   const [exportJson, setExportJson] = useState<string | null>(null)
+  const [statusMessage, setStatusMessage] = useState<string | null>(null)
+  const [statusIsError, setStatusIsError] = useState(false)
   const [tileClipboard, setTileClipboard] = useState<TileClipboard | null>(null)
   const [pasteTarget, setPasteTarget] = useState<{ gx: number; gy: number } | null>(
     null,
   )
-
-  const circuitJson = exportJson
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const clearPlacementModes = useCallback(() => {
     setPendingCatalogId(null)
@@ -31,26 +35,102 @@ export default function App() {
     setTileClipboard(null)
   }, [])
 
-  const handleExport = () => {
-    const doc = exportCircuit(tiles)
-    const text = JSON.stringify(doc, null, 2)
-    setExportJson(text)
+  const setStatus = (message: string, isError = false) => {
+    setStatusMessage(message)
+    setStatusIsError(isError)
+  }
+
+  const buildCircuitJson = useCallback((tileList: PlacedTile[], name: string) => {
+    const doc = exportCircuit(tileList, name)
+    return JSON.stringify(doc, null, 2)
+  }, [])
+
+  const loadCircuit = useCallback(
+    (tileList: PlacedTile[], name?: string) => {
+      const displayName = name?.trim() || circuitName
+      if (name?.trim()) setCircuitName(name.trim())
+      setTiles(tileList)
+      setSelectedIds([])
+      clearPlacementModes()
+      setExportJson(buildCircuitJson(tileList, displayName))
+      setStatus(`Loaded ${tileList.length} tile${tileList.length === 1 ? '' : 's'}.`)
+    },
+    [buildCircuitJson, circuitName, clearPlacementModes],
+  )
+
+  const tryLoadJsonText = useCallback(
+    (text: string, suggestedName?: string) => {
+      const result = parseCircuitJson(text)
+      if (!result.ok) {
+        setStatus(result.errors.join(' '), true)
+        return
+      }
+      if (
+        tiles.length > 0 &&
+        !window.confirm('Replace the current circuit with the opened file?')
+      ) {
+        return
+      }
+      loadCircuit(result.tiles, result.name ?? suggestedName)
+    },
+    [tiles.length, loadCircuit],
+  )
+
+  const handleSaveCircuit = useCallback(async () => {
+    const json = buildCircuitJson(tiles, circuitName)
+    setExportJson(json)
+    const result = await saveCircuitJsonFile(json, circuitName)
+    if (result === 'saved') {
+      setStatus(
+        `Saved "${sanitizeCircuitFilename(circuitName)}.json". In Chrome/Edge you can pick the folder; otherwise it goes to your Downloads.`,
+      )
+    } else if (result === 'cancelled') {
+      setStatus('Save cancelled.')
+    } else {
+      setStatus('Could not save file.', true)
+    }
+  }, [tiles, circuitName, buildCircuitJson])
+
+  const handleOpenCircuit = useCallback(async () => {
+    const opened = await openCircuitJsonFile()
+    if (opened === null) {
+      fileInputRef.current?.click()
+      return
+    }
+    if (opened === 'cancelled') return
+    if (opened === 'failed') {
+      setStatus('Could not open file.', true)
+      return
+    }
+    tryLoadJsonText(opened.text, opened.suggestedName)
+  }, [tryLoadJsonText])
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    const suggestedName = file.name.replace(/\.json$/i, '') || 'circuit'
+    file.text().then(
+      (text) => tryLoadJsonText(text, suggestedName),
+      () => setStatus('Could not read file.', true),
+    )
   }
 
   const handleCopyJson = async () => {
-    if (!circuitJson) return
-    await navigator.clipboard.writeText(circuitJson)
+    const json = exportJson ?? buildCircuitJson(tiles, circuitName)
+    if (!exportJson) setExportJson(json)
+    try {
+      await navigator.clipboard.writeText(json)
+      setStatus('Circuit JSON copied to clipboard.')
+    } catch {
+      setStatus('Could not copy to clipboard.', true)
+    }
   }
 
-  const handleDownload = () => {
-    if (!circuitJson) return
-    const blob = new Blob([circuitJson], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'circuit.json'
-    a.click()
-    URL.revokeObjectURL(url)
+  const handlePreviewJson = () => {
+    const json = buildCircuitJson(tiles, circuitName)
+    setExportJson(json)
+    setStatus('JSON preview updated below.')
   }
 
   const handleClear = () => {
@@ -61,6 +141,8 @@ export default function App() {
       setTileClipboard(null)
       setPasteTarget(null)
       setPendingCatalogId(null)
+      setExportJson(null)
+      setStatus('Canvas cleared.')
     }
   }
 
@@ -109,10 +191,26 @@ export default function App() {
         e.preventDefault()
         pasteFromClipboard()
       }
+      if (e.key === 's' || e.key === 'S') {
+        e.preventDefault()
+        handleSaveCircuit()
+      }
+      if (e.key === 'o' || e.key === 'O') {
+        e.preventDefault()
+        handleOpenCircuit()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [selectedIds, tileClipboard, pasteTarget, copySelectedTile, pasteFromClipboard])
+  }, [
+    selectedIds,
+    tileClipboard,
+    pasteTarget,
+    copySelectedTile,
+    pasteFromClipboard,
+    handleSaveCircuit,
+    handleOpenCircuit,
+  ])
 
   const canCopy = selectedIds.length === 1
   const pasteCellFree =
@@ -131,6 +229,13 @@ export default function App() {
 
   return (
     <div className="app">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,application/json"
+        className="file-input-hidden"
+        onChange={handleFileInputChange}
+      />
       <Palette
         tiles={tiles}
         pendingCatalogId={pendingCatalogId}
@@ -144,29 +249,41 @@ export default function App() {
       />
       <main className="workspace">
         <div className="workspace-actions">
+          <label className="circuit-name-field">
+            <span>Name</span>
+            <input
+              type="text"
+              value={circuitName}
+              onChange={(e) => setCircuitName(e.target.value)}
+              placeholder="circuit"
+              spellCheck={false}
+            />
+          </label>
+          <button type="button" onClick={handleSaveCircuit} title="⌘S">
+            Save circuit…
+          </button>
+          <button type="button" onClick={handleOpenCircuit} title="⌘O">
+            Open circuit…
+          </button>
+          <button type="button" onClick={handlePreviewJson}>
+            Preview JSON
+          </button>
+          <button type="button" onClick={handleCopyJson}>
+            Copy JSON
+          </button>
           <button type="button" onClick={copySelectedTile} disabled={!canCopy} title="⌘C">
             Copy tile
           </button>
           <button type="button" onClick={pasteFromClipboard} disabled={!canPaste} title="⌘V">
             Paste tile
           </button>
-          <button type="button" onClick={handleExport}>
-            Export circuit JSON
-          </button>
-          {circuitJson && (
-            <>
-              <button type="button" onClick={handleCopyJson}>
-                Copy JSON
-              </button>
-              <button type="button" onClick={handleDownload}>
-                Download JSON
-              </button>
-            </>
-          )}
           <button type="button" className="danger" onClick={handleClear}>
             Clear canvas
           </button>
         </div>
+        {statusMessage && (
+          <p className={`file-status${statusIsError ? ' error' : ''}`}>{statusMessage}</p>
+        )}
         {tileClipboard && (
           <p className="paste-hint">
             Hover the plate to preview, then click an empty cell to paste.{' '}
@@ -195,9 +312,9 @@ export default function App() {
           }}
           onPendingClear={clearPlacementModes}
         />
-        {circuitJson && (
-          <pre className="json-preview" aria-label="Exported circuit JSON">
-            {circuitJson}
+        {exportJson && (
+          <pre className="json-preview" aria-label="Circuit JSON preview">
+            {exportJson}
           </pre>
         )}
       </main>

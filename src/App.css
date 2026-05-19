@@ -207,6 +207,46 @@
   background: #4a2c32;
 }
 
+.file-input-hidden {
+  display: none;
+}
+
+.circuit-name-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #9aa3b0;
+}
+
+.circuit-name-field input {
+  width: 9rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #4a5260;
+  background: #2f3540;
+  color: #e8eaed;
+  font-size: 0.78rem;
+}
+
+.circuit-name-field input:focus {
+  outline: none;
+  border-color: #4d9fff;
+}
+
+.file-status {
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  color: #8fbc8f;
+  background: #252a31;
+  border-bottom: 1px solid #363c46;
+}
+
+.file-status.error {
+  color: #e8a0a0;
+}
+
 .canvas-panel {
   flex: 1;
   position: relative;
