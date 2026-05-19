@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { catalogById, GRID_CELL } from '../catalog'
 import { drawPlate, drawTile } from '../drawTile'
-import { nextRotation, prevRotation } from '../geometry'
+import { nextRotation } from '../geometry'
 import { inPlateBounds, PLATE_COLS, PLATE_ROWS } from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
+import type { TileClipboard } from '../tileClipboard'
 import type { PlacedTile, Rotation } from '../types'
 
 const PLATE_W = PLATE_COLS * GRID_CELL
@@ -38,9 +39,11 @@ interface CircuitCanvasProps {
   tiles: PlacedTile[]
   selectedIds: string[]
   pendingCatalogId: string | null
-  clipboardActive: boolean
+  tileClipboard: TileClipboard | null
   pasteTarget: { gx: number; gy: number } | null
   onPasteTargetChange: (target: { gx: number; gy: number } | null) => void
+  onPasteAtCell: (gx: number, gy: number) => boolean
+  onTileClipboardChange: (clipboard: TileClipboard) => void
   onTilesChange: (tiles: PlacedTile[]) => void
   onSelectionChange: (ids: string[]) => void
   onPendingClear: () => void
@@ -102,9 +105,11 @@ export function CircuitCanvas({
   tiles,
   selectedIds,
   pendingCatalogId,
-  clipboardActive,
+  tileClipboard,
   pasteTarget,
   onPasteTargetChange,
+  onPasteAtCell,
+  onTileClipboardChange,
   onTilesChange,
   onSelectionChange,
   onPendingClear,
@@ -116,6 +121,9 @@ export function CircuitCanvas({
   const zoomRef = useRef(1)
   const panRef = useRef({ x: 80, y: 60 })
   const pendingCatalogIdRef = useRef<string | null>(null)
+  const tileClipboardRef = useRef<TileClipboard | null>(null)
+  const onTileClipboardChangeRef = useRef(onTileClipboardChange)
+  const lastWheelAtRef = useRef(0)
 
   useEffect(() => {
     zoomRef.current = zoom
@@ -128,6 +136,14 @@ export function CircuitCanvas({
   useEffect(() => {
     pendingCatalogIdRef.current = pendingCatalogId
   }, [pendingCatalogId])
+
+  useEffect(() => {
+    tileClipboardRef.current = tileClipboard
+  }, [tileClipboard])
+
+  useEffect(() => {
+    onTileClipboardChangeRef.current = onTileClipboardChange
+  }, [onTileClipboardChange])
 
   useEffect(() => {
     setPlacementRotation(0)
@@ -216,7 +232,7 @@ export function CircuitCanvas({
     }
 
     const placementCell = pendingCatalogId ? hoverCell : null
-    const pasteCell = clipboardActive ? (hoverCell ?? pasteTarget) : null
+    const pasteCell = tileClipboard ? (hoverCell ?? pasteTarget) : null
     const highlightCell = placementCell ?? pasteCell
 
     if (highlightCell) {
@@ -225,17 +241,24 @@ export function CircuitCanvas({
       const cellOccupied = tiles.some(
         (t) => t.gridX === highlightCell.gx && t.gridY === highlightCell.gy,
       )
+      const pasteEntry = tileClipboard ? catalogById.get(tileClipboard.catalogId) : null
+      const pasteQuantityBlocked =
+        pasteEntry != null &&
+        tiles.filter((t) => t.catalogId === tileClipboard!.catalogId).length >=
+          pasteEntry.quantity
+      const pasteInvalid = cellOccupied || pasteQuantityBlocked
       const isPasteTarget =
-        clipboardActive &&
+        tileClipboard != null &&
         pasteTarget?.gx === highlightCell.gx &&
         pasteTarget?.gy === highlightCell.gy
-      ctx.fillStyle = cellOccupied
+      const highlightInvalid = placementCell ? cellOccupied : pasteInvalid
+      ctx.fillStyle = highlightInvalid
         ? 'rgba(220, 80, 80, 0.22)'
         : isPasteTarget
           ? 'rgba(77, 159, 255, 0.35)'
           : 'rgba(77, 159, 255, 0.18)'
       ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
-      ctx.strokeStyle = cellOccupied
+      ctx.strokeStyle = highlightInvalid
         ? 'rgba(220, 80, 80, 0.85)'
         : 'rgba(77, 159, 255, 0.9)'
       ctx.lineWidth = isPasteTarget ? 3 : 2
@@ -261,6 +284,27 @@ export function CircuitCanvas({
       }
     }
 
+    if (pasteCell && tileClipboard && !pendingCatalogId) {
+      const entry = catalogById.get(tileClipboard.catalogId)
+      if (entry) {
+        const cellOccupied = tiles.some(
+          (t) => t.gridX === pasteCell.gx && t.gridY === pasteCell.gy,
+        )
+        const used = tiles.filter((t) => t.catalogId === tileClipboard.catalogId).length
+        const invalid = cellOccupied || used >= entry.quantity
+        ctx.save()
+        ctx.globalAlpha = invalid ? 0.38 : 0.72
+        drawTile(
+          ctx,
+          pasteCell.gx * GRID_CELL,
+          pasteCell.gy * GRID_CELL,
+          entry,
+          tileClipboard.rotation,
+        )
+        ctx.restore()
+      }
+    }
+
     if (marquee) {
       const mx = Math.min(marquee.x0, marquee.x1)
       const my = Math.min(marquee.y0, marquee.y1)
@@ -281,16 +325,15 @@ export function CircuitCanvas({
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
       ctx.fillText(
-        'Click to place · scroll or R to rotate · Ctrl+scroll to zoom · Esc to cancel',
+        'Click to place · R to rotate · scroll to zoom · Esc to cancel',
         16,
         h - 16,
       )
-    } else if (clipboardActive) {
+    } else if (tileClipboard) {
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
-      const msg = pasteTarget
-        ? 'Paste here (⌘V) — click another empty cell to move target'
-        : 'Click an empty cell to choose paste location'
+      const msg =
+        'Click an empty cell to paste · R to rotate · Esc to cancel'
       ctx.fillText(msg, 16, h - 16)
     } else if (selectedIds.length === 0) {
       ctx.fillStyle = '#7d8796'
@@ -307,7 +350,7 @@ export function CircuitCanvas({
     pan,
     zoom,
     pendingCatalogId,
-    clipboardActive,
+    tileClipboard,
     pasteTarget,
     hoverCell,
     placementRotation,
@@ -360,27 +403,41 @@ export function CircuitCanvas({
     [],
   )
 
+  // Block Safari trackpad rotate/pinch gestures from transforming the canvas DOM.
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const preventGesture = (e: Event) => e.preventDefault()
+    el.addEventListener('gesturestart', preventGesture, { passive: false })
+    el.addEventListener('gesturechange', preventGesture, { passive: false })
+    el.addEventListener('gestureend', preventGesture, { passive: false })
+    return () => {
+      el.removeEventListener('gesturestart', preventGesture)
+      el.removeEventListener('gesturechange', preventGesture)
+      el.removeEventListener('gestureend', preventGesture)
+    }
+  }, [])
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-
-      const placing = pendingCatalogIdRef.current != null
-      const zoomModifier = e.ctrlKey || e.metaKey || e.altKey
-
-      if (placing && !zoomModifier) {
-        setPlacementRotation((r) =>
-          e.deltaY > 0 ? nextRotation(r) : prevRotation(r),
-        )
-        return
-      }
+      lastWheelAtRef.current = performance.now()
 
       const rect = canvas.getBoundingClientRect()
       const mx = e.clientX - rect.left
       const my = e.clientY - rect.top
-      const factor = e.deltaY > 0 ? 0.92 : 1.08
+      // Trackpad pinch-zoom on macOS sets ctrlKey; use gentler steps for pinch.
+      const pinch = e.ctrlKey || e.metaKey
+      const factor = pinch
+        ? e.deltaY > 0
+          ? 0.98
+          : 1.02
+        : e.deltaY > 0
+          ? 0.92
+          : 1.08
       const next = computeZoomAtLocal(mx, my, zoomRef.current, panRef.current, {
         multiply: factor,
       })
@@ -428,7 +485,7 @@ export function CircuitCanvas({
         ? tiles.find((t) => t.gridX === grid.gx && t.gridY === grid.gy)
         : undefined
 
-    if (hit && grid) {
+    if (hit && grid && !tileClipboard) {
       const shift = e.shiftKey
       const inSelection = selectedSet.has(hit.instanceId)
 
@@ -479,7 +536,7 @@ export function CircuitCanvas({
     let pendingClick: { kind: 'place' | 'paste'; gx: number; gy: number } | undefined
     if (grid && pendingCatalogId) {
       pendingClick = { kind: 'place', gx: grid.gx, gy: grid.gy }
-    } else if (grid && clipboardActive && !occupied(grid.gx, grid.gy)) {
+    } else if (grid && tileClipboard && !occupied(grid.gx, grid.gy)) {
       pendingClick = { kind: 'paste', gx: grid.gx, gy: grid.gy }
     }
 
@@ -498,7 +555,7 @@ export function CircuitCanvas({
   }
 
   const updateHoverCell = (e: React.PointerEvent) => {
-    if (!clipboardActive && !pendingCatalogId) {
+    if (!tileClipboard && !pendingCatalogId) {
       setHoverCell(null)
       return
     }
@@ -572,7 +629,9 @@ export function CircuitCanvas({
       if (drag.pendingClick?.kind === 'place' && pendingCatalogId) {
         placeTile(pendingCatalogId, drag.pendingClick.gx, drag.pendingClick.gy)
       } else if (drag.pendingClick?.kind === 'paste') {
-        onPasteTargetChange({ gx: drag.pendingClick.gx, gy: drag.pendingClick.gy })
+        if (!onPasteAtCell(drag.pendingClick.gx, drag.pendingClick.gy)) {
+          onPasteTargetChange({ gx: drag.pendingClick.gx, gy: drag.pendingClick.gy })
+        }
         onSelectionChange([])
       }
       setMarquee(null)
@@ -631,13 +690,20 @@ export function CircuitCanvas({
     )
   }, [selectedIds, tiles, onTilesChange])
 
-  const rotatePlacementOrSelection = useCallback(() => {
+  const rotatePlacementPasteOrSelection = useCallback(() => {
     if (pendingCatalogId) {
       setPlacementRotation((r) => nextRotation(r))
       return
     }
+    if (tileClipboard) {
+      onTileClipboardChange({
+        ...tileClipboard,
+        rotation: nextRotation(tileClipboard.rotation),
+      })
+      return
+    }
     rotateSelected()
-  }, [pendingCatalogId, rotateSelected])
+  }, [pendingCatalogId, tileClipboard, onTileClipboardChange, rotateSelected])
 
   function isEditableTarget(target: EventTarget | null): boolean {
     const el = target as HTMLElement | null
@@ -651,15 +717,17 @@ export function CircuitCanvas({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isEditableTarget(e.target)) return
-      if (e.code !== 'KeyR') return
-      if (e.ctrlKey || e.metaKey || e.altKey) return
+      if (e.code !== 'KeyR' && e.key !== 'r' && e.key !== 'R') return
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
+      // Ignore key events that often follow trackpad pinch/zoom gestures.
+      if (performance.now() - lastWheelAtRef.current < 200) return
 
       e.preventDefault()
-      rotatePlacementOrSelection()
+      rotatePlacementPasteOrSelection()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [rotatePlacementOrSelection])
+  }, [rotatePlacementPasteOrSelection])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -717,8 +785,10 @@ export function CircuitCanvas({
         </button>
         <button
           type="button"
-          onClick={rotatePlacementOrSelection}
-          disabled={selectedIds.length === 0 && !pendingCatalogId}
+          onClick={rotatePlacementPasteOrSelection}
+          disabled={
+            selectedIds.length === 0 && !pendingCatalogId && !tileClipboard
+          }
           title="Rotate 90° clockwise"
         >
           Rotate (R)
@@ -727,7 +797,7 @@ export function CircuitCanvas({
       </div>
       <canvas
         ref={canvasRef}
-        className={`circuit-canvas${clipboardActive ? ' paste-mode' : ''}${
+        className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
           pendingCatalogId ? ' place-mode' : ''
         }${isPanning ? ' panning' : ''}`}
         title="Hold Ctrl or Space and drag to pan · scroll to zoom"

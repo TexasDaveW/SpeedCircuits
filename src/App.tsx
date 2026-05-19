@@ -28,6 +28,7 @@ export default function App() {
   const clearPlacementModes = useCallback(() => {
     setPendingCatalogId(null)
     setPasteTarget(null)
+    setTileClipboard(null)
   }, [])
 
   const handleExport = () => {
@@ -69,24 +70,28 @@ export default function App() {
     if (!tile) return false
     setTileClipboard(copyTile(tile))
     setPasteTarget(null)
+    setSelectedIds([])
     return true
   }, [tiles, selectedIds])
 
+  const pasteAtCell = useCallback(
+    (gx: number, gy: number) => {
+      if (!tileClipboard) return false
+      const placed = pasteTileAt(tileClipboard, tiles, gx, gy)
+      if (!placed) return false
+      setTiles([...tiles, placed])
+      setSelectedIds([placed.instanceId])
+      setPasteTarget(null)
+      setPendingCatalogId(null)
+      return true
+    },
+    [tileClipboard, tiles],
+  )
+
   const pasteFromClipboard = useCallback(() => {
-    if (!tileClipboard || !pasteTarget) return false
-    const placed = pasteTileAt(
-      tileClipboard,
-      tiles,
-      pasteTarget.gx,
-      pasteTarget.gy,
-    )
-    if (!placed) return false
-    setTiles([...tiles, placed])
-    setSelectedIds([placed.instanceId])
-    setPasteTarget(null)
-    setPendingCatalogId(null)
-    return true
-  }, [tileClipboard, pasteTarget, tiles])
+    if (!pasteTarget) return false
+    return pasteAtCell(pasteTarget.gx, pasteTarget.gy)
+  }, [pasteTarget, pasteAtCell])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -164,8 +169,8 @@ export default function App() {
         </div>
         {tileClipboard && (
           <p className="paste-hint">
-            Click an <strong>empty</strong> plate cell to choose where to paste, then Paste
-            or ⌘V. Occupied cells cannot be used.
+            Hover the plate to preview, then click an empty cell to paste.{' '}
+            <strong>R</strong> to rotate.
           </p>
         )}
         {selectedIds.length > 1 && (
@@ -178,9 +183,11 @@ export default function App() {
           tiles={tiles}
           selectedIds={selectedIds}
           pendingCatalogId={pendingCatalogId}
-          clipboardActive={!!tileClipboard}
+          tileClipboard={tileClipboard}
           pasteTarget={pasteTarget}
           onPasteTargetChange={setPasteTarget}
+          onPasteAtCell={pasteAtCell}
+          onTileClipboardChange={setTileClipboard}
           onTilesChange={setTiles}
           onSelectionChange={(ids) => {
             setSelectedIds(ids)
