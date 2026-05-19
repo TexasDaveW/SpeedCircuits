@@ -9,6 +9,30 @@ import type { PlacedTile, Rotation } from '../types'
 const PLATE_W = PLATE_COLS * GRID_CELL
 const PLATE_H = PLATE_ROWS * GRID_CELL
 const MARQUEE_MIN_PX = 6
+const MIN_ZOOM = 0.35
+const MAX_ZOOM = 2.5
+
+function clampZoom(z: number) {
+  return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z))
+}
+
+/** Keep the world point under (localX, localY) fixed while changing zoom. */
+function computeZoomAtLocal(
+  localX: number,
+  localY: number,
+  z: number,
+  p: { x: number; y: number },
+  opts: { multiply?: number; target?: number },
+) {
+  const nz =
+    opts.target != null ? clampZoom(opts.target) : clampZoom(z * (opts.multiply ?? 1))
+  const worldX = (localX - p.x) / z
+  const worldY = (localY - p.y) / z
+  return {
+    zoom: nz,
+    pan: { x: localX - worldX * nz, y: localY - worldY * nz },
+  }
+}
 
 interface CircuitCanvasProps {
   tiles: PlacedTile[]
@@ -89,6 +113,13 @@ export function CircuitCanvas({
   const containerRef = useRef<HTMLDivElement>(null)
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 80, y: 60 })
+  const zoomRef = useRef(1)
+  const panRef = useRef({ x: 80, y: 60 })
+
+  useEffect(() => {
+    zoomRef.current = zoom
+    panRef.current = pan
+  }, [zoom, pan])
   const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
   const [marquee, setMarquee] = useState<{
     x0: number
@@ -272,10 +303,45 @@ export function CircuitCanvas({
     onPendingClear()
   }
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault()
-    const factor = e.deltaY > 0 ? 0.92 : 1.08
-    setZoom((z) => Math.min(2.5, Math.max(0.35, z * factor)))
+  const applyZoomAtLocal = useCallback(
+    (localX: number, localY: number, opts: { multiply?: number; target?: number }) => {
+      const next = computeZoomAtLocal(localX, localY, zoomRef.current, panRef.current, opts)
+      zoomRef.current = next.zoom
+      panRef.current = next.pan
+      setZoom(next.zoom)
+      setPan(next.pan)
+    },
+    [],
+  )
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const mx = e.clientX - rect.left
+      const my = e.clientY - rect.top
+      const factor = e.deltaY > 0 ? 0.92 : 1.08
+      const next = computeZoomAtLocal(mx, my, zoomRef.current, panRef.current, {
+        multiply: factor,
+      })
+      zoomRef.current = next.zoom
+      panRef.current = next.pan
+      setZoom(next.zoom)
+      setPan(next.pan)
+    }
+
+    canvas.addEventListener('wheel', onWheel, { passive: false })
+    return () => canvas.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const zoomFromToolbar = (factor: number) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    applyZoomAtLocal(rect.width / 2, rect.height / 2, { multiply: factor })
   }
 
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -399,10 +465,12 @@ export function CircuitCanvas({
     if (!drag) return
 
     if (drag.kind === 'pan') {
-      setPan({
+      const newPan = {
         x: drag.panX + (e.clientX - drag.startX),
         y: drag.panY + (e.clientY - drag.startY),
-      })
+      }
+      panRef.current = newPan
+      setPan(newPan)
       return
     }
 
@@ -559,13 +627,29 @@ export function CircuitCanvas({
       aria-label="Circuit plate editor"
     >
       <div className="canvas-toolbar">
-        <button type="button" onClick={() => setZoom((z) => Math.min(2.5, z * 1.15))}>
+        <button type="button" onClick={() => zoomFromToolbar(1.15)}>
           Zoom in
         </button>
-        <button type="button" onClick={() => setZoom((z) => Math.max(0.35, z / 1.15))}>
+        <button type="button" onClick={() => zoomFromToolbar(1 / 1.15)}>
           Zoom out
         </button>
-        <button type="button" onClick={() => setZoom(1)}>Reset zoom</button>
+        <button
+          type="button"
+          onClick={() => {
+            const canvas = canvasRef.current
+            if (!canvas) {
+              zoomRef.current = 1
+              panRef.current = { x: 80, y: 60 }
+              setZoom(1)
+              setPan({ x: 80, y: 60 })
+              return
+            }
+            const rect = canvas.getBoundingClientRect()
+            applyZoomAtLocal(rect.width / 2, rect.height / 2, { target: 1 })
+          }}
+        >
+          Reset zoom
+        </button>
         <button
           type="button"
           onClick={rotateSelected}
@@ -582,7 +666,6 @@ export function CircuitCanvas({
           isPanning ? ' panning' : ''
         }`}
         title="Hold Ctrl or Space and drag to pan · scroll to zoom"
-        onWheel={handleWheel}
         onContextMenu={handleContextMenu}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
