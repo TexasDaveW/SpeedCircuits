@@ -1,9 +1,10 @@
 import type { CircuitLesson } from './types'
 
-/** Lesson circuits bundled at build time from `circuit jsons/*.json`. */
-const jsonModules = import.meta.glob('../circuit jsons/*.json', {
-  eager: true,
-}) as Record<string, { default: unknown } | unknown>
+/** Lesson circuits bundled at build time from `Circuit JSONs/*.json`. */
+const jsonModules = {
+  ...import.meta.glob('../Circuit JSONs/*.json', { eager: true }),
+  ...import.meta.glob('../circuit jsons/*.json', { eager: true }),
+} as Record<string, { default: unknown } | unknown>
 
 function moduleDocument(mod: unknown): unknown {
   if (mod != null && typeof mod === 'object' && 'default' in mod) {
@@ -52,23 +53,27 @@ export interface BuiltinLesson {
   document: unknown
 }
 
-const BUILTIN_LESSONS: BuiltinLesson[] = Object.entries(jsonModules)
-  .map(([path, mod]) => {
+const BUILTIN_LESSONS: BuiltinLesson[] = (() => {
+  const byId = new Map<string, BuiltinLesson>()
+  for (const [path, mod] of Object.entries(jsonModules)) {
     const document = moduleDocument(mod)
     const id = idFromPath(path)
     const doc =
       document != null && typeof document === 'object' && !Array.isArray(document)
         ? (document as Record<string, unknown>)
         : {}
-    return {
+    byId.set(id, {
       id,
       order: orderFromId(id),
       name: readName(doc),
       lesson: readLesson(doc),
       document,
-    }
-  })
-  .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
+    })
+  }
+  return [...byId.values()].sort(
+    (a, b) => a.order - b.order || a.name.localeCompare(b.name),
+  )
+})()
 
 export function listBuiltinLessons(): readonly BuiltinLesson[] {
   return BUILTIN_LESSONS

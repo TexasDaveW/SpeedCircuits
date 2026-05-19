@@ -58,6 +58,27 @@ function buildParallelTwoBranches(
   ]
 }
 
+/** Three parallel branches (150Ω → 1kΩ), left to right = bright → dim LED bar. */
+function buildLedBarBrightnessComparison(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('cross-cube', 5, 4),
+    tile('corner-cube', 4, 4, 90),
+    tile('resistor-150', 4, 5, 90),
+    tile('led-red', 4, 6, 270),
+    tile('straight-cube', 4, 7, 90),
+    tile('ground-tile', 4, 8),
+    tile('resistor-470', 5, 5, 90),
+    tile('led-green', 5, 6, 270),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-1k', 6, 5, 90),
+    tile('led-blue', 6, 6, 270),
+    tile('corner-cube', 6, 7, 270),
+    tile('t-connector', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+  ]
+}
+
 function place(
   parts: Part[],
   startX: number,
@@ -276,6 +297,15 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       { instanceId: nextId('corner-cube'), catalogId: 'corner-cube', gridX: 6, gridY: 5, rotation: 180 },
     ],
   },
+  // Lesson 18: hand-authored — see circuit jsons/18-led-bar-brightness-comparison.json. Do not EXPORT_ONLY=17.
+  {
+    name: '18-led-bar-brightness-comparison',
+    build: () => {
+      throw new Error(
+        'Lesson 18 is hand-authored; edit circuit jsons/18-led-bar-brightness-comparison.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -296,6 +326,7 @@ const DISPLAY_NAMES = [
   'Pot-Controlled RGB Mixer',
   'Pot-Controlled LED Threshold',
   'Adjustable Voltage Divider',
+  'LED Bar Brightness Comparison',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -316,6 +347,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Three potentiometers each feed an RGB channel through its own 470Ω resistor. Turn one or more pots to dim or brighten red, green, and blue and mix colors on the LED — the same layout as RGB color mixing, but with smooth analog control instead of buttons.',
   'A potentiometer and two 10kΩ resistors form a voltage divider on the transistor base. Turn the pot until the base voltage crosses the switching point — the LED snaps between off and on instead of fading smoothly like lesson 14.',
   'USB and ground bracket a pot between two 10kΩ resistors. Turning the knob moves the wiper tap from near 0 V to near 5 V. The east corner marks the adjustable output — this same divider idea feeds the base in lesson 16.',
+  'Three LEDs in a row share USB power; each branch has its own resistor (150Ω, 470Ω, 1kΩ). All light at once — red is brightest on the left, green is medium, blue is dimmest on the right. Compare the steps like a brightness bar (not a pot that turns them on one by one).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

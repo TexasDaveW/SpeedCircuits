@@ -1,0 +1,394 @@
+{
+  "version": 1,
+  "name": "LED Bar Brightness Comparison",
+  "lesson": {
+    "title": "LED Bar Brightness Comparison",
+    "description": "Three LEDs in a row share USB power; each branch has its own resistor (150Ω, 470Ω, 1kΩ). All light at once — red is brightest on the left, green is medium, blue is dimmest on the right. Compare the steps like a brightness bar (not a pot that turns them on one by one)."
+  },
+  "exportedAt": "2026-05-19T21:53:01.946Z",
+  "tiles": [
+    {
+      "instanceId": "914803f0-3734-4a4a-9496-1dcd39508fae",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "3d725706-7779-46a0-8961-8c7d1c2a198c",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 0
+    },
+    {
+      "instanceId": "63cc964c-229e-408d-a855-1534cbd5333e",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ed0c3c9a-48b0-49a1-8279-1e97c1f0ed69",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a1fd73b1-8fb0-4962-8ec3-7bb7f327a0f7",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a19d2efc-d6c1-470d-996e-f7fe649dd1dd",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "f5f37cfc-34c9-4e6a-aeea-5c5d87dee995",
+      "catalogId": "led-green",
+      "name": "Green LED",
+      "category": "component",
+      "value": "GRN",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "3a1a9bad-ab74-4896-8312-bb14e8e3a56e",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "39096cda-55eb-4af2-ba49-eccfbd92af8e",
+      "catalogId": "resistor-1k",
+      "name": "1k resistor",
+      "category": "component",
+      "value": "1kΩ",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a7ca8d4d-6234-4237-920e-8fc1c255ed9f",
+      "catalogId": "led-blue",
+      "name": "Blue LED",
+      "category": "component",
+      "value": "BLU",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "4f02189b-1ba4-4378-aad3-2f01988841cf",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 270
+    },
+    {
+      "instanceId": "f9c6b3f4-fe32-4dd3-94c7-030f4b916fdd",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "0aa43d0e-17e5-4511-83a8-2c2317094a2a",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "767f5f09-e579-48ee-9bef-ec24c471ba5e",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "914803f0-3734-4a4a-9496-1dcd39508fae",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "914803f0-3734-4a4a-9496-1dcd39508fae",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "914803f0-3734-4a4a-9496-1dcd39508fae",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "3d725706-7779-46a0-8961-8c7d1c2a198c",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "3d725706-7779-46a0-8961-8c7d1c2a198c",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "3a1a9bad-ab74-4896-8312-bb14e8e3a56e",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "3d725706-7779-46a0-8961-8c7d1c2a198c",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a19d2efc-d6c1-470d-996e-f7fe649dd1dd",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "3d725706-7779-46a0-8961-8c7d1c2a198c",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "63cc964c-229e-408d-a855-1534cbd5333e",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "63cc964c-229e-408d-a855-1534cbd5333e",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ed0c3c9a-48b0-49a1-8279-1e97c1f0ed69",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ed0c3c9a-48b0-49a1-8279-1e97c1f0ed69",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a1fd73b1-8fb0-4962-8ec3-7bb7f327a0f7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a1fd73b1-8fb0-4962-8ec3-7bb7f327a0f7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "767f5f09-e579-48ee-9bef-ec24c471ba5e",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a19d2efc-d6c1-470d-996e-f7fe649dd1dd",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "f5f37cfc-34c9-4e6a-aeea-5c5d87dee995",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f5f37cfc-34c9-4e6a-aeea-5c5d87dee995",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "0aa43d0e-17e5-4511-83a8-2c2317094a2a",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "3a1a9bad-ab74-4896-8312-bb14e8e3a56e",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "39096cda-55eb-4af2-ba49-eccfbd92af8e",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "39096cda-55eb-4af2-ba49-eccfbd92af8e",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a7ca8d4d-6234-4237-920e-8fc1c255ed9f",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a7ca8d4d-6234-4237-920e-8fc1c255ed9f",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "4f02189b-1ba4-4378-aad3-2f01988841cf",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "4f02189b-1ba4-4378-aad3-2f01988841cf",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "0aa43d0e-17e5-4511-83a8-2c2317094a2a",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f9c6b3f4-fe32-4dd3-94c7-030f4b916fdd",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f9c6b3f4-fe32-4dd3-94c7-030f4b916fdd",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "0aa43d0e-17e5-4511-83a8-2c2317094a2a",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "0aa43d0e-17e5-4511-83a8-2c2317094a2a",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "767f5f09-e579-48ee-9bef-ec24c471ba5e",
+        "side": "east"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "914803f0-3734-4a4a-9496-1dcd39508fae:west",
+      "f9c6b3f4-fe32-4dd3-94c7-030f4b916fdd:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "3d725706-7779-46a0-8961-8c7d1c2a198c:north",
+      "914803f0-3734-4a4a-9496-1dcd39508fae:south",
+      "net:USB_VCC"
+    ],
+    [
+      "3a1a9bad-ab74-4896-8312-bb14e8e3a56e:west",
+      "3d725706-7779-46a0-8961-8c7d1c2a198c:east"
+    ],
+    [
+      "3d725706-7779-46a0-8961-8c7d1c2a198c:south",
+      "a19d2efc-d6c1-470d-996e-f7fe649dd1dd:north"
+    ],
+    [
+      "3d725706-7779-46a0-8961-8c7d1c2a198c:west",
+      "63cc964c-229e-408d-a855-1534cbd5333e:east"
+    ],
+    [
+      "63cc964c-229e-408d-a855-1534cbd5333e:south",
+      "ed0c3c9a-48b0-49a1-8279-1e97c1f0ed69:north"
+    ],
+    [
+      "a1fd73b1-8fb0-4962-8ec3-7bb7f327a0f7:north",
+      "ed0c3c9a-48b0-49a1-8279-1e97c1f0ed69:south"
+    ],
+    [
+      "767f5f09-e579-48ee-9bef-ec24c471ba5e:north",
+      "a1fd73b1-8fb0-4962-8ec3-7bb7f327a0f7:south"
+    ],
+    [
+      "a19d2efc-d6c1-470d-996e-f7fe649dd1dd:south",
+      "f5f37cfc-34c9-4e6a-aeea-5c5d87dee995:north"
+    ],
+    [
+      "0aa43d0e-17e5-4511-83a8-2c2317094a2a:north",
+      "f5f37cfc-34c9-4e6a-aeea-5c5d87dee995:south"
+    ],
+    [
+      "39096cda-55eb-4af2-ba49-eccfbd92af8e:north",
+      "3a1a9bad-ab74-4896-8312-bb14e8e3a56e:south"
+    ],
+    [
+      "39096cda-55eb-4af2-ba49-eccfbd92af8e:south",
+      "a7ca8d4d-6234-4237-920e-8fc1c255ed9f:north"
+    ],
+    [
+      "4f02189b-1ba4-4378-aad3-2f01988841cf:north",
+      "a7ca8d4d-6234-4237-920e-8fc1c255ed9f:south"
+    ],
+    [
+      "0aa43d0e-17e5-4511-83a8-2c2317094a2a:east",
+      "4f02189b-1ba4-4378-aad3-2f01988841cf:west"
+    ],
+    [
+      "0aa43d0e-17e5-4511-83a8-2c2317094a2a:south",
+      "f9c6b3f4-fe32-4dd3-94c7-030f4b916fdd:north"
+    ],
+    [
+      "0aa43d0e-17e5-4511-83a8-2c2317094a2a:west",
+      "767f5f09-e579-48ee-9bef-ec24c471ba5e:east"
+    ]
+  ]
+}
