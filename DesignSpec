@@ -1,0 +1,62 @@
+This app will have a palette of tiles that are electronic components. 
+These components will be items that include:
+| Component | Quantity |
+| ---------------------- | -------: |
+| Corner cube | 12 |
+| Optical interrupt | 1 |
+| Pass-over | 4 |
+| Cross cube | 4 |
+| T connector | 4 |
+| Ground connector | 4 |
+| Power connector | 1 |
+| Spring contact | 5 |
+| Straight cube | 20 |
+| 150Ω resistor | 4 |
+| 470Ω resistor | 4 |
+| 1k resistor | 4 |
+| 4.7k resistor | 4 |
+| 10k resistor | 4 |
+| 47k resistor | 2 |
+| 100k resistor | 2 |
+| 0.1µF capacitor | 4 |
+| 1µF capacitor | 2 |
+| 10µF capacitor | 2 |
+| 47µF capacitor | 2 |
+| 100µF capacitor | 2 |
+| 1000µF capacitor | 1 |
+| LDR | 1 |
+| Thermistor | 1 |
+| Hall sensor | 1 |
+| Microphone | 1 |
+| Metal pad / touch cube | 1 |
+| Vibration motor | 1 |
+| Buzzer | 1 |
+| Tact button | 2 |
+| Slide switch SPDT | 2 |
+| RGB LED | 1 |
+| Red LED | 2 |
+| Green LED | 2 |
+| Blue LED | 2 |
+| Potentiometer | 3 |
+| NPN transistor | 3 |
+| NMOS transistor | 3 |
+| Schottky diode | 5 |
+| Inductor | 3 |
+| Arduino cube | 1 |
+
+Each tile will connect magnetically. There will be one magnet for 
+each conductor of the component. for example a resistor will have
+2 conductors and therefor 2 magnets
+the tiles will look like image in the file.
+I want to be able to select the tiles from a palette and drag them to a canvas. Tiles can be rotated and connected together. The power tiles will get power from a USB connector and will automatically connect to ground through a magnet that will be under the cube. The surface they will sit on will be a metal conductive and magnetic compatible ferris plate. 
+the ground tile will have a magnet that also connects to the metal
+plate as well.
+each tile will have a label on the surface the indicates what the component is. Each component will be an smd component on a pcb.
+the pcb will secure into a plastic tile and make contact with the magnets by pressure.
+The pcb will have white lines that lead out to the magnets
+There will be component tiles, routing tiles like lines and corners, power tiles, ground tiles and arduino tiles.
+We can remove tiles from the canvas as well.
+Once a circuit is made, a json file will describe the tiles, their values, their connections and through this information, AI will be ablel to determine the current flows and describe the functionality and even chart and simulate it.
+The image show gold magnets but they are actualy silver or chrome. 
+The app can zoom in or out. 
+The app needs to run on the web. so i imagine it a react web app, but open to suggestion.

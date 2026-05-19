@@ -1,0 +1,52 @@
+import type { CatalogEntry } from './types'
+
+export const TILE_SIZE = 100
+export const GRID_CELL = TILE_SIZE
+
+export const COMPONENT_CATALOG: CatalogEntry[] = [
+  { id: 'corner-cube', name: 'Corner cube', category: 'routing', quantity: 12, typeLabel: 'CORNER', ports: ['north', 'east'] },
+  { id: 'optical-interrupt', name: 'Optical interrupt', category: 'component', quantity: 1, typeLabel: 'OPTICAL', ports: ['west', 'east'], valueLabel: 'OPTO', symbolId: 'sensor' },
+  { id: 'pass-over', name: 'Pass-over', category: 'routing', quantity: 4, typeLabel: 'PASS', ports: ['west', 'east'] },
+  { id: 'cross-cube', name: 'Cross cube', category: 'routing', quantity: 4, typeLabel: 'CROSS', ports: ['north', 'east', 'south', 'west'] },
+  { id: 't-connector', name: 'T connector', category: 'routing', quantity: 4, typeLabel: 'T-JOIN', ports: ['north', 'east', 'west'] },
+  { id: 'ground-connector', name: 'Ground connector', category: 'routing', quantity: 4, typeLabel: 'GND LINK', ports: ['west', 'east'], plateGround: true },
+  { id: 'power-connector', name: 'Power connector', category: 'routing', quantity: 1, typeLabel: 'PWR LINK', ports: ['west', 'east'] },
+  { id: 'spring-contact', name: 'Spring contact', category: 'routing', quantity: 5, typeLabel: 'SPRING', ports: ['west', 'east'] },
+  { id: 'straight-cube', name: 'Straight cube', category: 'routing', quantity: 20, typeLabel: 'STRAIGHT', ports: ['west', 'east'] },
+  { id: 'resistor-150', name: '150Ω resistor', category: 'component', quantity: 4, valueLabel: '150Ω', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-470', name: '470Ω resistor', category: 'component', quantity: 4, valueLabel: '470Ω', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-1k', name: '1k resistor', category: 'component', quantity: 4, valueLabel: '1kΩ', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-4k7', name: '4.7k resistor', category: 'component', quantity: 4, valueLabel: '4.7kΩ', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-10k', name: '10k resistor', category: 'component', quantity: 4, valueLabel: '10kΩ', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-47k', name: '47k resistor', category: 'component', quantity: 2, valueLabel: '47kΩ', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'resistor-100k', name: '100k resistor', category: 'component', quantity: 2, valueLabel: '100kΩ', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
+  { id: 'cap-0u1', name: '0.1µF capacitor', category: 'component', quantity: 4, valueLabel: '0.1µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'cap-1u', name: '1µF capacitor', category: 'component', quantity: 2, valueLabel: '1µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'cap-10u', name: '10µF capacitor', category: 'component', quantity: 2, valueLabel: '10µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'cap-47u', name: '47µF capacitor', category: 'component', quantity: 2, valueLabel: '47µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'cap-100u', name: '100µF capacitor', category: 'component', quantity: 2, valueLabel: '100µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'cap-1000u', name: '1000µF capacitor', category: 'component', quantity: 1, valueLabel: '1000µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
+  { id: 'ldr', name: 'LDR', category: 'component', quantity: 1, valueLabel: 'LDR', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor_resistive' },
+  { id: 'thermistor', name: 'Thermistor', category: 'component', quantity: 1, valueLabel: 'NTC', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor_resistive' },
+  { id: 'hall-sensor', name: 'Hall sensor', category: 'component', quantity: 1, valueLabel: 'HALL', typeLabel: 'SENSOR', ports: ['west', 'east', 'north'], symbolId: 'sensor_north' },
+  { id: 'microphone', name: 'Microphone', category: 'component', quantity: 1, valueLabel: 'MIC', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor' },
+  { id: 'touch-pad', name: 'Metal pad / touch cube', category: 'component', quantity: 1, valueLabel: 'TOUCH', typeLabel: 'PAD', ports: ['west', 'east'], symbolId: 'touch_pad' },
+  { id: 'vibration-motor', name: 'Vibration motor', category: 'component', quantity: 1, valueLabel: 'MOTOR', typeLabel: 'OUTPUT', ports: ['west', 'east'], symbolId: 'motor' },
+  { id: 'buzzer', name: 'Buzzer', category: 'component', quantity: 1, valueLabel: 'BUZZ', typeLabel: 'OUTPUT', ports: ['west', 'east'], symbolId: 'buzzer' },
+  { id: 'tact-button', name: 'Tact button', category: 'component', quantity: 2, valueLabel: 'BTN', typeLabel: 'SWITCH', ports: ['west', 'east'], symbolId: 'switch_momentary' },
+  { id: 'slide-switch', name: 'Slide switch SPDT', category: 'component', quantity: 2, valueLabel: 'SPDT', typeLabel: 'SWITCH', ports: ['west', 'east', 'south'], symbolId: 'switch_spdt' },
+  { id: 'rgb-led', name: 'RGB LED', category: 'component', quantity: 1, valueLabel: 'RGB', typeLabel: 'LED', ports: ['west', 'east', 'south'], symbolId: 'led_rgb' },
+  { id: 'led-red', name: 'Red LED', category: 'component', quantity: 2, valueLabel: 'RED', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
+  { id: 'led-green', name: 'Green LED', category: 'component', quantity: 2, valueLabel: 'GRN', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
+  { id: 'led-blue', name: 'Blue LED', category: 'component', quantity: 2, valueLabel: 'BLU', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
+  { id: 'potentiometer', name: 'Potentiometer', category: 'component', quantity: 3, valueLabel: 'POT', typeLabel: 'POT', ports: ['west', 'east', 'south'], symbolId: 'potentiometer' },
+  { id: 'npn', name: 'NPN transistor', category: 'component', quantity: 3, valueLabel: 'NPN', typeLabel: 'TRANSISTOR', ports: ['west', 'east', 'south'], symbolId: 'npn' },
+  { id: 'nmos', name: 'NMOS transistor', category: 'component', quantity: 3, valueLabel: 'NMOS', typeLabel: 'MOSFET', ports: ['west', 'east', 'south'], symbolId: 'nmos' },
+  { id: 'schottky', name: 'Schottky diode', category: 'component', quantity: 5, valueLabel: 'DIODE', typeLabel: 'SCHOTTKY', ports: ['west', 'east'], symbolId: 'diode' },
+  { id: 'inductor', name: 'Inductor', category: 'component', quantity: 3, valueLabel: 'IND', typeLabel: 'INDUCTOR', ports: ['west', 'east'], symbolId: 'inductor' },
+  { id: 'arduino-cube', name: 'Arduino cube', category: 'arduino', quantity: 1, valueLabel: 'UNO', typeLabel: 'ARDUINO', ports: ['north', 'east', 'south', 'west'], symbolId: 'arduino' },
+  { id: 'power-tile', name: 'Power tile', category: 'power', quantity: 1, valueLabel: 'USB', typeLabel: 'POWER', ports: [], plateGround: true, symbolId: 'power_tile' },
+  { id: 'ground-tile', name: 'Ground tile', category: 'ground', quantity: 1, valueLabel: 'GND', typeLabel: 'GROUND', ports: [], plateGround: true, symbolId: 'ground_tile' },
+]
+
+export const catalogById = new Map(COMPONENT_CATALOG.map((e) => [e.id, e]))
