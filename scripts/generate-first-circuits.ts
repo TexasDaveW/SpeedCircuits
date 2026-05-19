@@ -172,6 +172,33 @@ function buildRcSmoothingCircuit(): PlacedTile[] {
 }
 
 /**
+ * Lesson 35 — hand-authored ref: circuit jsons/35-diode-or-circuit.json
+ * Cross split; west/east btn → Schottky → OR node; 1k pull-down on east rail; 470 + LED below.
+ */
+
+/**
+ * Lesson 33: SPDT selects west (Schottky forward → LED on) vs east (reversed → LED off).
+ */
+function buildSchottkyDiodeOneWayCurrentDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 180),
+    tile('corner-cube', 4, 4, 90),
+    tile('resistor-470', 4, 5, 90),
+    tile('led-red', 4, 6, 90),
+    tile('schottky', 4, 7, 90),
+    tile('corner-cube', 4, 8, 0),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-470', 6, 5, 90),
+    tile('led-red', 6, 6, 90),
+    tile('schottky', 6, 7, 270),
+    tile('corner-cube', 6, 8, 270),
+    tile('t-connector', 5, 8, 180),
+    tile('ground-tile', 5, 9),
+  ]
+}
+
+/**
  * Lesson 32: slide 0° — power west; south throw charges cap; east recalls LED.
  * Hand-authored ref: circuit jsons/32-capacitor-memory-effect-demo.json
  */
@@ -652,6 +679,28 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  {
+    name: '33-schottky-diode-one-way-current-demo',
+    build: () => buildSchottkyDiodeOneWayCurrentDemo(),
+  },
+  // Lesson 34: TBD — overlaps lesson 33. Keep circuit jsons/34-tbd.json empty. Do not EXPORT_ONLY=33.
+  {
+    name: '34-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 34 is TBD (see lesson 33); edit circuit jsons/34-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 35: hand-authored — see circuit jsons/35-diode-or-circuit.json. Do not EXPORT_ONLY=34.
+  {
+    name: '35-diode-or-circuit',
+    build: () => {
+      throw new Error(
+        'Lesson 35 is hand-authored; edit circuit jsons/35-diode-or-circuit.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -687,6 +736,9 @@ const DISPLAY_NAMES = [
   'RC Smoothing Circuit',
   'Power Supply Smoothing Demo',
   'Capacitor Memory Effect Demo',
+  'Schottky Diode One-Way Current Demo',
+  'TBD',
+  'Diode OR Circuit',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -722,6 +774,9 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Tap the tact button quickly. USB → button → 470Ω → split: 1000µF cap (center) and red LED (east) in parallel. The capacitor stores charge between taps and smooths the pulses — the LED stays lit or dims gradually instead of snapping off like lesson 8. Compare lesson 23 (4.7kΩ slows one long press) and lesson 29 (pot + small cap filters wiggles). τ ≈ 0.5 s; cap + toward power; LED east at 90°.',
   'Right after USB power, a 1000µF capacitor sits on the center column from V+ to ground — a bulk supply cap like on a real board. Tap the tact button on the east branch (470Ω + red LED). The cap holds the rail up during each pulse so the supply does not dip as sharply. Compare lesson 30, where the same cap value is in parallel with the LED only. Cap + toward power; LED east at 90°.',
   'Use the slide switch like a “store / recall” control. Flip west (charge): USB → 470Ω → 1000µF → ground — the cap stores energy (longer charge = more stored). Flip east (recall): the cap powers the red LED through the east branch while USB is off that path — the LED fades as the “memory” empties. Try a short charge vs a long charge and compare fade time. Cap on column 4 (+ toward north); charge on south throw; LED east at 90°.',
+  'The slide switch picks between two identical branches except for the Schottky orientation. West: 470Ω → red LED → Schottky (90°, forward) → ground — the LED lights. East: same chain but the Schottky is reversed (270°) — current cannot pass and the LED stays dark. A diode is a one-way valve for electricity. LEDs at 90° (anode north); forward Schottky band toward the LED.',
+  'Lesson 34 reserved. Reverse polarity protection overlaps lesson 33 (Schottky Diode One-Way Current Demo). A distinct circuit may be added here later.',
+  'Press either tact button (west or east). USB splits at the cross: each path goes button → Schottky (90°, cathode toward the center) → the shared OR node → 470Ω → red LED → ground. Either input alone lights the LED; both pressed still works — a diode OR gate. Compare lesson 12 (parallel buttons without diodes). LEDs at 90° (anode north).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

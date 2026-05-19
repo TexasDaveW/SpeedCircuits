@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "name": "Schottky Diode One-Way Current Demo",
+  "lesson": {
+    "title": "Schottky Diode One-Way Current Demo",
+    "description": "The slide switch picks between two identical branches except for the Schottky orientation. West: 470Ω → red LED → Schottky (90°, forward) → ground — the LED lights. East: same chain but the Schottky is reversed (270°) — current cannot pass and the LED stays dark. A diode is a one-way valve for electricity. LEDs at 90° (anode north); forward Schottky band toward the LED."
+  },
+  "exportedAt": "2026-05-19T23:28:11.437Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "slide-switch-2",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "corner-cube-3",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-4",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-5",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "schottky-6",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-7",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 8,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-9",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-10",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "schottky-11",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 270
+    },
+    {
+      "instanceId": "corner-cube-12",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-connector-13",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 180
+    },
+    {
+      "instanceId": "ground-tile-14",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "slide-switch-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "corner-cube-3",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "schottky-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "schottky-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-7",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-connector-13",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-10",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "schottky-11",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "schottky-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-12",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-connector-13",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-13",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-14",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-14",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-14:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "slide-switch-2:north"
+    ],
+    [
+      "corner-cube-8:west",
+      "slide-switch-2:east"
+    ],
+    [
+      "corner-cube-3:east",
+      "slide-switch-2:west"
+    ],
+    [
+      "corner-cube-3:south",
+      "resistor-470-4:north"
+    ],
+    [
+      "led-red-5:north",
+      "resistor-470-4:south"
+    ],
+    [
+      "led-red-5:south",
+      "schottky-6:north"
+    ],
+    [
+      "corner-cube-7:north",
+      "schottky-6:south"
+    ],
+    [
+      "corner-cube-7:east",
+      "t-connector-13:west"
+    ],
+    [
+      "corner-cube-8:south",
+      "resistor-470-9:north"
+    ],
+    [
+      "led-red-10:north",
+      "resistor-470-9:south"
+    ],
+    [
+      "led-red-10:south",
+      "schottky-11:north"
+    ],
+    [
+      "corner-cube-12:north",
+      "schottky-11:south"
+    ],
+    [
+      "corner-cube-12:west",
+      "t-connector-13:east"
+    ],
+    [
+      "ground-tile-14:north",
+      "t-connector-13:south"
+    ]
+  ]
+}

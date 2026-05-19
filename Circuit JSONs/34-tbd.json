@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 34 reserved. Reverse polarity protection overlaps lesson 33 (Schottky Diode One-Way Current Demo). A distinct circuit may be added here later."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

@@ -122,30 +122,41 @@ function drawInductor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Diode body matches LED (triangle + cathode). Schottky uses an S-shaped cathode bar. */
 function drawDiode(ctx: CanvasRenderingContext2D, b: SymbolBounds, schottky = false) {
   prep(ctx)
   const cy = midY(b)
-  const tip = b.x + b.w * 0.58
-  const base = b.x + b.w * 0.42
+  const halfH = b.h * 0.34
+  const bodyLeft = b.x + b.w * 0.36
+  const barX = b.x + b.w * 0.58
+
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
-  ctx.lineTo(base, cy)
-  ctx.lineTo(tip, cy - b.h * 0.35)
-  ctx.lineTo(tip, cy + b.h * 0.35)
-  ctx.closePath()
-  ctx.stroke()
-  ctx.beginPath()
-  ctx.moveTo(base, cy - b.h * 0.35)
-  ctx.lineTo(base, cy + b.h * 0.35)
-  ctx.moveTo(tip, cy)
   ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(bodyLeft, cy - halfH)
+  ctx.lineTo(barX, cy)
+  ctx.lineTo(bodyLeft, cy + halfH)
+  ctx.closePath()
+  ctx.stroke()
+
+  ctx.beginPath()
   if (schottky) {
-    ctx.beginPath()
-    ctx.moveTo(base - b.w * 0.06, cy - b.h * 0.2)
-    ctx.lineTo(base - b.w * 0.12, cy - b.h * 0.2)
-    ctx.stroke()
+    const s = b.w * 0.09
+    const mid = halfH * 0.2
+    ctx.moveTo(barX, cy - halfH)
+    ctx.lineTo(barX, cy - mid)
+    ctx.lineTo(barX - s, cy - mid)
+    ctx.lineTo(barX - s, cy + mid)
+    ctx.lineTo(barX, cy + mid)
+    ctx.lineTo(barX, cy + halfH)
+  } else {
+    ctx.moveTo(barX, cy - halfH)
+    ctx.lineTo(barX, cy + halfH)
   }
+  ctx.stroke()
 }
 
 function drawLedArrow(
