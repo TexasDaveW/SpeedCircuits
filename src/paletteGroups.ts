@@ -16,8 +16,8 @@ export type PaletteGroup =
   | 'mcu'
 
 export const PALETTE_GROUP_ORDER: PaletteGroup[] = [
-  'routing',
   'power',
+  'routing',
   'mcu',
   'resistors',
   'capacitors',
@@ -47,12 +47,7 @@ export const PALETTE_GROUP_LABEL: Record<PaletteGroup, string> = {
   mcu: 'MCU',
 }
 
-const POWER_IDS = new Set([
-  'power-tile',
-  'ground-tile',
-  'power-connector',
-  'ground-connector',
-])
+const POWER_IDS = new Set(['power-tile', 'ground-tile'])
 
 export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
   if (POWER_IDS.has(entry.id)) return 'power'

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { catalogById, GRID_CELL } from '../catalog'
 import { drawPlate, drawTile } from '../drawTile'
-import { nextRotation } from '../geometry'
+import { nextRotation, prevRotation } from '../geometry'
 import { inPlateBounds, PLATE_COLS, PLATE_ROWS } from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
 import type { PlacedTile, Rotation } from '../types'
@@ -115,6 +115,7 @@ export function CircuitCanvas({
   const [pan, setPan] = useState({ x: 80, y: 60 })
   const zoomRef = useRef(1)
   const panRef = useRef({ x: 80, y: 60 })
+  const pendingCatalogIdRef = useRef<string | null>(null)
 
   useEffect(() => {
     zoomRef.current = zoom
@@ -123,6 +124,10 @@ export function CircuitCanvas({
 
   const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
   const [placementRotation, setPlacementRotation] = useState<Rotation>(0)
+
+  useEffect(() => {
+    pendingCatalogIdRef.current = pendingCatalogId
+  }, [pendingCatalogId])
 
   useEffect(() => {
     setPlacementRotation(0)
@@ -276,7 +281,7 @@ export function CircuitCanvas({
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
       ctx.fillText(
-        'Click a cell to place · R to rotate · Esc to cancel',
+        'Click to place · scroll or R to rotate · Ctrl+scroll to zoom · Esc to cancel',
         16,
         h - 16,
       )
@@ -361,6 +366,17 @@ export function CircuitCanvas({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
+
+      const placing = pendingCatalogIdRef.current != null
+      const zoomModifier = e.ctrlKey || e.metaKey || e.altKey
+
+      if (placing && !zoomModifier) {
+        setPlacementRotation((r) =>
+          e.deltaY > 0 ? nextRotation(r) : prevRotation(r),
+        )
+        return
+      }
+
       const rect = canvas.getBoundingClientRect()
       const mx = e.clientX - rect.left
       const my = e.clientY - rect.top

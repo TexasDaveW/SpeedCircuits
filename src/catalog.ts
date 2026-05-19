@@ -9,8 +9,6 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'pass-over', name: 'Pass-over', category: 'routing', quantity: 4, typeLabel: 'PASS', ports: ['west', 'east'] },
   { id: 'cross-cube', name: 'Cross cube', category: 'routing', quantity: 4, typeLabel: 'CROSS', ports: ['north', 'east', 'south', 'west'] },
   { id: 't-connector', name: 'T connector', category: 'routing', quantity: 4, typeLabel: 'T-JOIN', ports: ['north', 'east', 'west'] },
-  { id: 'ground-connector', name: 'Ground connector', category: 'routing', quantity: 4, typeLabel: 'GND LINK', ports: ['west', 'east'], plateGround: true },
-  { id: 'power-connector', name: 'Power connector', category: 'routing', quantity: 1, typeLabel: 'PWR LINK', ports: ['west', 'east'] },
   { id: 'spring-contact', name: 'Spring contact', category: 'routing', quantity: 5, typeLabel: 'SPRING', ports: ['west', 'east'] },
   { id: 'straight-cube', name: 'Straight cube', category: 'routing', quantity: 20, typeLabel: 'STRAIGHT', ports: ['west', 'east'] },
   { id: 'resistor-150', name: '150Ω resistor', category: 'component', quantity: 4, valueLabel: '150Ω', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
@@ -46,7 +44,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'inductor', name: 'Inductor', category: 'component', quantity: 3, valueLabel: 'IND', typeLabel: 'INDUCTOR', ports: ['west', 'east'], symbolId: 'inductor' },
   { id: 'arduino-cube', name: 'Arduino cube', category: 'arduino', quantity: 1, valueLabel: 'UNO', typeLabel: 'ARDUINO', ports: ['north', 'east', 'south', 'west'], symbolId: 'arduino' },
   { id: 'power-tile', name: 'Power tile', category: 'power', quantity: 1, valueLabel: 'USB', typeLabel: 'POWER', ports: [], plateGround: true, symbolId: 'power_tile' },
-  { id: 'ground-tile', name: 'Ground tile', category: 'ground', quantity: 1, valueLabel: 'GND', typeLabel: 'GROUND', ports: [], plateGround: true, symbolId: 'ground_tile' },
+  { id: 'ground-tile', name: 'Ground tile', category: 'ground', quantity: 6, valueLabel: 'GND', typeLabel: 'GROUND', ports: [], plateGround: true, symbolId: 'ground_tile' },
 ]
 
 export const catalogById = new Map(COMPONENT_CATALOG.map((e) => [e.id, e]))

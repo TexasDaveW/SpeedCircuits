@@ -45,3 +45,7 @@ export function neighborOffset(side: Side): { dx: number; dy: number } {
 export function nextRotation(r: Rotation): Rotation {
   return ((r + 90) % 360) as Rotation
 }
+
+export function prevRotation(r: Rotation): Rotation {
+  return ((r + 270) % 360) as Rotation
+}
