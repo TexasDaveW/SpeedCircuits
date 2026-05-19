@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "name": "Capacitor Charge Demo",
+  "lesson": {
+    "title": "Capacitor Charge Demo",
+    "description": "USB → 470Ω → red LED → 1000µF capacitor → ground. When power is first applied, the empty cap draws charging current and the LED flashes bright, then fades over about 1–2 seconds as the cap fills (τ ≈ R×C ≈ 0.5 s). Once charged, DC current stops and the LED goes out — unlike a resistor, a capacitor stores energy instead of passing steady current forever. Orient the LED so conventional current flows anode (north) to cathode (south)."
+  },
+  "exportedAt": "2026-05-19T22:02:05.890Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-470-2",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-3",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "cap-1000u-4",
+      "catalogId": "cap-1000u",
+      "name": "1000µF capacitor",
+      "category": "component",
+      "value": "1000µF",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cap-1000u-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-1000u-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-5:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "resistor-470-2:north"
+    ],
+    [
+      "led-red-3:north",
+      "resistor-470-2:south"
+    ],
+    [
+      "cap-1000u-4:north",
+      "led-red-3:south"
+    ],
+    [
+      "cap-1000u-4:south",
+      "ground-tile-5:north"
+    ]
+  ]
+}

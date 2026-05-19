@@ -306,6 +306,16 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  {
+    name: '19-capacitor-charge-demo',
+    build: () => [
+      { instanceId: nextId('power-tile'), catalogId: 'power-tile', gridX: 5, gridY: 3, rotation: 0 },
+      { instanceId: nextId('resistor-470'), catalogId: 'resistor-470', gridX: 5, gridY: 4, rotation: 90 },
+      { instanceId: nextId('led-red'), catalogId: 'led-red', gridX: 5, gridY: 5, rotation: 90 },
+      { instanceId: nextId('cap-1000u'), catalogId: 'cap-1000u', gridX: 5, gridY: 6, rotation: 90 },
+      { instanceId: nextId('ground-tile'), catalogId: 'ground-tile', gridX: 5, gridY: 7, rotation: 0 },
+    ],
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -327,6 +337,7 @@ const DISPLAY_NAMES = [
   'Pot-Controlled LED Threshold',
   'Adjustable Voltage Divider',
   'LED Bar Brightness Comparison',
+  'Capacitor Charge Demo',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -348,6 +359,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'A potentiometer and two 10kΩ resistors form a voltage divider on the transistor base. Turn the pot until the base voltage crosses the switching point — the LED snaps between off and on instead of fading smoothly like lesson 14.',
   'USB and ground bracket a pot between two 10kΩ resistors. Turning the knob moves the wiper tap from near 0 V to near 5 V. The east corner marks the adjustable output — this same divider idea feeds the base in lesson 16.',
   'Three LEDs in a row share USB power; each branch has its own resistor (150Ω, 470Ω, 1kΩ). All light at once — red is brightest on the left, green is medium, blue is dimmest on the right. Compare the steps like a brightness bar (not a pot that turns them on one by one).',
+  'USB → 470Ω → red LED → 1000µF capacitor → ground. When power is first applied, the empty cap draws charging current and the LED flashes bright, then fades over about 1–2 seconds as the cap fills (τ ≈ R×C ≈ 0.5 s). Once charged, DC current stops and the LED goes out — unlike a resistor, a capacitor stores energy instead of passing steady current forever. Orient the LED so conventional current flows anode (north) to cathode (south).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
