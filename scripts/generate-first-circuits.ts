@@ -17,9 +17,40 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { exportCircuit } from '../src/circuit'
+import { buildConnections, exportCircuit } from '../src/circuit'
 import { catalogById } from '../src/catalog'
-import type { PlacedTile, Rotation } from '../src/types'
+import { sidesAtRotation } from '../src/geometry'
+import type { PlacedTile, Rotation, Side } from '../src/types'
+
+function portKey(instanceId: string, side: Side): string {
+  return `${instanceId}:${side}`
+}
+
+/** Every tile port must mate with a neighbor or net — no dangling magnets. */
+function validatePortConnectivity(tiles: PlacedTile[]): string[] {
+  const connections = buildConnections(tiles)
+  const linked = new Set<string>()
+  for (const c of connections) {
+    if (!('net' in c.a)) linked.add(portKey(c.a.instanceId, c.a.side))
+    else linked.add(`net:${c.a.net}`)
+    if (!('net' in c.b)) linked.add(portKey(c.b.instanceId, c.b.side))
+    else linked.add(`net:${c.b.net}`)
+  }
+  const errors: string[] = []
+  for (const tile of tiles) {
+    const entry = catalogById.get(tile.catalogId)
+    if (!entry) continue
+    for (const side of sidesAtRotation(entry.ports, tile.rotation)) {
+      const key = portKey(tile.instanceId, side)
+      if (!linked.has(key)) {
+        errors.push(
+          `${entry.name} @ (${tile.gridX},${tile.gridY}) r${tile.rotation}: unconnected ${side}`,
+        )
+      }
+    }
+  }
+  return errors
+}
 
 type Part = { catalogId: string; rotation?: Rotation }
 
@@ -175,6 +206,27 @@ function buildRcSmoothingCircuit(): PlacedTile[] {
  * Lesson 35 — hand-authored ref: circuit jsons/35-diode-or-circuit.json
  * Cross split; west/east btn → Schottky → OR node; 1k pull-down on east rail; 470 + LED below.
  */
+
+/**
+ * Lesson 37: parallel compare — center 470Ω→LED (bright); east adds Schottky (90°, forward) → dimmer LED.
+ * East branch is longer; straight-cube pads center column to merge row (lesson 20 rule).
+ */
+function buildDiodeVoltageDropDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('led-red', 5, 6, 90),
+    tile('straight-cube', 5, 7, 90),
+    tile('t-connector', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-470', 6, 5, 90),
+    tile('schottky', 6, 6, 90),
+    tile('led-red', 6, 7, 90),
+    tile('corner-cube', 6, 8, 270),
+  ]
+}
 
 /**
  * Lesson 33: SPDT selects west (Schottky forward → LED on) vs east (reversed → LED off).
@@ -701,6 +753,19 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 36: TBD — overlaps lessons 2–4. Keep circuit jsons/36-tbd.json empty. Do not EXPORT_ONLY=35.
+  {
+    name: '36-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 36 is TBD (see lessons 2–4); edit circuit jsons/36-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '37-diode-voltage-drop-demo',
+    build: () => buildDiodeVoltageDropDemo(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -739,6 +804,8 @@ const DISPLAY_NAMES = [
   'Schottky Diode One-Way Current Demo',
   'TBD',
   'Diode OR Circuit',
+  'TBD',
+  'Diode Voltage Drop Demo',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -777,6 +844,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'The slide switch picks between two identical branches except for the Schottky orientation. West: 470Ω → red LED → Schottky (90°, forward) → ground — the LED lights. East: same chain but the Schottky is reversed (270°) — current cannot pass and the LED stays dark. A diode is a one-way valve for electricity. LEDs at 90° (anode north); forward Schottky band toward the LED.',
   'Lesson 34 reserved. Reverse polarity protection overlaps lesson 33 (Schottky Diode One-Way Current Demo). A distinct circuit may be added here later.',
   'Press either tact button (west or east). USB splits at the cross: each path goes button → Schottky (90°, cathode toward the center) → the shared OR node → 470Ω → red LED → ground. Either input alone lights the LED; both pressed still works — a diode OR gate. Compare lesson 12 (parallel buttons without diodes). LEDs at 90° (anode north).',
+  'Lesson 36 reserved. LED direction / polarity is covered by lessons 2 (reverse polarity test), 3–4 (series and parallel LEDs), and 25 (capacitor polarity). A distinct circuit may be added here later.',
+  'Plug in USB — both red LEDs light at once. The center branch is USB → 470Ω → LED → ground (brighter). The east branch adds a forward Schottky (90°, cathode toward the LED) before its LED, so roughly 0.3 V sits across the diode and less is left for the LED — it glows dimmer. Same resistor value; the difference is the diode drop, not resistance (compare lesson 5). LEDs at 90° (anode north).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
@@ -821,6 +890,11 @@ for (let i = loopStart; i < loopEnd; i++) {
   const countErrors = validateCounts(tiles)
   if (countErrors.length > 0) {
     console.error(`${name}:`, countErrors.join('; '))
+    process.exit(1)
+  }
+  const portErrors = validatePortConnectivity(tiles)
+  if (portErrors.length > 0) {
+    console.error(`${name} magnet connectivity:`, portErrors.join('; '))
     process.exit(1)
   }
   const displayName = DISPLAY_NAMES[i]!
