@@ -796,9 +796,14 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '37-diode-voltage-drop-demo',
     build: () => buildDiodeVoltageDropDemo(),
   },
+  // Lesson 38: hand-authored — see circuit jsons/38-dual-power-source-or-circuit.json. Do not EXPORT_ONLY=37.
   {
     name: '38-dual-power-source-or-circuit',
-    build: () => buildDualPowerSourceOrCircuit(),
+    build: () => {
+      throw new Error(
+        'Lesson 38 is hand-authored; edit circuit jsons/38-dual-power-source-or-circuit.json',
+      )
+    },
   },
 ]
 
@@ -881,7 +886,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Press either tact button (west or east). USB splits at the cross: each path goes button → Schottky (90°, cathode toward the center) → the shared OR node → 470Ω → red LED → ground. Either input alone lights the LED; both pressed still works — a diode OR gate. Compare lesson 12 (parallel buttons without diodes). LEDs at 90° (anode north).',
   'Lesson 36 reserved. LED direction / polarity is covered by lessons 2 (reverse polarity test), 3–4 (series and parallel LEDs), and 25 (capacitor polarity). A distinct circuit may be added here later.',
   'Plug in USB — both red LEDs light at once. The center branch is USB → 470Ω → LED → ground (brighter). The east branch adds a forward Schottky (90°, cathode toward the LED) before its LED, so roughly 0.3 V sits across the diode and less is left for the LED — it glows dimmer. Same resistor value; the difference is the diode drop, not resistance (compare lesson 5). LEDs at 90° (anode north).',
-  'One USB tile powers two OR inputs. Press the west tact: full 5 V → Schottky → the shared node → 470Ω → red LED (bright). Press the east tact: a 10kΩ–10kΩ divider off the same USB gives about 2.5 V at the tap — enough to OR through its Schottky but the LED is dim or off (not enough headroom). Press both: the higher rail wins. Compare lesson 35 (both buttons at 5 V) and lesson 17 (divider without diode OR). Schottkys at 90° (cathode toward center); LED at 90°.',
+  'One USB tile powers two OR inputs. Press the west tact: full 5 V → Schottky → the shared node → 470Ω → red LED (bright). The east branch is a 10kΩ–10kΩ divider (~2.5 V at the tap) → Schottky → the same OR node — dim or off (not enough headroom). Press both: the higher rail wins. Compare lesson 35 (both buttons at 5 V) and lesson 17 (divider without diode OR). Schottkys at 90° (cathode toward center); LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
@@ -903,7 +908,7 @@ function validateCounts(tiles: PlacedTile[]): string[] {
   return errors
 }
 
-const outDir = join(process.cwd(), 'circuit jsons')
+const outDir = join(process.cwd(), 'Circuit JSONs')
 mkdirSync(outDir, { recursive: true })
 
 /** Only export lessons with validated layouts (set to CIRCUITS.length for all). */

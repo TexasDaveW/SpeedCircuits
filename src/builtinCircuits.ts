@@ -1,17 +1,10 @@
 import type { CircuitLesson } from './types'
 
-/** Lesson circuits bundled at build time from `Circuit JSONs/*.json`. */
-const jsonModules = {
-  ...import.meta.glob('../Circuit JSONs/*.json', { eager: true }),
-  ...import.meta.glob('../circuit jsons/*.json', { eager: true }),
-} as Record<string, { default: unknown } | unknown>
-
-function moduleDocument(mod: unknown): unknown {
-  if (mod != null && typeof mod === 'object' && 'default' in mod) {
-    return (mod as { default: unknown }).default
-  }
-  return mod
-}
+/** Lesson circuits bundled at build time from `Circuit JSONs/*.json` (lessons 01–38). */
+const jsonModules = import.meta.glob('../Circuit JSONs/*.json', {
+  eager: true,
+  import: 'default',
+}) as Record<string, unknown>
 
 function idFromPath(path: string): string {
   const name = path.split('/').pop() ?? path
@@ -55,8 +48,7 @@ export interface BuiltinLesson {
 
 const BUILTIN_LESSONS: BuiltinLesson[] = (() => {
   const byId = new Map<string, BuiltinLesson>()
-  for (const [path, mod] of Object.entries(jsonModules)) {
-    const document = moduleDocument(mod)
+  for (const [path, document] of Object.entries(jsonModules)) {
     const id = idFromPath(path)
     const doc =
       document != null && typeof document === 'object' && !Array.isArray(document)
