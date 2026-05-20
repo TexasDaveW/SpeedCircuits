@@ -85,6 +85,7 @@ export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
     case 'sensor':
     case 'sensor_resistive':
     case 'sensor_north':
+    case 'hall_sensor':
     case 'touch_pad':
       return 'sensors'
     default:

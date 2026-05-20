@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "name": "Hall Sensor Magnetic Detection",
+  "lesson": {
+    "title": "Hall Sensor Magnetic Detection",
+    "description": "USB → 470Ω → Hall sensor on the center column (+ on north toward USB, − on south toward GND). SIG on the west face feeds 470Ω → red LED → ground on the west column — when a magnet is in range, the output changes and the LED responds. Unlike lesson 48 (coil + motion), the Hall is a solid-state field detector. Wave a magnet or use the lesson 44 coil nearby; flip polarity to compare. Lesson 50 adds a dedicated LED trigger. Hall at 270°; LED at 90°."
+  },
+  "exportedAt": "2026-05-20T20:01:39.116Z",
+  "tiles": [
+    {
+      "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+      "catalogId": "hall-sensor",
+      "name": "Hall sensor",
+      "category": "component",
+      "value": "HALL",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 4,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "30d5e66f-7b2b-41c0-99f2-009ee35cda45:west",
+      "fcd5be5b-d79b-40de-8d8b-e082a473697e:south",
+      "ff0ed570-2630-4b3a-93a0-a3e3e46864db:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "30d5e66f-7b2b-41c0-99f2-009ee35cda45:south",
+      "d1b15401-0ee8-4f84-abb2-f4ca078a12b0:north",
+      "net:USB_VCC"
+    ],
+    [
+      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:north",
+      "d1b15401-0ee8-4f84-abb2-f4ca078a12b0:south"
+    ],
+    [
+      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:south",
+      "ff0ed570-2630-4b3a-93a0-a3e3e46864db:north"
+    ],
+    [
+      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:west",
+      "9ad02f79-74ef-42b7-93c7-39047e889435:east"
+    ],
+    [
+      "7c44981e-b9f0-42c9-918b-f0f5dc47ff39:north",
+      "9ad02f79-74ef-42b7-93c7-39047e889435:south"
+    ],
+    [
+      "7c44981e-b9f0-42c9-918b-f0f5dc47ff39:south",
+      "eee4d082-d48e-4e96-b0dd-be660effc208:north"
+    ],
+    [
+      "eee4d082-d48e-4e96-b0dd-be660effc208:south",
+      "fcd5be5b-d79b-40de-8d8b-e082a473697e:north"
+    ]
+  ]
+}

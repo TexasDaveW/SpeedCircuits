@@ -390,6 +390,37 @@ function drawSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Hall IC body + north lead; port labels (+/−/SIG) are drawn on magnets in drawTile. */
+function drawHallSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  drawSensor(ctx, b)
+  prep(ctx)
+  const cy = midY(b)
+  const cx = midX(b)
+  const h = b.h * 0.5
+  ctx.beginPath()
+  ctx.moveTo(cx, b.y)
+  ctx.lineTo(cx, cy - h / 2)
+  ctx.stroke()
+}
+
+/** Per-port labels at 0° (west +, east −, north SIG). Other rotations in drawTile. */
+export const HALL_PORT_LABELS_0: Partial<Record<Side, string>> = {
+  west: '+',
+  east: '−',
+  north: 'SIG',
+}
+
+/** Base-port labels so markings match lesson 49 at 270° (north→+, south→−, west→SIG). */
+export const HALL_PORT_LABELS_BY_ROTATION: Record<
+  0 | 90 | 180 | 270,
+  Partial<Record<Side, string>>
+> = {
+  0: HALL_PORT_LABELS_0,
+  90: HALL_PORT_LABELS_0,
+  180: HALL_PORT_LABELS_0,
+  270: { east: '+', west: '−', north: 'SIG' },
+}
+
 function drawMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
   const cy = midY(b)
@@ -552,6 +583,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   sensor_resistive: drawSensorResistive,
   sensor: drawSensor,
   sensor_north: drawSensor,
+  hall_sensor: drawHallSensor,
   motor: drawMotor,
   buzzer: drawBuzzer,
   touch_pad: drawTouchPad,
@@ -578,6 +610,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   sensor_resistive: defaultLeads2,
   sensor: defaultLeads2,
   sensor_north: defaultLeadsNorth,
+  hall_sensor: defaultLeadsNorth,
   motor: defaultLeads2,
   buzzer: defaultLeads2,
   touch_pad: defaultLeads2,

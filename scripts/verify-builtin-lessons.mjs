@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 48
+const expected = 50
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -29,4 +29,14 @@ if (!js.includes('Magnetic Pickup Experiment')) {
   process.exit(1)
 }
 
-console.log('Lesson 48 present.')
+if (!js.includes('Hall Sensor Magnetic Detection')) {
+  console.error('Lesson 49 (Hall Sensor Magnetic Detection) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('Hall Sensor LED Trigger')) {
+  console.error('Lesson 50 (Hall Sensor LED Trigger) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–50 present.')

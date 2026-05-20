@@ -295,6 +295,44 @@ function buildCoilMagneticFieldDemo(): PlacedTile[] {
  */
 
 /**
+ * Lesson 50: same power column as 49; SIG T at (4,5) with 10k pull-up to USB and LED to GND.
+ * Open-collector Hall: magnet pulls SIG low → LED turns on.
+ */
+function buildHallSensorLedTrigger(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('hall-sensor', 5, 6, 270),
+    tile('overpass-cube', 5, 6),
+    tile('ground-tile', 5, 7),
+    tile('resistor-10k', 6, 4, 0),
+    tile('corner-cube', 6, 5, 180),
+    tile('t-connector', 4, 6, 90),
+    tile('resistor-470', 4, 7, 90),
+    tile('led-red', 4, 8, 90),
+    tile('ground-tile', 4, 9),
+  ]
+}
+
+/**
+ * Lesson 49 — hand-authored ref: Circuit JSONs/49-hall-sensor-magnetic-detection.json
+ * Hall at 270°: north→USB (+), south→GND (−), west→SIG (LED column).
+ */
+function buildHallSensorMagneticDetection(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('resistor-470', 5, 4, 90),
+    tile('hall-sensor', 5, 5, 270),
+    tile('ground-tile', 5, 6),
+    tile('corner-cube', 4, 5, 90),
+    tile('resistor-470', 4, 6, 90),
+    tile('led-red', 4, 7, 90),
+    tile('ground-tile', 4, 8),
+  ]
+}
+
+/**
  * Lesson 47: series L → C → LED — energy swaps between coil and cap (ringing on switch edges).
  * Mirror of lesson 28 (series C only); 100µF + inductor for slow visible ring.
  */
@@ -966,6 +1004,19 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 49: hand-authored — see Circuit JSONs/49-hall-sensor-magnetic-detection.json. Do not EXPORT_ONLY=48.
+  {
+    name: '49-hall-sensor-magnetic-detection',
+    build: () => {
+      throw new Error(
+        'Lesson 49 is hand-authored; edit Circuit JSONs/49-hall-sensor-magnetic-detection.json',
+      )
+    },
+  },
+  {
+    name: '50-hall-sensor-led-trigger',
+    build: () => buildHallSensorLedTrigger(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1017,6 +1068,8 @@ const DISPLAY_NAMES = [
   'Inductor Pulse Filter Demo',
   'LC Resonance Experiment',
   'Magnetic Pickup Experiment',
+  'Hall Sensor Magnetic Detection',
+  'Hall Sensor LED Trigger',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1068,6 +1121,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Tap the tact button quickly. USB splits at a T: west branch 470Ω → inductor → red LED; east branch 470Ω → red LED (no coil). The inductor resists sudden current changes — the west LED glows steadier and does not flicker on every tap like the east LED. Hold the button and both stay on; the lesson is fast vs slow. Compare lesson 29 (capacitor low-pass filter) and lesson 41 (series inductor for kickback, not side-by-side compare). LEDs at 90° (anode north).',
   'Tap the tact button (quick press or release). USB → 470Ω → inductor → 100µF capacitor → red LED → ground. Each edge excites the LC pair — energy rings between the coil and the cap and the LED may pulse or glow briefly, unlike one steady flash. A slide switch (lesson 28) also works; tact makes the on/off edges crisp. Compare lesson 28 (capacitor alone), lesson 46 (L filter branch), and lesson 41 (L + kickback). Cap + toward power (north); LED at 90° (anode north).',
   'Two inductors. East (slide ON): USB → 150Ω → coil → ground — an electromagnet like lesson 44. West: pickup coil → 10kΩ → red LED → ground only (no USB on that coil). Flip the east switch on/off or wave a magnet near the west coil — a changing field induces a brief pulse on the west LED. That is a generator: magnet motion → electricity. Compare lesson 44 (you power the coil) and lesson 49 (Hall sensor). Slide at 180°; LEDs at 90°.',
+  'USB → 470Ω → Hall sensor on the center column (+ on north toward USB, − on south toward GND). SIG on the west face feeds 470Ω → red LED → ground on the west column — when a magnet is in range, the output changes and the LED responds. Unlike lesson 48 (coil + motion), the Hall is a solid-state field detector. Wave a magnet or use the lesson 44 coil nearby; flip polarity to compare. Lesson 50 adds a dedicated LED trigger. Hall at 270°; LED at 90°.',
+  'Same Hall power column as lesson 49 (Hall at 270°: + north, − south). At the SIG T-junction, a 10kΩ pull-up feeds USB while SIG also drives 470Ω → red LED → ground. With no magnet the pull-up holds SIG high and the LED stays off; when the Hall output pulls SIG low, current flows through the LED and it snaps on — a clear trigger. Compare lesson 49 (detection) and lesson 51 (switch circuit). LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

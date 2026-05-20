@@ -1,7 +1,10 @@
-import type { CatalogEntry } from './types'
-import type { Rotation, Side } from './types'
+import type { CatalogEntry, Rotation, Side } from './types'
 import { TILE_SIZE } from './catalog'
-import { drawSymbol, getSymbolLeads } from './symbols/draw'
+import {
+  drawSymbol,
+  getSymbolLeads,
+  HALL_PORT_LABELS_BY_ROTATION,
+} from './symbols/draw'
 import type { SymbolBounds } from './symbols/types'
 
 const CHROME = '#c8ccd4'
@@ -160,6 +163,26 @@ export function drawTile(
     ctx.stroke()
     const horizontal = side === 'west' || side === 'east'
     drawMagnet(ctx, p.x, p.y, horizontal, size)
+    if (entry.id === 'hall-sensor') {
+      const label = HALL_PORT_LABELS_BY_ROTATION[rotation][side]
+      if (label) {
+        const fs = size * 0.1
+        ctx.save()
+        ctx.font = `700 ${fs}px system-ui, sans-serif`
+        ctx.fillStyle = '#f0f2f5'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        const inset = size * 0.17
+        let lx = p.x
+        let ly = p.y
+        if (side === 'north') ly -= inset
+        else if (side === 'south') ly += inset
+        else if (side === 'west') lx -= inset
+        else lx += inset
+        ctx.fillText(label, lx, ly)
+        ctx.restore()
+      }
+    }
   }
 
   if (isOverpass) {
