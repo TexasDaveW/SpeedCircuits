@@ -1,0 +1,352 @@
+{
+  "version": 1,
+  "name": "Inductor Pulse Filter Demo",
+  "lesson": {
+    "title": "Inductor Pulse Filter Demo",
+    "description": "Tap the tact button quickly. USB splits at a T: west branch 470Ω → inductor → red LED; east branch 470Ω → red LED (no coil). The inductor resists sudden current changes — the west LED glows steadier and does not flicker on every tap like the east LED. Hold the button and both stay on; the lesson is fast vs slow. Compare lesson 29 (capacitor low-pass filter) and lesson 41 (series inductor for kickback, not side-by-side compare). LEDs at 90° (anode north)."
+  },
+  "exportedAt": "2026-05-20T19:20:55.555Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "tact-button-2",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-3",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-4",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-5",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "inductor-6",
+      "catalogId": "inductor",
+      "name": "Inductor",
+      "category": "component",
+      "value": "IND",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-7",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 4,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-9",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-10",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-11",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-12",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-connector-13",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 180
+    },
+    {
+      "instanceId": "ground-tile-14",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-3",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-9",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "inductor-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "inductor-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-10",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-11",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-12",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-connector-13",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-13",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-14",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-14",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-14:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "tact-button-2:north"
+    ],
+    [
+      "t-connector-3:north",
+      "tact-button-2:south"
+    ],
+    [
+      "corner-cube-9:west",
+      "t-connector-3:east"
+    ],
+    [
+      "corner-cube-4:south",
+      "resistor-470-5:north"
+    ],
+    [
+      "inductor-6:north",
+      "resistor-470-5:south"
+    ],
+    [
+      "inductor-6:south",
+      "led-red-7:north"
+    ],
+    [
+      "corner-cube-8:north",
+      "led-red-7:south"
+    ],
+    [
+      "corner-cube-9:south",
+      "resistor-470-10:north"
+    ],
+    [
+      "led-red-11:north",
+      "resistor-470-10:south"
+    ],
+    [
+      "corner-cube-12:north",
+      "led-red-11:south"
+    ],
+    [
+      "corner-cube-12:west",
+      "t-connector-13:east"
+    ],
+    [
+      "ground-tile-14:north",
+      "t-connector-13:south"
+    ]
+  ]
+}

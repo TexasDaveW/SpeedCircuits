@@ -269,6 +269,50 @@ function buildElectromagnetDemo(): PlacedTile[] {
 }
 
 /**
+ * Lesson 45: SPDT A/B — west = 150Ω → inductor (field); east = 150Ω → straight (current, no coil).
+ * Same layout family as lesson 10; proves the field comes from the coil, not just from current.
+ */
+function buildCoilMagneticFieldDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 180),
+    tile('corner-cube', 4, 4, 90),
+    tile('resistor-150', 4, 5, 90),
+    tile('inductor', 4, 6, 90),
+    tile('corner-cube', 4, 7, 0),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-150', 6, 5, 90),
+    tile('straight-cube', 6, 6, 90),
+    tile('corner-cube', 6, 7, 270),
+    tile('t-connector', 5, 7, 180),
+    tile('ground-tile', 5, 8),
+  ]
+}
+
+/**
+ * Lesson 46: tact → T split. West: 470Ω → inductor → red LED (slows/fast taps filtered).
+ * East: 470Ω → red LED (flickers on rapid taps). Compare lesson 29 (RC cap filter).
+ */
+function buildInductorPulseFilterDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('tact-button', 5, 4, 90),
+    tile('t-connector', 5, 5, 90),
+    tile('corner-cube', 4, 5, 90),
+    tile('resistor-470', 4, 6, 90),
+    tile('inductor', 4, 7, 90),
+    tile('led-red', 4, 8, 90),
+    tile('corner-cube', 4, 9, 0),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-470', 6, 6, 90),
+    tile('led-red', 6, 7, 90),
+    tile('corner-cube', 6, 8, 270),
+    tile('t-connector', 5, 8, 180),
+    tile('ground-tile', 5, 9),
+  ]
+}
+
+/**
  * Lesson 37: parallel compare — center 470Ω→LED (bright); east adds Schottky (90°, forward) → dimmer LED.
  * East branch is longer; straight-cube pads center column to merge row (lesson 20 rule).
  */
@@ -880,6 +924,14 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '44-electromagnet-demo',
     build: () => buildElectromagnetDemo(),
   },
+  {
+    name: '45-coil-magnetic-field-demo',
+    build: () => buildCoilMagneticFieldDemo(),
+  },
+  {
+    name: '46-inductor-pulse-filter-demo',
+    build: () => buildInductorPulseFilterDemo(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -927,6 +979,8 @@ const DISPLAY_NAMES = [
   'Inductor Energy Storage',
   'TBD',
   'Electromagnet Demo',
+  'Coil Magnetic Field Demo',
+  'Inductor Pulse Filter Demo',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -974,6 +1028,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'USB → tact → 470Ω → T split. East: 470Ω + red LED (indicator — on while you hold the button). West: slide switch → inductor → ground. Row-8 straights join the coil node to the LED node. Switch ON: hold the tact several seconds, release — brief east LED pulse as the field dumps (much shorter than lesson 20). Switch OFF: repeat — little or no afterglow. Compare lesson 20 (cap fade) and lesson 41 (series kickback). Slide at 180°; east LED at 90° (anode north).',
   'Lesson 43 reserved. Inductor + LED pulse overlaps lesson 41 (series kickback on release) and lesson 28 (capacitor pulse on switch change). A distinct circuit may be added here later.',
   'Flip the slide switch on: USB → 150Ω → inductor → ground (about three times the current of a 470Ω path). The coil becomes an electromagnet — rest a paper clip on the inductor tile or hold it against the steel plate and switch on. For a compass, touch the needle very close to the coil face; a small twitch is enough. Transistor high-current drivers come in lesson 72. Compare lesson 41 (LED + kickback, not magnetism). Slide at 90°.',
+  'The slide switch picks between two paths (like lesson 10). West: 150Ω → inductor → ground — current flows through the coil; hold a compass or paper clip on the inductor tile and switch on. East: 150Ω → straight cube → ground — same kind of current but no coil, so the compass should not respond at the inductor spot. You are showing the magnetic field comes from the coil, not from the wire alone. Compare lesson 44 (only the coil path). Slide at 180°; inductor at 90° on the west column.',
+  'Tap the tact button quickly. USB splits at a T: west branch 470Ω → inductor → red LED; east branch 470Ω → red LED (no coil). The inductor resists sudden current changes — the west LED glows steadier and does not flicker on every tap like the east LED. Hold the button and both stay on; the lesson is fast vs slow. Compare lesson 29 (capacitor low-pass filter) and lesson 41 (series inductor for kickback, not side-by-side compare). LEDs at 90° (anode north).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

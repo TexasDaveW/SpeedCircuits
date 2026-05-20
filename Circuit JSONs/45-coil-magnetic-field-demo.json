@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "name": "Coil Magnetic Field Demo",
+  "lesson": {
+    "title": "Coil Magnetic Field Demo",
+    "description": "The slide switch picks between two paths (like lesson 10). West: 150Ω → inductor → ground — current flows through the coil; hold a compass or paper clip on the inductor tile and switch on. East: 150Ω → straight cube → ground — same kind of current but no coil, so the compass should not respond at the inductor spot. You are showing the magnetic field comes from the coil, not from the wire alone. Compare lesson 44 (only the coil path). Slide at 180°; inductor at 90° on the west column."
+  },
+  "exportedAt": "2026-05-20T19:16:12.277Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "slide-switch-2",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "corner-cube-3",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-150-4",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "inductor-5",
+      "catalogId": "inductor",
+      "name": "Inductor",
+      "category": "component",
+      "value": "IND",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-6",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-7",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-150-8",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-9",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-10",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-connector-11",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 180
+    },
+    {
+      "instanceId": "ground-tile-12",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "slide-switch-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "corner-cube-3",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "inductor-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "inductor-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-6",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-connector-11",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-10",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-connector-11",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-12",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-12:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "slide-switch-2:north"
+    ],
+    [
+      "corner-cube-7:west",
+      "slide-switch-2:east"
+    ],
+    [
+      "corner-cube-3:east",
+      "slide-switch-2:west"
+    ],
+    [
+      "corner-cube-3:south",
+      "resistor-150-4:north"
+    ],
+    [
+      "inductor-5:north",
+      "resistor-150-4:south"
+    ],
+    [
+      "corner-cube-6:north",
+      "inductor-5:south"
+    ],
+    [
+      "corner-cube-6:east",
+      "t-connector-11:west"
+    ],
+    [
+      "corner-cube-7:south",
+      "resistor-150-8:north"
+    ],
+    [
+      "resistor-150-8:south",
+      "straight-cube-9:north"
+    ],
+    [
+      "corner-cube-10:north",
+      "straight-cube-9:south"
+    ],
+    [
+      "corner-cube-10:west",
+      "t-connector-11:east"
+    ],
+    [
+      "ground-tile-12:north",
+      "t-connector-11:south"
+    ]
+  ]
+}
