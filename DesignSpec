@@ -42,6 +42,7 @@ These components will be items that include:
 | NMOS transistor | 3 |
 | Schottky diode | 5 |
 | Inductor | 3 |
+| Iron bar cube | 2 |
 | Arduino cube | 1 |
 
 Each tile will connect magnetically. There will be one magnet for 

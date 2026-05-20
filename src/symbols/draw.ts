@@ -122,6 +122,38 @@ function drawInductor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Soft-iron bar: flux bridge only, no circuit conductors */
+function drawIronBar(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  const cy = midY(b)
+  const barW = b.w * 0.82
+  const barH = b.h * 0.38
+  const x = b.x + (b.w - barW) / 2
+  const y = cy - barH / 2
+  const r = barH / 2
+  ctx.save()
+  ctx.fillStyle = '#8a9098'
+  ctx.strokeStyle = '#c8ccd4'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.lineTo(x + barW - r, y)
+  ctx.quadraticCurveTo(x + barW, y, x + barW, y + r)
+  ctx.lineTo(x + barW, y + barH - r)
+  ctx.quadraticCurveTo(x + barW, y + barH, x + barW - r, y + barH)
+  ctx.lineTo(x + r, y + barH)
+  ctx.quadraticCurveTo(x, y + barH, x, y + barH - r)
+  ctx.lineTo(x, y + r)
+  ctx.quadraticCurveTo(x, y, x + r, y)
+  ctx.closePath()
+  ctx.fill()
+  ctx.stroke()
+  ctx.restore()
+}
+
+function ironBarLeads(): SymbolLeads {
+  return {}
+}
+
 /** Diode body matches LED (triangle + cathode). Schottky uses an S-shaped cathode bar. */
 function drawDiode(ctx: CanvasRenderingContext2D, b: SymbolBounds, schottky = false) {
   prep(ctx)
@@ -508,6 +540,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   resistor: drawResistor,
   capacitor: drawCapacitor,
   inductor: drawInductor,
+  iron_bar: drawIronBar,
   diode: (ctx, b) => drawDiode(ctx, b, true),
   led: (ctx, b) => drawLed(ctx, b, false),
   led_rgb: (ctx, b) => drawLed(ctx, b, true),
@@ -533,6 +566,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   resistor: defaultLeads2,
   capacitor: defaultLeads2,
   inductor: defaultLeads2,
+  iron_bar: ironBarLeads,
   diode: defaultLeads2,
   led: defaultLeads2,
   led_rgb: defaultLeads4,

@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 46
+const expected = 48
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -24,9 +24,9 @@ if (found < expected) {
   process.exit(1)
 }
 
-if (!js.includes('Inductor Pulse Filter Demo')) {
-  console.error('Lesson 46 (Inductor Pulse Filter Demo) not found in bundle')
+if (!js.includes('Magnetic Pickup Experiment')) {
+  console.error('Lesson 48 (Magnetic Pickup Experiment) not found in bundle')
   process.exit(1)
 }
 
-console.log('Lesson 46 present.')
+console.log('Lesson 48 present.')

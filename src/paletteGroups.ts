@@ -5,6 +5,7 @@ export type PaletteGroup =
   | 'resistors'
   | 'capacitors'
   | 'inductors'
+  | 'magnetic'
   | 'diodes'
   | 'transistors'
   | 'leds'
@@ -22,6 +23,7 @@ export const PALETTE_GROUP_ORDER: PaletteGroup[] = [
   'resistors',
   'capacitors',
   'inductors',
+  'magnetic',
   'diodes',
   'transistors',
   'leds',
@@ -36,6 +38,7 @@ export const PALETTE_GROUP_LABEL: Record<PaletteGroup, string> = {
   resistors: 'Resistors',
   capacitors: 'Capacitors',
   inductors: 'Inductors',
+  magnetic: 'Magnetic',
   diodes: 'Diodes',
   transistors: 'Transistors',
   leds: 'LEDs',
@@ -53,6 +56,7 @@ export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
   if (POWER_IDS.has(entry.id)) return 'power'
   if (entry.category === 'arduino') return 'mcu'
   if (entry.category === 'routing') return 'routing'
+  if (entry.category === 'magnetic') return 'magnetic'
   if (entry.category === 'power' || entry.category === 'ground') return 'power'
 
   switch (entry.symbolId) {

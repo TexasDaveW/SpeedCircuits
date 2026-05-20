@@ -290,6 +290,27 @@ function buildCoilMagneticFieldDemo(): PlacedTile[] {
 }
 
 /**
+ * Lesson 48 — hand-authored ref: Circuit JSONs/48-magnetic-pickup-experiment.json
+ * Pickup coil (4,6) beside driver coil (5,6) on one row for maximum on-plate coupling.
+ */
+
+/**
+ * Lesson 47: series L → C → LED — energy swaps between coil and cap (ringing on switch edges).
+ * Mirror of lesson 28 (series C only); 100µF + inductor for slow visible ring.
+ */
+function buildLcResonanceExperiment(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('tact-button', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('inductor', 5, 6, 90),
+    tile('cap-100u', 5, 7, 90),
+    tile('led-red', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+  ]
+}
+
+/**
  * Lesson 46: tact → T split. West: 470Ω → inductor → red LED (slows/fast taps filtered).
  * East: 470Ω → red LED (flickers on rapid taps). Compare lesson 29 (RC cap filter).
  */
@@ -932,6 +953,19 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '46-inductor-pulse-filter-demo',
     build: () => buildInductorPulseFilterDemo(),
   },
+  {
+    name: '47-lc-resonance-experiment',
+    build: () => buildLcResonanceExperiment(),
+  },
+  // Lesson 48: hand-authored — see Circuit JSONs/48-magnetic-pickup-experiment.json. Do not EXPORT_ONLY=47.
+  {
+    name: '48-magnetic-pickup-experiment',
+    build: () => {
+      throw new Error(
+        'Lesson 48 is hand-authored; edit Circuit JSONs/48-magnetic-pickup-experiment.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -981,6 +1015,8 @@ const DISPLAY_NAMES = [
   'Electromagnet Demo',
   'Coil Magnetic Field Demo',
   'Inductor Pulse Filter Demo',
+  'LC Resonance Experiment',
+  'Magnetic Pickup Experiment',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1030,6 +1066,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Flip the slide switch on: USB → 150Ω → inductor → ground (about three times the current of a 470Ω path). The coil becomes an electromagnet — rest a paper clip on the inductor tile or hold it against the steel plate and switch on. For a compass, touch the needle very close to the coil face; a small twitch is enough. Transistor high-current drivers come in lesson 72. Compare lesson 41 (LED + kickback, not magnetism). Slide at 90°.',
   'The slide switch picks between two paths (like lesson 10). West: 150Ω → inductor → ground — current flows through the coil; hold a compass or paper clip on the inductor tile and switch on. East: 150Ω → straight cube → ground — same kind of current but no coil, so the compass should not respond at the inductor spot. You are showing the magnetic field comes from the coil, not from the wire alone. Compare lesson 44 (only the coil path). Slide at 180°; inductor at 90° on the west column.',
   'Tap the tact button quickly. USB splits at a T: west branch 470Ω → inductor → red LED; east branch 470Ω → red LED (no coil). The inductor resists sudden current changes — the west LED glows steadier and does not flicker on every tap like the east LED. Hold the button and both stay on; the lesson is fast vs slow. Compare lesson 29 (capacitor low-pass filter) and lesson 41 (series inductor for kickback, not side-by-side compare). LEDs at 90° (anode north).',
+  'Tap the tact button (quick press or release). USB → 470Ω → inductor → 100µF capacitor → red LED → ground. Each edge excites the LC pair — energy rings between the coil and the cap and the LED may pulse or glow briefly, unlike one steady flash. A slide switch (lesson 28) also works; tact makes the on/off edges crisp. Compare lesson 28 (capacitor alone), lesson 46 (L filter branch), and lesson 41 (L + kickback). Cap + toward power (north); LED at 90° (anode north).',
+  'Two inductors. East (slide ON): USB → 150Ω → coil → ground — an electromagnet like lesson 44. West: pickup coil → 10kΩ → red LED → ground only (no USB on that coil). Flip the east switch on/off or wave a magnet near the west coil — a changing field induces a brief pulse on the west LED. That is a generator: magnet motion → electricity. Compare lesson 44 (you power the coil) and lesson 49 (Hall sensor). Slide at 180°; LEDs at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

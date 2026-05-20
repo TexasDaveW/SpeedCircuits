@@ -4,6 +4,7 @@ export type TileCategory =
   | 'power'
   | 'ground'
   | 'arduino'
+  | 'magnetic'
 
 export type Side = 'north' | 'east' | 'south' | 'west'
 
@@ -32,6 +33,7 @@ export type SymbolId =
   | 'power'
   | 'power_tile'
   | 'arduino'
+  | 'iron_bar'
 
 export interface CatalogEntry {
   id: string
