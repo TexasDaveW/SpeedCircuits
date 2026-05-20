@@ -1,5 +1,5 @@
 import { catalogById } from './catalog'
-import { neighborOffset, oppositeSide, sidesAtRotation } from './geometry'
+import { neighborOffset, oppositeSide, rotateSide, sidesAtRotation } from './geometry'
 import type {
   CircuitConnection,
   CircuitDocument,
@@ -10,6 +10,22 @@ import type {
 
 function portKey(instanceId: string, side: Side): string {
   return `${instanceId}:${side}`
+}
+
+function linkPorts(
+  connections: CircuitConnection[],
+  seen: Set<string>,
+  instanceId: string,
+  sideA: Side,
+  sideB: Side,
+) {
+  const key = [portKey(instanceId, sideA), portKey(instanceId, sideB)].sort().join('|')
+  if (seen.has(key)) return
+  seen.add(key)
+  connections.push({
+    a: { instanceId, side: sideA },
+    b: { instanceId, side: sideB },
+  })
 }
 
 export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
@@ -82,6 +98,24 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
         a: { instanceId: tile.instanceId, side },
         b: { instanceId: neighbor.instanceId, side: facing },
       })
+    }
+
+    // Overpass: W↔E and N↔S internally; the two axes do not short together.
+    if (entry.id === 'overpass-cube') {
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('west', tile.rotation),
+        rotateSide('east', tile.rotation),
+      )
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('north', tile.rotation),
+        rotateSide('south', tile.rotation),
+      )
     }
   }
 

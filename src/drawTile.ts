@@ -106,7 +106,9 @@ export function drawTile(
   }
 
   const isRouting = entry.category === 'routing'
+  const isOverpass = entry.id === 'overpass-cube'
   const center = size / 2
+  const overpassHalfGap = isOverpass ? size * 0.055 : 0
   const bandX = size * 0.12
   const bandY = size * 0.38
   const bandW = size * 0.76
@@ -137,16 +139,37 @@ export function drawTile(
 
   for (const side of entry.ports) {
     const p = portPixel(side, size)
-    const from = leads?.[side] ?? { x: center, y: traceHubY }
+    const hub = { x: center, y: isOverpass ? center : traceHubY }
+    let traceEnd = hub
+    if (isOverpass) {
+      if (side === 'west') traceEnd = { x: center - overpassHalfGap, y: center }
+      else if (side === 'east') traceEnd = { x: center + overpassHalfGap, y: center }
+    }
+    const from = leads?.[side] ?? traceEnd
     ctx.strokeStyle = TRACE
     ctx.lineWidth = isRouting ? 3 : 2
     ctx.lineCap = 'round'
     ctx.beginPath()
-    ctx.moveTo(from.x, from.y)
-    ctx.lineTo(p.x, p.y)
+    if (isOverpass && (side === 'west' || side === 'east')) {
+      ctx.moveTo(p.x, p.y)
+      ctx.lineTo(from.x, from.y)
+    } else {
+      ctx.moveTo(from.x, from.y)
+      ctx.lineTo(p.x, p.y)
+    }
     ctx.stroke()
     const horizontal = side === 'west' || side === 'east'
     drawMagnet(ctx, p.x, p.y, horizontal, size)
+  }
+
+  if (isOverpass) {
+    const bridgeR = overpassHalfGap * 1.15
+    ctx.strokeStyle = TRACE
+    ctx.lineWidth = 3
+    ctx.lineCap = 'round'
+    ctx.beginPath()
+    ctx.arc(center, center, bridgeR, Math.PI, 0, false)
+    ctx.stroke()
   }
 
   // Power: V+ edge magnet + separate underside plate magnet. Ground: one edge magnet only; plate via pad.
