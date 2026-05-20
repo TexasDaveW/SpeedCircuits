@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "name": "Electromagnet Demo",
+  "lesson": {
+    "title": "Electromagnet Demo",
+    "description": "Flip the slide switch on: USB → 150Ω → inductor → ground (about three times the current of a 470Ω path). The coil becomes an electromagnet — rest a paper clip on the inductor tile or hold it against the steel plate and switch on. For a compass, touch the needle very close to the coil face; a small twitch is enough. Transistor high-current drivers come in lesson 72. Compare lesson 41 (LED + kickback, not magnetism). Slide at 90°."
+  },
+  "exportedAt": "2026-05-20T16:27:43.914Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "slide-switch-2",
+      "catalogId": "slide-switch",
+      "name": "Slide switch SPDT",
+      "category": "component",
+      "value": "SPDT",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-150-3",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "inductor-4",
+      "catalogId": "inductor",
+      "name": "Inductor",
+      "category": "component",
+      "value": "IND",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "slide-switch-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "slide-switch-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "inductor-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "inductor-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-5:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "slide-switch-2:north"
+    ],
+    [
+      "resistor-150-3:north",
+      "slide-switch-2:south"
+    ],
+    [
+      "inductor-4:north",
+      "resistor-150-3:south"
+    ],
+    [
+      "ground-tile-5:north",
+      "inductor-4:south"
+    ]
+  ]
+}

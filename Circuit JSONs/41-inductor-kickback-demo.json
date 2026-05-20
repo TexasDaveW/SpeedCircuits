@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "name": "Inductor Kickback Demo",
+  "lesson": {
+    "title": "Inductor Kickback Demo",
+    "description": "Press and hold the tact button: USB → 470Ω → inductor → red LED → ground. Current builds in the coil and the LED glows. Release the button — the magnetic field collapses and the inductor “kicks back,” driving a short bright flash through the LED (the coil resists a sudden drop in current). Compare lesson 8 (no inductor — LED snaps off) and lesson 28 (capacitor pulse when the switch changes). LED at 90° (anode north)."
+  },
+  "exportedAt": "2026-05-20T16:03:45.005Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "tact-button-2",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-470-3",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "inductor-4",
+      "catalogId": "inductor",
+      "name": "Inductor",
+      "category": "component",
+      "value": "IND",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-5",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "inductor-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "inductor-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "tact-button-2:north"
+    ],
+    [
+      "resistor-470-3:north",
+      "tact-button-2:south"
+    ],
+    [
+      "inductor-4:north",
+      "resistor-470-3:south"
+    ],
+    [
+      "inductor-4:south",
+      "led-red-5:north"
+    ],
+    [
+      "ground-tile-6:north",
+      "led-red-5:south"
+    ]
+  ]
+}

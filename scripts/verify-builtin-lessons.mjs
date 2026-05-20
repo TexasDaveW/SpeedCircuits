@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 38
+const expected = 44
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -24,9 +24,9 @@ if (found < expected) {
   process.exit(1)
 }
 
-if (!js.includes('Dual-Power Source OR Circuit')) {
-  console.error('Lesson 38 (Dual-Power Source OR Circuit) not found in bundle')
+if (!js.includes('Electromagnet Demo')) {
+  console.error('Lesson 44 (Electromagnet Demo) not found in bundle')
   process.exit(1)
 }
 
-console.log('Lesson 38 present.')
+console.log('Lesson 44 present.')

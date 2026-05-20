@@ -238,6 +238,37 @@ function buildDualPowerSourceOrCircuit(): PlacedTile[] {
 }
 
 /**
+ * Lesson 42 — hand-authored ref: Circuit JSONs/42-inductor-energy-storage.json
+ * T split: east LED indicator, west slide → inductor → GND, row-8 straights merge for discharge.
+ */
+
+/**
+ * Lesson 41: USB → tact → 470Ω → inductor → LED → GND. Hold the button to build current in the coil;
+ * release and the collapsing field kicks back — a brief bright flash on the LED.
+ */
+function buildInductorKickbackDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('tact-button', 5, 4, 90),
+    tile('resistor-470', 5, 5, 90),
+    tile('inductor', 5, 6, 90),
+    tile('led-red', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+  ]
+}
+
+/** Lesson 44: slide → 150Ω → inductor → GND (no transistor — see lesson 72). 150Ω allows ~30 mA for a visible magnet. */
+function buildElectromagnetDemo(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('slide-switch', 5, 4, 90),
+    tile('resistor-150', 5, 5, 90),
+    tile('inductor', 5, 6, 90),
+    tile('ground-tile', 5, 7),
+  ]
+}
+
+/**
  * Lesson 37: parallel compare — center 470Ω→LED (bright); east adds Schottky (90°, forward) → dimmer LED.
  * East branch is longer; straight-cube pads center column to merge row (lesson 20 rule).
  */
@@ -805,6 +836,50 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 39: TBD — overlaps lessons 10, 12, 35, 38. Keep Circuit JSONs/39-tbd.json empty. Do not EXPORT_ONLY=38.
+  {
+    name: '39-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 39 is TBD (see lessons 10, 12, 35, 38); edit Circuit JSONs/39-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 40: TBD — overlaps lessons 10, 12, 35, 38, 39. Keep Circuit JSONs/40-tbd.json empty. Do not EXPORT_ONLY=39.
+  {
+    name: '40-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 40 is TBD (see lessons 10, 12, 35, 38, 39); edit Circuit JSONs/40-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '41-inductor-kickback-demo',
+    build: () => buildInductorKickbackDemo(),
+  },
+  // Lesson 42: hand-authored — see Circuit JSONs/42-inductor-energy-storage.json. Do not EXPORT_ONLY=41.
+  {
+    name: '42-inductor-energy-storage',
+    build: () => {
+      throw new Error(
+        'Lesson 42 is hand-authored; edit Circuit JSONs/42-inductor-energy-storage.json',
+      )
+    },
+  },
+  // Lesson 43: TBD — overlaps lessons 28 and 41. Keep Circuit JSONs/43-tbd.json empty. Do not EXPORT_ONLY=42.
+  {
+    name: '43-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 43 is TBD (see lessons 28, 41); edit Circuit JSONs/43-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '44-electromagnet-demo',
+    build: () => buildElectromagnetDemo(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -846,6 +921,12 @@ const DISPLAY_NAMES = [
   'TBD',
   'Diode Voltage Drop Demo',
   'Dual-Power Source OR Circuit',
+  'TBD',
+  'TBD',
+  'Inductor Kickback Demo',
+  'Inductor Energy Storage',
+  'TBD',
+  'Electromagnet Demo',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -887,6 +968,12 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 36 reserved. LED direction / polarity is covered by lessons 2 (reverse polarity test), 3–4 (series and parallel LEDs), and 25 (capacitor polarity). A distinct circuit may be added here later.',
   'Plug in USB — both red LEDs light at once. The center branch is USB → 470Ω → LED → ground (brighter). The east branch adds a forward Schottky (90°, cathode toward the LED) before its LED, so roughly 0.3 V sits across the diode and less is left for the LED — it glows dimmer. Same resistor value; the difference is the diode drop, not resistance (compare lesson 5). LEDs at 90° (anode north).',
   'One USB tile powers two OR inputs. Press the west tact: full 5 V → Schottky → the shared node → 470Ω → red LED (bright). The east branch is a 10kΩ–10kΩ divider (~2.5 V at the tap) → Schottky → the same OR node — dim or off (not enough headroom). Press both: the higher rail wins. Compare lesson 35 (both buttons at 5 V) and lesson 17 (divider without diode OR). Schottkys at 90° (cathode toward center); LED at 90°.',
+  'Lesson 39 reserved. Pushbutton diode isolation overlaps lessons 10 (switch selects one LED), 12 (parallel buttons), 35 (diode OR), and 38 (dual-rail OR). A distinct circuit may be added here later.',
+  'Lesson 40 reserved. LED logic steering overlaps lessons 10 (switch selects one LED), 12 (parallel buttons), 35 (diode OR), 38 (dual-rail OR), and 39 (TBD). A distinct circuit may be added here later.',
+  'Press and hold the tact button: USB → 470Ω → inductor → red LED → ground. Current builds in the coil and the LED glows. Release the button — the magnetic field collapses and the inductor “kicks back,” driving a short bright flash through the LED (the coil resists a sudden drop in current). Compare lesson 8 (no inductor — LED snaps off) and lesson 28 (capacitor pulse when the switch changes). LED at 90° (anode north).',
+  'USB → tact → 470Ω → T split. East: 470Ω + red LED (indicator — on while you hold the button). West: slide switch → inductor → ground. Row-8 straights join the coil node to the LED node. Switch ON: hold the tact several seconds, release — brief east LED pulse as the field dumps (much shorter than lesson 20). Switch OFF: repeat — little or no afterglow. Compare lesson 20 (cap fade) and lesson 41 (series kickback). Slide at 180°; east LED at 90° (anode north).',
+  'Lesson 43 reserved. Inductor + LED pulse overlaps lesson 41 (series kickback on release) and lesson 28 (capacitor pulse on switch change). A distinct circuit may be added here later.',
+  'Flip the slide switch on: USB → 150Ω → inductor → ground (about three times the current of a 470Ω path). The coil becomes an electromagnet — rest a paper clip on the inductor tile or hold it against the steel plate and switch on. For a compass, touch the needle very close to the coil face; a small twitch is enough. Transistor high-current drivers come in lesson 72. Compare lesson 41 (LED + kickback, not magnetism). Slide at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
