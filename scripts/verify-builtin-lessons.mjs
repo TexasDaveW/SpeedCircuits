@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 60
+const expected = 61
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -64,4 +64,9 @@ if (!js.includes('Transistor Buzzer Driver')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–60 present (51, 54, 56, and 59 TBD).')
+if (!js.includes('Transistor Motor Driver')) {
+  console.error('Lesson 61 (Transistor Motor Driver) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–61 present (51, 54, 56, and 59 TBD).')

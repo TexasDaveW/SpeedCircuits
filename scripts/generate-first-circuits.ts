@@ -349,7 +349,7 @@ function buildTransistorSwitch(): PlacedTile[] {
     tile('tact-button', 5, 5, 90),
     tile('resistor-10k', 5, 6, 90),
     tile('corner-cube', 5, 7, 0),
-    tile('npn', 6, 7, 90),
+    tile('npn', 6, 7, 0),
     tile('ground-tile', 6, 8),
     tile('corner-cube', 6, 4, 180),
     tile('resistor-470', 6, 5, 90),
@@ -367,11 +367,29 @@ function buildTransistorBuzzerDriver(): PlacedTile[] {
     tile('tact-button', 5, 5, 90),
     tile('resistor-10k', 5, 6, 90),
     tile('corner-cube', 5, 7, 0),
-    tile('npn', 6, 7, 90),
+    tile('npn', 6, 7, 0),
     tile('ground-tile', 6, 8),
     tile('corner-cube', 6, 4, 180),
     tile('resistor-150', 6, 5, 90),
     tile('buzzer', 6, 6, 90),
+  ]
+}
+
+/**
+ * Lesson 61: same switch as 60 — tact → 10kΩ → base; USB → T → 150Ω → vibration motor → collector; emitter → GND.
+ */
+function buildTransistorMotorDriver(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('tact-button', 5, 5, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('corner-cube', 5, 7, 0),
+    tile('npn', 6, 7, 0),
+    tile('ground-tile', 6, 8),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-150', 6, 5, 90),
+    tile('vibration-motor', 6, 6, 90),
   ]
 }
 
@@ -1177,6 +1195,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '60-transistor-buzzer-driver',
     build: () => buildTransistorBuzzerDriver(),
   },
+  {
+    name: '61-transistor-motor-driver',
+    build: () => buildTransistorMotorDriver(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1240,6 +1262,7 @@ const DISPLAY_NAMES = [
   'Transistor Switch',
   'TBD',
   'Transistor Buzzer Driver',
+  'Transistor Motor Driver',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1300,9 +1323,10 @@ const LESSON_DESCRIPTIONS: string[] = [
   'USB splits at a T. West: 10kΩ → LDR → ground with 470Ω → red LED on the tap (sensor level). East: 10kΩ → pot (270°) → 10kΩ → ground with 470Ω → red LED from the wiper (your reference level). Turn the pot until the east LED matches the west LED at your current lighting, then change light on the LDR — the west LED goes brighter or dimmer than the reference. Compare lesson 53 (single sensor). LDR and resistors at 90°; pot at 270°; LEDs at 90°.',
   'Lesson 56 reserved. Light-controlled LED overlaps lesson 53 (LDR divider → LED) and the west branch of lesson 55. A distinct circuit (e.g. transistor switch) may be added here later.',
   'USB → 150Ω → LDR → buzzer → ground in one series path on the center column. The LDR and buzzer share the same current — in bright light the LDR resistance drops, so more current flows and the buzzer is louder; cover the sensor (dark) and resistance rises, so the buzzer fades or goes quiet. Compare lesson 53 (divider + LED on a tap, not series). 150Ω limits current; LDR and buzzer at 90°.',
-  'Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 470Ω → red LED → collector, emitter → ground) carries the LED current — the base only needs a small control current. Release the button and the LED goes off. Compare lesson 8 (button feeds the LED directly) and lesson 16 (pot sets the base threshold). NPN at 90°; LED at 90°.',
+  'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 470Ω → red LED → north, emitter → ground on south) carries the LED current. Compare lesson 8 (button feeds the LED directly) and lesson 16 (pot threshold). B, C, and E labels match the standard NPN symbol.',
   'Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit may be added later; temperature-controlled LED is lesson 66.',
-  'Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 150Ω → buzzer → collector, emitter → ground) drives the buzzer — same switch as lesson 58, but the load is a buzzer instead of an LED. Compare lesson 57 (series LDR + buzzer, no transistor) and lesson 58 (LED on the collector). 150Ω limits buzzer current; NPN and buzzer at 90°.',
+  'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → buzzer → north, emitter → ground on south) drives the buzzer. Compare lesson 57 (series LDR + buzzer) and lesson 58 (LED on the collector).',
+  'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

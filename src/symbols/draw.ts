@@ -265,29 +265,115 @@ function drawLed(ctx: CanvasRenderingContext2D, b: SymbolBounds, rgb = false) {
   }
 }
 
-function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
-  prep(ctx)
+/** Filled arrowhead on segment (x0,y0)→(x1,y1), pointing toward (x1,y1). */
+function strokeArrowOnSegment(
+  ctx: CanvasRenderingContext2D,
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  t = 0.5,
+) {
+  const ax = x0 + (x1 - x0) * t
+  const ay = y0 + (y1 - y0) * t
+  const dx = x1 - x0
+  const dy = y1 - y0
+  const len = Math.hypot(dx, dy) || 1
+  const ux = dx / len
+  const uy = dy / len
+  const s = Math.max(5, len * 0.28)
+  const px = -uy * s * 0.55
+  const py = ux * s * 0.55
+  ctx.beginPath()
+  ctx.moveTo(ax, ay)
+  ctx.lineTo(ax - ux * s + px, ay - uy * s + py)
+  ctx.lineTo(ax - ux * s - px, ay - uy * s - py)
+  ctx.closePath()
+  ctx.fill()
+}
+
+/** NPN leads: B west, C north, E south (IEC reference orientation at tile rotation 0°). */
+function npnLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
   const cx = midX(b)
-  const bx = b.x + b.w * 0.55
+  const inset = Math.min(b.w, b.h) * 0.1
+  return {
+    west: { x: b.x, y: cy },
+    north: { x: cx, y: b.y + inset },
+    south: { x: cx, y: b.y + b.h - inset },
+  }
+}
+
+/**
+ * Standard NPN symbol (IEC): large circle encloses the junction (bar + C/E diagonals).
+ * B/C/E straight leads cross the circle boundary to the tile magnets.
+ */
+function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  const cx = midX(b)
+  const cy = midY(b)
+  const size = Math.min(b.w, b.h)
+  const r = size * 0.48
+  const inset = size * 0.1
+  const northY = b.y + inset
+  const southY = b.y + b.h - inset
+
+  // Junction inside the circle (bar + diagonals stay within r)
+  const barX = cx - r * 0.16
+  const halfH = r * 0.36
+  const cBendY = cy - r * 0.52
+  const eBendY = cy + r * 0.52
+
+  prep(ctx)
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.stroke()
+
+  ctx.lineWidth = 3.5
+  prep(ctx)
+  ctx.beginPath()
+  ctx.moveTo(barX, cy - halfH)
+  ctx.lineTo(barX, cy + halfH)
+  ctx.stroke()
+  ctx.lineWidth = 2
+
+  prep(ctx)
+
+  // Base (west): through circle to bar
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
-  ctx.lineTo(bx - b.w * 0.08, cy)
-  ctx.moveTo(b.x + b.w, cy)
-  ctx.lineTo(bx + b.w * 0.08, cy)
-  ctx.moveTo(cx, b.y + b.h)
-  ctx.lineTo(bx, cy + b.h * 0.12)
+  ctx.lineTo(barX, cy)
   ctx.stroke()
+
+  // Collector: diagonal inside circle, then vertical to north
   ctx.beginPath()
-  ctx.moveTo(bx - b.w * 0.08, cy - b.h * 0.28)
-  ctx.lineTo(bx + b.w * 0.08, cy)
-  ctx.lineTo(bx - b.w * 0.08, cy + b.h * 0.28)
-  ctx.closePath()
+  ctx.moveTo(barX, cy - halfH)
+  ctx.lineTo(cx, cBendY)
+  ctx.lineTo(cx, northY)
   ctx.stroke()
+
+  // Emitter: diagonal inside circle (arrow outward), then vertical to south
   ctx.beginPath()
-  ctx.moveTo(bx + b.w * 0.08, cy)
-  ctx.lineTo(bx + b.w * 0.2, cy - b.h * 0.08)
+  ctx.moveTo(barX, cy + halfH)
+  ctx.lineTo(cx, eBendY)
+  ctx.lineTo(cx, southY)
   ctx.stroke()
+  prep(ctx)
+  ctx.fillStyle = STROKE
+  strokeArrowOnSegment(ctx, barX, cy + halfH, cx, eBendY)
+
+  const fs = Math.max(6, b.h * 0.19)
+  const outGap = fs * 0.72
+  const beside = fs * 0.82
+  ctx.save()
+  ctx.font = `700 ${fs}px system-ui, sans-serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = STROKE
+  // Beside each lead, clear of the circle and not on the stroke
+  ctx.fillText('B', cx - r - outGap, cy - beside)
+  ctx.fillText('C', cx + beside, cy - r - outGap)
+  ctx.fillText('E', cx + beside, cy + r + outGap)
+  ctx.restore()
 }
 
 function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
@@ -683,7 +769,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   diode: defaultLeads2,
   led: defaultLeads2,
   led_rgb: defaultLeads4,
-  npn: defaultLeads3,
+  npn: npnLeads,
   nmos: defaultLeads3,
   potentiometer: defaultLeads3,
   switch_spdt: defaultLeads3,

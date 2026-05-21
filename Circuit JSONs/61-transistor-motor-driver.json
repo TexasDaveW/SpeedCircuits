@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "name": "Transistor Switch",
+  "name": "Transistor Motor Driver",
   "lesson": {
-    "title": "Transistor Switch",
-    "description": "Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 470Ω → red LED → north, emitter → ground on south) carries the LED current. Compare lesson 8 (button feeds the LED directly) and lesson 16 (pot threshold). B, C, and E labels match the standard NPN symbol."
+    "title": "Transistor Motor Driver",
+    "description": "Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor)."
   },
-  "exportedAt": "2026-05-21T16:24:44.943Z",
+  "exportedAt": "2026-05-21T16:24:45.297Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -87,21 +87,21 @@
       "rotation": 180
     },
     {
-      "instanceId": "resistor-470-9",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
+      "instanceId": "resistor-150-9",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
       "category": "component",
-      "value": "470Ω",
+      "value": "150Ω",
       "gridX": 6,
       "gridY": 5,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-10",
-      "catalogId": "led-red",
-      "name": "Red LED",
+      "instanceId": "vibration-motor-10",
+      "catalogId": "vibration-motor",
+      "name": "Vibration motor",
       "category": "component",
-      "value": "RED",
+      "value": "MOTOR",
       "gridX": 6,
       "gridY": 6,
       "rotation": 90
@@ -192,7 +192,7 @@
         "side": "north"
       },
       "b": {
-        "instanceId": "led-red-10",
+        "instanceId": "vibration-motor-10",
         "side": "south"
       }
     },
@@ -221,17 +221,17 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-9",
+        "instanceId": "resistor-150-9",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-9",
+        "instanceId": "resistor-150-9",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-10",
+        "instanceId": "vibration-motor-10",
         "side": "north"
       }
     }
@@ -268,8 +268,8 @@
       "npn-6:west"
     ],
     [
-      "led-red-10:south",
-      "npn-6:north"
+      "npn-6:north",
+      "vibration-motor-10:south"
     ],
     [
       "ground-tile-7:north",
@@ -277,11 +277,11 @@
     ],
     [
       "corner-cube-8:south",
-      "resistor-470-9:north"
+      "resistor-150-9:north"
     ],
     [
-      "led-red-10:north",
-      "resistor-470-9:south"
+      "resistor-150-9:south",
+      "vibration-motor-10:north"
     ]
   ]
 }

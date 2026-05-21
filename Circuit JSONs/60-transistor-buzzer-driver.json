@@ -3,9 +3,9 @@
   "name": "Transistor Buzzer Driver",
   "lesson": {
     "title": "Transistor Buzzer Driver",
-    "description": "Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 150Ω → buzzer → collector, emitter → ground) drives the buzzer — same switch as lesson 58, but the load is a buzzer instead of an LED. Compare lesson 57 (series LDR + buzzer, no transistor) and lesson 58 (LED on the collector). 150Ω limits buzzer current; NPN and buzzer at 90°."
+    "description": "Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → buzzer → north, emitter → ground on south) drives the buzzer. Compare lesson 57 (series LDR + buzzer) and lesson 58 (LED on the collector)."
   },
-  "exportedAt": "2026-05-21T02:59:14.468Z",
+  "exportedAt": "2026-05-21T16:24:45.115Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -64,7 +64,7 @@
       "value": "NPN",
       "gridX": 6,
       "gridY": 7,
-      "rotation": 90
+      "rotation": 0
     },
     {
       "instanceId": "ground-tile-7",
