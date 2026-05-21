@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 62 reserved. High-current LED driver overlaps lesson 58 (NPN switch with LED on the collector). A distinct circuit (e.g. lower collector resistor for brightness compare) may be added later."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

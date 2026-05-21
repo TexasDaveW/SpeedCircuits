@@ -1,6 +1,6 @@
 import type { CircuitLesson } from './types'
 
-/** Lesson circuits bundled at build time from `Circuit JSONs/*.json` (lessons 01–61). */
+/** Lesson circuits bundled at build time from `Circuit JSONs/*.json` (lessons 01–62). */
 const jsonModules = import.meta.glob('../Circuit JSONs/*.json', {
   eager: true,
   import: 'default',

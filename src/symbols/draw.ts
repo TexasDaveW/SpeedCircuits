@@ -228,13 +228,13 @@ function drawLed(ctx: CanvasRenderingContext2D, b: SymbolBounds, rgb = false) {
   ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
 
-  // Triangle points right; cathode bar at the tip (right)
+  // Solid triangle (points right); cathode bar at the tip (right)
   ctx.beginPath()
   ctx.moveTo(bodyLeft, cy - halfH)
   ctx.lineTo(barX, cy)
   ctx.lineTo(bodyLeft, cy + halfH)
   ctx.closePath()
-  ctx.stroke()
+  ctx.fill()
 
   ctx.beginPath()
   ctx.moveTo(barX, cy - halfH)

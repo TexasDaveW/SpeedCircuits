@@ -1199,6 +1199,15 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '61-transistor-motor-driver',
     build: () => buildTransistorMotorDriver(),
   },
+  // Lesson 62: TBD — overlaps lesson 58. Keep Circuit JSONs/62-tbd.json. Do not EXPORT_ONLY=61.
+  {
+    name: '62-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 62 is TBD (overlaps lesson 58); edit Circuit JSONs/62-tbd.json when ready',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1263,6 +1272,7 @@ const DISPLAY_NAMES = [
   'TBD',
   'Transistor Buzzer Driver',
   'Transistor Motor Driver',
+  'TBD',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1327,6 +1337,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit may be added later; temperature-controlled LED is lesson 66.',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → buzzer → north, emitter → ground on south) drives the buzzer. Compare lesson 57 (series LDR + buzzer) and lesson 58 (LED on the collector).',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor).',
+  'Lesson 62 reserved. High-current LED driver overlaps lesson 58 (same NPN LED-on-collector switch). A distinct circuit may be added here later.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
