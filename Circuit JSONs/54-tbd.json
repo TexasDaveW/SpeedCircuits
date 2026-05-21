@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 54 reserved. Dark detector overlaps lesson 53 (LDR divider — LED brightens when covered). A distinct circuit may be added here later."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

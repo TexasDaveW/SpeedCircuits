@@ -31,7 +31,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'cap-47u', name: '47µF capacitor', category: 'component', quantity: 2, valueLabel: '47µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
   { id: 'cap-100u', name: '100µF capacitor', category: 'component', quantity: 2, valueLabel: '100µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
   { id: 'cap-1000u', name: '1000µF capacitor', category: 'component', quantity: 1, valueLabel: '1000µF', typeLabel: 'CAPACITOR', ports: ['west', 'east'], symbolId: 'capacitor' },
-  { id: 'ldr', name: 'LDR', category: 'component', quantity: 1, valueLabel: 'LDR', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor_resistive' },
+  { id: 'ldr', name: 'LDR', category: 'component', quantity: 1, valueLabel: 'LDR', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'ldr' },
   { id: 'thermistor', name: 'Thermistor', category: 'component', quantity: 1, valueLabel: 'NTC', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor_resistive' },
   {
     id: 'hall-sensor',

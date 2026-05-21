@@ -23,6 +23,7 @@ export type SymbolId =
   | 'switch_spdt'
   | 'switch_momentary'
   | 'sensor_resistive'
+  | 'ldr'
   | 'sensor'
   | 'sensor_north'
   | 'hall_sensor'

@@ -3,7 +3,7 @@
   "name": "LDR Light Sensor",
   "lesson": {
     "title": "LDR Light Sensor",
-    "description": "USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens. Compare lesson 54 (dark detector). LDR and resistors at 90°; LED at 90°."
+    "description": "USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens — that dark = brighter behavior is your simple dark detector. Compare lesson 55 (light level comparator). LDR and resistors at 90°; LED at 90°."
   },
   "exportedAt": "2026-05-21T01:13:39.165Z",
   "tiles": [

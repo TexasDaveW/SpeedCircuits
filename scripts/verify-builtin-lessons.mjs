@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 53
+const expected = 60
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -49,4 +49,19 @@ if (!js.includes('LDR Light Sensor')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–53 present (51 TBD until transistors).')
+if (!js.includes('Light-Controlled Buzzer')) {
+  console.error('Lesson 57 (Light-Controlled Buzzer) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('Transistor Switch')) {
+  console.error('Lesson 58 (Transistor Switch) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('Transistor Buzzer Driver')) {
+  console.error('Lesson 60 (Transistor Buzzer Driver) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–60 present (51, 54, 56, and 59 TBD).')

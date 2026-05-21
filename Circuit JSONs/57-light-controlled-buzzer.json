@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "name": "Light-Controlled Buzzer",
+  "lesson": {
+    "title": "Light-Controlled Buzzer",
+    "description": "USB → 150Ω → LDR → buzzer → ground in one series path on the center column. The LDR and buzzer share the same current — in bright light the LDR resistance drops, so more current flows and the buzzer is louder; cover the sensor (dark) and resistance rises, so the buzzer fades or goes quiet. Compare lesson 53 (divider + LED on a tap, not series). 150Ω limits current; LDR and buzzer at 90°."
+  },
+  "exportedAt": "2026-05-21T02:06:36.107Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-150-2",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ldr-3",
+      "catalogId": "ldr",
+      "name": "LDR",
+      "category": "component",
+      "value": "LDR",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "buzzer-4",
+      "catalogId": "buzzer",
+      "name": "Buzzer",
+      "category": "component",
+      "value": "BUZZ",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ldr-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ldr-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "buzzer-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "buzzer-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-5:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "resistor-150-2:north"
+    ],
+    [
+      "ldr-3:north",
+      "resistor-150-2:south"
+    ],
+    [
+      "buzzer-4:north",
+      "ldr-3:south"
+    ],
+    [
+      "buzzer-4:south",
+      "ground-tile-5:north"
+    ]
+  ]
+}

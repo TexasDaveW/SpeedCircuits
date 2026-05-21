@@ -375,6 +375,74 @@ function drawSensorResistive(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Photoresistor: circle + zigzag, horizontal leads, incoming light arrows (IEC-style). */
+function drawLdr(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  prep(ctx)
+  const cy = midY(b)
+  const cx = midX(b)
+  const r = Math.min(b.w * 0.4, b.h * 0.44)
+
+  const drawLightArrow = (x0: number, y0: number, x1: number, y1: number) => {
+    ctx.beginPath()
+    ctx.moveTo(x0, y0)
+    ctx.lineTo(x1, y1)
+    const dx = x1 - x0
+    const dy = y1 - y0
+    const len = Math.hypot(dx, dy) || 1
+    const ux = dx / len
+    const uy = dy / len
+    const ah = Math.min(5, len * 0.28)
+    const px = -uy
+    const py = ux
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x1 - ux * ah + px * ah * 0.45, y1 - uy * ah + py * ah * 0.45)
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x1 - ux * ah - px * ah * 0.45, y1 - uy * ah - py * ah * 0.45)
+    ctx.stroke()
+  }
+
+  const arrowTipX = cx - r * 0.05
+  const arrowTipY = cy - r * 0.75
+  const arrowGap = r * 0.14
+  drawLightArrow(
+    cx - r * 1.15 - arrowGap,
+    cy - r * 1.45,
+    arrowTipX - arrowGap * 0.35,
+    arrowTipY,
+  )
+  drawLightArrow(
+    cx - r * 1.15 + arrowGap,
+    cy - r * 1.45,
+    arrowTipX + arrowGap * 0.35,
+    arrowTipY,
+  )
+
+  const x0 = cx - r * 0.58
+  const x1 = cx + r * 0.58
+  const amp = r * 0.3
+  const steps = 3
+  const dxz = (x1 - x0) / steps
+
+  ctx.beginPath()
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(cx - r, cy)
+  ctx.moveTo(cx - r, cy)
+  ctx.lineTo(x0, cy)
+  for (let i = 0; i < steps; i++) {
+    const x = x0 + dxz * i + dxz / 2
+    const y = cy + (i % 2 === 0 ? -amp : amp)
+    ctx.lineTo(x, y)
+  }
+  ctx.lineTo(x1, cy)
+  ctx.lineTo(cx + r, cy)
+  ctx.lineTo(b.x + b.w, cy)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.stroke()
+}
+
 function drawSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
   const cy = midY(b)
@@ -593,6 +661,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   switch_spdt: drawSpdt,
   switch_momentary: drawButton,
   sensor_resistive: drawSensorResistive,
+  ldr: drawLdr,
   sensor: drawSensor,
   sensor_north: drawSensor,
   hall_sensor: drawHallSensor,
@@ -620,6 +689,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   switch_spdt: defaultLeads3,
   switch_momentary: defaultLeads2,
   sensor_resistive: defaultLeads2,
+  ldr: defaultLeads2,
   sensor: defaultLeads2,
   sensor_north: defaultLeadsNorth,
   hall_sensor: defaultLeads4,

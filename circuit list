@@ -13,7 +13,7 @@ Two-Button Parallel Logic
 Morse Code LED
 Variable LED Brightness
 Pot-Controlled RGB Mixer
-Pot-Controlled LED Threshold
+Pot-Controlled LED Threshold (NPN intro — full transistor block at 58+)
 Adjustable Voltage Divider
 LED Bar Brightness Comparison
 Capacitor Charge Demo
@@ -48,39 +48,39 @@ LC Resonance Experiment
 Magnetic Pickup Experiment
 Hall Sensor Magnetic Detection
 Hall Sensor LED Trigger
-Hall Sensor Switch Circuit (TBD — after transistors)
+Hall Sensor Switch Circuit (TBD — after lesson 58+)
 Hall Sensor Polarity Demo
 LDR Light Sensor
-Dark Detector
+Dark Detector (TBD — overlaps lesson 53)
 Light Level Comparator
-Light-Controlled LED
+Light-Controlled LED (TBD — overlaps lessons 53, 55; build after 58+)
 Light-Controlled Buzzer
-Thermistor Temperature Sensor
-Temperature-Controlled LED
-Temperature Alarm Circuit
-Microphone Sound Detector
-Clap Detector
-Sound-Activated LED
-Sound-Activated Buzzer
-Optical Interrupt Detector
-Beam Break Alarm
-Optical Pulse Counter
-Vibration Motor Driver
-Buzzer On/Off Circuit
-Variable Buzzer Pitch
-Variable Motor Speed
 Transistor Switch
-Transistor LED Driver
+Transistor LED Driver (TBD — overlaps lesson 58)
 Transistor Buzzer Driver
 Transistor Motor Driver
 High-Current LED Driver
 Transistor Signal Amplifier
 Darlington Pair Experiment
+Thermistor Temperature Sensor (TBD — NPN switch)
+Temperature-Controlled LED (TBD — NPN switch)
+Temperature Alarm Circuit (TBD — NPN switch)
+Microphone Sound Detector (TBD — NPN switch)
+Clap Detector (TBD — NPN switch)
+Sound-Activated LED (TBD — NPN switch)
+Sound-Activated Buzzer (TBD — NPN switch)
+Optical Interrupt Detector
+Beam Break Alarm
+Optical Pulse Counter
+Vibration Motor Driver (TBD — NPN switch)
+Buzzer On/Off Circuit
+Variable Buzzer Pitch
+Variable Motor Speed (TBD — NPN switch)
 Sensitive Touch Sensor
 Capacitive Touch Trigger
-Touch-Activated LED
-Touch-Activated Buzzer
-Touch-Activated Motor
+Touch-Activated LED (TBD — NPN switch)
+Touch-Activated Buzzer (TBD — NPN switch)
+Touch-Activated Motor (TBD — NPN switch)
 Transistor RC Timer
 Transistor Delay Circuit
 Light-Triggered Transistor Switch

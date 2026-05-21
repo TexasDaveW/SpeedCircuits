@@ -295,6 +295,34 @@ function buildCoilMagneticFieldDemo(): PlacedTile[] {
  */
 
 /**
+ * Lesson 55 — hand-authored ref: Circuit JSONs/55-light-level-comparator.json
+ * Starter: west LDR divider + LED; east pot divider + LED (fix routing on plate).
+ */
+function buildLightLevelComparator(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('resistor-10k', 5, 5, 90),
+    tile('t-connector', 5, 6, 90),
+    tile('ldr', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+    tile('corner-cube', 4, 6, 180),
+    tile('resistor-470', 4, 7, 90),
+    tile('led-red', 4, 8, 90),
+    tile('ground-tile', 4, 9),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-10k', 6, 5, 90),
+    tile('potentiometer', 6, 6, 270),
+    tile('resistor-10k', 6, 7, 90),
+    tile('ground-tile', 6, 8),
+    tile('corner-cube', 7, 6, 180),
+    tile('resistor-470', 7, 7, 90),
+    tile('led-red', 7, 8, 90),
+    tile('ground-tile', 7, 9),
+  ]
+}
+
+/**
  * Lesson 53: USB → 10kΩ → LDR → GND divider; east branch 470Ω + LED shows tap voltage.
  */
 function buildLdrLightSensor(): PlacedTile[] {
@@ -308,6 +336,53 @@ function buildLdrLightSensor(): PlacedTile[] {
     tile('resistor-470', 6, 6, 90),
     tile('led-red', 6, 7, 90),
     tile('ground-tile', 6, 8),
+  ]
+}
+
+/**
+ * Lesson 58: Transistor switch — tact → 10kΩ → base; USB → T → 470Ω → LED → collector; emitter → GND.
+ */
+function buildTransistorSwitch(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('tact-button', 5, 5, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('corner-cube', 5, 7, 0),
+    tile('npn', 6, 7, 90),
+    tile('ground-tile', 6, 8),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-470', 6, 5, 90),
+    tile('led-red', 6, 6, 90),
+  ]
+}
+
+/**
+ * Lesson 60: same switch as 58 — tact → 10kΩ → base; USB → T → 150Ω → buzzer → collector; emitter → GND.
+ */
+function buildTransistorBuzzerDriver(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('tact-button', 5, 5, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('corner-cube', 5, 7, 0),
+    tile('npn', 6, 7, 90),
+    tile('ground-tile', 6, 8),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-150', 6, 5, 90),
+    tile('buzzer', 6, 6, 90),
+  ]
+}
+
+/** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
+function buildLightControlledBuzzer(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('resistor-150', 5, 4, 90),
+    tile('ldr', 5, 5, 90),
+    tile('buzzer', 5, 6, 90),
+    tile('ground-tile', 5, 7),
   ]
 }
 
@@ -1049,6 +1124,59 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '53-ldr-light-sensor',
     build: () => buildLdrLightSensor(),
   },
+  // Lesson 54: TBD — overlaps lesson 53. Keep Circuit JSONs/54-tbd.json empty. Do not EXPORT_ONLY=53.
+  {
+    name: '54-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 54 is TBD (see lesson 53); edit Circuit JSONs/54-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 55: hand-authored — see Circuit JSONs/55-light-level-comparator.json. Do not EXPORT_ONLY=54.
+  {
+    name: '55-light-level-comparator',
+    build: () => {
+      throw new Error(
+        'Lesson 55 is hand-authored; edit Circuit JSONs/55-light-level-comparator.json',
+      )
+    },
+  },
+  // Lesson 56: TBD — overlaps lessons 53 and 55. Keep Circuit JSONs/56-tbd.json empty. Do not EXPORT_ONLY=55.
+  {
+    name: '56-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 56 is TBD (see lessons 53, 55); edit Circuit JSONs/56-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 57: hand-authored — see Circuit JSONs/57-light-controlled-buzzer.json. Do not EXPORT_ONLY=56.
+  {
+    name: '57-light-controlled-buzzer',
+    build: () => {
+      throw new Error(
+        'Lesson 57 is hand-authored; edit Circuit JSONs/57-light-controlled-buzzer.json',
+      )
+    },
+  },
+  {
+    name: '58-transistor-switch',
+    build: () => buildTransistorSwitch(),
+  },
+  // Lesson 59: TBD — overlaps lesson 58 (same plate). Keep Circuit JSONs/59-tbd.json. Do not EXPORT_ONLY=58.
+  {
+    name: '59-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 59 is TBD (overlaps lesson 58); edit Circuit JSONs/59-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '60-transistor-buzzer-driver',
+    build: () => buildTransistorBuzzerDriver(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1105,6 +1233,13 @@ const DISPLAY_NAMES = [
   'TBD',
   'Hall Sensor Polarity Demo',
   'LDR Light Sensor',
+  'TBD',
+  'Light Level Comparator',
+  'TBD',
+  'Light-Controlled Buzzer',
+  'Transistor Switch',
+  'TBD',
+  'Transistor Buzzer Driver',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1160,7 +1295,14 @@ const LESSON_DESCRIPTIONS: string[] = [
   'USB splits at a T: center column 470Ω → SIG T → LED branch; east column 10kΩ pull-up to the Hall (+ north, − south at 0°). With no magnet the pull-up holds SIG high and the LED stays off; when the Hall pulls SIG low, the LED snaps on. Use either SIG face (west or east) on the Hall tile. Compare lesson 49 (detection) and lesson 52 (magnet polarity). Hall at 0°; LED at 90°.',
   'Lesson 51 reserved. Hall sensor + NPN switch needs transistors first — see circuit list: Transistor Switch, Hall-Triggered Transistor Switch. Lessons 49–50 cover Hall without a transistor.',
   'Same circuit as lesson 50 (USB → 470Ω → SIG T → LED; east column 10kΩ pull-up to the Hall at 0°). No new wiring — flip the magnet (N vs S toward the sensor) or approach from different sides and watch whether the LED turns on, off, or swaps compared to the other pole. Compare lesson 50 (trigger behavior). Hall at 0°; LED at 90°.',
-  'USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens. Compare lesson 54 (dark detector). LDR and resistors at 90°; LED at 90°.',
+  'USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens — that dark = brighter behavior is your simple dark detector. Compare lesson 55 (light level comparator). LDR and resistors at 90°; LED at 90°.',
+  'Lesson 54 reserved. Dark detector overlaps lesson 53 (LDR divider — LED brightens when covered). A distinct circuit may be added here later.',
+  'USB splits at a T. West: 10kΩ → LDR → ground with 470Ω → red LED on the tap (sensor level). East: 10kΩ → pot (270°) → 10kΩ → ground with 470Ω → red LED from the wiper (your reference level). Turn the pot until the east LED matches the west LED at your current lighting, then change light on the LDR — the west LED goes brighter or dimmer than the reference. Compare lesson 53 (single sensor). LDR and resistors at 90°; pot at 270°; LEDs at 90°.',
+  'Lesson 56 reserved. Light-controlled LED overlaps lesson 53 (LDR divider → LED) and the west branch of lesson 55. A distinct circuit (e.g. transistor switch) may be added here later.',
+  'USB → 150Ω → LDR → buzzer → ground in one series path on the center column. The LDR and buzzer share the same current — in bright light the LDR resistance drops, so more current flows and the buzzer is louder; cover the sensor (dark) and resistance rises, so the buzzer fades or goes quiet. Compare lesson 53 (divider + LED on a tap, not series). 150Ω limits current; LDR and buzzer at 90°.',
+  'Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 470Ω → red LED → collector, emitter → ground) carries the LED current — the base only needs a small control current. Release the button and the LED goes off. Compare lesson 8 (button feeds the LED directly) and lesson 16 (pot sets the base threshold). NPN at 90°; LED at 90°.',
+  'Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit may be added later; temperature-controlled LED is lesson 66.',
+  'Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 150Ω → buzzer → collector, emitter → ground) drives the buzzer — same switch as lesson 58, but the load is a buzzer instead of an LED. Compare lesson 57 (series LDR + buzzer, no transistor) and lesson 58 (LED on the collector). 150Ω limits buzzer current; NPN and buzzer at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

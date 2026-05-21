@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 56 reserved. Light-controlled LED overlaps lesson 53 (LDR divider → LED) and the west branch of lesson 55. A distinct circuit (e.g. transistor switch) may be added here later."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

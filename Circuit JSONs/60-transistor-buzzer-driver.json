@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "name": "Transistor Buzzer Driver",
+  "lesson": {
+    "title": "Transistor Buzzer Driver",
+    "description": "Press and hold the tact button: USB → 10kΩ → NPN base turns the transistor on. The east branch (USB → 150Ω → buzzer → collector, emitter → ground) drives the buzzer — same switch as lesson 58, but the load is a buzzer instead of an LED. Compare lesson 57 (series LDR + buzzer, no transistor) and lesson 58 (LED on the collector). 150Ω limits buzzer current; NPN and buzzer at 90°."
+  },
+  "exportedAt": "2026-05-21T02:59:14.468Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "tact-button-3",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-4",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-5",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-6",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-7",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-150-9",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "buzzer-10",
+      "catalogId": "buzzer",
+      "name": "Buzzer",
+      "category": "component",
+      "value": "BUZZ",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-5",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "npn-6",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-6",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "buzzer-10",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-7",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "buzzer-10",
+        "side": "north"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-7:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "corner-cube-8:west",
+      "t-connector-2:east"
+    ],
+    [
+      "t-connector-2:south",
+      "tact-button-3:north"
+    ],
+    [
+      "resistor-10k-4:north",
+      "tact-button-3:south"
+    ],
+    [
+      "corner-cube-5:north",
+      "resistor-10k-4:south"
+    ],
+    [
+      "corner-cube-5:east",
+      "npn-6:west"
+    ],
+    [
+      "buzzer-10:south",
+      "npn-6:north"
+    ],
+    [
+      "ground-tile-7:north",
+      "npn-6:south"
+    ],
+    [
+      "corner-cube-8:south",
+      "resistor-150-9:north"
+    ],
+    [
+      "buzzer-10:north",
+      "resistor-150-9:south"
+    ]
+  ]
+}
