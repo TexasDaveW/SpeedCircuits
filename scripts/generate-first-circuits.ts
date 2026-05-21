@@ -295,25 +295,30 @@ function buildCoilMagneticFieldDemo(): PlacedTile[] {
  */
 
 /**
- * Lesson 50: same power column as 49; SIG T at (4,5) with 10k pull-up to USB and LED to GND.
- * Open-collector Hall: magnet pulls SIG low → LED turns on.
+ * Lesson 53: USB → 10kΩ → LDR → GND divider; east branch 470Ω + LED shows tap voltage.
  */
-function buildHallSensorLedTrigger(): PlacedTile[] {
+function buildLdrLightSensor(): PlacedTile[] {
   return [
     tile('power-tile', 5, 3),
-    tile('t-connector', 5, 4, 90),
-    tile('resistor-470', 5, 5, 90),
-    tile('hall-sensor', 5, 6, 270),
-    tile('overpass-cube', 5, 6),
+    tile('resistor-10k', 5, 4, 90),
+    tile('t-connector', 5, 5, 90),
+    tile('ldr', 5, 6, 90),
     tile('ground-tile', 5, 7),
-    tile('resistor-10k', 6, 4, 0),
     tile('corner-cube', 6, 5, 180),
-    tile('t-connector', 4, 6, 90),
-    tile('resistor-470', 4, 7, 90),
-    tile('led-red', 4, 8, 90),
-    tile('ground-tile', 4, 9),
+    tile('resistor-470', 6, 6, 90),
+    tile('led-red', 6, 7, 90),
+    tile('ground-tile', 6, 8),
   ]
 }
+
+/**
+ * Lesson 52 — hand-authored ref: Circuit JSONs/52-hall-sensor-polarity-demo.json
+ * Same layout as lesson 50; lesson text focuses on magnet N/S polarity.
+ */
+
+/**
+ * Lesson 50 — hand-authored ref: Circuit JSONs/50-hall-sensor-led-trigger.json
+ */
 
 /**
  * Lesson 49 — hand-authored ref: Circuit JSONs/49-hall-sensor-magnetic-detection.json
@@ -1013,9 +1018,36 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 50: hand-authored — see Circuit JSONs/50-hall-sensor-led-trigger.json. Do not EXPORT_ONLY=49.
   {
     name: '50-hall-sensor-led-trigger',
-    build: () => buildHallSensorLedTrigger(),
+    build: () => {
+      throw new Error(
+        'Lesson 50 is hand-authored; edit Circuit JSONs/50-hall-sensor-led-trigger.json',
+      )
+    },
+  },
+  // Lesson 51: TBD — Hall+NPN deferred until transistor lessons. Keep Circuit JSONs/51-tbd.json empty. Do not EXPORT_ONLY=50.
+  {
+    name: '51-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 51 is TBD (Hall switch needs transistors); edit Circuit JSONs/51-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 52: hand-authored — same plate as lesson 50; see Circuit JSONs/52-hall-sensor-polarity-demo.json. Do not EXPORT_ONLY=51.
+  {
+    name: '52-hall-sensor-polarity-demo',
+    build: () => {
+      throw new Error(
+        'Lesson 52 is hand-authored; edit Circuit JSONs/52-hall-sensor-polarity-demo.json',
+      )
+    },
+  },
+  {
+    name: '53-ldr-light-sensor',
+    build: () => buildLdrLightSensor(),
   },
 ]
 
@@ -1070,6 +1102,9 @@ const DISPLAY_NAMES = [
   'Magnetic Pickup Experiment',
   'Hall Sensor Magnetic Detection',
   'Hall Sensor LED Trigger',
+  'TBD',
+  'Hall Sensor Polarity Demo',
+  'LDR Light Sensor',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1122,7 +1157,10 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Tap the tact button (quick press or release). USB → 470Ω → inductor → 100µF capacitor → red LED → ground. Each edge excites the LC pair — energy rings between the coil and the cap and the LED may pulse or glow briefly, unlike one steady flash. A slide switch (lesson 28) also works; tact makes the on/off edges crisp. Compare lesson 28 (capacitor alone), lesson 46 (L filter branch), and lesson 41 (L + kickback). Cap + toward power (north); LED at 90° (anode north).',
   'Two inductors. East (slide ON): USB → 150Ω → coil → ground — an electromagnet like lesson 44. West: pickup coil → 10kΩ → red LED → ground only (no USB on that coil). Flip the east switch on/off or wave a magnet near the west coil — a changing field induces a brief pulse on the west LED. That is a generator: magnet motion → electricity. Compare lesson 44 (you power the coil) and lesson 49 (Hall sensor). Slide at 180°; LEDs at 90°.',
   'USB → 470Ω → Hall sensor on the center column (+ on north toward USB, − on south toward GND). SIG on the west face feeds 470Ω → red LED → ground on the west column — when a magnet is in range, the output changes and the LED responds. Unlike lesson 48 (coil + motion), the Hall is a solid-state field detector. Wave a magnet or use the lesson 44 coil nearby; flip polarity to compare. Lesson 50 adds a dedicated LED trigger. Hall at 270°; LED at 90°.',
-  'Same Hall power column as lesson 49 (Hall at 270°: + north, − south). At the SIG T-junction, a 10kΩ pull-up feeds USB while SIG also drives 470Ω → red LED → ground. With no magnet the pull-up holds SIG high and the LED stays off; when the Hall output pulls SIG low, current flows through the LED and it snaps on — a clear trigger. Compare lesson 49 (detection) and lesson 51 (switch circuit). LED at 90°.',
+  'USB splits at a T: center column 470Ω → SIG T → LED branch; east column 10kΩ pull-up to the Hall (+ north, − south at 0°). With no magnet the pull-up holds SIG high and the LED stays off; when the Hall pulls SIG low, the LED snaps on. Use either SIG face (west or east) on the Hall tile. Compare lesson 49 (detection) and lesson 52 (magnet polarity). Hall at 0°; LED at 90°.',
+  'Lesson 51 reserved. Hall sensor + NPN switch needs transistors first — see circuit list: Transistor Switch, Hall-Triggered Transistor Switch. Lessons 49–50 cover Hall without a transistor.',
+  'Same circuit as lesson 50 (USB → 470Ω → SIG T → LED; east column 10kΩ pull-up to the Hall at 0°). No new wiring — flip the magnet (N vs S toward the sensor) or approach from different sides and watch whether the LED turns on, off, or swaps compared to the other pole. Compare lesson 50 (trigger behavior). Hall at 0°; LED at 90°.',
+  'USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens. Compare lesson 54 (dark detector). LDR and resistors at 90°; LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

@@ -390,35 +390,47 @@ function drawSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
-/** Hall IC body + north lead; port labels (+/−/SIG) are drawn on magnets in drawTile. */
+/** Hall IC: north +, south −, west/east SIG (labels stay inside the band). */
 function drawHallSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
-  drawSensor(ctx, b)
   prep(ctx)
   const cy = midY(b)
   const cx = midX(b)
-  const h = b.h * 0.5
+  const w = b.w * 0.52
+  const h = b.h * 0.72
+  const x0 = cx - w / 2
+  const y0 = cy - h / 2
+  ctx.strokeRect(x0, y0, w, h)
   ctx.beginPath()
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(x0, cy)
+  ctx.moveTo(x0 + w, cy)
+  ctx.lineTo(b.x + b.w, cy)
   ctx.moveTo(cx, b.y)
-  ctx.lineTo(cx, cy - h / 2)
+  ctx.lineTo(cx, y0)
+  ctx.moveTo(cx, y0 + h)
+  ctx.lineTo(cx, b.y + b.h)
   ctx.stroke()
+  const markSize = Math.max(7, Math.min(b.h * 0.42, b.w * 0.22))
+  const sigSize = Math.max(6, markSize * 0.82)
+  ctx.save()
+  ctx.fillStyle = STROKE
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = `700 ${markSize}px system-ui, sans-serif`
+  ctx.fillText('+', cx, y0 + h * 0.2)
+  ctx.fillText('−', cx, y0 + h * 0.8)
+  ctx.font = `700 ${sigSize}px system-ui, sans-serif`
+  ctx.fillText('SIG', x0 + w * 0.22, cy)
+  ctx.fillText('SIG', x0 + w * 0.78, cy)
+  ctx.restore()
 }
 
-/** Per-port labels at 0° (west +, east −, north SIG). Other rotations in drawTile. */
-export const HALL_PORT_LABELS_0: Partial<Record<Side, string>> = {
-  west: '+',
-  east: '−',
-  north: 'SIG',
-}
-
-/** Base-port labels so markings match lesson 49 at 270° (north→+, south→−, west→SIG). */
-export const HALL_PORT_LABELS_BY_ROTATION: Record<
-  0 | 90 | 180 | 270,
-  Partial<Record<Side, string>>
-> = {
-  0: HALL_PORT_LABELS_0,
-  90: HALL_PORT_LABELS_0,
-  180: HALL_PORT_LABELS_0,
-  270: { east: '+', west: '−', north: 'SIG' },
+/** Port labels (fixed to pin names; tile rotation moves magnets, not labels). */
+export const HALL_PORT_LABELS: Partial<Record<Side, string>> = {
+  north: '+',
+  south: '−',
+  west: 'SIG',
+  east: 'SIG',
 }
 
 function drawMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
@@ -610,7 +622,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   sensor_resistive: defaultLeads2,
   sensor: defaultLeads2,
   sensor_north: defaultLeadsNorth,
-  hall_sensor: defaultLeadsNorth,
+  hall_sensor: defaultLeads4,
   motor: defaultLeads2,
   buzzer: defaultLeads2,
   touch_pad: defaultLeads2,

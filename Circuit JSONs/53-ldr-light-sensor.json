@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "name": "LDR Light Sensor",
+  "lesson": {
+    "title": "LDR Light Sensor",
+    "description": "USB → 10kΩ → LDR → ground on the center column — a voltage divider where the LDR is the lower leg. A T at the junction feeds the east branch (470Ω → red LED → ground) so you can see the tap voltage. In bright light the LDR resistance drops, the junction voltage falls, and the LED dims; cover the sensor (dark) and resistance rises, the junction climbs, and the LED brightens. Compare lesson 54 (dark detector). LDR and resistors at 90°; LED at 90°."
+  },
+  "exportedAt": "2026-05-21T01:13:39.165Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-10k-2",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-3",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ldr-4",
+      "catalogId": "ldr",
+      "name": "LDR",
+      "category": "component",
+      "value": "LDR",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-6",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-7",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-8",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-9",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-3",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-6",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ldr-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ldr-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-5",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-9",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-5:south",
+      "ground-tile-9:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "resistor-10k-2:north"
+    ],
+    [
+      "resistor-10k-2:south",
+      "t-connector-3:north"
+    ],
+    [
+      "corner-cube-6:west",
+      "t-connector-3:east"
+    ],
+    [
+      "ldr-4:north",
+      "t-connector-3:south"
+    ],
+    [
+      "ground-tile-5:north",
+      "ldr-4:south"
+    ],
+    [
+      "corner-cube-6:south",
+      "resistor-470-7:north"
+    ],
+    [
+      "led-red-8:north",
+      "resistor-470-7:south"
+    ],
+    [
+      "ground-tile-9:north",
+      "led-red-8:south"
+    ]
+  ]
+}

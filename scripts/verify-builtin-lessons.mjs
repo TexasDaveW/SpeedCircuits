@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 50
+const expected = 53
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -39,4 +39,14 @@ if (!js.includes('Hall Sensor LED Trigger')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–50 present.')
+if (!js.includes('Hall Sensor Polarity Demo')) {
+  console.error('Lesson 52 (Hall Sensor Polarity Demo) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('LDR Light Sensor')) {
+  console.error('Lesson 53 (LDR Light Sensor) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–53 present (51 TBD until transistors).')

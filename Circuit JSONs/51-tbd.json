@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 51 reserved. Hall sensor + NPN switch (Hall Sensor Switch Circuit) needs transistors first — see circuit list: Transistor Switch, Hall-Triggered Transistor Switch. Lessons 49–50 cover Hall detection and SIG→LED trigger without a transistor. A circuit may be added here after the transistor block."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

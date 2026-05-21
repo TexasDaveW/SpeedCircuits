@@ -117,6 +117,17 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
         rotateSide('south', tile.rotation),
       )
     }
+
+    // Hall: west and east are the same SIG output (use either side when flipped).
+    if (entry.id === 'hall-sensor') {
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('west', tile.rotation),
+        rotateSide('east', tile.rotation),
+      )
+    }
   }
 
   return connections

@@ -40,7 +40,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
     quantity: 1,
     valueLabel: 'HALL',
     typeLabel: 'SENSOR',
-    ports: ['west', 'east', 'north'],
+    ports: ['north', 'south', 'west', 'east'],
     symbolId: 'hall_sensor',
   },
   { id: 'microphone', name: 'Microphone', category: 'component', quantity: 1, valueLabel: 'MIC', typeLabel: 'SENSOR', ports: ['west', 'east'], symbolId: 'sensor' },
