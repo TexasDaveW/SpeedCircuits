@@ -292,13 +292,14 @@ function strokeArrowOnSegment(
   ctx.fill()
 }
 
-/** NPN leads: B west, C north, E south (IEC reference orientation at tile rotation 0°). */
+/** NPN leads: B west + east (same node), C north, E south at tile rotation 0°. */
 function npnLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
   const cx = midX(b)
   const inset = Math.min(b.w, b.h) * 0.1
   return {
     west: { x: b.x, y: cy },
+    east: { x: b.x + b.w, y: cy },
     north: { x: cx, y: b.y + inset },
     south: { x: cx, y: b.y + b.h - inset },
   }
@@ -338,10 +339,11 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
 
   prep(ctx)
 
-  // Base (west): through circle to bar
+  // Base: full width through circle to bar (west and east magnets)
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
   ctx.lineTo(barX, cy)
+  ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
 
   // Collector: diagonal inside circle, then vertical to north
@@ -371,6 +373,7 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.fillStyle = STROKE
   // Beside each lead, clear of the circle and not on the stroke
   ctx.fillText('B', cx - r - outGap, cy - beside)
+  ctx.fillText('B', cx + r + outGap, cy - beside)
   ctx.fillText('C', cx + beside, cy - r - outGap)
   ctx.fillText('E', cx + beside, cy + r + outGap)
   ctx.restore()

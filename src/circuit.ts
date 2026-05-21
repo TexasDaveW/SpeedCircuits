@@ -128,6 +128,17 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
         rotateSide('east', tile.rotation),
       )
     }
+
+    // NPN: west and east are the same base (route control or Darlington link from either side).
+    if (entry.id === 'npn') {
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('west', tile.rotation),
+        rotateSide('east', tile.rotation),
+      )
+    }
   }
 
   return connections

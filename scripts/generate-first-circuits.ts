@@ -1238,6 +1238,15 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '63-transistor-signal-amplifier',
     build: () => buildTransistorSignalAmplifier(),
   },
+  // Lesson 64: hand-authored — see Circuit JSONs/64-darlington-pair-experiment.json. Do not EXPORT_ONLY=63.
+  {
+    name: '64-darlington-pair-experiment',
+    build: () => {
+      throw new Error(
+        'Lesson 64 is hand-authored; edit Circuit JSONs/64-darlington-pair-experiment.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1304,6 +1313,7 @@ const DISPLAY_NAMES = [
   'Transistor Motor Driver',
   'TBD',
   'Transistor Signal Amplifier',
+  'Darlington Pair Experiment',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1370,6 +1380,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor).',
   'Lesson 62 reserved. High-current LED driver overlaps lesson 58 (same NPN LED-on-collector switch). A distinct circuit may be added here later.',
   'Turn the pot slowly: the same 10kΩ–pot–10kΩ divider as lesson 16 sets NPN base voltage on the west column. The collector branch (USB → T → 470Ω → red LED → NPN north) carries the LED current — most of that current flows collector–emitter, not through the base. A 150Ω emitter resistor to ground sets a small emitter voltage (about 0.9 V at a few mA) so the transistor can still drive the LED; a 47kΩ emitter would need tens of volts at the emitter and would block the LED. Compare lesson 14 (pot feeds the LED directly), lesson 16 (no emitter resistor), and lesson 58 (tact switch). Pot 270°; NPN at 0°; LED at 90°.',
+  'Lesson 64 reserved. Darlington pair experiment — hand-route on the plate: tact → 10kΩ → Q1 base; Q1 emitter → Q2 base; both collectors → 470Ω → LED; Q2 emitter → GND. Starter layout in Circuit JSONs/64-darlington-pair-experiment.json (lesson 58 switch + second NPN). Compare lesson 58 (one transistor).',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

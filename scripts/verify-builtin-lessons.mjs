@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 63
+const expected = 64
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -74,4 +74,9 @@ if (!js.includes('Transistor Signal Amplifier')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–63 present (51, 54, 56, 59, and 62 TBD).')
+if (!js.includes('Darlington Pair Experiment')) {
+  console.error('Lesson 64 (Darlington Pair Experiment) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–64 present (51, 54, 56, 59, and 62 TBD).')

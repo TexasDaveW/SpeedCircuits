@@ -61,7 +61,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
     quantity: 3,
     valueLabel: 'NPN',
     typeLabel: 'TRANSISTOR',
-    ports: ['west', 'north', 'south'],
+    ports: ['west', 'east', 'north', 'south'],
     symbolId: 'npn',
   },
   { id: 'nmos', name: 'NMOS transistor', category: 'component', quantity: 3, valueLabel: 'NMOS', typeLabel: 'MOSFET', ports: ['west', 'east', 'south'], symbolId: 'nmos' },

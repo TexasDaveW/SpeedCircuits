@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "name": "Darlington Pair Experiment",
+  "lesson": {
+    "title": "Darlington Pair Experiment",
+    "description": "Build a two-NPN Darlington pair on top of the lesson 58 switch. Q2 (east tile, 6,7) is wired like lesson 58: USB → T → 470Ω → LED → collector, emitter → ground. Add Q1 (7,7) beside it: route tact → 10kΩ → Q1 base (west), Q1 emitter (south) → Q2 base (west) with corners/straights, and tie both collectors to the LED branch. The pair needs much less base current than one transistor (lesson 58) for the same LED — gain is roughly β×β. Hand-route the Darlington link on your plate; magnet connectivity in this file is not finalized."
+  },
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "tact-button-3",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-4",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-5",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-q2-6",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-q1-7",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "ground-tile-8",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-9",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-10",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-11",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    }
+  ],
+  "connections": [
+    {
+      "a": { "instanceId": "power-tile-1", "side": "west" },
+      "b": { "net": "PLATE_GND" }
+    },
+    {
+      "a": { "instanceId": "power-tile-1", "side": "south" },
+      "b": { "net": "USB_VCC" }
+    },
+    {
+      "a": { "instanceId": "power-tile-1", "side": "south" },
+      "b": { "instanceId": "t-connector-2", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "t-connector-2", "side": "east" },
+      "b": { "instanceId": "corner-cube-9", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "t-connector-2", "side": "south" },
+      "b": { "instanceId": "tact-button-3", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "tact-button-3", "side": "south" },
+      "b": { "instanceId": "resistor-10k-4", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "resistor-10k-4", "side": "south" },
+      "b": { "instanceId": "corner-cube-5", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "corner-cube-5", "side": "east" },
+      "b": { "instanceId": "npn-q2-6", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "npn-q2-6", "side": "north" },
+      "b": { "instanceId": "led-red-11", "side": "south" }
+    },
+    {
+      "a": { "instanceId": "npn-q2-6", "side": "south" },
+      "b": { "instanceId": "ground-tile-8", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "ground-tile-8", "side": "south" },
+      "b": { "net": "PLATE_GND" }
+    },
+    {
+      "a": { "instanceId": "corner-cube-9", "side": "south" },
+      "b": { "instanceId": "resistor-470-10", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "resistor-470-10", "side": "south" },
+      "b": { "instanceId": "led-red-11", "side": "north" }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-8:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "corner-cube-9:west",
+      "t-connector-2:east"
+    ],
+    [
+      "t-connector-2:south",
+      "tact-button-3:north"
+    ],
+    [
+      "resistor-10k-4:north",
+      "tact-button-3:south"
+    ],
+    [
+      "corner-cube-5:north",
+      "resistor-10k-4:south"
+    ],
+    [
+      "corner-cube-5:east",
+      "npn-q2-6:west"
+    ],
+    [
+      "led-red-11:south",
+      "npn-q2-6:north"
+    ],
+    [
+      "ground-tile-8:north",
+      "npn-q2-6:south"
+    ],
+    [
+      "corner-cube-9:south",
+      "resistor-470-10:north"
+    ],
+    [
+      "led-red-11:north",
+      "resistor-470-10:south"
+    ]
+  ]
+}
