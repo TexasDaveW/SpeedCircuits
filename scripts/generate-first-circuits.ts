@@ -393,6 +393,32 @@ function buildTransistorMotorDriver(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 63: Same pot-divider → base routing as lesson 16, plus 150Ω emitter (not 47k — that
+ * would need Ve ≈ Ic×47k and starve the LED). Collector: USB → T → 470Ω → LED → NPN.
+ */
+function buildTransistorSignalAmplifier(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('resistor-470', 6, 4, 0),
+    tile('led-red', 7, 5, 90),
+    tile('npn', 7, 6, 0),
+    tile('resistor-10k', 4, 4, 0),
+    tile('potentiometer', 3, 5, 270),
+    tile('resistor-10k', 3, 6, 90),
+    tile('resistor-150', 7, 7, 90),
+    tile('ground-tile', 7, 8),
+    tile('corner-cube', 4, 5, 180),
+    tile('corner-cube', 4, 6, 0),
+    tile('corner-cube', 7, 4, 180),
+    tile('t-connector', 5, 4, 0),
+    tile('corner-cube', 3, 4, 90),
+    tile('straight-cube', 5, 6, 180),
+    tile('straight-cube', 6, 6, 180),
+    tile('ground-tile', 3, 7),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1208,6 +1234,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  {
+    name: '63-transistor-signal-amplifier',
+    build: () => buildTransistorSignalAmplifier(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1273,6 +1303,7 @@ const DISPLAY_NAMES = [
   'Transistor Buzzer Driver',
   'Transistor Motor Driver',
   'TBD',
+  'Transistor Signal Amplifier',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1338,6 +1369,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → buzzer → north, emitter → ground on south) drives the buzzer. Compare lesson 57 (series LDR + buzzer) and lesson 58 (LED on the collector).',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor).',
   'Lesson 62 reserved. High-current LED driver overlaps lesson 58 (same NPN LED-on-collector switch). A distinct circuit may be added here later.',
+  'Turn the pot slowly: the same 10kΩ–pot–10kΩ divider as lesson 16 sets NPN base voltage on the west column. The collector branch (USB → T → 470Ω → red LED → NPN north) carries the LED current — most of that current flows collector–emitter, not through the base. A 150Ω emitter resistor to ground sets a small emitter voltage (about 0.9 V at a few mA) so the transistor can still drive the LED; a 47kΩ emitter would need tens of volts at the emitter and would block the LED. Compare lesson 14 (pot feeds the LED directly), lesson 16 (no emitter resistor), and lesson 58 (tact switch). Pot 270°; NPN at 0°; LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

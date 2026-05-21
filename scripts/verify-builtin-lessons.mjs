@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 62
+const expected = 63
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -69,4 +69,9 @@ if (!js.includes('Transistor Motor Driver')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–62 present (51, 54, 56, 59, and 62 TBD).')
+if (!js.includes('Transistor Signal Amplifier')) {
+  console.error('Lesson 63 (Transistor Signal Amplifier) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–63 present (51, 54, 56, 59, and 62 TBD).')
