@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 71
+const expected = 72
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -114,4 +114,9 @@ if (!js.includes('NMOS Transistor Intro')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–71 present (51, 54, 56, 59, 62).')
+if (!js.includes('Optical Interrupt Detector')) {
+  console.error('Lesson 72 (Optical Interrupt Detector) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–72 present (51, 54, 56, 59, 62).')

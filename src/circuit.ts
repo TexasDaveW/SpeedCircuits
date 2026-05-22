@@ -129,6 +129,17 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
       )
     }
 
+    // Optical interrupt: north↔south = IR LED (L+/L−); west/east = phototransistor S+/S− (no short across pairs).
+    if (entry.id === 'optical-interrupt') {
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('north', tile.rotation),
+        rotateSide('south', tile.rotation),
+      )
+    }
+
     // NPN: west and east are the same base (route control or Darlington link from either side).
     if (entry.id === 'npn') {
       linkPorts(

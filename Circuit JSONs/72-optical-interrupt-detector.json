@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "name": "Optical Interrupt Detector",
+  "lesson": {
+    "title": "Optical Interrupt Detector",
+    "description": "The optical interrupt has four pins: L+ and L- (north/south, IR LED) and S+ and S- (west/east, phototransistor). Same idea as lesson 67 (10kΩ divider → NMOS gate) but the lower leg is the sensor instead of a mic. Light the slot with USB → 150Ω → L+ / L-; divider is USB → T → 10kΩ → junction → S+ / S- → ground. Beam blocked raises the tap and turns the NMOS on (USB → T → 470Ω → red LED → drain). Compare lesson 53 and lesson 71. Starter layout — adjust routing on your plate if needed."
+  },
+  "exportedAt": "2026-05-22T15:38:09.579Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-3",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-4",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "optical-interrupt-5",
+      "catalogId": "optical-interrupt",
+      "name": "Optical interrupt",
+      "category": "component",
+      "value": "OPTO",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-470-7",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "led-red-9",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 7,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "nmos-10",
+      "catalogId": "nmos",
+      "name": "NMOS transistor",
+      "category": "component",
+      "value": "NMOS",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-11",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "straight-cube-12",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "resistor-150-13",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "resistor-470-7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "straight-cube-12",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "optical-interrupt-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "optical-interrupt-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "optical-interrupt-5",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "optical-interrupt-5",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-7",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "nmos-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "nmos-10",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "straight-cube-12",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-11",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-11:south",
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "resistor-470-7:west",
+      "t-connector-2:east"
+    ],
+    [
+      "resistor-10k-3:north",
+      "t-connector-2:south"
+    ],
+    [
+      "resistor-10k-3:south",
+      "t-connector-4:north"
+    ],
+    [
+      "straight-cube-12:west",
+      "t-connector-4:east"
+    ],
+    [
+      "optical-interrupt-5:north",
+      "t-connector-4:south"
+    ],
+    [
+      "ground-tile-6:north",
+      "optical-interrupt-5:south"
+    ],
+    [
+      "optical-interrupt-5:east",
+      "optical-interrupt-5:west"
+    ],
+    [
+      "corner-cube-8:west",
+      "resistor-470-7:east"
+    ],
+    [
+      "corner-cube-8:south",
+      "led-red-9:north"
+    ],
+    [
+      "led-red-9:south",
+      "nmos-10:north"
+    ],
+    [
+      "nmos-10:west",
+      "straight-cube-12:east"
+    ]
+  ]
+}

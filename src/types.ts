@@ -27,6 +27,7 @@ export type SymbolId =
   | 'sensor'
   | 'sensor_north'
   | 'hall_sensor'
+  | 'optical_interrupt'
   | 'motor'
   | 'buzzer'
   | 'touch_pad'

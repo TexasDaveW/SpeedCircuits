@@ -547,6 +547,58 @@ function drawSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Slotted opto: N/S = IR LED (L+/L−), W/E = phototransistor (S+/S−). */
+function drawOpticalInterrupt(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  prep(ctx)
+  const cy = midY(b)
+  const cx = midX(b)
+  const w = b.w * 0.58
+  const h = b.h * 0.5
+  const x0 = cx - w / 2
+  const y0 = cy - h / 2
+  const gap = w * 0.22
+  ctx.strokeRect(x0, y0, w, h)
+  ctx.beginPath()
+  ctx.moveTo(cx - gap / 2, y0)
+  ctx.lineTo(cx - gap / 2, y0 + h)
+  ctx.moveTo(cx + gap / 2, y0)
+  ctx.lineTo(cx + gap / 2, y0 + h)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(cx, b.y)
+  ctx.lineTo(cx, y0)
+  ctx.moveTo(cx, y0 + h)
+  ctx.lineTo(cx, b.y + b.h)
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(x0, cy)
+  ctx.moveTo(x0 + w, cy)
+  ctx.lineTo(b.x + b.w, cy)
+  ctx.stroke()
+  const ledSize = Math.max(6, Math.min(b.h * 0.2, b.w * 0.12))
+  const sigSize = Math.max(5, ledSize * 0.88)
+  ctx.save()
+  ctx.fillStyle = STROKE
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.font = `700 ${ledSize}px system-ui, sans-serif`
+  const lPlusY = b.y + (y0 - b.y) * 0.35
+  const lMinusY = y0 + h + (b.y + b.h - (y0 + h)) * 0.65
+  ctx.fillText('L+', cx, lPlusY)
+  ctx.fillText('L-', cx, lMinusY)
+  ctx.font = `700 ${sigSize}px system-ui, sans-serif`
+  ctx.fillText('S+', x0 + w * 0.22, cy)
+  ctx.fillText('S-', x0 + w * 0.78, cy)
+  ctx.restore()
+}
+
+/** Port labels (fixed to pin names; tile rotation moves magnets, not labels). */
+export const OPTICAL_PORT_LABELS: Partial<Record<Side, string>> = {
+  north: 'L+',
+  south: 'L-',
+  west: 'S+',
+  east: 'S-',
+}
+
 /** Hall IC: north +, south −, west/east SIG (labels stay inside the band). */
 function drawHallSensor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
@@ -754,6 +806,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   sensor: drawSensor,
   sensor_north: drawSensor,
   hall_sensor: drawHallSensor,
+  optical_interrupt: drawOpticalInterrupt,
   motor: drawMotor,
   buzzer: drawBuzzer,
   touch_pad: drawTouchPad,
@@ -782,6 +835,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   sensor: defaultLeads2,
   sensor_north: defaultLeadsNorth,
   hall_sensor: defaultLeads4,
+  optical_interrupt: defaultLeads4,
   motor: defaultLeads2,
   buzzer: defaultLeads2,
   touch_pad: defaultLeads2,

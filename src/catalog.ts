@@ -5,7 +5,16 @@ export const GRID_CELL = TILE_SIZE
 
 export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'corner-cube', name: 'Corner cube', category: 'routing', quantity: 12, typeLabel: 'CORNER', ports: ['north', 'east'] },
-  { id: 'optical-interrupt', name: 'Optical interrupt', category: 'component', quantity: 1, typeLabel: 'OPTICAL', ports: ['west', 'east'], valueLabel: 'OPTO', symbolId: 'sensor' },
+  {
+    id: 'optical-interrupt',
+    name: 'Optical interrupt',
+    category: 'component',
+    quantity: 1,
+    typeLabel: 'OPTICAL',
+    ports: ['north', 'south', 'east', 'west'],
+    valueLabel: 'OPTO',
+    symbolId: 'optical_interrupt',
+  },
   {
     id: 'overpass-cube',
     name: 'Overpass cube',

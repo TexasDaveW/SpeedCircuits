@@ -552,6 +552,28 @@ function buildNmosTransistorIntro(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 72: lesson 67 divider + NMOS load; optical interrupt at 90° (photo N–S like the mic).
+ * IR LED (N/S on tile) needs 150Ω from USB — starter east branch; reroute on plate if needed.
+ */
+function buildOpticalInterruptDetector(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('t-connector', 5, 7, 90),
+    tile('optical-interrupt', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+    tile('resistor-470', 6, 5, 0),
+    tile('corner-cube', 7, 5, 180),
+    tile('led-red', 7, 6, 90),
+    tile('nmos', 7, 7, 90),
+    tile('ground-tile', 7, 9),
+    tile('straight-cube', 6, 7, 0),
+    tile('resistor-150', 6, 6, 0),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1423,6 +1445,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '71-nmos-transistor-intro',
     build: () => buildNmosTransistorIntro(),
   },
+  {
+    name: '72-optical-interrupt-detector',
+    build: () => buildOpticalInterruptDetector(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1497,6 +1523,7 @@ const DISPLAY_NAMES = [
   'Sound-Activated LED',
   'Sound-Activated Buzzer',
   'NMOS Transistor Intro',
+  'Optical Interrupt Detector',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1571,6 +1598,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Swap the divider legs from lesson 67: USB → T → mic → junction T → 10kΩ → ground. Quiet room: junction voltage stays low, the NPN is off, and the LED is dark. Make noise near the mic — the mic resistance drops, the tap rises, the transistor turns on, and the collector LED lights while sound is present. Same switch wiring as lesson 67 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground). Compare lesson 67 (LED on when quiet), lesson 68 (clap pulse through a cap), and lesson 70 (buzzer instead of LED). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°.',
   'Same sound-activated divider and NPN base drive as lesson 69 (USB → T → mic → junction T → 10kΩ → ground), but the collector branch drives a buzzer like lessons 60 and 66: USB → T → 150Ω → buzzer → collector, with a separate 150Ω emitter → ground. Quiet: buzzer off; talk, clap, or tap near the mic: the buzzer sounds while the transistor is on. On a real plate, watch for acoustic feedback: the buzzing can re-trigger the mic on the same board, so the circuit may latch on, flutter, or stay loud until you stop making noise or cover the mic tile — unlike lesson 69’s LED, the buzzer is a sound source right next to the sensor. A short clap or tap is a clearer demo than holding the buzzer on. The 150Ω on the buzzer branch limits buzzer current (not the emitter resistor). Compare lesson 66 (thermistor alarm), lesson 60 (tact → buzzer), lesson 69 (mic → LED), and lesson 68 (cap coupling). Mic and 10kΩ at 90°; buzzer at 90°; NPN at 0°.',
   'Your first MOSFET switch. Press the tact button: USB → 10kΩ → NMOS gate (west face at 90° rotation) turns the FET on. The load path is USB → T → 470Ω → red LED → drain (north), and source (south) → ground — no base current and no emitter resistor like the NPN lessons. The gate is voltage-driven; the LED current flows drain–source when the FET is on. Compare lesson 58 (same tact + LED layout, NPN with B/C/E) and lesson 72 (optical sensor). NMOS at 90°; LED at 90°.',
+  'The optical interrupt has four pins: L+ and L- (north/south, IR LED) and S+ and S- (west/east, phototransistor). Same idea as lesson 67 (10kΩ divider → NMOS gate) but the lower leg is the sensor instead of a mic. Light the slot with USB → 150Ω → L+ / L-; divider is USB → T → 10kΩ → junction → S+ / S- → ground. Beam blocked raises the tap and turns the NMOS on (USB → T → 470Ω → red LED → drain). Compare lesson 53 and lesson 71. Starter layout — adjust routing on your plate if needed.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
