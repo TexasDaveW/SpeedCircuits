@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 69
+const expected = 70
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -99,4 +99,9 @@ if (!js.includes('Clap Detector')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–69 present (51, 54, 56, 59, 62, and 66 TBD).')
+if (!js.includes('Sound-Activated LED')) {
+  console.error('Lesson 70 (Sound-Activated LED) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–70 present (51, 54, 56, 59, 62, and 66 TBD).')

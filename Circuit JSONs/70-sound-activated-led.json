@@ -1,0 +1,380 @@
+{
+  "version": 1,
+  "name": "Sound-Activated LED",
+  "lesson": {
+    "title": "Sound-Activated LED",
+    "description": "Swap the divider legs from lesson 68: USB → T → mic → junction T → 10kΩ → ground. Quiet room: junction voltage stays low, the NPN is off, and the LED is dark. Make noise near the mic — the mic resistance drops, the tap rises, the transistor turns on, and the collector LED lights while sound is present. Same switch wiring as lesson 68 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground). Compare lesson 68 (LED on when quiet), lesson 69 (clap pulse through a cap), and lesson 71 (buzzer instead of LED). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°."
+  },
+  "exportedAt": "2026-05-22T13:54:06.768Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-3",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-4",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "microphone-1",
+      "catalogId": "microphone",
+      "name": "Microphone",
+      "category": "component",
+      "value": "MIC",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-5",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-2",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-470-7",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "led-red-9",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 7,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "npn-10",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "resistor-150-11",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 7,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-12",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "straight-cube-13",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-3",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-3",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "resistor-470-7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "microphone-1",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "microphone-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-5",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "straight-cube-13",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-6",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-7",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-9",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "npn-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-10",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "straight-cube-13",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-10",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-11",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-10",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "npn-10",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-12",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-12:south",
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-3:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-3:south",
+      "t-connector-4:north"
+    ],
+    [
+      "resistor-470-7:west",
+      "t-connector-4:east"
+    ],
+    [
+      "microphone-1:north",
+      "t-connector-4:south"
+    ],
+    [
+      "microphone-1:south",
+      "t-connector-5:north"
+    ],
+    [
+      "straight-cube-13:west",
+      "t-connector-5:east"
+    ],
+    [
+      "resistor-10k-2:north",
+      "t-connector-5:south"
+    ],
+    [
+      "ground-tile-6:north",
+      "resistor-10k-2:south"
+    ],
+    [
+      "corner-cube-8:west",
+      "resistor-470-7:east"
+    ],
+    [
+      "corner-cube-8:south",
+      "led-red-9:north"
+    ],
+    [
+      "led-red-9:south",
+      "npn-10:north"
+    ],
+    [
+      "npn-10:east",
+      "npn-10:west",
+      "straight-cube-13:east"
+    ],
+    [
+      "npn-10:south",
+      "resistor-150-11:north"
+    ],
+    [
+      "ground-tile-12:north",
+      "resistor-150-11:south"
+    ]
+  ]
+}
