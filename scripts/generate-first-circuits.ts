@@ -419,6 +419,29 @@ function buildTransistorSignalAmplifier(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 65: 47kΩ–NTC divider tap → NPN base; collector LED like lesson 58/63.
+ * 47k (not 10k) keeps the junction near the switching point so a finger on the
+ * thermistor (small ΔT) still swings base current enough to see the LED change.
+ */
+function buildThermistorTemperatureSensor(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('resistor-47k', 5, 5, 90),
+    tile('t-connector', 5, 6, 90),
+    tile('thermistor', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+    tile('resistor-470', 6, 4, 0),
+    tile('corner-cube', 7, 4, 180),
+    tile('led-red', 7, 5, 90),
+    tile('npn', 7, 6, 0),
+    tile('resistor-150', 7, 7, 90),
+    tile('ground-tile', 7, 8),
+    tile('straight-cube', 6, 6, 180),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1247,6 +1270,15 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
+  // Lesson 65: hand-authored — see Circuit JSONs/65-thermistor-temperature-sensor.json. Do not EXPORT_ONLY=64.
+  {
+    name: '65-thermistor-temperature-sensor',
+    build: () => {
+      throw new Error(
+        'Lesson 65 is hand-authored; edit Circuit JSONs/65-thermistor-temperature-sensor.json',
+      )
+    },
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1314,6 +1346,7 @@ const DISPLAY_NAMES = [
   'TBD',
   'Transistor Signal Amplifier',
   'Darlington Pair Experiment',
+  'Thermistor Temperature Sensor',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1381,6 +1414,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 62 reserved. High-current LED driver overlaps lesson 58 (same NPN LED-on-collector switch). A distinct circuit may be added here later.',
   'Turn the pot slowly: the same 10kΩ–pot–10kΩ divider as lesson 16 sets NPN base voltage on the west column. The collector branch (USB → T → 470Ω → red LED → NPN north) carries the LED current — most of that current flows collector–emitter, not through the base. A 150Ω emitter resistor to ground sets a small emitter voltage (about 0.9 V at a few mA) so the transistor can still drive the LED; a 47kΩ emitter would need tens of volts at the emitter and would block the LED. Compare lesson 14 (pot feeds the LED directly), lesson 16 (no emitter resistor), and lesson 58 (tact switch). Pot 270°; NPN at 0°; LED at 90°.',
   'Lesson 64 reserved. Darlington pair experiment — hand-route on the plate: tact → 10kΩ → Q1 base; Q1 emitter → Q2 base; both collectors → 470Ω → LED; Q2 emitter → GND. Starter layout in Circuit JSONs/64-darlington-pair-experiment.json (lesson 58 switch + second NPN). Compare lesson 58 (one transistor).',
+  'Touch the NTC thermistor on the center column: USB → T → 47kΩ → junction T → thermistor → ground. A finger warms the sensor only a few degrees, but the 47kΩ upper leg keeps the tap voltage near the NPN threshold (a 10kΩ top resistor would barely move). The east branch is the transistor switch from lesson 63 — same T feeds 470Ω → red LED → collector, 150Ω emitter → ground — so a small base change gives a clear on/off LED. At room temperature the LED is usually on; hold the thermistor body and watch it dim or go out as R_NTC falls. Compare lesson 53 (LDR divider, LED on the tap) and lesson 63 (pot divider). Thermistor and 47kΩ at 90°; NPN at 0°; LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

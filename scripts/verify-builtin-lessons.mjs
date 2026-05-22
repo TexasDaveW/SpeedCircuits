@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 64
+const expected = 65
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -79,4 +79,9 @@ if (!js.includes('Darlington Pair Experiment')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–64 present (51, 54, 56, 59, and 62 TBD).')
+if (!js.includes('Thermistor Temperature Sensor')) {
+  console.error('Lesson 65 (Thermistor Temperature Sensor) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–65 present (51, 54, 56, 59, and 62 TBD).')
