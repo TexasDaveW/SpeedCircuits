@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "name": "Variable Buzzer Pitch",
+  "name": "Variable Motor Speed",
   "lesson": {
-    "title": "Variable Buzzer Pitch",
-    "description": "A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → 10kΩ → pot → 10kΩ → ground on column 5; wiper (pot east) → gate. The loud path is USB → T → 150Ω → buzzer → drain, source → ground. Turn the pot to change volume more than pitch. Compare lesson 14, lesson 71, and lesson 73. Pot at 270°; NMOS and buzzer at 90°."
+    "title": "Variable Motor Speed",
+    "description": "Same idea as lesson 77 but a vibration motor on the drain branch: the pot divider sets NMOS gate voltage; USB → T → 150Ω → motor → drain, source → ground. A pot alone cannot spin the motor — the FET switches the current. Faster/slower feel is mostly stronger/weaker drive, not a precise RPM dial. Compare lesson 61 (tact → NPN → motor) and lesson 77 (pot → NMOS → buzzer). Pot at 270°; NMOS and motor at 90°."
   },
-  "exportedAt": "2026-05-22T20:58:30.648Z",
+  "exportedAt": "2026-05-22T20:58:30.827Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -109,11 +109,11 @@
       "rotation": 90
     },
     {
-      "instanceId": "buzzer-11",
-      "catalogId": "buzzer",
-      "name": "Buzzer",
+      "instanceId": "vibration-motor-11",
+      "catalogId": "vibration-motor",
+      "name": "Vibration motor",
       "category": "component",
-      "value": "BUZZ",
+      "value": "MOTOR",
       "gridX": 6,
       "gridY": 8,
       "rotation": 90
@@ -233,7 +233,7 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "buzzer-11",
+        "instanceId": "vibration-motor-11",
         "side": "north"
       }
     },
@@ -252,7 +252,7 @@
         "side": "north"
       },
       "b": {
-        "instanceId": "buzzer-11",
+        "instanceId": "vibration-motor-11",
         "side": "south"
       }
     },
@@ -308,12 +308,12 @@
       "resistor-150-10:south"
     ],
     [
-      "buzzer-11:north",
-      "nmos-7:south"
+      "nmos-7:south",
+      "vibration-motor-11:north"
     ],
     [
-      "buzzer-11:south",
-      "ground-tile-8:north"
+      "ground-tile-8:north",
+      "vibration-motor-11:south"
     ],
     [
       "corner-cube-9:south",

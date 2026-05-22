@@ -603,22 +603,38 @@ function buildBeamBreakAlarm(): PlacedTile[] {
 }
 
 /**
- * Lesson 77: pot divider → NMOS gate (lesson 16 / 71 idea); USB → T → 150Ω → buzzer → drain.
- * A pot in series cannot supply buzzer current — the FET switches the load.
+ * Lesson 77: 10kΩ–pot–10kΩ divider → NMOS gate; USB → T → 150Ω → buzzer → drain (lesson 71 load idea).
  */
-/** Lesson 77: lesson 71 NMOS switch; tact → pot + 10kΩ sets gate; 150Ω → buzzer on drain. */
 function buildVariableBuzzerPitch(): PlacedTile[] {
   return [
     tile('power-tile', 5, 4),
     tile('t-connector', 5, 5, 90),
-    tile('potentiometer', 5, 6, 90),
-    tile('resistor-10k', 5, 7, 90),
-    tile('corner-cube', 5, 8, 0),
-    tile('nmos', 6, 8, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('potentiometer', 5, 7, 270),
+    tile('resistor-10k', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+    tile('nmos', 6, 7, 90),
     tile('ground-tile', 6, 9),
     tile('corner-cube', 6, 5, 180),
     tile('resistor-150', 6, 6, 90),
-    tile('buzzer', 6, 7, 90),
+    tile('buzzer', 6, 8, 90),
+  ]
+}
+
+/** Lesson 78: same NMOS + divider as 77; vibration motor instead of buzzer (lesson 61 load). */
+function buildVariableMotorSpeed(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('resistor-10k', 5, 6, 90),
+    tile('potentiometer', 5, 7, 270),
+    tile('resistor-10k', 5, 8, 90),
+    tile('ground-tile', 5, 9),
+    tile('nmos', 6, 7, 90),
+    tile('ground-tile', 6, 9),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-150', 6, 6, 90),
+    tile('vibration-motor', 6, 8, 90),
   ]
 }
 
@@ -1532,6 +1548,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '77-variable-buzzer-pitch',
     build: () => buildVariableBuzzerPitch(),
   },
+  {
+    name: '78-variable-motor-speed',
+    build: () => buildVariableMotorSpeed(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1612,6 +1632,7 @@ const DISPLAY_NAMES = [
   'TBD',
   'TBD',
   'Variable Buzzer Pitch',
+  'Variable Motor Speed',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1691,7 +1712,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 74 on hold. Counting beam interrupts needs stored state (increment on each break). Tile-only circuits can blink on edges (lesson 68 style) but cannot show 1, 2, 3… without an Arduino (lessons 96+). Use lessons 72–73 for optical detect/alarm until then.',
   'Lesson 75 reserved. Vibration motor on a transistor switch is lesson 61 (tact → 10kΩ → NPN → 150Ω → motor). Revisit here only for a distinct variant (NMOS motor, or sensor-driven motor).',
   'Lesson 76 reserved. Buzzer on/off with a switch overlaps lesson 8 (tact → LED), lesson 9 (slide → LED), and lesson 60 (tact → NPN → buzzer). Add a circuit here only if you want a dedicated buzzer + tact lesson without the transistor.',
-  'A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → pot → 10kΩ → gate (corner at 5,8) varies Vgs as you turn the knob; the FET switches the loud path USB → T → 150Ω → buzzer → drain, source → ground. More resistance in the pot leg = lower gate voltage = quieter buzz. Compare lesson 14 (pot feeds an LED directly), lesson 71 (tact → NMOS), and lesson 73 (sensor → NMOS). Pot and buzzer at 90°; NMOS at 90°.',
+  'A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → 10kΩ → pot → 10kΩ → ground on column 5; wiper (pot east) → gate. The loud path is USB → T → 150Ω → buzzer → drain, source → ground. Turn the pot to change volume more than pitch. Compare lesson 14, lesson 71, and lesson 73. Pot at 270°; NMOS and buzzer at 90°.',
+  'Same idea as lesson 77 but a vibration motor on the drain branch: the pot divider sets NMOS gate voltage; USB → T → 150Ω → motor → drain, source → ground. A pot alone cannot spin the motor — the FET switches the current. Faster/slower feel is mostly stronger/weaker drive, not a precise RPM dial. Compare lesson 61 (tact → NPN → motor) and lesson 77 (pot → NMOS → buzzer). Pot at 270°; NMOS and motor at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 77
+const expected = 78
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -129,4 +129,9 @@ if (!js.includes('Variable Buzzer Pitch')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–77 present (51, 54, 56, 59, 62; 74–76 TBD/on hold).')
+if (!js.includes('Variable Motor Speed')) {
+  console.error('Lesson 78 (Variable Motor Speed) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–78 present (51, 54, 56, 59, 62; 74–76 TBD/on hold).')
