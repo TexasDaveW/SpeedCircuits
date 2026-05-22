@@ -335,7 +335,7 @@ export function CircuitCanvas({
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
       const msg =
-        'Click an empty cell to paste · R to rotate · Esc to cancel'
+        'Click an empty cell to paste once · R to rotate · Esc to cancel'
       ctx.fillText(msg, 16, h - 16)
     } else if (selectedIds.length === 0) {
       ctx.fillStyle = '#7d8796'
@@ -565,6 +565,11 @@ export function CircuitCanvas({
     if (!rect) return
     const grid = screenToGrid(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
     setHoverCell(grid)
+    if (tileClipboard && grid && !occupied(grid.gx, grid.gy)) {
+      onPasteTargetChange({ gx: grid.gx, gy: grid.gy })
+    } else if (tileClipboard) {
+      onPasteTargetChange(null)
+    }
   }
 
   const handlePointerMove = (e: React.PointerEvent) => {

@@ -245,6 +245,7 @@ export default function App() {
       setTiles([...tiles, placed])
       setSelectedIds([placed.instanceId])
       setPasteTarget(null)
+      setTileClipboard(null)
       setPendingCatalogId(null)
       return true
     },
@@ -414,8 +415,8 @@ export default function App() {
         )}
         {tileClipboard && (
           <p className="paste-hint">
-            Hover the plate to preview, then click an empty cell to paste.{' '}
-            <strong>R</strong> to rotate.
+            Click an empty cell to paste once. <strong>R</strong> to rotate before placing.{' '}
+            <strong>Esc</strong> to cancel.
           </p>
         )}
         {selectedIds.length > 1 && (
