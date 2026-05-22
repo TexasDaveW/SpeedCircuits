@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Lesson 66 reserved. Temperature-controlled LED overlaps lesson 65 (thermistor divider → NPN → LED). Use lesson 65 for touch temperature sensing; a distinct circuit may be added here later."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

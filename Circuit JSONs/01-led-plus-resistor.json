@@ -1,7 +1,11 @@
 {
   "version": 1,
   "name": "LED + Resistor",
-  "exportedAt": "2026-05-19T04:07:50.465Z",
+  "lesson": {
+    "title": "LED + Resistor",
+    "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
+  },
+  "exportedAt": "2026-05-22T13:39:24.255Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -124,9 +128,5 @@
       "ground-tile-4:north",
       "led-red-3:south"
     ]
-  ],
-  "lesson": {
-    "title": "LED + Resistor",
-    "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
-  }
+  ]
 }

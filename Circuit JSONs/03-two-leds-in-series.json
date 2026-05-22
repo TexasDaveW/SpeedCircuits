@@ -1,7 +1,11 @@
 {
   "version": 1,
   "name": "Two LEDs in Series",
-  "exportedAt": "2026-05-19T04:07:50.468Z",
+  "lesson": {
+    "title": "Two LEDs in Series",
+    "description": "Both LEDs share the same current in one path. With a 1kΩ limit resistor, they light dimmer than a single LED — each drops voltage along the chain."
+  },
+  "exportedAt": "2026-05-22T13:39:24.257Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -148,9 +152,5 @@
       "ground-tile-5:north",
       "led-green-4:south"
     ]
-  ],
-  "lesson": {
-    "title": "Two LEDs in Series",
-    "description": "Both LEDs share the same current in one path. With a 1kΩ limit resistor, they light dimmer than a single LED — each drops voltage along the chain."
-  }
+  ]
 }

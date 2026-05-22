@@ -1,7 +1,11 @@
 {
   "version": 1,
   "name": "Two LEDs in Parallel",
-  "exportedAt": "2026-05-19T04:07:50.468Z",
+  "lesson": {
+    "title": "Two LEDs in Parallel",
+    "description": "Power splits at the T connector. Each branch has its own 470Ω resistor and red LED, so both see supply voltage and can light independently."
+  },
+  "exportedAt": "2026-05-22T13:39:24.258Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -278,9 +282,5 @@
       "corner-cube-10:north",
       "led-red-9:south"
     ]
-  ],
-  "lesson": {
-    "title": "Two LEDs in Parallel",
-    "description": "Power splits at the T connector. Each branch has its own 470Ω resistor and red LED, so both see supply voltage and can light independently."
-  }
+  ]
 }
