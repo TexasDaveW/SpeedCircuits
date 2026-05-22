@@ -3,7 +3,7 @@
   "name": "TBD",
   "lesson": {
     "title": "TBD",
-    "description": "Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit or lesson text-only variant may be added later; temperature-controlled LED is lesson 66."
+    "description": "Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit or lesson text-only variant may be added later; thermistor LED is lesson 65; temperature alarm is lesson 66."
   },
   "tiles": [],
   "connections": [],

@@ -3,7 +3,7 @@
   "name": "Microphone Sound Detector",
   "lesson": {
     "title": "Microphone Sound Detector",
-    "description": "The microphone is the lower leg of a voltage divider (USB → T → 10kΩ → junction T → mic → ground). Talk, clap, or tap the plate near the mic tile — sound lowers the mic resistance, the junction voltage drops, and the NPN turns off so the collector LED dims or goes out. Quiet room: LED on. Same transistor switch as lesson 65 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground), but 10kΩ (not 47kΩ) on top because the mic swings more than an NTC finger touch. Compare lesson 53 (LDR divider), lesson 65 (thermistor), and lesson 67 (thermistor alarm). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°."
+    "description": "The microphone is the lower leg of a voltage divider (USB → T → 10kΩ → junction T → mic → ground). Talk, clap, or tap the plate near the mic tile — sound lowers the mic resistance, the junction voltage drops, and the NPN turns off so the collector LED dims or goes out. Quiet room: LED on. Same transistor switch as lesson 65 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground), but 10kΩ (not 47kΩ) on top because the mic swings more than an NTC finger touch. Compare lesson 53 (LDR divider), lesson 65 (thermistor), and lesson 66 (thermistor alarm). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°."
   },
   "exportedAt": "2026-05-22T13:42:54.319Z",
   "tiles": [

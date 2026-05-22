@@ -463,24 +463,25 @@ function buildThermistorTemperatureSensor(): PlacedTile[] {
   return buildResistiveSensorDividerWithNpn('resistor-47k', 'thermistor', 'led')
 }
 
-/** Lesson 67: thermistor → base; 150Ω → buzzer → collector. */
+/** Lesson 66: thermistor → base; 150Ω → buzzer → collector. */
 function buildTemperatureAlarmCircuit(): PlacedTile[] {
   return buildResistiveSensorDividerWithNpn('resistor-47k', 'thermistor', 'buzzer')
 }
 
-/** Lesson 68: microphone divider (10kΩ upper) → NPN → LED. */
+/** Lesson 67: microphone divider (10kΩ upper) → NPN → LED. */
 function buildMicrophoneSoundDetector(): PlacedTile[] {
   return buildResistiveSensorDividerWithNpn('resistor-10k', 'microphone', 'led')
 }
 
 /**
- * Compact mic divider + NPN column 7 (lessons 68 hand-route / 69 / 70).
- * divider: 10k-mic = quiet LED on (68); mic-10k = loud LED on (70).
- * baseLink: straight = DC base; cap = AC coupling for clap pulses (69).
+ * Compact mic divider + NPN column 7 (lessons 67 hand-route / 68–70).
+ * divider: 10k-mic = quiet on (67); mic-10k = loud on (69/70).
+ * baseLink: straight = DC base; cap = AC coupling for clap pulses (68).
  */
-function buildCompactMicrophoneNpnLed(
+function buildCompactMicrophoneNpn(
   baseLink: 'straight-cube' | 'cap-0u1',
   divider: '10k-mic' | 'mic-10k' = '10k-mic',
+  output: 'led' | 'buzzer' = 'led',
 ): PlacedTile[] {
   const upper =
     divider === '10k-mic'
@@ -490,6 +491,18 @@ function buildCompactMicrophoneNpnLed(
     divider === '10k-mic'
       ? tile('microphone', 5, 8, 90)
       : tile('resistor-10k', 5, 8, 90)
+  const collector =
+    output === 'led'
+      ? [
+          tile('resistor-470', 6, 5, 0),
+          tile('corner-cube', 7, 5, 180),
+          tile('led-red', 7, 6, 90),
+        ]
+      : [
+          tile('resistor-150', 6, 5, 0),
+          tile('corner-cube', 7, 5, 180),
+          tile('buzzer', 7, 6, 90),
+        ]
   return [
     tile('power-tile', 5, 4),
     tile('t-connector', 5, 5, 90),
@@ -497,9 +510,7 @@ function buildCompactMicrophoneNpnLed(
     tile('t-connector', 5, 7, 90),
     lower,
     tile('ground-tile', 5, 9),
-    tile('resistor-470', 6, 5, 0),
-    tile('corner-cube', 7, 5, 180),
-    tile('led-red', 7, 6, 90),
+    ...collector,
     tile('npn', 7, 7, 0),
     tile('resistor-150', 7, 8, 90),
     tile('ground-tile', 7, 9),
@@ -507,14 +518,38 @@ function buildCompactMicrophoneNpnLed(
   ]
 }
 
-/** Lesson 69: lesson 68 divider; 0.1µF couples clap spikes to the NPN base. */
+/** Lesson 68: lesson 67 divider; 0.1µF couples clap spikes to the NPN base. */
 function buildClapDetector(): PlacedTile[] {
-  return buildCompactMicrophoneNpnLed('cap-0u1', '10k-mic')
+  return buildCompactMicrophoneNpn('cap-0u1', '10k-mic', 'led')
 }
 
-/** Lesson 70: mic above tap, 10kΩ to GND — loud turns NPN/LED on (opposite of 68). */
+/** Lesson 69: mic above tap, 10kΩ to GND — loud turns NPN/LED on (opposite of 67). */
 function buildSoundActivatedLed(): PlacedTile[] {
-  return buildCompactMicrophoneNpnLed('straight-cube', 'mic-10k')
+  return buildCompactMicrophoneNpn('straight-cube', 'mic-10k', 'led')
+}
+
+/** Lesson 70: lesson 69 divider; 150Ω → buzzer → collector (lesson 66 style). */
+function buildSoundActivatedBuzzer(): PlacedTile[] {
+  return buildCompactMicrophoneNpn('straight-cube', 'mic-10k', 'buzzer')
+}
+
+/**
+ * Lesson 71: NMOS low-side switch intro — same tact → 10kΩ → gate idea as lesson 58,
+ * but NMOS at 90° (gate west, drain north → LED, source south → GND). No emitter resistor.
+ */
+function buildNmosTransistorIntro(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('tact-button', 5, 6, 90),
+    tile('resistor-10k', 5, 7, 90),
+    tile('corner-cube', 5, 8, 0),
+    tile('nmos', 6, 8, 90),
+    tile('ground-tile', 6, 9),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-470', 6, 6, 90),
+    tile('led-red', 6, 7, 90),
+  ]
 }
 
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
@@ -1354,40 +1389,39 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
       )
     },
   },
-  // Lesson 66: TBD — overlaps lesson 65. Keep Circuit JSONs/66-tbd.json. Do not EXPORT_ONLY=65.
+  // Lesson 66: hand-authored — see Circuit JSONs/66-temperature-alarm-circuit.json. Do not EXPORT_ONLY=65.
   {
-    name: '66-tbd',
+    name: '66-temperature-alarm-circuit',
     build: () => {
       throw new Error(
-        'Lesson 66 is TBD (overlaps lesson 65); edit Circuit JSONs/66-tbd.json when ready',
+        'Lesson 66 is hand-authored; edit Circuit JSONs/66-temperature-alarm-circuit.json',
       )
     },
   },
-  // Lesson 67: hand-authored — see Circuit JSONs/67-temperature-alarm-circuit.json. Do not EXPORT_ONLY=66.
+  // Lesson 67: hand-authored — see Circuit JSONs/67-microphone-sound-detector.json. Do not EXPORT_ONLY=66.
   {
-    name: '67-temperature-alarm-circuit',
+    name: '67-microphone-sound-detector',
     build: () => {
       throw new Error(
-        'Lesson 67 is hand-authored; edit Circuit JSONs/67-temperature-alarm-circuit.json',
-      )
-    },
-  },
-  // Lesson 68: hand-authored — see Circuit JSONs/68-microphone-sound-detector.json. Do not EXPORT_ONLY=67.
-  {
-    name: '68-microphone-sound-detector',
-    build: () => {
-      throw new Error(
-        'Lesson 68 is hand-authored; edit Circuit JSONs/68-microphone-sound-detector.json',
+        'Lesson 67 is hand-authored; edit Circuit JSONs/67-microphone-sound-detector.json',
       )
     },
   },
   {
-    name: '69-clap-detector',
+    name: '68-clap-detector',
     build: () => buildClapDetector(),
   },
   {
-    name: '70-sound-activated-led',
+    name: '69-sound-activated-led',
     build: () => buildSoundActivatedLed(),
+  },
+  {
+    name: '70-sound-activated-buzzer',
+    build: () => buildSoundActivatedBuzzer(),
+  },
+  {
+    name: '71-nmos-transistor-intro',
+    build: () => buildNmosTransistorIntro(),
   },
 ]
 
@@ -1457,11 +1491,12 @@ const DISPLAY_NAMES = [
   'Transistor Signal Amplifier',
   'Darlington Pair Experiment',
   'Thermistor Temperature Sensor',
-  'TBD',
   'Temperature Alarm Circuit',
   'Microphone Sound Detector',
   'Clap Detector',
   'Sound-Activated LED',
+  'Sound-Activated Buzzer',
+  'NMOS Transistor Intro',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1523,18 +1558,19 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 56 reserved. Light-controlled LED overlaps lesson 53 (LDR divider → LED) and the west branch of lesson 55. A distinct circuit (e.g. transistor switch) may be added here later.',
   'USB → 150Ω → LDR → buzzer → ground in one series path on the center column. The LDR and buzzer share the same current — in bright light the LDR resistance drops, so more current flows and the buzzer is louder; cover the sensor (dark) and resistance rises, so the buzzer fades or goes quiet. Compare lesson 53 (divider + LED on a tap, not series). 150Ω limits current; LDR and buzzer at 90°.',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 470Ω → red LED → north, emitter → ground on south) carries the LED current. Compare lesson 8 (button feeds the LED directly) and lesson 16 (pot threshold). B, C, and E labels match the standard NPN symbol.',
-  'Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit may be added later; temperature-controlled LED is lesson 66.',
+  'Lesson 59 reserved. Transistor LED driver overlaps lesson 58 (same tact → base, 470Ω → LED → collector plate). A distinct circuit may be added later; thermistor LED is lesson 65, temperature alarm is lesson 66.',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → buzzer → north, emitter → ground on south) drives the buzzer. Compare lesson 57 (series LDR + buzzer) and lesson 58 (LED on the collector).',
   'Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor).',
   'Lesson 62 reserved. High-current LED driver overlaps lesson 58 (same NPN LED-on-collector switch). A distinct circuit may be added here later.',
   'Turn the pot slowly: the same 10kΩ–pot–10kΩ divider as lesson 16 sets NPN base voltage on the west column. The collector branch (USB → T → 470Ω → red LED → NPN north) carries the LED current — most of that current flows collector–emitter, not through the base. A 150Ω emitter resistor to ground sets a small emitter voltage (about 0.9 V at a few mA) so the transistor can still drive the LED; a 47kΩ emitter would need tens of volts at the emitter and would block the LED. Compare lesson 14 (pot feeds the LED directly), lesson 16 (no emitter resistor), and lesson 58 (tact switch). Pot 270°; NPN at 0°; LED at 90°.',
   'Lesson 64 reserved. Darlington pair experiment — hand-route on the plate: tact → 10kΩ → Q1 base; Q1 emitter → Q2 base; both collectors → 470Ω → LED; Q2 emitter → GND. Starter layout in Circuit JSONs/64-darlington-pair-experiment.json (lesson 58 switch + second NPN). Compare lesson 58 (one transistor).',
   'Touch the NTC thermistor on the center column: USB → T → 47kΩ → junction T → thermistor → ground. A finger warms the sensor only a few degrees, but the 47kΩ upper leg keeps the tap voltage near the NPN threshold (a 10kΩ top resistor would barely move). The east branch is the transistor switch from lesson 63 — same T feeds 470Ω → red LED → collector, 150Ω emitter → ground — so a small base change gives a clear on/off LED. At room temperature the LED is usually on; hold the thermistor body and watch it dim or go out as R_NTC falls. Compare lesson 53 (LDR divider, LED on the tap) and lesson 63 (pot divider). Thermistor and 47kΩ at 90°; NPN at 0°; LED at 90°.',
-  'Lesson 66 reserved. Temperature-controlled LED overlaps lesson 65 (thermistor → NPN → LED). Use lesson 65 for touch temperature sensing.',
   'Same thermistor divider and NPN base drive as lesson 65, but the collector branch drives a buzzer like lesson 60: USB → T → 150Ω → buzzer → collector, with a separate 150Ω emitter → ground. At room temperature the buzzer is usually on; warm the NTC with your finger and the sound drops out or stops as the base voltage falls. The 150Ω on the buzzer branch limits buzzer current (not the emitter resistor — that sets transistor bias). Compare lesson 60 (tact → buzzer), lesson 57 (LDR → buzzer in series), and lesson 65 (thermistor → LED). Thermistor and 47kΩ at 90°; buzzer at 90°; NPN at 0°.',
-  'The microphone is the lower leg of a voltage divider (USB → T → 10kΩ → junction T → mic → ground). Talk, clap, or tap the plate near the mic tile — sound lowers the mic resistance, the junction voltage drops, and the NPN turns off so the collector LED dims or goes out. Quiet room: LED on. Same transistor switch as lesson 65 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground), but 10kΩ (not 47kΩ) on top because the mic swings more than an NTC finger touch. Compare lesson 53 (LDR divider), lesson 65 (thermistor), and lesson 67 (thermistor alarm). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°.',
-  'Same mic divider as lesson 68 (USB → T → 10kΩ → junction T → mic → ground) and the same NPN LED switch on column 7, but a 0.1µF capacitor in series from the junction tap to the base passes fast clap spikes and blocks slow DC drift. Clap sharply near the mic tile — you should see a quick LED blink as the transistor responds to the pulse. Continuous talking or humming affects the LED less than a sharp clap. Compare lesson 68 (straight wire to base — sustained sound dims the LED) and lesson 70 (sound-activated LED stays on while it is loud). Coupling cap at 0°; mic and 10kΩ at 90°; NPN at 0°.',
-  'Swap the divider legs from lesson 68: USB → T → mic → junction T → 10kΩ → ground. Quiet room: junction voltage stays low, the NPN is off, and the LED is dark. Make noise near the mic — the mic resistance drops, the tap rises, the transistor turns on, and the collector LED lights while sound is present. Same switch wiring as lesson 68 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground). Compare lesson 68 (LED on when quiet), lesson 69 (clap pulse through a cap), and lesson 71 (buzzer instead of LED). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°.',
+  'The microphone is the lower leg of a voltage divider (USB → T → 10kΩ → junction T → mic → ground). Talk, clap, or tap the plate near the mic tile — sound lowers the mic resistance, the junction voltage drops, and the NPN turns off so the collector LED dims or goes out. Quiet room: LED on. Same transistor switch as lesson 65 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground), but 10kΩ (not 47kΩ) on top because the mic swings more than an NTC finger touch. Compare lesson 53 (LDR divider), lesson 65 (thermistor), and lesson 66 (thermistor alarm). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°.',
+  'Same mic divider as lesson 67 (USB → T → 10kΩ → junction T → mic → ground) and the same NPN LED switch on column 7, but a 0.1µF capacitor in series from the junction tap to the base passes fast clap spikes and blocks slow DC drift. Clap sharply near the mic tile — you should see a quick LED blink as the transistor responds to the pulse. Continuous talking or humming affects the LED less than a sharp clap. Compare lesson 67 (straight wire to base — sustained sound dims the LED) and lesson 69 (sound-activated LED stays on while it is loud). Coupling cap at 0°; mic and 10kΩ at 90°; NPN at 0°.',
+  'Swap the divider legs from lesson 67: USB → T → mic → junction T → 10kΩ → ground. Quiet room: junction voltage stays low, the NPN is off, and the LED is dark. Make noise near the mic — the mic resistance drops, the tap rises, the transistor turns on, and the collector LED lights while sound is present. Same switch wiring as lesson 67 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground). Compare lesson 67 (LED on when quiet), lesson 68 (clap pulse through a cap), and lesson 70 (buzzer instead of LED). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°.',
+  'Same sound-activated divider and NPN base drive as lesson 69 (USB → T → mic → junction T → 10kΩ → ground), but the collector branch drives a buzzer like lessons 60 and 66: USB → T → 150Ω → buzzer → collector, with a separate 150Ω emitter → ground. Quiet: buzzer off; talk, clap, or tap near the mic: the buzzer sounds while the transistor is on. On a real plate, watch for acoustic feedback: the buzzing can re-trigger the mic on the same board, so the circuit may latch on, flutter, or stay loud until you stop making noise or cover the mic tile — unlike lesson 69’s LED, the buzzer is a sound source right next to the sensor. A short clap or tap is a clearer demo than holding the buzzer on. The 150Ω on the buzzer branch limits buzzer current (not the emitter resistor). Compare lesson 66 (thermistor alarm), lesson 60 (tact → buzzer), lesson 69 (mic → LED), and lesson 68 (cap coupling). Mic and 10kΩ at 90°; buzzer at 90°; NPN at 0°.',
+  'Your first MOSFET switch. Press the tact button: USB → 10kΩ → NMOS gate (west face at 90° rotation) turns the FET on. The load path is USB → T → 470Ω → red LED → drain (north), and source (south) → ground — no base current and no emitter resistor like the NPN lessons. The gate is voltage-driven; the LED current flows drain–source when the FET is on. Compare lesson 58 (same tact + LED layout, NPN with B/C/E) and lesson 72 (optical sensor). NMOS at 90°; LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

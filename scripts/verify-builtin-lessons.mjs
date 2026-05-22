@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 70
+const expected = 71
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -85,23 +85,33 @@ if (!js.includes('Thermistor Temperature Sensor')) {
 }
 
 if (!js.includes('Temperature Alarm Circuit')) {
-  console.error('Lesson 67 (Temperature Alarm Circuit) not found in bundle')
+  console.error('Lesson 66 (Temperature Alarm Circuit) not found in bundle')
   process.exit(1)
 }
 
 if (!js.includes('Microphone Sound Detector')) {
-  console.error('Lesson 68 (Microphone Sound Detector) not found in bundle')
+  console.error('Lesson 67 (Microphone Sound Detector) not found in bundle')
   process.exit(1)
 }
 
 if (!js.includes('Clap Detector')) {
-  console.error('Lesson 69 (Clap Detector) not found in bundle')
+  console.error('Lesson 68 (Clap Detector) not found in bundle')
   process.exit(1)
 }
 
 if (!js.includes('Sound-Activated LED')) {
-  console.error('Lesson 70 (Sound-Activated LED) not found in bundle')
+  console.error('Lesson 69 (Sound-Activated LED) not found in bundle')
   process.exit(1)
 }
 
-console.log('Lessons 48–70 present (51, 54, 56, 59, 62, and 66 TBD).')
+if (!js.includes('Sound-Activated Buzzer')) {
+  console.error('Lesson 70 (Sound-Activated Buzzer) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('NMOS Transistor Intro')) {
+  console.error('Lesson 71 (NMOS Transistor Intro) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–71 present (51, 54, 56, 59, 62).')

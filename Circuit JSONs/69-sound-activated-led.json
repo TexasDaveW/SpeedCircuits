@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "name": "Clap Detector",
+  "name": "Sound-Activated LED",
   "lesson": {
-    "title": "Clap Detector",
-    "description": "Same mic divider as lesson 68 (USB → T → 10kΩ → junction T → mic → ground) and the same NPN LED switch on column 7, but a 0.1µF capacitor in series from the junction tap to the base passes fast clap spikes and blocks slow DC drift. Clap sharply near the mic tile — you should see a quick LED blink as the transistor responds to the pulse. Continuous talking or humming affects the LED less than a sharp clap. Compare lesson 68 (straight wire to base — sustained sound dims the LED) and lesson 70 (sound-activated LED stays on while it is loud). Coupling cap at 0°; mic and 10kΩ at 90°; NPN at 0°."
+    "title": "Sound-Activated LED",
+    "description": "Swap the divider legs from lesson 67: USB → T → mic → junction T → 10kΩ → ground. Quiet room: junction voltage stays low, the NPN is off, and the LED is dark. Make noise near the mic — the mic resistance drops, the tap rises, the transistor turns on, and the collector LED lights while sound is present. Same switch wiring as lesson 67 (USB → T → 470Ω → red LED → collector, 150Ω emitter → ground). Compare lesson 67 (LED on when quiet), lesson 68 (clap pulse through a cap), and lesson 70 (buzzer instead of LED). Mic and 10kΩ at 90°; NPN at 0°; LED at 90°."
   },
-  "exportedAt": "2026-05-22T13:49:21.687Z",
+  "exportedAt": "2026-05-22T13:54:06.768Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "power-tile-3",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
@@ -19,7 +19,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "t-connector-2",
+      "instanceId": "t-connector-4",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -28,17 +28,17 @@
       "rotation": 90
     },
     {
-      "instanceId": "resistor-10k-3",
-      "catalogId": "resistor-10k",
-      "name": "10k resistor",
+      "instanceId": "microphone-1",
+      "catalogId": "microphone",
+      "name": "Microphone",
       "category": "component",
-      "value": "10kΩ",
+      "value": "MIC",
       "gridX": 5,
       "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "t-connector-4",
+      "instanceId": "t-connector-5",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -47,11 +47,11 @@
       "rotation": 90
     },
     {
-      "instanceId": "microphone-5",
-      "catalogId": "microphone",
-      "name": "Microphone",
+      "instanceId": "resistor-10k-2",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
       "category": "component",
-      "value": "MIC",
+      "value": "10kΩ",
       "gridX": 5,
       "gridY": 8,
       "rotation": 90
@@ -128,11 +128,10 @@
       "plateGround": true
     },
     {
-      "instanceId": "cap-0u1-13",
-      "catalogId": "cap-0u1",
-      "name": "0.1µF capacitor",
-      "category": "component",
-      "value": "0.1µF",
+      "instanceId": "straight-cube-13",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
       "gridX": 6,
       "gridY": 7,
       "rotation": 0
@@ -141,7 +140,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "power-tile-3",
         "side": "west"
       },
       "b": {
@@ -150,7 +149,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "power-tile-3",
         "side": "south"
       },
       "b": {
@@ -159,17 +158,17 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "power-tile-3",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-2",
+        "instanceId": "t-connector-4",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "t-connector-4",
         "side": "east"
       },
       "b": {
@@ -179,47 +178,47 @@
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "t-connector-4",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-3",
+        "instanceId": "microphone-1",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-3",
+        "instanceId": "microphone-1",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-4",
+        "instanceId": "t-connector-5",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-4",
+        "instanceId": "t-connector-5",
         "side": "east"
       },
       "b": {
-        "instanceId": "cap-0u1-13",
+        "instanceId": "straight-cube-13",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-4",
+        "instanceId": "t-connector-5",
         "side": "south"
       },
       "b": {
-        "instanceId": "microphone-5",
+        "instanceId": "resistor-10k-2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "microphone-5",
+        "instanceId": "resistor-10k-2",
         "side": "south"
       },
       "b": {
@@ -272,7 +271,7 @@
         "side": "west"
       },
       "b": {
-        "instanceId": "cap-0u1-13",
+        "instanceId": "straight-cube-13",
         "side": "east"
       }
     },
@@ -321,36 +320,36 @@
       "ground-tile-12:south",
       "ground-tile-6:south",
       "net:PLATE_GND",
-      "power-tile-1:west"
+      "power-tile-3:west"
     ],
     [
       "net:USB_VCC",
-      "power-tile-1:south",
-      "t-connector-2:north"
-    ],
-    [
-      "resistor-470-7:west",
-      "t-connector-2:east"
-    ],
-    [
-      "resistor-10k-3:north",
-      "t-connector-2:south"
-    ],
-    [
-      "resistor-10k-3:south",
+      "power-tile-3:south",
       "t-connector-4:north"
     ],
     [
-      "cap-0u1-13:west",
+      "resistor-470-7:west",
       "t-connector-4:east"
     ],
     [
-      "microphone-5:north",
+      "microphone-1:north",
       "t-connector-4:south"
     ],
     [
+      "microphone-1:south",
+      "t-connector-5:north"
+    ],
+    [
+      "straight-cube-13:west",
+      "t-connector-5:east"
+    ],
+    [
+      "resistor-10k-2:north",
+      "t-connector-5:south"
+    ],
+    [
       "ground-tile-6:north",
-      "microphone-5:south"
+      "resistor-10k-2:south"
     ],
     [
       "corner-cube-8:west",
@@ -365,9 +364,9 @@
       "npn-10:north"
     ],
     [
-      "cap-0u1-13:east",
       "npn-10:east",
-      "npn-10:west"
+      "npn-10:west",
+      "straight-cube-13:east"
     ],
     [
       "npn-10:south",
