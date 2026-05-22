@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "Optical Pulse Counter (on hold)",
+  "lesson": {
+    "title": "Optical Pulse Counter (on hold)",
+    "description": "Reserved. A true interrupt counter needs something that stores and increments a number on each beam break — not just a steady alarm (lessons 72–73) or a single edge flash (cap-coupled gate). This kit has no counter IC or display; plan to teach counting with the Arduino block (lessons 96+). Until then, use lesson 72 or 73 for optical on/off demos."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

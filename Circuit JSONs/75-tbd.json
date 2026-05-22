@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "Vibration Motor Driver (TBD)",
+  "lesson": {
+    "title": "Vibration Motor Driver (TBD)",
+    "description": "Reserved. Same idea as lesson 61 (tact → 10kΩ → transistor → 150Ω → vibration motor). No distinct tile-only circuit planned here unless reworked (e.g. NMOS or sensor-triggered motor after lessons 72–73). Use lesson 61 for motor drive."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

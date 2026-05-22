@@ -71,9 +71,9 @@ Sound-Activated Buzzer
 NMOS Transistor Intro
 Optical Interrupt Detector
 Beam Break Alarm
-Optical Pulse Counter
-Vibration Motor Driver (TBD — NPN switch)
-Buzzer On/Off Circuit
+Optical Pulse Counter (on hold — needs Arduino for real count; see ~96+)
+Vibration Motor Driver (TBD — overlaps lesson 61)
+Buzzer On/Off Circuit (TBD — overlaps lessons 8–9 / 60)
 Variable Buzzer Pitch
 Variable Motor Speed (TBD — NPN switch)
 Sensitive Touch Sensor

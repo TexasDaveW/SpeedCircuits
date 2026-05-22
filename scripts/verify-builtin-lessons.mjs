@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 72
+const expected = 77
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -119,4 +119,14 @@ if (!js.includes('Optical Interrupt Detector')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–72 present (51, 54, 56, 59, 62).')
+if (!js.includes('Beam Break Alarm')) {
+  console.error('Lesson 73 (Beam Break Alarm) not found in bundle')
+  process.exit(1)
+}
+
+if (!js.includes('Variable Buzzer Pitch')) {
+  console.error('Lesson 77 (Variable Buzzer Pitch) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–77 present (51, 54, 56, 59, 62; 74–76 TBD/on hold).')

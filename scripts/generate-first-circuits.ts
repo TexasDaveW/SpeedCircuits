@@ -574,6 +574,54 @@ function buildOpticalInterruptDetector(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 73: lesson 72 opto divider + NMOS; 150Ω → buzzer → drain (lessons 66 / 70 style).
+ * Layout matches hand-routed lesson 72 (opto 0°, USB hub T @ 5,5).
+ */
+function buildBeamBreakAlarm(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 4, 6, 180),
+    tile('optical-interrupt', 3, 6, 0),
+    tile('resistor-150', 6, 5, 0),
+    tile('corner-cube', 7, 5, 180),
+    tile('buzzer', 7, 6, 90),
+    tile('nmos', 7, 7, 90),
+    tile('ground-tile', 7, 8),
+    tile('straight-cube', 6, 7, 0),
+    tile('resistor-150', 4, 5, 0),
+    tile('ground-tile', 3, 7),
+    tile('t-connector', 3, 5, 180),
+    tile('corner-cube', 2, 5, 90),
+    tile('corner-cube', 2, 6, 0),
+    tile('resistor-10k', 4, 7, 90),
+    tile('ground-tile', 4, 8),
+    tile('corner-cube', 5, 6, 180),
+    tile('corner-cube', 5, 7, 0),
+    tile('t-connector', 5, 5, 0),
+  ]
+}
+
+/**
+ * Lesson 77: pot divider → NMOS gate (lesson 16 / 71 idea); USB → T → 150Ω → buzzer → drain.
+ * A pot in series cannot supply buzzer current — the FET switches the load.
+ */
+/** Lesson 77: lesson 71 NMOS switch; tact → pot + 10kΩ sets gate; 150Ω → buzzer on drain. */
+function buildVariableBuzzerPitch(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('potentiometer', 5, 6, 90),
+    tile('resistor-10k', 5, 7, 90),
+    tile('corner-cube', 5, 8, 0),
+    tile('nmos', 6, 8, 90),
+    tile('ground-tile', 6, 9),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-150', 6, 6, 90),
+    tile('buzzer', 6, 7, 90),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1449,6 +1497,41 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '72-optical-interrupt-detector',
     build: () => buildOpticalInterruptDetector(),
   },
+  {
+    name: '73-beam-break-alarm',
+    build: () => buildBeamBreakAlarm(),
+  },
+  // Lesson 74: on hold — real pulse counting needs Arduino (see circuit list). Keep Circuit JSONs/74-tbd.json. Do not EXPORT_ONLY=73.
+  {
+    name: '74-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 74 is on hold (needs Arduino for interrupt count); edit Circuit JSONs/74-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 75: TBD — overlaps lesson 61 (motor driver). Keep Circuit JSONs/75-tbd.json. Do not EXPORT_ONLY=74.
+  {
+    name: '75-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 75 is TBD (overlaps lesson 61); edit Circuit JSONs/75-tbd.json when ready',
+      )
+    },
+  },
+  // Lesson 76: TBD — overlaps switch→buzzer ideas (8/9/60). Keep Circuit JSONs/76-tbd.json. Do not EXPORT_ONLY=75.
+  {
+    name: '76-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 76 is TBD (overlaps lessons 8–9 / 60); edit Circuit JSONs/76-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '77-variable-buzzer-pitch',
+    build: () => buildVariableBuzzerPitch(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1524,6 +1607,11 @@ const DISPLAY_NAMES = [
   'Sound-Activated Buzzer',
   'NMOS Transistor Intro',
   'Optical Interrupt Detector',
+  'Beam Break Alarm',
+  'TBD',
+  'TBD',
+  'TBD',
+  'Variable Buzzer Pitch',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1599,6 +1687,11 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Same sound-activated divider and NPN base drive as lesson 69 (USB → T → mic → junction T → 10kΩ → ground), but the collector branch drives a buzzer like lessons 60 and 66: USB → T → 150Ω → buzzer → collector, with a separate 150Ω emitter → ground. Quiet: buzzer off; talk, clap, or tap near the mic: the buzzer sounds while the transistor is on. On a real plate, watch for acoustic feedback: the buzzing can re-trigger the mic on the same board, so the circuit may latch on, flutter, or stay loud until you stop making noise or cover the mic tile — unlike lesson 69’s LED, the buzzer is a sound source right next to the sensor. A short clap or tap is a clearer demo than holding the buzzer on. The 150Ω on the buzzer branch limits buzzer current (not the emitter resistor). Compare lesson 66 (thermistor alarm), lesson 60 (tact → buzzer), lesson 69 (mic → LED), and lesson 68 (cap coupling). Mic and 10kΩ at 90°; buzzer at 90°; NPN at 0°.',
   'Your first MOSFET switch. Press the tact button: USB → 10kΩ → NMOS gate (west face at 90° rotation) turns the FET on. The load path is USB → T → 470Ω → red LED → drain (north), and source (south) → ground — no base current and no emitter resistor like the NPN lessons. The gate is voltage-driven; the LED current flows drain–source when the FET is on. Compare lesson 58 (same tact + LED layout, NPN with B/C/E) and lesson 72 (optical sensor). NMOS at 90°; LED at 90°.',
   'The optical interrupt has four pins: L+ and L- (north/south, IR LED) and S+ and S- (west/east, phototransistor). Same idea as lesson 67 (10kΩ divider → NMOS gate) but the lower leg is the sensor instead of a mic. Light the slot with USB → 150Ω → L+ / L-; divider is USB → T → 10kΩ → junction → S+ / S- → ground. Beam blocked raises the tap and turns the NMOS on (USB → T → 470Ω → red LED → drain). Compare lesson 53 and lesson 71. Starter layout — adjust routing on your plate if needed.',
+  'Same optical interrupt wiring as lesson 72: USB → 150Ω → L+ / L- lights the slot; USB → T → 10kΩ → junction → S+ / S- → ground reads the beam. When the beam is blocked the tap voltage rises, the NMOS turns on, and the drain branch drives a buzzer (USB → T → 150Ω → buzzer → drain) instead of a red LED. Quiet with a clear beam; block the slot to sound the alarm. On a real plate the buzzer can couple into the sensor — a quick block and release is clearer than holding the beam broken. Compare lesson 66, lesson 70, and lesson 72. Opto at 0°; NMOS at 90°; buzzer at 90°.',
+  'Lesson 74 on hold. Counting beam interrupts needs stored state (increment on each break). Tile-only circuits can blink on edges (lesson 68 style) but cannot show 1, 2, 3… without an Arduino (lessons 96+). Use lessons 72–73 for optical detect/alarm until then.',
+  'Lesson 75 reserved. Vibration motor on a transistor switch is lesson 61 (tact → 10kΩ → NPN → 150Ω → motor). Revisit here only for a distinct variant (NMOS motor, or sensor-driven motor).',
+  'Lesson 76 reserved. Buzzer on/off with a switch overlaps lesson 8 (tact → LED), lesson 9 (slide → LED), and lesson 60 (tact → NPN → buzzer). Add a circuit here only if you want a dedicated buzzer + tact lesson without the transistor.',
+  'A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → pot → 10kΩ → gate (corner at 5,8) varies Vgs as you turn the knob; the FET switches the loud path USB → T → 150Ω → buzzer → drain, source → ground. More resistance in the pot leg = lower gate voltage = quieter buzz. Compare lesson 14 (pot feeds an LED directly), lesson 71 (tact → NMOS), and lesson 73 (sensor → NMOS). Pot and buzzer at 90°; NMOS at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

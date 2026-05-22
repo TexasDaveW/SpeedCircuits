@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "Buzzer On/Off Circuit (TBD)",
+  "lesson": {
+    "title": "Buzzer On/Off Circuit (TBD)",
+    "description": "Reserved. Simple switch → buzzer is covered by lesson 8/9 style (replace LED with buzzer + 150Ω) or lesson 60 (tact → NPN → buzzer). No distinct circuit planned unless reworked."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}
