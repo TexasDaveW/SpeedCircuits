@@ -1,0 +1,423 @@
+{
+  "version": 1,
+  "name": "Capacitive Touch Latch",
+  "lesson": {
+    "title": "Capacitive Touch Latch",
+    "description": "Touch the metal pad to turn the red LED on and keep it on after you lift your finger. Your touch starts an NPN switch (USB → T → 470Ω → LED → collector); a 100kΩ resistor from collector back to base latches the transistor on. Press the reset tact button to short the base to ground and turn the LED off. Compare lesson 58 (hold tact to stay on), lesson 71 (NMOS), and lesson 79 (touch without latch). Touch pad at 90°; NPN at 0°; reset tact at 90°."
+  },
+  "exportedAt": "2026-05-23T04:01:53.728Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "touch-pad-3",
+      "catalogId": "touch-pad",
+      "name": "Metal pad / touch cube",
+      "category": "component",
+      "value": "TOUCH",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-4",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-5",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-6",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "straight-cube-7",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "straight-cube-8",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "tact-button-9",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 4,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-10",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 4,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-11",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-12",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-13",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-14",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-15",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-16",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 10,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-100k-17",
+      "catalogId": "resistor-100k",
+      "name": "100k resistor",
+      "category": "component",
+      "value": "100kΩ",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-18",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 7,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "ground-tile-19",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 11,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-11",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "touch-pad-3",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "touch-pad-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-6",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "straight-cube-7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-7",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "straight-cube-8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-8",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "resistor-100k-17",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-10",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-11",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-12",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-12",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-13",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-15",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-16",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-18",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-19",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-18",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "npn-18",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-19",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-10:south",
+      "ground-tile-19:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "corner-cube-11:west",
+      "t-connector-2:east"
+    ],
+    [
+      "t-connector-2:south",
+      "touch-pad-3:north"
+    ],
+    [
+      "straight-cube-4:north",
+      "touch-pad-3:south"
+    ],
+    [
+      "straight-cube-6:east",
+      "straight-cube-7:west"
+    ],
+    [
+      "straight-cube-7:east",
+      "straight-cube-8:west"
+    ],
+    [
+      "resistor-100k-17:west",
+      "straight-cube-8:east"
+    ],
+    [
+      "ground-tile-10:north",
+      "tact-button-9:south"
+    ],
+    [
+      "corner-cube-11:south",
+      "resistor-470-12:north"
+    ],
+    [
+      "led-red-13:north",
+      "resistor-470-12:south"
+    ],
+    [
+      "corner-cube-15:south",
+      "straight-cube-16:north"
+    ],
+    [
+      "ground-tile-19:north",
+      "npn-18:south"
+    ],
+    [
+      "npn-18:east",
+      "npn-18:west"
+    ]
+  ]
+}

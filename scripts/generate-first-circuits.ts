@@ -658,6 +658,33 @@ function buildSensitiveTouchSensor(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 80: touch pad → NPN base; 100kΩ collector→base latch; tact reset → GND. Touch = LED stays on.
+ */
+function buildCapacitiveTouchLatch(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('touch-pad', 5, 5, 90),
+    tile('straight-cube', 5, 6, 90),
+    tile('corner-cube', 4, 6, 90),
+    tile('straight-cube', 4, 7, 0),
+    tile('straight-cube', 5, 7, 0),
+    tile('straight-cube', 6, 7, 0),
+    tile('tact-button', 4, 8, 90),
+    tile('ground-tile', 4, 9),
+    tile('corner-cube', 6, 4, 180),
+    tile('resistor-470', 6, 5, 90),
+    tile('led-red', 6, 6, 90),
+    tile('straight-cube', 6, 8, 90),
+    tile('corner-cube', 6, 9, 90),
+    tile('straight-cube', 6, 10, 90),
+    tile('resistor-100k', 7, 7, 0),
+    tile('npn', 7, 10, 0),
+    tile('ground-tile', 7, 11),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1576,6 +1603,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '79-sensitive-touch-sensor',
     build: () => buildSensitiveTouchSensor(),
   },
+  {
+    name: '80-capacitive-touch-latch',
+    build: () => buildCapacitiveTouchLatch(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1658,6 +1689,7 @@ const DISPLAY_NAMES = [
   'Variable Buzzer Pitch',
   'Variable Motor Speed',
   'Sensitive Touch Sensor',
+  'Capacitive Touch Latch',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1739,7 +1771,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 76 reserved. Buzzer on/off with a switch overlaps lesson 8 (tact → LED), lesson 9 (slide → LED), and lesson 60 (tact → NPN → buzzer). Add a circuit here only if you want a dedicated buzzer + tact lesson without the transistor.',
   'A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → 10kΩ → pot → 10kΩ → ground on column 5; wiper (pot east) → gate. The loud path is USB → T → 150Ω → buzzer → drain, source → ground. Turn the pot to change volume more than pitch. Compare lesson 14, lesson 71, and lesson 73. Pot at 270°; NMOS and buzzer at 90°.',
   'Same idea as lesson 77 but a vibration motor on the drain branch: the pot divider sets NMOS gate voltage; USB → T → 150Ω → motor → drain, source → ground. A pot alone cannot spin the motor — the FET switches the current. Faster/slower feel is mostly stronger/weaker drive, not a precise RPM dial. Compare lesson 61 (tact → NPN → motor) and lesson 77 (pot → NMOS → buzzer). Pot at 270°; NMOS and motor at 90°.',
-  'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the LED lights (USB → T → 470Ω → red LED → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: LED off. No tact button — the plate is the sensor. Compare lesson 71 (tact → NMOS) and lesson 80 (cap touch trigger). Touch pad at 90°; NMOS at 90°; LED at 90°.',
+  'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the LED lights (USB → T → 470Ω → red LED → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: LED off. No tact button — the plate is the sensor. Compare lesson 71 (tact → NMOS) and lesson 80 (touch latch). Touch pad at 90°; NMOS at 90°; LED at 90°.',
+  'Touch the metal pad to turn the red LED on and keep it on after you lift your finger. Your touch starts an NPN switch (USB → T → 470Ω → LED → collector); a 100kΩ resistor from collector back to base latches the transistor on. Press the reset tact button to short the base to ground and turn the LED off. Compare lesson 58 (hold tact to stay on), lesson 71 (NMOS), and lesson 79 (touch without latch). Touch pad at 90°; NPN at 0°; reset tact at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
