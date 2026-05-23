@@ -638,6 +638,26 @@ function buildVariableMotorSpeed(): PlacedTile[] {
   ]
 }
 
+/**
+ * Lesson 79: touch pad → gate T (10kΩ pulldown) → NMOS; lesson 71 LED load. Touch = LED on.
+ */
+function buildSensitiveTouchSensor(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('touch-pad', 5, 6, 90),
+    tile('straight-cube', 5, 7, 90),
+    tile('t-connector', 5, 8, 90),
+    tile('resistor-10k', 5, 9, 90),
+    tile('ground-tile', 5, 10),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-470', 6, 6, 90),
+    tile('led-red', 6, 7, 90),
+    tile('nmos', 6, 8, 90),
+    tile('ground-tile', 6, 9),
+  ]
+}
+
 /** Lesson 57: USB → 150Ω → LDR → buzzer → GND (series — light lowers R, more buzz). */
 function buildLightControlledBuzzer(): PlacedTile[] {
   return [
@@ -1552,6 +1572,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '78-variable-motor-speed',
     build: () => buildVariableMotorSpeed(),
   },
+  {
+    name: '79-sensitive-touch-sensor',
+    build: () => buildSensitiveTouchSensor(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1633,6 +1657,7 @@ const DISPLAY_NAMES = [
   'TBD',
   'Variable Buzzer Pitch',
   'Variable Motor Speed',
+  'Sensitive Touch Sensor',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1714,6 +1739,7 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 76 reserved. Buzzer on/off with a switch overlaps lesson 8 (tact → LED), lesson 9 (slide → LED), and lesson 60 (tact → NPN → buzzer). Add a circuit here only if you want a dedicated buzzer + tact lesson without the transistor.',
   'A pot in series cannot drive the buzzer — there is not enough current. Use an NMOS like lesson 71: USB → T → 10kΩ → pot → 10kΩ → ground on column 5; wiper (pot east) → gate. The loud path is USB → T → 150Ω → buzzer → drain, source → ground. Turn the pot to change volume more than pitch. Compare lesson 14, lesson 71, and lesson 73. Pot at 270°; NMOS and buzzer at 90°.',
   'Same idea as lesson 77 but a vibration motor on the drain branch: the pot divider sets NMOS gate voltage; USB → T → 150Ω → motor → drain, source → ground. A pot alone cannot spin the motor — the FET switches the current. Faster/slower feel is mostly stronger/weaker drive, not a precise RPM dial. Compare lesson 61 (tact → NPN → motor) and lesson 77 (pot → NMOS → buzzer). Pot at 270°; NMOS and motor at 90°.',
+  'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the LED lights (USB → T → 470Ω → red LED → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: LED off. No tact button — the plate is the sensor. Compare lesson 71 (tact → NMOS) and lesson 80 (cap touch trigger). Touch pad at 90°; NMOS at 90°; LED at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

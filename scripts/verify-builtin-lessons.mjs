@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 78
+const expected = 79
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -134,4 +134,9 @@ if (!js.includes('Variable Motor Speed')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–78 present (51, 54, 56, 59, 62; 74–76 TBD/on hold).')
+if (!js.includes('Sensitive Touch Sensor')) {
+  console.error('Lesson 79 (Sensitive Touch Sensor) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–79 present (51, 54, 56, 59, 62; 74–76 TBD/on hold).')
