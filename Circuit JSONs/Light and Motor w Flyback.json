@@ -1,0 +1,546 @@
+{
+  "version": 1,
+  "name": "circuit",
+  "exportedAt": "2026-05-23T20:33:39.620Z",
+  "tiles": [
+    {
+      "instanceId": "53d6294c-27a3-4d11-b4ff-5fbd4fbf751c",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 2,
+      "rotation": 180
+    },
+    {
+      "instanceId": "8c3f11ff-e3b0-4899-9a28-f5af085217ef",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 6,
+      "gridY": 1,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "f0c9d3c9-e024-4759-b11c-eef8824f1268",
+      "catalogId": "vibration-motor",
+      "name": "Vibration motor",
+      "category": "component",
+      "value": "MOTOR",
+      "gridX": 7,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "96c6b78a-48fd-4271-a1ec-3422a00bd6e1",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 3,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a707e27d-c6c7-4295-8034-a29bb2ed695f",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "533bd371-85f6-417e-ad71-368fea9e51dc",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 8,
+      "gridY": 4,
+      "rotation": 270
+    },
+    {
+      "instanceId": "b2cd869a-13c7-46c0-ad9c-a1f20e1c4f5a",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 5,
+      "rotation": 270
+    },
+    {
+      "instanceId": "068e056d-0783-4d57-8875-f39f78782ee7",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 3,
+      "rotation": 180
+    },
+    {
+      "instanceId": "02ac2842-72d7-4e60-9191-53eb02ef485c",
+      "catalogId": "nmos",
+      "name": "NMOS transistor",
+      "category": "component",
+      "value": "NMOS",
+      "gridX": 7,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "73543c51-ca26-44bd-9d23-ac8c08703ffa",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 2,
+      "rotation": 90
+    },
+    {
+      "instanceId": "d16dfc60-dea9-4fef-ba83-d0388c18e0ed",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 6,
+      "gridY": 3,
+      "rotation": 270
+    },
+    {
+      "instanceId": "10c63c6e-dae1-47e6-80e4-556d976d6c7f",
+      "catalogId": "ldr",
+      "name": "LDR",
+      "category": "component",
+      "value": "LDR",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "8d1972aa-e190-4bda-aca5-e68a8ff60309",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 270
+    },
+    {
+      "instanceId": "09b3d381-0b85-49d0-a7b6-3b4338280f86",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "fa9d2454-07fe-4519-9f32-2ecd63ec2134",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+      "catalogId": "overpass-cube",
+      "name": "Overpass cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 0
+    },
+    {
+      "instanceId": "3b9e5b86-181e-49d6-924e-47c92b438e80",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "74c3f09b-486b-40e9-9c1a-8620c69ec2da",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 0
+    },
+    {
+      "instanceId": "b1961499-610c-4987-8a81-7e9687bc8508",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "53d6294c-27a3-4d11-b4ff-5fbd4fbf751c",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "96c6b78a-48fd-4271-a1ec-3422a00bd6e1",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "53d6294c-27a3-4d11-b4ff-5fbd4fbf751c",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "73543c51-ca26-44bd-9d23-ac8c08703ffa",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8c3f11ff-e3b0-4899-9a28-f5af085217ef",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8c3f11ff-e3b0-4899-9a28-f5af085217ef",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8c3f11ff-e3b0-4899-9a28-f5af085217ef",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "73543c51-ca26-44bd-9d23-ac8c08703ffa",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f0c9d3c9-e024-4759-b11c-eef8824f1268",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "96c6b78a-48fd-4271-a1ec-3422a00bd6e1",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f0c9d3c9-e024-4759-b11c-eef8824f1268",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "a707e27d-c6c7-4295-8034-a29bb2ed695f",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "96c6b78a-48fd-4271-a1ec-3422a00bd6e1",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "068e056d-0783-4d57-8875-f39f78782ee7",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a707e27d-c6c7-4295-8034-a29bb2ed695f",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "b2cd869a-13c7-46c0-ad9c-a1f20e1c4f5a",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a707e27d-c6c7-4295-8034-a29bb2ed695f",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "02ac2842-72d7-4e60-9191-53eb02ef485c",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "533bd371-85f6-417e-ad71-368fea9e51dc",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "b2cd869a-13c7-46c0-ad9c-a1f20e1c4f5a",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "533bd371-85f6-417e-ad71-368fea9e51dc",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "068e056d-0783-4d57-8875-f39f78782ee7",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "02ac2842-72d7-4e60-9191-53eb02ef485c",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "b1961499-610c-4987-8a81-7e9687bc8508",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "02ac2842-72d7-4e60-9191-53eb02ef485c",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "73543c51-ca26-44bd-9d23-ac8c08703ffa",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "d16dfc60-dea9-4fef-ba83-d0388c18e0ed",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "d16dfc60-dea9-4fef-ba83-d0388c18e0ed",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "8d1972aa-e190-4bda-aca5-e68a8ff60309",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "10c63c6e-dae1-47e6-80e4-556d976d6c7f",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "8d1972aa-e190-4bda-aca5-e68a8ff60309",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "10c63c6e-dae1-47e6-80e4-556d976d6c7f",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8d1972aa-e190-4bda-aca5-e68a8ff60309",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "09b3d381-0b85-49d0-a7b6-3b4338280f86",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "09b3d381-0b85-49d0-a7b6-3b4338280f86",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "3b9e5b86-181e-49d6-924e-47c92b438e80",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "fa9d2454-07fe-4519-9f32-2ecd63ec2134",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "fa9d2454-07fe-4519-9f32-2ecd63ec2134",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "74c3f09b-486b-40e9-9c1a-8620c69ec2da",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "3b9e5b86-181e-49d6-924e-47c92b438e80",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "74c3f09b-486b-40e9-9c1a-8620c69ec2da",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "b1961499-610c-4987-8a81-7e9687bc8508",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "53d6294c-27a3-4d11-b4ff-5fbd4fbf751c:south",
+      "96c6b78a-48fd-4271-a1ec-3422a00bd6e1:north"
+    ],
+    [
+      "53d6294c-27a3-4d11-b4ff-5fbd4fbf751c:west",
+      "73543c51-ca26-44bd-9d23-ac8c08703ffa:east"
+    ],
+    [
+      "8c3f11ff-e3b0-4899-9a28-f5af085217ef:west",
+      "b1961499-610c-4987-8a81-7e9687bc8508:south",
+      "fa9d2454-07fe-4519-9f32-2ecd63ec2134:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "73543c51-ca26-44bd-9d23-ac8c08703ffa:north",
+      "8c3f11ff-e3b0-4899-9a28-f5af085217ef:south",
+      "net:USB_VCC"
+    ],
+    [
+      "96c6b78a-48fd-4271-a1ec-3422a00bd6e1:south",
+      "f0c9d3c9-e024-4759-b11c-eef8824f1268:north"
+    ],
+    [
+      "a707e27d-c6c7-4295-8034-a29bb2ed695f:north",
+      "f0c9d3c9-e024-4759-b11c-eef8824f1268:south"
+    ],
+    [
+      "068e056d-0783-4d57-8875-f39f78782ee7:west",
+      "96c6b78a-48fd-4271-a1ec-3422a00bd6e1:east"
+    ],
+    [
+      "a707e27d-c6c7-4295-8034-a29bb2ed695f:east",
+      "b2cd869a-13c7-46c0-ad9c-a1f20e1c4f5a:west"
+    ],
+    [
+      "02ac2842-72d7-4e60-9191-53eb02ef485c:north",
+      "a707e27d-c6c7-4295-8034-a29bb2ed695f:south"
+    ],
+    [
+      "533bd371-85f6-417e-ad71-368fea9e51dc:south",
+      "b2cd869a-13c7-46c0-ad9c-a1f20e1c4f5a:north"
+    ],
+    [
+      "068e056d-0783-4d57-8875-f39f78782ee7:south",
+      "533bd371-85f6-417e-ad71-368fea9e51dc:north"
+    ],
+    [
+      "02ac2842-72d7-4e60-9191-53eb02ef485c:south",
+      "b1961499-610c-4987-8a81-7e9687bc8508:north"
+    ],
+    [
+      "02ac2842-72d7-4e60-9191-53eb02ef485c:west",
+      "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972:east",
+      "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972:west",
+      "74c3f09b-486b-40e9-9c1a-8620c69ec2da:east"
+    ],
+    [
+      "73543c51-ca26-44bd-9d23-ac8c08703ffa:south",
+      "d16dfc60-dea9-4fef-ba83-d0388c18e0ed:north"
+    ],
+    [
+      "8d1972aa-e190-4bda-aca5-e68a8ff60309:north",
+      "d16dfc60-dea9-4fef-ba83-d0388c18e0ed:south"
+    ],
+    [
+      "10c63c6e-dae1-47e6-80e4-556d976d6c7f:north",
+      "8d1972aa-e190-4bda-aca5-e68a8ff60309:south"
+    ],
+    [
+      "10c63c6e-dae1-47e6-80e4-556d976d6c7f:south",
+      "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972:north",
+      "1d03b2c4-00c7-43f9-8baa-d06ec6ee5972:south",
+      "fa9d2454-07fe-4519-9f32-2ecd63ec2134:north"
+    ],
+    [
+      "09b3d381-0b85-49d0-a7b6-3b4338280f86:east",
+      "8d1972aa-e190-4bda-aca5-e68a8ff60309:west"
+    ],
+    [
+      "09b3d381-0b85-49d0-a7b6-3b4338280f86:south",
+      "3b9e5b86-181e-49d6-924e-47c92b438e80:north"
+    ],
+    [
+      "3b9e5b86-181e-49d6-924e-47c92b438e80:south",
+      "74c3f09b-486b-40e9-9c1a-8620c69ec2da:north"
+    ]
+  ]
+}

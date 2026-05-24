@@ -78,8 +78,8 @@ Variable Buzzer Pitch
 Variable Motor Speed
 Sensitive Touch Sensor
 Capacitive Touch Trigger
-Touch-Activated LED (TBD — NPN switch)
-Touch-Activated Buzzer (TBD — NPN switch)
+TBD
+Touch-Activated Buzzer
 Touch-Activated Motor (TBD — NPN switch)
 Transistor RC Timer
 Transistor Delay Circuit

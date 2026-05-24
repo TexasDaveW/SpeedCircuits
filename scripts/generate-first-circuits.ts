@@ -659,6 +659,26 @@ function buildSensitiveTouchSensor(): PlacedTile[] {
 }
 
 /**
+ * Lesson 82: touch pad → NMOS gate (10kΩ pulldown); USB → T → 150Ω → buzzer → drain. Buzz while touching.
+ */
+function buildTouchActivatedBuzzer(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 4),
+    tile('t-connector', 5, 5, 90),
+    tile('touch-pad', 5, 6, 90),
+    tile('straight-cube', 5, 7, 90),
+    tile('t-connector', 5, 8, 90),
+    tile('resistor-10k', 5, 9, 90),
+    tile('ground-tile', 5, 10),
+    tile('corner-cube', 6, 5, 180),
+    tile('resistor-150', 6, 6, 90),
+    tile('buzzer', 6, 7, 90),
+    tile('nmos', 6, 8, 90),
+    tile('ground-tile', 6, 9),
+  ]
+}
+
+/**
  * Lesson 80: touch pad → NPN base; 100kΩ collector→base latch; tact reset → GND. Touch = LED stays on.
  */
 function buildCapacitiveTouchLatch(): PlacedTile[] {
@@ -1607,6 +1627,19 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '80-capacitive-touch-latch',
     build: () => buildCapacitiveTouchLatch(),
   },
+  // Lesson 81: TBD — overlaps lessons 58 and 79. Keep Circuit JSONs/81-tbd.json. Do not EXPORT_ONLY=80.
+  {
+    name: '81-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 81 is TBD (overlaps lessons 58, 79); edit Circuit JSONs/81-tbd.json when ready',
+      )
+    },
+  },
+  {
+    name: '82-touch-activated-buzzer',
+    build: () => buildTouchActivatedBuzzer(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1690,6 +1723,8 @@ const DISPLAY_NAMES = [
   'Variable Motor Speed',
   'Sensitive Touch Sensor',
   'Capacitive Touch Latch',
+  'TBD',
+  'Touch-Activated Buzzer',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1773,6 +1808,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Same idea as lesson 77 but a vibration motor on the drain branch: the pot divider sets NMOS gate voltage; USB → T → 150Ω → motor → drain, source → ground. A pot alone cannot spin the motor — the FET switches the current. Faster/slower feel is mostly stronger/weaker drive, not a precise RPM dial. Compare lesson 61 (tact → NPN → motor) and lesson 77 (pot → NMOS → buzzer). Pot at 270°; NMOS and motor at 90°.',
   'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the LED lights (USB → T → 470Ω → red LED → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: LED off. No tact button — the plate is the sensor. Compare lesson 71 (tact → NMOS) and lesson 80 (touch latch). Touch pad at 90°; NMOS at 90°; LED at 90°.',
   'Touch the metal pad to turn the red LED on and keep it on after you lift your finger. Your touch starts an NPN switch (USB → T → 470Ω → LED → collector); a 100kΩ resistor from collector back to base latches the transistor on. Press the reset tact button to short the base to ground and turn the LED off. Compare lesson 58 (hold tact to stay on), lesson 71 (NMOS), and lesson 79 (touch without latch). Touch pad at 90°; NPN at 0°; reset tact at 90°.',
+  'Lesson 81 reserved. Touch-activated LED overlaps lesson 79 (capacitive pad → NMOS → LED) and lesson 58 (tact → NPN → LED). A distinct circuit may be added here later.',
+  'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the buzzer sounds (USB → T → 150Ω → buzzer → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: buzzer quiet. No tact button — the plate is the sensor. Compare lesson 73 (optical → NMOS → buzzer), lesson 79 (touch → NMOS → LED), and lesson 60 (tact → NPN → buzzer). Touch pad at 90°; NMOS at 90°; buzzer at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {
