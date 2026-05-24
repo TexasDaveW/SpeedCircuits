@@ -681,6 +681,32 @@ function buildTransistorRcTimer(): PlacedTile[] {
 }
 
 /**
+ * Lesson 85: pot-adjustable gate RC — lesson 24-style 3-column layout (not lesson 84’s single column).
+ * Col 5: tact → pot; col 6: 100µF gate RC; col 7: NMOS LED load from USB T.
+ */
+function buildTransistorDelayCircuit(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 3),
+    tile('t-connector', 5, 4, 90),
+    tile('tact-button', 5, 5, 90),
+    tile('potentiometer', 5, 6, 270),
+    tile('resistor-10k', 5, 7, 90),
+    tile('ground-tile', 5, 8),
+    tile('corner-cube', 6, 6, 180),
+    tile('t-connector', 6, 7, 90),
+    tile('cap-100u', 6, 8, 90),
+    tile('resistor-10k', 6, 9, 90),
+    tile('ground-tile', 6, 10),
+    tile('straight-cube', 6, 4, 0),
+    tile('corner-cube', 7, 4, 180),
+    tile('resistor-470', 7, 5, 90),
+    tile('led-red', 7, 6, 90),
+    tile('nmos', 7, 7, 90),
+    tile('ground-tile', 7, 8),
+  ]
+}
+
+/**
  * Lesson 83: touch pad → NMOS gate (10kΩ pulldown); USB → T → 150Ω → motor → drain. Spins while touching.
  */
 function buildTouchActivatedMotor(): PlacedTile[] {
@@ -1690,6 +1716,10 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '84-transistor-rc-timer',
     build: () => buildTransistorRcTimer(),
   },
+  {
+    name: '85-transistor-delay-circuit',
+    build: () => buildTransistorDelayCircuit(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1777,6 +1807,7 @@ const DISPLAY_NAMES = [
   'Touch-Activated Buzzer',
   'Touch-Activated Motor',
   'Transistor RC Timer',
+  'Transistor Delay Circuit',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1863,7 +1894,8 @@ const LESSON_DESCRIPTIONS: string[] = [
   'Lesson 81 reserved. Touch-activated LED overlaps lesson 79 (capacitive pad → NMOS → LED) and lesson 58 (tact → NPN → LED). A distinct circuit may be added here later.',
   'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body capacitively couples voltage onto the gate, the FET turns on, and the buzzer sounds (USB → T → 150Ω → buzzer → drain, source → ground). Take your finger off and the gate discharges through the 10kΩ: buzzer quiet. No tact button — the plate is the sensor. Compare lesson 73 (optical → NMOS → buzzer), lesson 79 (touch → NMOS → LED), and lesson 60 (tact → NPN → buzzer). Touch pad at 90°; NMOS at 90°; buzzer at 90°.',
   'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body couples voltage onto the gate, the FET turns on, and the vibration motor spins (USB → T → 150Ω → motor → drain, source → ground). Lift your finger and the gate discharges through the 10kΩ: motor stops. No tact button — the plate is the switch. Compare lesson 78 (pot → NMOS → motor), lesson 61 (tact → NPN → motor), and lesson 82 (touch → NMOS → buzzer). Touch pad at 90°; NMOS at 90°; motor at 90°.',
-  'Press the tact button to charge the 1000µF capacitor through 10kΩ onto the NMOS gate (τ ≈ 10 s). The gate voltage rises, the FET turns on, and the drain LED lights (USB → T → 470Ω → red LED → drain, source → ground). Release the button — the cap keeps the gate high for a while, then discharges through the second 10kΩ to ground: the LED fades off on a timer. Compare lesson 23 (RC delay on the LED directly), lesson 71 (instant tact → NMOS), and lesson 85 (delay circuit). Tact and RC column at 90°; NMOS and LED at 90°.',
+  'Press the tact button to charge the 1000µF capacitor through 10kΩ onto the NMOS gate (τ ≈ 10 s). The gate voltage rises, the FET turns on, and the drain LED lights (USB → T → 470Ω → red LED → drain, source → ground). Release the button — the cap keeps the gate high for a while, then discharges through the second 10kΩ to ground: the LED fades off on a timer. Compare lesson 23 (RC delay on the LED directly), lesson 71 (instant tact → NMOS), and lesson 85 (adjustable turn-on delay). Tact and RC column at 90°; NMOS and LED at 90°.',
+  'Press and hold the tact button while you turn the potentiometer. The pot (270° on column 5) feeds an RC node on column 6 — 100µF to ground through 10kΩ — and the wiper raises the NMOS gate on column 7. More resistance = longer wait before the drain LED lights; less = faster turn-on. Release the button and the gate cap dumps through the pulldown: instant off. Three columns (pot trunk | gate RC | LED load) — compare lesson 84 (tact + fixed 1000µF on one column), lesson 24 (adjustable RC on the LED), and lesson 71 (no delay). Pot 270°; gate RC and NMOS at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

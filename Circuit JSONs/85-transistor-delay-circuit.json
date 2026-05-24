@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "name": "Transistor RC Timer",
+  "name": "Transistor Delay Circuit",
   "lesson": {
-    "title": "Transistor RC Timer",
-    "description": "Press the tact button to charge the 1000µF capacitor through 10kΩ onto the NMOS gate (τ ≈ 10 s). The gate voltage rises, the FET turns on, and the drain LED lights (USB → T → 470Ω → red LED → drain, source → ground). Release the button — the cap keeps the gate high for a while, then discharges through the second 10kΩ to ground: the LED fades off on a timer. Compare lesson 23 (RC delay on the LED directly), lesson 71 (instant tact → NMOS), and lesson 85 (turn-on delay). Tact and RC column at 90°; NMOS and LED at 90°."
+    "title": "Transistor Delay Circuit",
+    "description": "Press and hold the tact button while you turn the potentiometer. The pot (270° on column 5) feeds an RC node on column 6 — 100µF to ground through 10kΩ — and the wiper raises the NMOS gate on column 7. More resistance = longer wait before the drain LED lights; less = faster turn-on. Release the button and the gate cap dumps through the pulldown: instant off. Three columns (pot trunk | gate RC | LED load) — compare lesson 84 (tact + fixed 1000µF on one column), lesson 24 (adjustable RC on the LED), and lesson 71 (no delay). Pot 270°; gate RC and NMOS at 90°."
   },
-  "exportedAt": "2026-05-24T01:59:40.948Z",
+  "exportedAt": "2026-05-24T02:11:49.674Z",
   "tiles": [
     {
       "instanceId": "power-tile-1",
@@ -38,110 +38,140 @@
       "rotation": 90
     },
     {
-      "instanceId": "resistor-10k-4",
+      "instanceId": "potentiometer-4",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 270
+    },
+    {
+      "instanceId": "resistor-10k-5",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 5,
-      "gridY": 6,
-      "rotation": 90
-    },
-    {
-      "instanceId": "t-connector-5",
-      "catalogId": "t-connector",
-      "name": "T connector",
-      "category": "routing",
       "gridX": 5,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "cap-1000u-6",
-      "catalogId": "cap-1000u",
-      "name": "1000µF capacitor",
-      "category": "component",
-      "value": "1000µF",
-      "gridX": 5,
-      "gridY": 8,
-      "rotation": 90
-    },
-    {
-      "instanceId": "straight-cube-7",
-      "catalogId": "straight-cube",
-      "name": "Straight cube",
-      "category": "routing",
-      "gridX": 5,
-      "gridY": 9,
-      "rotation": 90
-    },
-    {
-      "instanceId": "resistor-10k-8",
-      "catalogId": "resistor-10k",
-      "name": "10k resistor",
-      "category": "component",
-      "value": "10kΩ",
-      "gridX": 5,
-      "gridY": 10,
-      "rotation": 90
-    },
-    {
-      "instanceId": "ground-tile-9",
+      "instanceId": "ground-tile-6",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
       "gridX": 5,
-      "gridY": 11,
+      "gridY": 8,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-10",
+      "instanceId": "corner-cube-7",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
       "gridX": 6,
-      "gridY": 4,
+      "gridY": 6,
       "rotation": 180
     },
     {
-      "instanceId": "resistor-470-11",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 6,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "led-red-12",
-      "catalogId": "led-red",
-      "name": "Red LED",
-      "category": "component",
-      "value": "RED",
-      "gridX": 6,
-      "gridY": 6,
-      "rotation": 90
-    },
-    {
-      "instanceId": "nmos-13",
-      "catalogId": "nmos",
-      "name": "NMOS transistor",
-      "category": "component",
-      "value": "NMOS",
+      "instanceId": "t-connector-8",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
       "gridX": 6,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-14",
+      "instanceId": "cap-100u-9",
+      "catalogId": "cap-100u",
+      "name": "100µF capacitor",
+      "category": "component",
+      "value": "100µF",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-10",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 6,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-11",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
       "gridX": 6,
+      "gridY": 10,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "straight-cube-12",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-13",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 4,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-470-14",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 7,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-red-15",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 7,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "nmos-16",
+      "catalogId": "nmos",
+      "name": "NMOS transistor",
+      "category": "component",
+      "value": "NMOS",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-17",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
       "gridY": 8,
       "rotation": 0,
       "plateGround": true
@@ -182,7 +212,7 @@
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "straight-cube-12",
         "side": "west"
       }
     },
@@ -202,73 +232,43 @@
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "potentiometer-4",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "potentiometer-4",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-5",
+        "instanceId": "resistor-10k-5",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-5",
+        "instanceId": "potentiometer-4",
         "side": "east"
       },
       "b": {
-        "instanceId": "nmos-13",
+        "instanceId": "corner-cube-7",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-5",
+        "instanceId": "resistor-10k-5",
         "side": "south"
       },
       "b": {
-        "instanceId": "cap-1000u-6",
+        "instanceId": "ground-tile-6",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "cap-1000u-6",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "straight-cube-7",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "straight-cube-7",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "resistor-10k-8",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "resistor-10k-8",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "ground-tile-9",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "ground-tile-9",
+        "instanceId": "ground-tile-6",
         "side": "south"
       },
       "b": {
@@ -277,47 +277,116 @@
     },
     {
       "a": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "corner-cube-7",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-11",
+        "instanceId": "t-connector-8",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-11",
+        "instanceId": "t-connector-8",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "nmos-16",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-8",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-12",
+        "instanceId": "cap-100u-9",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-12",
+        "instanceId": "cap-100u-9",
         "side": "south"
       },
       "b": {
-        "instanceId": "nmos-13",
+        "instanceId": "resistor-10k-10",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "nmos-13",
+        "instanceId": "resistor-10k-10",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-14",
+        "instanceId": "ground-tile-11",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-14",
+        "instanceId": "ground-tile-11",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-12",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-13",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-13",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-470-14",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-470-14",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-red-15",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-red-15",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "nmos-16",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "nmos-16",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-17",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-17",
         "side": "south"
       },
       "b": {
@@ -327,8 +396,9 @@
   ],
   "nets": [
     [
-      "ground-tile-14:south",
-      "ground-tile-9:south",
+      "ground-tile-11:south",
+      "ground-tile-17:south",
+      "ground-tile-6:south",
       "net:PLATE_GND",
       "power-tile-1:west"
     ],
@@ -338,7 +408,7 @@
       "t-connector-2:north"
     ],
     [
-      "corner-cube-10:west",
+      "straight-cube-12:west",
       "t-connector-2:east"
     ],
     [
@@ -346,48 +416,60 @@
       "tact-button-3:north"
     ],
     [
-      "resistor-10k-4:north",
+      "potentiometer-4:north",
       "tact-button-3:south"
     ],
     [
-      "resistor-10k-4:south",
-      "t-connector-5:north"
+      "potentiometer-4:south",
+      "resistor-10k-5:north"
     ],
     [
-      "nmos-13:west",
-      "t-connector-5:east"
+      "corner-cube-7:west",
+      "potentiometer-4:east"
     ],
     [
-      "cap-1000u-6:north",
-      "t-connector-5:south"
+      "ground-tile-6:north",
+      "resistor-10k-5:south"
     ],
     [
-      "cap-1000u-6:south",
-      "straight-cube-7:north"
+      "corner-cube-7:south",
+      "t-connector-8:north"
     ],
     [
-      "resistor-10k-8:north",
-      "straight-cube-7:south"
+      "nmos-16:west",
+      "t-connector-8:east"
     ],
     [
-      "ground-tile-9:north",
-      "resistor-10k-8:south"
+      "cap-100u-9:north",
+      "t-connector-8:south"
     ],
     [
-      "corner-cube-10:south",
-      "resistor-470-11:north"
+      "cap-100u-9:south",
+      "resistor-10k-10:north"
     ],
     [
-      "led-red-12:north",
-      "resistor-470-11:south"
+      "ground-tile-11:north",
+      "resistor-10k-10:south"
     ],
     [
-      "led-red-12:south",
-      "nmos-13:north"
+      "corner-cube-13:west",
+      "straight-cube-12:east"
     ],
     [
-      "ground-tile-14:north",
-      "nmos-13:south"
+      "corner-cube-13:south",
+      "resistor-470-14:north"
+    ],
+    [
+      "led-red-15:north",
+      "resistor-470-14:south"
+    ],
+    [
+      "led-red-15:south",
+      "nmos-16:north"
+    ],
+    [
+      "ground-tile-17:north",
+      "nmos-16:south"
     ]
   ]
 }
