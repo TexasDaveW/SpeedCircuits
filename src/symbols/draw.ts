@@ -172,7 +172,11 @@ function drawDiode(ctx: CanvasRenderingContext2D, b: SymbolBounds, schottky = fa
   ctx.lineTo(barX, cy)
   ctx.lineTo(bodyLeft, cy + halfH)
   ctx.closePath()
-  ctx.stroke()
+  if (schottky) {
+    ctx.fill()
+  } else {
+    ctx.stroke()
+  }
 
   ctx.beginPath()
   if (schottky) {
@@ -379,27 +383,86 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.restore()
 }
 
-function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
-  prep(ctx)
+/** NMOS leads: D west, S east, G south at tile rotation 0°. */
+function nmosLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
   const cx = midX(b)
-  const gx = b.x + b.w * 0.48
+  const inset = Math.min(b.w, b.h) * 0.1
+  return {
+    west: { x: b.x, y: cy },
+    east: { x: b.x + b.w, y: cy },
+    south: { x: cx, y: b.y + b.h - inset },
+  }
+}
+
+/**
+ * Enhancement NMOS (IEC): circled symbol like BJT/NPN; classic G–channel–D/S layout
+ * rotated 90° CCW so at 0°: west = drain, east = source, south = gate (matches 90° tile use).
+ */
+function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  const cx = midX(b)
+  const cy = midY(b)
+  const size = Math.min(b.w, b.h)
+  const r = size * 0.46
+  const inset = size * 0.1
+  const southY = b.y + b.h - inset
+  const chY = cy
+  const chHalfW = r * 0.36
+  const chLeft = cx - chHalfW
+  const chRight = cx + chHalfW
+  const gateY = cy + r * 0.34
+  const gateHalfW = r * 0.34
+  const segW = (chRight - chLeft) / 3
+  const x1 = chLeft + segW
+  const x2 = chLeft + 2 * segW
+
+  prep(ctx)
   ctx.beginPath()
-  ctx.moveTo(b.x, cy)
-  ctx.lineTo(gx, cy)
-  ctx.moveTo(b.x + b.w, cy)
-  ctx.lineTo(gx + b.w * 0.22, cy)
-  ctx.moveTo(cx, b.y + b.h)
-  ctx.lineTo(gx, cy + b.h * 0.15)
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
   ctx.stroke()
+
+  // D (west) — channel — S (east); middle segment carries the n-channel arrow
   ctx.beginPath()
-  ctx.moveTo(gx, cy - b.h * 0.3)
-  ctx.lineTo(gx, cy + b.h * 0.3)
+  ctx.moveTo(b.x, chY)
+  ctx.lineTo(chLeft, chY)
+  ctx.moveTo(chLeft, chY)
+  ctx.lineTo(x1, chY)
+  ctx.moveTo(x1, chY)
+  ctx.lineTo(x2, chY)
+  ctx.moveTo(x2, chY)
+  ctx.lineTo(chRight, chY)
+  ctx.moveTo(chRight, chY)
+  ctx.lineTo(b.x + b.w, chY)
   ctx.stroke()
+
+  prep(ctx)
+  ctx.fillStyle = STROKE
+  strokeArrowOnSegment(ctx, (x1 + x2) / 2, chY, (x1 + x2) / 2, gateY - size * 0.04)
+
+  // Gate plate (horizontal, isolated from channel by gap)
   ctx.beginPath()
-  ctx.moveTo(gx + b.w * 0.22, cy - b.h * 0.3)
-  ctx.lineTo(gx + b.w * 0.22, cy + b.h * 0.3)
+  ctx.moveTo(cx - gateHalfW, gateY)
+  ctx.lineTo(cx + gateHalfW, gateY)
   ctx.stroke()
+
+  // Gate lead from south magnet
+  ctx.beginPath()
+  ctx.moveTo(cx, southY)
+  ctx.lineTo(cx, gateY)
+  ctx.stroke()
+
+  const fs = Math.max(6, b.h * 0.19)
+  const outGap = fs * 0.72
+  const beside = fs * 0.82
+  ctx.save()
+  ctx.font = `700 ${fs}px system-ui, sans-serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = STROKE
+  ctx.fillText('D', b.x + outGap, chY - beside)
+  ctx.fillText('S', b.x + b.w - outGap, chY - beside)
+  ctx.fillText('G', cx - gateHalfW - outGap, gateY)
+  ctx.restore()
 }
 
 function drawPot(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
@@ -646,7 +709,7 @@ function drawMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
   const cy = midY(b)
   const cx = midX(b)
-  const r = Math.min(b.w, b.h) * 0.22
+  const r = Math.min(b.w, b.h) * 0.34
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
   ctx.lineTo(cx - r, cy)
@@ -654,7 +717,7 @@ function drawMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.lineTo(b.x + b.w, cy)
   ctx.arc(cx, cy, r, 0, Math.PI * 2)
   ctx.stroke()
-  ctx.font = `bold ${r}px system-ui,sans-serif`
+  ctx.font = `bold ${r * 1.15}px system-ui,sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillText('M', cx, cy + 1)
@@ -826,7 +889,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   led: defaultLeads2,
   led_rgb: defaultLeads4,
   npn: npnLeads,
-  nmos: defaultLeads3,
+  nmos: nmosLeads,
   potentiometer: defaultLeads3,
   switch_spdt: defaultLeads3,
   switch_momentary: defaultLeads2,
