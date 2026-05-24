@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 82
+const expected = 83
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -149,4 +149,9 @@ if (!js.includes('Touch-Activated Buzzer')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–82 present (51, 54, 56, 59, 62, 81; 74–76 TBD/on hold).')
+if (!js.includes('Touch-Activated Motor')) {
+  console.error('Lesson 83 (Touch-Activated Motor) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–83 present (51, 54, 56, 59, 62, 81; 74–76 TBD/on hold).')
