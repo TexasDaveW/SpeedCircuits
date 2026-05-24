@@ -707,6 +707,56 @@ function buildTransistorDelayCircuit(): PlacedTile[] {
 }
 
 /**
+ * Lesson 90: LDR (dark) + mic (loud-on) + panic tact → Schottky OR → NPN → buzzer.
+ * Starter layout forked from lesson 35 OR skeleton + lesson 66 buzzer branch — finish routing on plate.
+ */
+function buildMultiSensorAlarmCircuit(): PlacedTile[] {
+  return [
+    tile('power-tile', 5, 2),
+    tile('cross-cube', 5, 3),
+    // West: 10k–LDR divider + schottky OR input (lesson 35 west column)
+    tile('corner-cube', 4, 3, 90),
+    tile('straight-cube', 4, 4, 90),
+    tile('resistor-10k', 4, 5, 90),
+    tile('t-connector', 4, 6, 90),
+    tile('schottky', 4, 7, 90),
+    tile('corner-cube', 4, 8, 0),
+    tile('ldr', 5, 6, 90),
+    tile('ground-tile', 5, 7),
+    // East USB branch + mic divider (lesson 35 east + lesson 69 mic-10k)
+    tile('resistor-1k', 6, 3, 0),
+    tile('t-connector', 7, 3, 180),
+    tile('resistor-1k', 8, 3, 0),
+    tile('corner-cube', 9, 3, 180),
+    tile('ground-tile', 9, 4),
+    tile('corner-cube', 6, 4, 90),
+    tile('corner-cube', 7, 4, 270),
+    tile('microphone', 6, 5, 90),
+    tile('t-connector', 6, 6, 90),
+    tile('schottky', 6, 7, 90),
+    tile('corner-cube', 6, 8, 270),
+    tile('resistor-10k', 7, 6, 90),
+    tile('ground-tile', 7, 7),
+    // Center panic tact (route schottky south into OR merge on plate)
+    tile('tact-button', 5, 4, 90),
+    tile('schottky', 5, 5, 90),
+    // OR merge → NPN base (lesson 35 merge row + lesson 66 emitter)
+    tile('t-connector', 5, 8, 180),
+    tile('resistor-10k', 5, 9, 90),
+    tile('ground-tile', 5, 10),
+    tile('straight-cube', 6, 9, 0),
+    tile('npn', 7, 9, 0),
+    tile('resistor-150', 7, 10, 90),
+    tile('ground-tile', 7, 11),
+    // Buzzer collector branch (lesson 66 — start from east USB row; finish link on plate)
+    tile('resistor-150', 7, 5, 0),
+    tile('corner-cube', 8, 5, 180),
+    tile('buzzer', 8, 6, 90),
+    tile('corner-cube', 8, 7, 270),
+  ]
+}
+
+/**
  * Lesson 83: touch pad → NMOS gate (10kΩ pulldown); USB → T → 150Ω → motor → drain. Spins while touching.
  */
 function buildTouchActivatedMotor(): PlacedTile[] {
@@ -1720,6 +1770,43 @@ const CIRCUITS: Array<{ name: string; build: () => PlacedTile[] }> = [
     name: '85-transistor-delay-circuit',
     build: () => buildTransistorDelayCircuit(),
   },
+  // Lessons 86–89 skipped — sensor→transistor one-offs overlap lessons 53–73; jump to multi-sensor integration.
+  {
+    name: '86-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 86 skipped (overlaps 53/58); see lesson 90 Multi-Sensor Alarm; edit Circuit JSONs/86-tbd.json',
+      )
+    },
+  },
+  {
+    name: '87-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 87 skipped (overlaps 53); see lesson 90; edit Circuit JSONs/87-tbd.json',
+      )
+    },
+  },
+  {
+    name: '88-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 88 skipped (overlaps 67–70); see lesson 90; edit Circuit JSONs/88-tbd.json',
+      )
+    },
+  },
+  {
+    name: '89-tbd',
+    build: () => {
+      throw new Error(
+        'Lesson 89 skipped (overlaps 49–52); see lesson 90; edit Circuit JSONs/89-tbd.json',
+      )
+    },
+  },
+  {
+    name: '90-multi-sensor-alarm-circuit',
+    build: () => buildMultiSensorAlarmCircuit(),
+  },
 ]
 
 const DISPLAY_NAMES = [
@@ -1808,6 +1895,11 @@ const DISPLAY_NAMES = [
   'Touch-Activated Motor',
   'Transistor RC Timer',
   'Transistor Delay Circuit',
+  'TBD',
+  'TBD',
+  'TBD',
+  'TBD',
+  'Multi-Sensor Alarm Circuit',
 ]
 
 const LESSON_DESCRIPTIONS: string[] = [
@@ -1896,6 +1988,11 @@ const LESSON_DESCRIPTIONS: string[] = [
   'The metal touch pad is a capacitive plate wired straight to the NMOS gate (10kΩ to ground holds the gate off when nobody is touching). Touch the pad — your body couples voltage onto the gate, the FET turns on, and the vibration motor spins (USB → T → 150Ω → motor → drain, source → ground). Lift your finger and the gate discharges through the 10kΩ: motor stops. No tact button — the plate is the switch. Compare lesson 78 (pot → NMOS → motor), lesson 61 (tact → NPN → motor), and lesson 82 (touch → NMOS → buzzer). Touch pad at 90°; NMOS at 90°; motor at 90°.',
   'Press the tact button to charge the 1000µF capacitor through 10kΩ onto the NMOS gate (τ ≈ 10 s). The gate voltage rises, the FET turns on, and the drain LED lights (USB → T → 470Ω → red LED → drain, source → ground). Release the button — the cap keeps the gate high for a while, then discharges through the second 10kΩ to ground: the LED fades off on a timer. Compare lesson 23 (RC delay on the LED directly), lesson 71 (instant tact → NMOS), and lesson 85 (adjustable turn-on delay). Tact and RC column at 90°; NMOS and LED at 90°.',
   'Press and hold the tact button while you turn the potentiometer. The pot (270° on column 5) feeds an RC node on column 6 — 100µF to ground through 10kΩ — and the wiper raises the NMOS gate on column 7. More resistance = longer wait before the drain LED lights; less = faster turn-on. Release the button and the gate cap dumps through the pulldown: instant off. Three columns (pot trunk | gate RC | LED load) — compare lesson 84 (tact + fixed 1000µF on one column), lesson 24 (adjustable RC on the LED), and lesson 71 (no delay). Pot 270°; gate RC and NMOS at 90°.',
+  'Lesson 86 reserved. Light-triggered transistor switch overlaps lessons 53 (LDR divider), 58 (NPN switch), and 71 (NMOS). Multi-sensor integration is lesson 90.',
+  'Lesson 87 reserved. Dark-triggered switch overlaps lesson 53 (LDR divider). Multi-sensor integration is lesson 90.',
+  'Lesson 88 reserved. Sound-triggered switch overlaps lessons 67–70 (microphone detectors). Multi-sensor integration is lesson 90.',
+  'Lesson 89 reserved. Hall-triggered switch overlaps lessons 49–52 and 72–73. Multi-sensor integration is lesson 90.',
+  'Three trigger paths — LDR (dark), microphone (loud-on, lesson 69), and a panic tact button — feed a shared Schottky OR node, then one NPN drives the buzzer. Cover the LDR, make noise near the mic, or press panic: any one channel pulling the OR high turns the transistor on (USB → 150Ω → buzzer → collector, 150Ω emitter → ground). Compare lesson 35 (diode OR with buttons), lesson 66 (single-sensor alarm), and lessons 53/69 (dividers). Schottkys at 90° (cathode toward center); buzzer at 90°.',
 ]
 
 function validateCounts(tiles: PlacedTile[]): string[] {

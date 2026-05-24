@@ -11,7 +11,7 @@ if (!assetMatch) {
 }
 const js = readFileSync(join(distPath, assetMatch[1]), 'utf8')
 
-const expected = 85
+const expected = 90
 let found = 0
 for (let n = 1; n <= expected; n++) {
   const prefix = String(n).padStart(2, '0')
@@ -164,4 +164,9 @@ if (!js.includes('Transistor Delay Circuit')) {
   process.exit(1)
 }
 
-console.log('Lessons 48–85 present (51, 54, 56, 59, 62, 81; 74–76 TBD/on hold).')
+if (!js.includes('Multi-Sensor Alarm Circuit')) {
+  console.error('Lesson 90 (Multi-Sensor Alarm Circuit) not found in bundle')
+  process.exit(1)
+}
+
+console.log('Lessons 48–90 present (51, 54, 56, 59, 62, 81, 86–89 TBD; 74–76 on hold).')

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Reserved. Light-triggered transistor switch overlaps lessons 53 (LDR divider), 58 (NPN switch), and 71 (NMOS). Multi-sensor integration is lesson 90."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

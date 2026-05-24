@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Reserved. Sound-triggered switch overlaps lessons 67–70 (microphone detectors). Multi-sensor integration is lesson 90."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

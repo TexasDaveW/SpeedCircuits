@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "TBD",
+  "lesson": {
+    "title": "TBD",
+    "description": "Reserved. Dark-triggered switch overlaps lesson 53 (LDR divider). Multi-sensor integration is lesson 90."
+  },
+  "tiles": [],
+  "connections": [],
+  "nets": []
+}

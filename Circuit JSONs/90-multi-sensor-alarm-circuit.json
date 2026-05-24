@@ -1,0 +1,912 @@
+{
+  "version": 1,
+  "name": "Multi-Sensor Alarm Circuit",
+  "lesson": {
+    "title": "Multi-Sensor Alarm Circuit",
+    "description": "Three trigger paths — LDR (dark), microphone (loud-on, lesson 69), and a panic tact button — feed a shared Schottky OR node, then one NPN drives the buzzer. Cover the LDR, make noise near the mic, or press panic: any one channel pulling the OR high turns the transistor on (USB → 150Ω → buzzer → collector, 150Ω emitter → ground). Compare lesson 35 (diode OR with buttons), lesson 66 (single-sensor alarm), and lessons 53/69 (dividers). Schottkys at 90° (cathode toward center); buzzer at 90°."
+  },
+  "exportedAt": "2026-05-24T23:41:56.896Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 2,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "cross-cube-2",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 3,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-3",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 3,
+      "rotation": 90
+    },
+    {
+      "instanceId": "straight-cube-4",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-5",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 4,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-6",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "schottky-7",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 4,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-8",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 4,
+      "gridY": 8,
+      "rotation": 0
+    },
+    {
+      "instanceId": "ldr-9",
+      "catalogId": "ldr",
+      "name": "LDR",
+      "category": "component",
+      "value": "LDR",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-10",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-1k-11",
+      "catalogId": "resistor-1k",
+      "name": "1k resistor",
+      "category": "component",
+      "value": "1kΩ",
+      "gridX": 6,
+      "gridY": 3,
+      "rotation": 0
+    },
+    {
+      "instanceId": "t-connector-12",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 3,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-1k-13",
+      "catalogId": "resistor-1k",
+      "name": "1k resistor",
+      "category": "component",
+      "value": "1kΩ",
+      "gridX": 8,
+      "gridY": 3,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-14",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 3,
+      "rotation": 180
+    },
+    {
+      "instanceId": "ground-tile-15",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 9,
+      "gridY": 4,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-16",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-17",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 4,
+      "rotation": 270
+    },
+    {
+      "instanceId": "microphone-18",
+      "catalogId": "microphone",
+      "name": "Microphone",
+      "category": "component",
+      "value": "MIC",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-19",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "schottky-20",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-21",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 270
+    },
+    {
+      "instanceId": "resistor-10k-22",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 7,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-23",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "tact-button-24",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 90
+    },
+    {
+      "instanceId": "schottky-25",
+      "catalogId": "schottky",
+      "name": "Schottky diode",
+      "category": "component",
+      "value": "DIODE",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-connector-26",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-10k-27",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-28",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 10,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "straight-cube-29",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-30",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 7,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "resistor-150-31",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 7,
+      "gridY": 10,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-32",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 11,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "resistor-150-33",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 7,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "corner-cube-34",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "buzzer-35",
+      "catalogId": "buzzer",
+      "name": "Buzzer",
+      "category": "component",
+      "value": "BUZZ",
+      "gridX": 8,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "corner-cube-36",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 7,
+      "rotation": 270
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "power-tile-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "cross-cube-2",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cross-cube-2",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "resistor-1k-11",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cross-cube-2",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "tact-button-24",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cross-cube-2",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "corner-cube-3",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "straight-cube-4",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-4",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-5",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-5",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-6",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-6",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "schottky-7",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "schottky-7",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-8",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-8",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-connector-26",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ldr-9",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "schottky-25",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ldr-9",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-10",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-10",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-1k-11",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-connector-12",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-12",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-17",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-12",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "resistor-1k-13",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-1k-13",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-14",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-14",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-15",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-15",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-16",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-17",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-16",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "microphone-18",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "microphone-18",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-connector-19",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-19",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "schottky-20",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "schottky-20",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-21",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-21",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-connector-26",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-22",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-23",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-23",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "tact-button-24",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "schottky-25",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-connector-26",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-10k-27",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-10k-27",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-28",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-28",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "straight-cube-29",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "npn-30",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-30",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "resistor-150-31",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-30",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "npn-30",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-31",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ground-tile-32",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ground-tile-32",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "resistor-150-33",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "corner-cube-34",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "corner-cube-34",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "buzzer-35",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "buzzer-35",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "corner-cube-36",
+        "side": "north"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-10:south",
+      "ground-tile-15:south",
+      "ground-tile-23:south",
+      "ground-tile-28:south",
+      "ground-tile-32:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "cross-cube-2:north",
+      "net:USB_VCC",
+      "power-tile-1:south"
+    ],
+    [
+      "cross-cube-2:east",
+      "resistor-1k-11:west"
+    ],
+    [
+      "cross-cube-2:south",
+      "tact-button-24:north"
+    ],
+    [
+      "corner-cube-3:east",
+      "cross-cube-2:west"
+    ],
+    [
+      "corner-cube-3:south",
+      "straight-cube-4:north"
+    ],
+    [
+      "resistor-10k-5:north",
+      "straight-cube-4:south"
+    ],
+    [
+      "resistor-10k-5:south",
+      "t-connector-6:north"
+    ],
+    [
+      "schottky-7:north",
+      "t-connector-6:south"
+    ],
+    [
+      "corner-cube-8:north",
+      "schottky-7:south"
+    ],
+    [
+      "corner-cube-8:east",
+      "t-connector-26:west"
+    ],
+    [
+      "ldr-9:north",
+      "schottky-25:south"
+    ],
+    [
+      "ground-tile-10:north",
+      "ldr-9:south"
+    ],
+    [
+      "resistor-1k-11:east",
+      "t-connector-12:west"
+    ],
+    [
+      "corner-cube-17:north",
+      "t-connector-12:south"
+    ],
+    [
+      "resistor-1k-13:west",
+      "t-connector-12:east"
+    ],
+    [
+      "corner-cube-14:west",
+      "resistor-1k-13:east"
+    ],
+    [
+      "corner-cube-14:south",
+      "ground-tile-15:north"
+    ],
+    [
+      "corner-cube-16:east",
+      "corner-cube-17:west"
+    ],
+    [
+      "corner-cube-16:south",
+      "microphone-18:north"
+    ],
+    [
+      "microphone-18:south",
+      "t-connector-19:north"
+    ],
+    [
+      "schottky-20:north",
+      "t-connector-19:south"
+    ],
+    [
+      "corner-cube-21:north",
+      "schottky-20:south"
+    ],
+    [
+      "corner-cube-21:west",
+      "t-connector-26:east"
+    ],
+    [
+      "ground-tile-23:north",
+      "resistor-10k-22:south"
+    ],
+    [
+      "schottky-25:north",
+      "tact-button-24:south"
+    ],
+    [
+      "resistor-10k-27:north",
+      "t-connector-26:south"
+    ],
+    [
+      "ground-tile-28:north",
+      "resistor-10k-27:south"
+    ],
+    [
+      "npn-30:east",
+      "npn-30:west",
+      "straight-cube-29:east"
+    ],
+    [
+      "npn-30:south",
+      "resistor-150-31:north"
+    ],
+    [
+      "ground-tile-32:north",
+      "resistor-150-31:south"
+    ],
+    [
+      "corner-cube-34:west",
+      "resistor-150-33:east"
+    ],
+    [
+      "buzzer-35:north",
+      "corner-cube-34:south"
+    ],
+    [
+      "buzzer-35:south",
+      "corner-cube-36:north"
+    ]
+  ]
+}
