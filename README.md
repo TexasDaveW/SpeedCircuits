@@ -20,3 +20,20 @@ Open the URL shown in the terminal (usually http://localhost:5173).
 5. **Export circuit JSON** to generate connections, nets, and tile metadata.
 
 Power and ground tiles connect to `USB_VCC` and `PLATE_GND` nets in the export.
+
+## Host on GitHub Pages
+
+The repo includes a workflow that builds and deploys on every push to `main`.
+
+1. On GitHub, open **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Push `main` (or run the **Deploy to GitHub Pages** workflow manually).
+
+Live app: **https://texasdavew.github.io/SpeedCircuits/**
+
+To preview a production build locally (same base path as Pages):
+
+```bash
+GITHUB_PAGES=true npm run build
+npm run preview
+```
