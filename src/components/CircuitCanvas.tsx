@@ -639,7 +639,6 @@ export function CircuitCanvas({
         if (!onPasteAtCell(drag.pendingClick.gx, drag.pendingClick.gy)) {
           onPasteTargetChange({ gx: drag.pendingClick.gx, gy: drag.pendingClick.gy })
         }
-        onSelectionChange([])
       }
       setMarquee(null)
       return
