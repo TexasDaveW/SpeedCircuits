@@ -341,7 +341,7 @@ export function CircuitCanvas({
       ctx.fillStyle = '#7d8796'
       ctx.font = '13px system-ui, sans-serif'
       ctx.fillText(
-        'Drag on empty space to box-select tiles · Shift+drag adds · Ctrl/Space+drag pans',
+        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · Ctrl/Space+drag pans',
         16,
         h - 16,
       )
@@ -805,7 +805,7 @@ export function CircuitCanvas({
         className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
           pendingCatalogId ? ' place-mode' : ''
         }${isPanning ? ' panning' : ''}`}
-        title="Hold Ctrl or Space and drag to pan · scroll to zoom"
+        title="R: rotates · Hold Ctrl or Space and drag to pan · scroll to zoom"
         onContextMenu={handleContextMenu}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
