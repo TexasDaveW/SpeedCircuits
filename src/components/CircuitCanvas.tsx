@@ -341,7 +341,7 @@ export function CircuitCanvas({
       ctx.fillStyle = '#7d8796'
       ctx.font = '13px system-ui, sans-serif'
       ctx.fillText(
-        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · Ctrl/Space+drag pans',
+        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · B: centers · Ctrl/Space+drag pans',
         16,
         h - 16,
       )
@@ -459,6 +459,18 @@ export function CircuitCanvas({
     const rect = canvas.getBoundingClientRect()
     applyZoomAtLocal(rect.width / 2, rect.height / 2, { multiply: factor })
   }
+
+  const centerCanvas = useCallback(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    const nextPan = {
+      x: (rect.width - PLATE_W * zoomRef.current) / 2,
+      y: (rect.height - PLATE_H * zoomRef.current) / 2,
+    }
+    panRef.current = nextPan
+    setPan(nextPan)
+  }, [])
 
   const handlePointerDown = (e: React.PointerEvent) => {
     containerRef.current?.focus({ preventScroll: true })
@@ -737,6 +749,19 @@ export function CircuitCanvas({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (isEditableTarget(e.target)) return
+      if (e.code !== 'KeyB' && e.key !== 'b' && e.key !== 'B') return
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
+
+      e.preventDefault()
+      centerCanvas()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [centerCanvas])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return
 
@@ -787,6 +812,9 @@ export function CircuitCanvas({
         >
           Reset zoom
         </button>
+        <button type="button" onClick={centerCanvas} title="Center canvas (B)">
+          Center (B)
+        </button>
         <button
           type="button"
           onClick={rotatePlacementPasteOrSelection}
@@ -804,7 +832,7 @@ export function CircuitCanvas({
         className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
           pendingCatalogId ? ' place-mode' : ''
         }${isPanning ? ' panning' : ''}`}
-        title="R: rotates · Hold Ctrl or Space and drag to pan · scroll to zoom"
+        title="R: rotates · B: centers · Hold Ctrl or Space and drag to pan · scroll to zoom"
         onContextMenu={handleContextMenu}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
