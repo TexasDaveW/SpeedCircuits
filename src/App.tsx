@@ -126,11 +126,19 @@ export default function App() {
   )
 
   const handleSaveCircuit = useCallback(async () => {
-    const json = buildCircuitJson(tiles, circuitName, lesson)
-    const result = await saveCircuitJsonFile(json, circuitName)
+    const promptedName = window.prompt('Circuit name', circuitName)
+    if (promptedName === null) {
+      setStatus('Save cancelled.')
+      return
+    }
+    const nextCircuitName = promptedName.trim() || 'circuit'
+    setCircuitName(nextCircuitName)
+
+    const json = buildCircuitJson(tiles, nextCircuitName, lesson)
+    const result = await saveCircuitJsonFile(json, nextCircuitName)
     if (result === 'saved') {
       setStatus(
-        `Saved "${sanitizeCircuitFilename(circuitName)}.json". In Chrome/Edge you can pick the folder; otherwise it goes to your Downloads.`,
+        `Saved "${sanitizeCircuitFilename(nextCircuitName)}.json". In Chrome/Edge you can pick the folder; otherwise it goes to your Downloads.`,
       )
     } else if (result === 'cancelled') {
       setStatus('Save cancelled.')
