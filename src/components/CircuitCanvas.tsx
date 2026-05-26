@@ -305,9 +305,28 @@ export function CircuitCanvas({
     const pasteCell = tileClipboard ? (hoverCell ?? pasteTarget) : null
     const highlightCell = placementCell ?? pasteCell
 
+    const drawCellHighlight = (
+      gx: number,
+      gy: number,
+      options: { invalid: boolean; strong?: boolean },
+    ) => {
+      if (!inPlateBounds(gx, gy)) return
+      const hx = gx * GRID_CELL
+      const hy = gy * GRID_CELL
+      ctx.fillStyle = options.invalid
+        ? 'rgba(220, 80, 80, 0.22)'
+        : options.strong
+          ? 'rgba(77, 159, 255, 0.35)'
+          : 'rgba(77, 159, 255, 0.18)'
+      ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
+      ctx.strokeStyle = options.invalid
+        ? 'rgba(220, 80, 80, 0.85)'
+        : 'rgba(77, 159, 255, 0.9)'
+      ctx.lineWidth = options.strong ? 3 : 2
+      ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
+    }
+
     if (highlightCell) {
-      const hx = highlightCell.gx * GRID_CELL
-      const hy = highlightCell.gy * GRID_CELL
       const cellOccupied = tiles.some(
         (t) => t.gridX === highlightCell.gx && t.gridY === highlightCell.gy,
       )
@@ -322,17 +341,28 @@ export function CircuitCanvas({
         pasteTarget?.gx === highlightCell.gx &&
         pasteTarget?.gy === highlightCell.gy
       const highlightInvalid = placementCell ? cellOccupied : pasteInvalid
-      ctx.fillStyle = highlightInvalid
-        ? 'rgba(220, 80, 80, 0.22)'
-        : isPasteTarget
-          ? 'rgba(77, 159, 255, 0.35)'
-          : 'rgba(77, 159, 255, 0.18)'
-      ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
-      ctx.strokeStyle = highlightInvalid
-        ? 'rgba(220, 80, 80, 0.85)'
-        : 'rgba(77, 159, 255, 0.9)'
-      ctx.lineWidth = isPasteTarget ? 3 : 2
-      ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
+      drawCellHighlight(highlightCell.gx, highlightCell.gy, {
+        invalid: highlightInvalid,
+        strong: isPasteTarget,
+      })
+    }
+
+    if (activeSmoothDrag?.kind === 'tile') {
+      drawCellHighlight(activeSmoothDrag.targetGx, activeSmoothDrag.targetGy, {
+        invalid: !activeSmoothDrag.valid,
+        strong: activeSmoothDrag.valid,
+      })
+    } else if (activeSmoothDrag?.kind === 'group') {
+      for (const origin of activeSmoothDrag.origins.values()) {
+        drawCellHighlight(
+          origin.gridX + activeSmoothDrag.targetDx,
+          origin.gridY + activeSmoothDrag.targetDy,
+          {
+            invalid: !activeSmoothDrag.valid,
+            strong: activeSmoothDrag.valid,
+          },
+        )
+      }
     }
 
     if (pasteCell && tileClipboard && !pendingCatalogId) {
