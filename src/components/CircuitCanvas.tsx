@@ -12,6 +12,8 @@ const PLATE_H = PLATE_ROWS * GRID_CELL
 const MARQUEE_MIN_PX = 6
 const MIN_ZOOM = 0.35
 const MAX_ZOOM = 2.5
+const DOUBLE_TAP_MS = 350
+const DOUBLE_TAP_MAX_MOVE_PX = 10
 
 function clampZoom(z: number) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z))
@@ -85,6 +87,8 @@ type DragState =
   | {
       kind: 'tile'
       instanceId: string
+      startScreenX: number
+      startScreenY: number
       pointerOffsetX: number
       pointerOffsetY: number
       screenOffsetX: number
@@ -200,6 +204,12 @@ export function CircuitCanvas({
   const paintRef = useRef<() => void>(() => {})
   const paintFrameRef = useRef<number | null>(null)
   const spaceHeldRef = useRef(false)
+  const lastTileTapRef = useRef<{
+    instanceId: string
+    time: number
+    screenX: number
+    screenY: number
+  } | null>(null)
   const selectedSet = new Set(selectedIds)
 
   const updateSmoothDrag = useCallback((next: SmoothDragState | null) => {
@@ -542,9 +552,12 @@ export function CircuitCanvas({
       const my = e.clientY - rect.top
       // Use small exponential steps so trackpads feel smooth and mouse wheels do not jump.
       const pinch = e.ctrlKey || e.metaKey
-      const delta = Math.max(-100, Math.min(100, e.deltaY))
-      const sensitivity = pinch ? 0.00007 : 0.00012
-      const factor = Math.exp(-delta * sensitivity)
+      const rawDelta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY
+      const direction = Math.sign(rawDelta)
+      if (direction === 0) return
+      const magnitude = Math.min(1.5, Math.max(1, Math.abs(rawDelta) / 50))
+      const step = pinch ? 0.03 : 0.045
+      const factor = Math.exp(-direction * magnitude * step)
       const next = computeZoomAtLocal(mx, my, zoomRef.current, panRef.current, {
         multiply: factor,
       })
@@ -661,6 +674,8 @@ export function CircuitCanvas({
       dragRef.current = {
         kind: 'tile',
         instanceId: hit.instanceId,
+        startScreenX: e.clientX,
+        startScreenY: e.clientY,
         pointerOffsetX: world.x - tileX,
         pointerOffsetY: world.y - tileY,
         screenOffsetX: e.clientX - rect.left - tileScreenX,
@@ -831,11 +846,51 @@ export function CircuitCanvas({
     setMarquee(null)
   }
 
-  const finishSmoothDrag = () => {
+  const finishSmoothDrag = (
+    dragState: Extract<DragState, { kind: 'tile' | 'group' }>,
+    e: React.PointerEvent,
+  ) => {
     const drag = smoothDragRef.current
     if (!drag) return
 
     if (drag.kind === 'tile') {
+      const movePx = Math.hypot(
+        e.clientX - dragState.startScreenX,
+        e.clientY - dragState.startScreenY,
+      )
+      if (movePx <= DOUBLE_TAP_MAX_MOVE_PX) {
+        const now = performance.now()
+        const lastTap = lastTileTapRef.current
+        const doubleTapped =
+          lastTap?.instanceId === drag.instanceId &&
+          now - lastTap.time <= DOUBLE_TAP_MS &&
+          Math.hypot(e.clientX - lastTap.screenX, e.clientY - lastTap.screenY) <=
+            DOUBLE_TAP_MAX_MOVE_PX
+
+        if (doubleTapped) {
+          onTilesChange(
+            tiles.map((t) =>
+              t.instanceId === drag.instanceId
+                ? { ...t, rotation: nextRotation(t.rotation) }
+                : t,
+            ),
+          )
+          onSelectionChange([drag.instanceId])
+          lastTileTapRef.current = null
+          updateSmoothDrag(null)
+          return
+        }
+
+        lastTileTapRef.current = {
+          instanceId: drag.instanceId,
+          time: now,
+          screenX: e.clientX,
+          screenY: e.clientY,
+        }
+      } else {
+        lastTileTapRef.current = null
+      }
+
       if (drag.valid) {
         onTilesChange(
           tiles.map((t) =>
@@ -846,6 +901,7 @@ export function CircuitCanvas({
         )
       }
     } else {
+      lastTileTapRef.current = null
       const groupIds = new Set(drag.instanceIds)
       if (drag.valid) {
         onTilesChange(
@@ -871,7 +927,7 @@ export function CircuitCanvas({
     if (drag?.kind === 'marquee') {
       finishMarquee(drag)
     } else if (drag?.kind === 'tile' || drag?.kind === 'group') {
-      finishSmoothDrag()
+      finishSmoothDrag(drag, e)
     }
     dragRef.current = null
     setIsPanning(false)
@@ -991,10 +1047,10 @@ export function CircuitCanvas({
       aria-label="Circuit plate editor"
     >
       <div className="canvas-toolbar">
-        <button type="button" onClick={() => zoomFromToolbar(1.03)}>
+        <button type="button" onClick={() => zoomFromToolbar(1.1)}>
           Zoom in
         </button>
-        <button type="button" onClick={() => zoomFromToolbar(1 / 1.03)}>
+        <button type="button" onClick={() => zoomFromToolbar(1 / 1.1)}>
           Zoom out
         </button>
         <button
