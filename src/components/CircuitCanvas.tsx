@@ -247,7 +247,8 @@ export function CircuitCanvas({
     const container = containerRef.current
     if (!canvas || !container) return
 
-    const dpr = window.devicePixelRatio || 1
+    // Cap DPR so full-screen Retina canvases do not repaint 4x as many pixels on every drag/zoom.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
     const w = container.clientWidth
     const h = container.clientHeight
     const nextWidth = Math.round(w * dpr)
