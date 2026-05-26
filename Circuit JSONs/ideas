@@ -1,0 +1,4 @@
+can we make the trace colors go from red to blue on the paths to indicate what the voltage level is
+For instance, at 5 volts, it could be red. when it passes through a resistor, and the voltage drops to say 4, 
+it could go to orange
+then the next item that goes to a lower volage is yellow, then green then teale then blue. blue could be ground

@@ -1,0 +1,3 @@
+On the Motor tile symbol, make the M bigger and make the circle around it bigger
+on the NMOS tile, look up the correct nmos symbol and update the symbol on the tile. it looks wrong. also add the drain, source and gate labels
+on the shottky diode tile, color in the triange. make it solid like the LED diode symbol

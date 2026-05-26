@@ -431,15 +431,11 @@ export function CircuitCanvas({
       const rect = canvas.getBoundingClientRect()
       const mx = e.clientX - rect.left
       const my = e.clientY - rect.top
-      // Trackpad pinch-zoom on macOS sets ctrlKey; use gentler steps for pinch.
+      // Use small exponential steps so trackpads feel smooth and mouse wheels do not jump.
       const pinch = e.ctrlKey || e.metaKey
-      const factor = pinch
-        ? e.deltaY > 0
-          ? 0.98
-          : 1.02
-        : e.deltaY > 0
-          ? 0.92
-          : 1.08
+      const delta = Math.max(-100, Math.min(100, e.deltaY))
+      const sensitivity = pinch ? 0.00007 : 0.00012
+      const factor = Math.exp(-delta * sensitivity)
       const next = computeZoomAtLocal(mx, my, zoomRef.current, panRef.current, {
         multiply: factor,
       })
@@ -789,10 +785,10 @@ export function CircuitCanvas({
       aria-label="Circuit plate editor"
     >
       <div className="canvas-toolbar">
-        <button type="button" onClick={() => zoomFromToolbar(1.15)}>
+        <button type="button" onClick={() => zoomFromToolbar(1.03)}>
           Zoom in
         </button>
-        <button type="button" onClick={() => zoomFromToolbar(1 / 1.15)}>
+        <button type="button" onClick={() => zoomFromToolbar(1 / 1.03)}>
           Zoom out
         </button>
         <button
