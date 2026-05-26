@@ -85,13 +85,17 @@ type DragState =
   | {
       kind: 'tile'
       instanceId: string
-      offsetGx: number
-      offsetGy: number
+      pointerOffsetX: number
+      pointerOffsetY: number
+      screenOffsetX: number
+      screenOffsetY: number
     }
   | {
       kind: 'group'
-      startGx: number
-      startGy: number
+      startX: number
+      startY: number
+      startScreenX: number
+      startScreenY: number
       origins: Map<string, { gridX: number; gridY: number }>
     }
   | {
@@ -101,6 +105,37 @@ type DragState =
       addToSelection: boolean
       pendingClick?: { kind: 'place' | 'paste'; gx: number; gy: number }
     }
+
+type SmoothDragState =
+  | {
+      kind: 'tile'
+      instanceId: string
+      x: number
+      y: number
+      screenX: number
+      screenY: number
+      targetGx: number
+      targetGy: number
+      valid: boolean
+    }
+  | {
+      kind: 'group'
+      instanceIds: string[]
+      origins: Map<string, { gridX: number; gridY: number }>
+      dxWorld: number
+      dyWorld: number
+      dxScreen: number
+      dyScreen: number
+      targetDx: number
+      targetDy: number
+      valid: boolean
+    }
+
+type PlacementPreviewState = {
+  screenX: number
+  screenY: number
+  grid: { gx: number; gy: number } | null
+}
 
 export function CircuitCanvas({
   tiles,
@@ -149,6 +184,7 @@ export function CircuitCanvas({
 
   useEffect(() => {
     setPlacementRotation(0)
+    setPlacementPreview(null)
   }, [pendingCatalogId])
   const [marquee, setMarquee] = useState<{
     x0: number
@@ -156,10 +192,24 @@ export function CircuitCanvas({
     x1: number
     y1: number
   } | null>(null)
+  const [placementPreview, setPlacementPreview] =
+    useState<PlacementPreviewState | null>(null)
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
+  const smoothDragRef = useRef<SmoothDragState | null>(null)
+  const paintRef = useRef<() => void>(() => {})
+  const paintFrameRef = useRef<number | null>(null)
   const spaceHeldRef = useRef(false)
   const selectedSet = new Set(selectedIds)
+
+  const updateSmoothDrag = useCallback((next: SmoothDragState | null) => {
+    smoothDragRef.current = next
+    if (paintFrameRef.current != null) {
+      cancelAnimationFrame(paintFrameRef.current)
+      paintFrameRef.current = null
+    }
+    paintRef.current()
+  }, [])
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
@@ -224,8 +274,16 @@ export function CircuitCanvas({
       if (!aSel && bSel) return -1
       return 0
     })
+    const activeSmoothDrag = smoothDragRef.current
+    const movingIds =
+      activeSmoothDrag?.kind === 'tile'
+        ? new Set([activeSmoothDrag.instanceId])
+        : activeSmoothDrag?.kind === 'group'
+          ? new Set(activeSmoothDrag.instanceIds)
+          : null
 
     for (const tile of sorted) {
+      if (movingIds?.has(tile.instanceId)) continue
       const entry = catalogById.get(tile.catalogId)
       if (!entry) continue
       drawTile(ctx, tile.gridX * GRID_CELL, tile.gridY * GRID_CELL, entry, tile.rotation, {
@@ -233,7 +291,7 @@ export function CircuitCanvas({
       })
     }
 
-    const placementCell = pendingCatalogId ? hoverCell : null
+    const placementCell = pendingCatalogId ? (placementPreview?.grid ?? hoverCell) : null
     const pasteCell = tileClipboard ? (hoverCell ?? pasteTarget) : null
     const highlightCell = placementCell ?? pasteCell
 
@@ -265,25 +323,6 @@ export function CircuitCanvas({
         : 'rgba(77, 159, 255, 0.9)'
       ctx.lineWidth = isPasteTarget ? 3 : 2
       ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
-    }
-
-    if (placementCell && pendingCatalogId) {
-      const entry = catalogById.get(pendingCatalogId)
-      if (entry) {
-        const cellOccupied = tiles.some(
-          (t) => t.gridX === placementCell.gx && t.gridY === placementCell.gy,
-        )
-        ctx.save()
-        ctx.globalAlpha = cellOccupied ? 0.38 : 0.72
-        drawTile(
-          ctx,
-          placementCell.gx * GRID_CELL,
-          placementCell.gy * GRID_CELL,
-          entry,
-          placementRotation,
-        )
-        ctx.restore()
-      }
     }
 
     if (pasteCell && tileClipboard && !pendingCatalogId) {
@@ -323,6 +362,66 @@ export function CircuitCanvas({
 
     ctx.restore()
 
+    if (activeSmoothDrag) {
+      ctx.save()
+      ctx.globalAlpha = activeSmoothDrag.valid ? 0.92 : 0.55
+
+      const drawFloatingTile = (
+        tile: PlacedTile,
+        entry: NonNullable<ReturnType<typeof catalogById.get>>,
+        screenX: number,
+        screenY: number,
+      ) => {
+        ctx.save()
+        ctx.translate(screenX, screenY)
+        ctx.scale(zoom, zoom)
+        drawTile(ctx, 0, 0, entry, tile.rotation, { selected: true })
+        ctx.restore()
+      }
+
+      if (activeSmoothDrag.kind === 'tile') {
+        const tile = tiles.find((t) => t.instanceId === activeSmoothDrag.instanceId)
+        const entry = tile ? catalogById.get(tile.catalogId) : null
+        if (tile && entry) {
+          drawFloatingTile(tile, entry, activeSmoothDrag.screenX, activeSmoothDrag.screenY)
+        }
+      } else {
+        for (const tile of tiles) {
+          const origin = activeSmoothDrag.origins.get(tile.instanceId)
+          if (!origin) continue
+          const entry = catalogById.get(tile.catalogId)
+          if (!entry) continue
+          drawFloatingTile(
+            tile,
+            entry,
+            pan.x + origin.gridX * GRID_CELL * zoom + activeSmoothDrag.dxScreen,
+            pan.y + origin.gridY * GRID_CELL * zoom + activeSmoothDrag.dyScreen,
+          )
+        }
+      }
+
+      ctx.restore()
+    }
+
+    if (placementPreview && pendingCatalogId) {
+      const entry = catalogById.get(pendingCatalogId)
+      if (entry) {
+        const invalid =
+          placementPreview.grid == null ||
+          tiles.some(
+            (t) =>
+              t.gridX === placementPreview.grid?.gx &&
+              t.gridY === placementPreview.grid?.gy,
+          )
+        ctx.save()
+        ctx.globalAlpha = invalid ? 0.42 : 0.76
+        ctx.translate(placementPreview.screenX - (GRID_CELL * zoom) / 2, placementPreview.screenY - (GRID_CELL * zoom) / 2)
+        ctx.scale(zoom, zoom)
+        drawTile(ctx, 0, 0, entry, placementRotation)
+        ctx.restore()
+      }
+    }
+
     if (pendingCatalogId) {
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
@@ -355,15 +454,25 @@ export function CircuitCanvas({
     tileClipboard,
     pasteTarget,
     hoverCell,
+    placementPreview,
     placementRotation,
     marquee,
   ])
 
   useEffect(() => {
+    paintRef.current = paint
+  }, [paint])
+
+  useEffect(() => {
     paint()
     const ro = new ResizeObserver(paint)
     if (containerRef.current) ro.observe(containerRef.current)
-    return () => ro.disconnect()
+    return () => {
+      ro.disconnect()
+      if (paintFrameRef.current != null) {
+        cancelAnimationFrame(paintFrameRef.current)
+      }
+    }
   }, [paint])
 
   const occupied = useCallback(
@@ -524,19 +633,50 @@ export function CircuitCanvas({
         }
         dragRef.current = {
           kind: 'group',
-          startGx: grid.gx,
-          startGy: grid.gy,
+          startX: world.x,
+          startY: world.y,
+          startScreenX: e.clientX - rect.left,
+          startScreenY: e.clientY - rect.top,
           origins,
         }
+        updateSmoothDrag({
+          kind: 'group',
+          instanceIds: activeIds,
+          origins,
+          dxWorld: 0,
+          dyWorld: 0,
+          dxScreen: 0,
+          dyScreen: 0,
+          targetDx: 0,
+          targetDy: 0,
+          valid: true,
+        })
         return
       }
 
+      const tileX = hit.gridX * GRID_CELL
+      const tileY = hit.gridY * GRID_CELL
+      const tileScreenX = pan.x + tileX * zoom
+      const tileScreenY = pan.y + tileY * zoom
       dragRef.current = {
         kind: 'tile',
         instanceId: hit.instanceId,
-        offsetGx: grid.gx - hit.gridX,
-        offsetGy: grid.gy - hit.gridY,
+        pointerOffsetX: world.x - tileX,
+        pointerOffsetY: world.y - tileY,
+        screenOffsetX: e.clientX - rect.left - tileScreenX,
+        screenOffsetY: e.clientY - rect.top - tileScreenY,
       }
+      updateSmoothDrag({
+        kind: 'tile',
+        instanceId: hit.instanceId,
+        x: tileX,
+        y: tileY,
+        screenX: tileScreenX,
+        screenY: tileScreenY,
+        targetGx: hit.gridX,
+        targetGy: hit.gridY,
+        valid: true,
+      })
       return
     }
 
@@ -567,12 +707,20 @@ export function CircuitCanvas({
   const updateHoverCell = (e: React.PointerEvent) => {
     if (!tileClipboard && !pendingCatalogId) {
       setHoverCell(null)
+      setPlacementPreview(null)
       return
     }
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect) return
     const grid = screenToGrid(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
     setHoverCell(grid)
+    if (pendingCatalogId) {
+      setPlacementPreview({
+        screenX: e.clientX - rect.left,
+        screenY: e.clientY - rect.top,
+        grid,
+      })
+    }
     if (tileClipboard && grid && !occupied(grid.gx, grid.gy)) {
       onPasteTargetChange({ gx: grid.gx, gy: grid.gy })
     } else if (tileClipboard) {
@@ -603,29 +751,49 @@ export function CircuitCanvas({
       return
     }
 
-    const grid = screenToGrid(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
-    if (!grid) return
-
     if (drag.kind === 'group') {
-      const dx = grid.gx - drag.startGx
-      const dy = grid.gy - drag.startGy
+      const dxScreen = e.clientX - rect.left - drag.startScreenX
+      const dyScreen = e.clientY - rect.top - drag.startScreenY
+      const dxWorld = dxScreen / zoom
+      const dyWorld = dyScreen / zoom
+      const dx = Math.round(dxWorld / GRID_CELL)
+      const dy = Math.round(dyWorld / GRID_CELL)
       const groupIds = new Set(drag.origins.keys())
-      if (!canMoveGroup(tiles, groupIds, drag.origins, dx, dy)) return
-      onTilesChange(moveGroupFromOrigins(tiles, groupIds, drag.origins, dx, dy))
+      updateSmoothDrag({
+        kind: 'group',
+        instanceIds: [...groupIds],
+        origins: drag.origins,
+        dxWorld,
+        dyWorld,
+        dxScreen,
+        dyScreen,
+        targetDx: dx,
+        targetDy: dy,
+        valid: canMoveGroup(tiles, groupIds, drag.origins, dx, dy),
+      })
+      e.preventDefault()
       return
     }
 
     if (drag.kind === 'tile') {
-      const gx = grid.gx - drag.offsetGx
-      const gy = grid.gy - drag.offsetGy
-      if (!inPlateBounds(gx, gy)) return
-      if (occupied(gx, gy, new Set([drag.instanceId]))) return
-
-      onTilesChange(
-        tiles.map((t) =>
-          t.instanceId === drag.instanceId ? { ...t, gridX: gx, gridY: gy } : t,
-        ),
-      )
+      const screenX = e.clientX - rect.left - drag.screenOffsetX
+      const screenY = e.clientY - rect.top - drag.screenOffsetY
+      const x = (screenX - pan.x) / zoom
+      const y = (screenY - pan.y) / zoom
+      const gx = Math.round(x / GRID_CELL)
+      const gy = Math.round(y / GRID_CELL)
+      updateSmoothDrag({
+        kind: 'tile',
+        instanceId: drag.instanceId,
+        x,
+        y,
+        screenX,
+        screenY,
+        targetGx: gx,
+        targetGy: gy,
+        valid: inPlateBounds(gx, gy) && !occupied(gx, gy, new Set([drag.instanceId])),
+      })
+      e.preventDefault()
     }
   }
 
@@ -663,6 +831,38 @@ export function CircuitCanvas({
     setMarquee(null)
   }
 
+  const finishSmoothDrag = () => {
+    const drag = smoothDragRef.current
+    if (!drag) return
+
+    if (drag.kind === 'tile') {
+      if (drag.valid) {
+        onTilesChange(
+          tiles.map((t) =>
+            t.instanceId === drag.instanceId
+              ? { ...t, gridX: drag.targetGx, gridY: drag.targetGy }
+              : t,
+          ),
+        )
+      }
+    } else {
+      const groupIds = new Set(drag.instanceIds)
+      if (drag.valid) {
+        onTilesChange(
+          moveGroupFromOrigins(
+            tiles,
+            groupIds,
+            drag.origins,
+            drag.targetDx,
+            drag.targetDy,
+          ),
+        )
+      }
+    }
+
+    updateSmoothDrag(null)
+  }
+
   const endPointer = (e: React.PointerEvent) => {
     if (canvasRef.current?.hasPointerCapture(e.pointerId)) {
       canvasRef.current.releasePointerCapture(e.pointerId)
@@ -670,6 +870,8 @@ export function CircuitCanvas({
     const drag = dragRef.current
     if (drag?.kind === 'marquee') {
       finishMarquee(drag)
+    } else if (drag?.kind === 'tile' || drag?.kind === 'group') {
+      finishSmoothDrag()
     }
     dragRef.current = null
     setIsPanning(false)
@@ -681,6 +883,7 @@ export function CircuitCanvas({
 
   const handlePointerLeave = (e: React.PointerEvent) => {
     setHoverCell(null)
+    setPlacementPreview(null)
     if (
       dragRef.current?.kind !== 'pan' &&
       dragRef.current?.kind !== 'marquee' &&
@@ -770,11 +973,14 @@ export function CircuitCanvas({
         onSelectionChange([])
         onPendingClear()
         setMarquee(null)
+        dragRef.current = null
+        updateSmoothDrag(null)
+        setPlacementPreview(null)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [selectedIds, onRemoveTiles, onSelectionChange, onPendingClear])
+  }, [selectedIds, onRemoveTiles, onSelectionChange, onPendingClear, updateSmoothDrag])
 
   return (
     <div
