@@ -202,6 +202,9 @@ export function CircuitCanvas({
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
   const smoothDragRef = useRef<SmoothDragState | null>(null)
+  const paintRef = useRef<() => void>(() => {})
+  const paintFrameRef = useRef<number | null>(null)
+  const viewStateFrameRef = useRef<number | null>(null)
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
   const lastTileTapRef = useRef<{
@@ -215,6 +218,23 @@ export function CircuitCanvas({
   const updateSmoothDrag = useCallback((next: SmoothDragState | null) => {
     smoothDragRef.current = next
     setSmoothDrag(next)
+  }, [])
+
+  const schedulePaint = useCallback(() => {
+    if (paintFrameRef.current != null) return
+    paintFrameRef.current = requestAnimationFrame(() => {
+      paintFrameRef.current = null
+      paintRef.current()
+    })
+  }, [])
+
+  const syncViewState = useCallback(() => {
+    if (viewStateFrameRef.current != null) return
+    viewStateFrameRef.current = requestAnimationFrame(() => {
+      viewStateFrameRef.current = null
+      setZoom(zoomRef.current)
+      setPan(panRef.current)
+    })
   }, [])
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
@@ -270,14 +290,16 @@ export function CircuitCanvas({
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+    const currentZoom = zoomRef.current
+    const currentPan = panRef.current
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, w, h)
     ctx.fillStyle = '#2b3036'
     ctx.fillRect(0, 0, w, h)
 
     ctx.save()
-    ctx.translate(pan.x, pan.y)
-    ctx.scale(zoom, zoom)
+    ctx.translate(currentPan.x, currentPan.y)
+    ctx.scale(currentZoom, currentZoom)
 
     ctx.save()
     ctx.shadowColor = 'rgba(0,0,0,0.45)'
@@ -423,7 +445,7 @@ export function CircuitCanvas({
       ) => {
         ctx.save()
         ctx.translate(screenX, screenY)
-        ctx.scale(zoom, zoom)
+        ctx.scale(currentZoom, currentZoom)
         drawTile(ctx, 0, 0, entry, tile.rotation, { selected: true })
         ctx.restore()
       }
@@ -443,8 +465,12 @@ export function CircuitCanvas({
           drawFloatingTile(
             tile,
             entry,
-            pan.x + origin.gridX * GRID_CELL * zoom + activeSmoothDrag.dxScreen,
-            pan.y + origin.gridY * GRID_CELL * zoom + activeSmoothDrag.dyScreen,
+            currentPan.x +
+              origin.gridX * GRID_CELL * currentZoom +
+              activeSmoothDrag.dxScreen,
+            currentPan.y +
+              origin.gridY * GRID_CELL * currentZoom +
+              activeSmoothDrag.dyScreen,
           )
         }
       }
@@ -464,8 +490,11 @@ export function CircuitCanvas({
           )
         ctx.save()
         ctx.globalAlpha = invalid ? 0.42 : 0.76
-        ctx.translate(placementPreview.screenX - (GRID_CELL * zoom) / 2, placementPreview.screenY - (GRID_CELL * zoom) / 2)
-        ctx.scale(zoom, zoom)
+        ctx.translate(
+          placementPreview.screenX - (GRID_CELL * currentZoom) / 2,
+          placementPreview.screenY - (GRID_CELL * currentZoom) / 2,
+        )
+        ctx.scale(currentZoom, currentZoom)
         drawTile(ctx, 0, 0, entry, placementRotation)
         ctx.restore()
       }
@@ -497,8 +526,6 @@ export function CircuitCanvas({
   }, [
     tiles,
     selectedIds,
-    pan,
-    zoom,
     pendingCatalogId,
     tileClipboard,
     pasteTarget,
@@ -510,11 +537,19 @@ export function CircuitCanvas({
   ])
 
   useEffect(() => {
+    paintRef.current = paint
+  }, [paint])
+
+  useEffect(() => {
     paint()
     const ro = new ResizeObserver(paint)
     if (containerRef.current) ro.observe(containerRef.current)
     return () => {
       ro.disconnect()
+      if (paintFrameRef.current != null) cancelAnimationFrame(paintFrameRef.current)
+      if (viewStateFrameRef.current != null) {
+        cancelAnimationFrame(viewStateFrameRef.current)
+      }
     }
   }, [paint])
 
@@ -551,10 +586,10 @@ export function CircuitCanvas({
       const next = computeZoomAtLocal(localX, localY, zoomRef.current, panRef.current, opts)
       zoomRef.current = next.zoom
       panRef.current = next.pan
-      setZoom(next.zoom)
-      setPan(next.pan)
+      schedulePaint()
+      syncViewState()
     },
-    [],
+    [schedulePaint, syncViewState],
   )
 
   // Block Safari trackpad rotate/pinch gestures from transforming the canvas DOM.
@@ -596,13 +631,13 @@ export function CircuitCanvas({
       })
       zoomRef.current = next.zoom
       panRef.current = next.pan
-      setZoom(next.zoom)
-      setPan(next.pan)
+      schedulePaint()
+      syncViewState()
     }
 
     canvas.addEventListener('wheel', onWheel, { passive: false })
     return () => canvas.removeEventListener('wheel', onWheel)
-  }, [])
+  }, [schedulePaint, syncViewState])
 
   const zoomFromToolbar = (factor: number) => {
     const canvas = canvasRef.current
@@ -620,14 +655,31 @@ export function CircuitCanvas({
       y: (rect.height - PLATE_H * zoomRef.current) / 2,
     }
     panRef.current = nextPan
-    setPan(nextPan)
-  }, [])
+    schedulePaint()
+    syncViewState()
+  }, [schedulePaint, syncViewState])
 
   const handlePointerDown = (e: React.PointerEvent) => {
     containerRef.current?.focus({ preventScroll: true })
     const rect = canvasRef.current!.getBoundingClientRect()
-    const grid = screenToGrid(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
-    const world = screenToWorld(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
+    const currentPan = panRef.current
+    const currentZoom = zoomRef.current
+    const grid = screenToGrid(
+      e.clientX,
+      e.clientY,
+      currentPan.x,
+      currentPan.y,
+      currentZoom,
+      rect,
+    )
+    const world = screenToWorld(
+      e.clientX,
+      e.clientY,
+      currentPan.x,
+      currentPan.y,
+      currentZoom,
+      rect,
+    )
 
     if (isPanPointer(e)) {
       e.preventDefault()
@@ -637,8 +689,8 @@ export function CircuitCanvas({
         kind: 'pan',
         startX: e.clientX,
         startY: e.clientY,
-        panX: pan.x,
-        panY: pan.y,
+        panX: currentPan.x,
+        panY: currentPan.y,
       }
       return
     }
@@ -702,8 +754,8 @@ export function CircuitCanvas({
 
       const tileX = hit.gridX * GRID_CELL
       const tileY = hit.gridY * GRID_CELL
-      const tileScreenX = pan.x + tileX * zoom
-      const tileScreenY = pan.y + tileY * zoom
+      const tileScreenX = currentPan.x + tileX * currentZoom
+      const tileScreenY = currentPan.y + tileY * currentZoom
       dragRef.current = {
         kind: 'tile',
         instanceId: hit.instanceId,
@@ -760,7 +812,15 @@ export function CircuitCanvas({
     }
     const rect = canvasRef.current?.getBoundingClientRect()
     if (!rect) return
-    const grid = screenToGrid(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
+    const currentPan = panRef.current
+    const grid = screenToGrid(
+      e.clientX,
+      e.clientY,
+      currentPan.x,
+      currentPan.y,
+      zoomRef.current,
+      rect,
+    )
     setHoverCell(grid)
     if (pendingCatalogId) {
       setPlacementPreview({
@@ -782,7 +842,15 @@ export function CircuitCanvas({
     const drag = dragRef.current
 
     if (drag?.kind === 'marquee') {
-      const world = screenToWorld(e.clientX, e.clientY, pan.x, pan.y, zoom, rect)
+      const currentPan = panRef.current
+      const world = screenToWorld(
+        e.clientX,
+        e.clientY,
+        currentPan.x,
+        currentPan.y,
+        zoomRef.current,
+        rect,
+      )
       setMarquee({ x0: drag.startX, y0: drag.startY, x1: world.x, y1: world.y })
       return
     }
@@ -795,15 +863,17 @@ export function CircuitCanvas({
         y: drag.panY + (e.clientY - drag.startY),
       }
       panRef.current = newPan
-      setPan(newPan)
+      schedulePaint()
+      syncViewState()
       return
     }
 
     if (drag.kind === 'group') {
+      const currentZoom = zoomRef.current
       const dxScreen = e.clientX - rect.left - drag.startScreenX
       const dyScreen = e.clientY - rect.top - drag.startScreenY
-      const dxWorld = dxScreen / zoom
-      const dyWorld = dyScreen / zoom
+      const dxWorld = dxScreen / currentZoom
+      const dyWorld = dyScreen / currentZoom
       const dx = Math.round(dxWorld / GRID_CELL)
       const dy = Math.round(dyWorld / GRID_CELL)
       const groupIds = new Set(drag.origins.keys())
@@ -824,10 +894,12 @@ export function CircuitCanvas({
     }
 
     if (drag.kind === 'tile') {
+      const currentPan = panRef.current
+      const currentZoom = zoomRef.current
       const screenX = e.clientX - rect.left - drag.screenOffsetX
       const screenY = e.clientY - rect.top - drag.screenOffsetY
-      const x = (screenX - pan.x) / zoom
-      const y = (screenY - pan.y) / zoom
+      const x = (screenX - currentPan.x) / currentZoom
+      const y = (screenY - currentPan.y) / currentZoom
       const gx = Math.round(x / GRID_CELL)
       const gy = Math.round(y / GRID_CELL)
       updateSmoothDrag({
