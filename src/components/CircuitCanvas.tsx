@@ -198,11 +198,11 @@ export function CircuitCanvas({
   } | null>(null)
   const [placementPreview, setPlacementPreview] =
     useState<PlacementPreviewState | null>(null)
+  const [smoothDrag, setSmoothDrag] = useState<SmoothDragState | null>(null)
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
   const smoothDragRef = useRef<SmoothDragState | null>(null)
-  const paintRef = useRef<() => void>(() => {})
-  const paintFrameRef = useRef<number | null>(null)
+  const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
   const lastTileTapRef = useRef<{
     instanceId: string
@@ -214,11 +214,7 @@ export function CircuitCanvas({
 
   const updateSmoothDrag = useCallback((next: SmoothDragState | null) => {
     smoothDragRef.current = next
-    if (paintFrameRef.current != null) {
-      cancelAnimationFrame(paintFrameRef.current)
-      paintFrameRef.current = null
-    }
-    paintRef.current()
+    setSmoothDrag(next)
   }, [])
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
@@ -254,10 +250,22 @@ export function CircuitCanvas({
     const dpr = window.devicePixelRatio || 1
     const w = container.clientWidth
     const h = container.clientHeight
-    canvas.width = w * dpr
-    canvas.height = h * dpr
-    canvas.style.width = `${w}px`
-    canvas.style.height = `${h}px`
+    const nextWidth = Math.round(w * dpr)
+    const nextHeight = Math.round(h * dpr)
+    const lastSize = canvasSizeRef.current
+    if (
+      canvas.width !== nextWidth ||
+      canvas.height !== nextHeight ||
+      lastSize.width !== w ||
+      lastSize.height !== h ||
+      lastSize.dpr !== dpr
+    ) {
+      canvas.width = nextWidth
+      canvas.height = nextHeight
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      canvasSizeRef.current = { width: w, height: h, dpr }
+    }
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
@@ -284,7 +292,7 @@ export function CircuitCanvas({
       if (!aSel && bSel) return -1
       return 0
     })
-    const activeSmoothDrag = smoothDragRef.current
+    const activeSmoothDrag = smoothDrag
     const movingIds =
       activeSmoothDrag?.kind === 'tile'
         ? new Set([activeSmoothDrag.instanceId])
@@ -496,12 +504,9 @@ export function CircuitCanvas({
     hoverCell,
     placementPreview,
     placementRotation,
+    smoothDrag,
     marquee,
   ])
-
-  useEffect(() => {
-    paintRef.current = paint
-  }, [paint])
 
   useEffect(() => {
     paint()
@@ -509,9 +514,6 @@ export function CircuitCanvas({
     if (containerRef.current) ro.observe(containerRef.current)
     return () => {
       ro.disconnect()
-      if (paintFrameRef.current != null) {
-        cancelAnimationFrame(paintFrameRef.current)
-      }
     }
   }, [paint])
 
