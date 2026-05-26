@@ -141,6 +141,12 @@ type PlacementPreviewState = {
   grid: { gx: number; gy: number } | null
 }
 
+type ZoomPreviewState = {
+  baseZoom: number
+  basePan: { x: number; y: number }
+  commitTimer: number | null
+}
+
 export function CircuitCanvas({
   tiles,
   selectedIds,
@@ -205,6 +211,7 @@ export function CircuitCanvas({
   const paintRef = useRef<() => void>(() => {})
   const paintFrameRef = useRef<number | null>(null)
   const viewStateFrameRef = useRef<number | null>(null)
+  const zoomPreviewRef = useRef<ZoomPreviewState | null>(null)
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
   const lastTileTapRef = useRef<{
@@ -236,6 +243,55 @@ export function CircuitCanvas({
       setPan(panRef.current)
     })
   }, [])
+
+  const clearZoomPreview = useCallback(() => {
+    const preview = zoomPreviewRef.current
+    if (preview?.commitTimer != null) {
+      window.clearTimeout(preview.commitTimer)
+    }
+    const canvas = canvasRef.current
+    if (canvas) {
+      canvas.style.transform = ''
+      canvas.style.willChange = ''
+    }
+    zoomPreviewRef.current = null
+  }, [])
+
+  const commitZoomPreview = useCallback(() => {
+    clearZoomPreview()
+    paintRef.current()
+    syncViewState()
+  }, [clearZoomPreview, syncViewState])
+
+  const showZoomPreview = useCallback(
+    (nextZoom: number, nextPan: { x: number; y: number }) => {
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      let preview = zoomPreviewRef.current
+      if (!preview) {
+        preview = {
+          baseZoom: zoomRef.current,
+          basePan: panRef.current,
+          commitTimer: null,
+        }
+      } else if (preview.commitTimer != null) {
+        window.clearTimeout(preview.commitTimer)
+      }
+
+      const scale = nextZoom / preview.baseZoom
+      const dx = nextPan.x - preview.basePan.x * scale
+      const dy = nextPan.y - preview.basePan.y * scale
+
+      canvas.style.transformOrigin = '0 0'
+      canvas.style.willChange = 'transform'
+      canvas.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`
+
+      preview.commitTimer = window.setTimeout(commitZoomPreview, 90)
+      zoomPreviewRef.current = preview
+    },
+    [commitZoomPreview],
+  )
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
@@ -546,12 +602,17 @@ export function CircuitCanvas({
     if (containerRef.current) ro.observe(containerRef.current)
     return () => {
       ro.disconnect()
-      if (paintFrameRef.current != null) cancelAnimationFrame(paintFrameRef.current)
+      if (paintFrameRef.current != null) {
+        cancelAnimationFrame(paintFrameRef.current)
+        paintFrameRef.current = null
+      }
       if (viewStateFrameRef.current != null) {
         cancelAnimationFrame(viewStateFrameRef.current)
+        viewStateFrameRef.current = null
       }
+      clearZoomPreview()
     }
-  }, [paint])
+  }, [clearZoomPreview, paint])
 
   const occupied = useCallback(
     (gx: number, gy: number, exceptIds?: Set<string>) =>
@@ -583,13 +644,14 @@ export function CircuitCanvas({
 
   const applyZoomAtLocal = useCallback(
     (localX: number, localY: number, opts: { multiply?: number; target?: number }) => {
+      if (zoomPreviewRef.current) commitZoomPreview()
       const next = computeZoomAtLocal(localX, localY, zoomRef.current, panRef.current, opts)
       zoomRef.current = next.zoom
       panRef.current = next.pan
       schedulePaint()
       syncViewState()
     },
-    [schedulePaint, syncViewState],
+    [commitZoomPreview, schedulePaint, syncViewState],
   )
 
   // Block Safari trackpad rotate/pinch gestures from transforming the canvas DOM.
@@ -609,13 +671,14 @@ export function CircuitCanvas({
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    const container = containerRef.current
+    if (!canvas || !container) return
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
       lastWheelAtRef.current = performance.now()
 
-      const rect = canvas.getBoundingClientRect()
+      const rect = container.getBoundingClientRect()
       const mx = e.clientX - rect.left
       const my = e.clientY - rect.top
       // Use small exponential steps so trackpads feel smooth and mouse wheels do not jump.
@@ -629,27 +692,27 @@ export function CircuitCanvas({
       const next = computeZoomAtLocal(mx, my, zoomRef.current, panRef.current, {
         multiply: factor,
       })
+      showZoomPreview(next.zoom, next.pan)
       zoomRef.current = next.zoom
       panRef.current = next.pan
-      schedulePaint()
-      syncViewState()
     }
 
-    canvas.addEventListener('wheel', onWheel, { passive: false })
-    return () => canvas.removeEventListener('wheel', onWheel)
-  }, [schedulePaint, syncViewState])
+    container.addEventListener('wheel', onWheel, { passive: false })
+    return () => container.removeEventListener('wheel', onWheel)
+  }, [showZoomPreview])
 
   const zoomFromToolbar = (factor: number) => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
+    const container = containerRef.current
+    if (!container) return
+    const rect = container.getBoundingClientRect()
     applyZoomAtLocal(rect.width / 2, rect.height / 2, { multiply: factor })
   }
 
   const centerCanvas = useCallback(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect = canvas.getBoundingClientRect()
+    if (zoomPreviewRef.current) commitZoomPreview()
+    const container = containerRef.current
+    if (!container) return
+    const rect = container.getBoundingClientRect()
     const nextPan = {
       x: (rect.width - PLATE_W * zoomRef.current) / 2,
       y: (rect.height - PLATE_H * zoomRef.current) / 2,
@@ -657,11 +720,12 @@ export function CircuitCanvas({
     panRef.current = nextPan
     schedulePaint()
     syncViewState()
-  }, [schedulePaint, syncViewState])
+  }, [commitZoomPreview, schedulePaint, syncViewState])
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    if (zoomPreviewRef.current) commitZoomPreview()
     containerRef.current?.focus({ preventScroll: true })
-    const rect = canvasRef.current!.getBoundingClientRect()
+    const rect = containerRef.current!.getBoundingClientRect()
     const currentPan = panRef.current
     const currentZoom = zoomRef.current
     const grid = screenToGrid(
@@ -810,7 +874,7 @@ export function CircuitCanvas({
       setPlacementPreview(null)
       return
     }
-    const rect = canvasRef.current?.getBoundingClientRect()
+    const rect = containerRef.current?.getBoundingClientRect()
     if (!rect) return
     const currentPan = panRef.current
     const grid = screenToGrid(
@@ -838,7 +902,7 @@ export function CircuitCanvas({
 
   const handlePointerMove = (e: React.PointerEvent) => {
     updateHoverCell(e)
-    const rect = canvasRef.current!.getBoundingClientRect()
+    const rect = containerRef.current!.getBoundingClientRect()
     const drag = dragRef.current
 
     if (drag?.kind === 'marquee') {
@@ -1161,15 +1225,15 @@ export function CircuitCanvas({
         <button
           type="button"
           onClick={() => {
-            const canvas = canvasRef.current
-            if (!canvas) {
+            const container = containerRef.current
+            if (!container) {
               zoomRef.current = 1
               panRef.current = { x: 80, y: 60 }
               setZoom(1)
               setPan({ x: 80, y: 60 })
               return
             }
-            const rect = canvas.getBoundingClientRect()
+            const rect = container.getBoundingClientRect()
             applyZoomAtLocal(rect.width / 2, rect.height / 2, { target: 1 })
           }}
         >
