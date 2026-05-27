@@ -304,6 +304,8 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const paintFrameRef = useRef<number | null>(null)
   const viewStateFrameRef = useRef<number | null>(null)
   const zoomPreviewRef = useRef<ZoomPreviewState | null>(null)
+  const plateSnapshotRef = useRef<HTMLCanvasElement | null>(null)
+  const snapshotCaptureRef = useRef(false)
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
   const lastTileTapRef = useRef<{
@@ -335,14 +337,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     [schedulePaint],
   )
 
-  const updateSmoothDrag = useCallback(
-    (next: SmoothDragState | null) => {
-      smoothDragRef.current = next
-      schedulePaint()
-    },
-    [schedulePaint],
-  )
-
   const syncViewState = useCallback(() => {
     if (viewStateFrameRef.current != null) return
     viewStateFrameRef.current = requestAnimationFrame(() => {
@@ -365,11 +359,29 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     zoomPreviewRef.current = null
   }, [])
 
+  const clearPlateSnapshot = useCallback(() => {
+    plateSnapshotRef.current = null
+  }, [])
+
+  const capturePlateSnapshot = useCallback(() => {
+    const main = canvasRef.current
+    if (!main) return
+    let snap = plateSnapshotRef.current
+    if (!snap) {
+      snap = document.createElement('canvas')
+      plateSnapshotRef.current = snap
+    }
+    snap.width = main.width
+    snap.height = main.height
+    snap.getContext('2d')?.drawImage(main, 0, 0)
+  }, [])
+
   const commitZoomPreview = useCallback(() => {
     clearZoomPreview()
+    clearPlateSnapshot()
     paintRef.current()
     syncViewState()
-  }, [clearZoomPreview, syncViewState])
+  }, [clearPlateSnapshot, clearZoomPreview, syncViewState])
 
   const showZoomPreview = useCallback(
     (nextZoom: number, nextPan: { x: number; y: number }) => {
@@ -408,6 +420,23 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     paintRef.current()
   }, [clearZoomPreview])
 
+  const updateSmoothDrag = useCallback(
+    (next: SmoothDragState | null) => {
+      const hadDrag = smoothDragRef.current != null
+      smoothDragRef.current = next
+      if (next && !hadDrag) {
+        snapshotCaptureRef.current = true
+        paintRef.current()
+        capturePlateSnapshot()
+        snapshotCaptureRef.current = false
+      } else if (!next) {
+        clearPlateSnapshot()
+      }
+      repaintNow()
+    },
+    [capturePlateSnapshot, clearPlateSnapshot, repaintNow],
+  )
+
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
     e.button === 2 ||
@@ -438,11 +467,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     const container = containerRef.current
     if (!canvas || !container) return
 
-    // Full repaints must drop the wheel-zoom CSS transform so the bitmap matches zoomRef/panRef.
-    if (zoomPreviewRef.current) {
-      clearZoomPreview()
-    }
-
     const currentViewRotation = viewRotationRef.current
     const plateTiles = tilesRef.current
     const clipboard = tileClipboardRef.current ?? tileClipboard
@@ -466,12 +490,108 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       canvas.style.width = `${w}px`
       canvas.style.height = `${h}px`
       canvasSizeRef.current = { width: w, height: h, dpr }
+      plateSnapshotRef.current = null
     }
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     const currentZoom = zoomRef.current
     const currentPan = panRef.current
+    const activeSmoothDrag = smoothDragRef.current
+    const snap = plateSnapshotRef.current
+    const skipDragOverlay = snapshotCaptureRef.current
+
+    if (activeSmoothDrag && snap && !skipDragOverlay) {
+      if (zoomPreviewRef.current) {
+        clearZoomPreview()
+      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(snap, 0, 0)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      const drawCellHighlight = (
+        gx: number,
+        gy: number,
+        options: { invalid: boolean; strong?: boolean },
+      ) => {
+        if (!inPlateBounds(gx, gy)) return
+        const hx = gx * GRID_CELL
+        const hy = gy * GRID_CELL
+        ctx.fillStyle = options.invalid
+          ? 'rgba(220, 80, 80, 0.22)'
+          : options.strong
+            ? 'rgba(77, 159, 255, 0.35)'
+            : 'rgba(77, 159, 255, 0.18)'
+        ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
+        ctx.strokeStyle = options.invalid
+          ? 'rgba(220, 80, 80, 0.85)'
+          : 'rgba(77, 159, 255, 0.9)'
+        ctx.lineWidth = options.strong ? 3 : 2
+        ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
+      }
+
+      ctx.save()
+      ctx.translate(currentPan.x, currentPan.y)
+      ctx.scale(currentZoom, currentZoom)
+      ctx.translate(PLATE_CENTER.x, PLATE_CENTER.y)
+      ctx.rotate((currentViewRotation * Math.PI) / 180)
+      ctx.translate(-PLATE_CENTER.x, -PLATE_CENTER.y)
+
+      if (activeSmoothDrag.kind === 'tile') {
+        drawCellHighlight(activeSmoothDrag.targetGx, activeSmoothDrag.targetGy, {
+          invalid: !activeSmoothDrag.valid,
+          strong: activeSmoothDrag.valid,
+        })
+      } else {
+        for (const origin of activeSmoothDrag.origins.values()) {
+          drawCellHighlight(
+            origin.gridX + activeSmoothDrag.targetDx,
+            origin.gridY + activeSmoothDrag.targetDy,
+            {
+              invalid: !activeSmoothDrag.valid,
+              strong: activeSmoothDrag.valid,
+            },
+          )
+        }
+      }
+
+      ctx.save()
+      ctx.globalAlpha = activeSmoothDrag.valid ? 0.92 : 0.55
+      if (activeSmoothDrag.kind === 'tile') {
+        const tile = plateTiles.find((t) => t.instanceId === activeSmoothDrag.instanceId)
+        const entry = tile ? catalogById.get(tile.catalogId) : null
+        if (tile && entry) {
+          drawTile(ctx, activeSmoothDrag.x, activeSmoothDrag.y, entry, tile.rotation, {
+            selected: true,
+          })
+        }
+      } else {
+        for (const tile of plateTiles) {
+          const origin = activeSmoothDrag.origins.get(tile.instanceId)
+          if (!origin) continue
+          const entry = catalogById.get(tile.catalogId)
+          if (!entry) continue
+          drawTile(
+            ctx,
+            origin.gridX * GRID_CELL + activeSmoothDrag.dxWorld,
+            origin.gridY * GRID_CELL + activeSmoothDrag.dyWorld,
+            entry,
+            tile.rotation,
+            { selected: true },
+          )
+        }
+      }
+      ctx.restore()
+      ctx.restore()
+      return
+    }
+
+    // Full repaints must drop the wheel-zoom CSS transform so the bitmap matches zoomRef/panRef.
+    if (zoomPreviewRef.current) {
+      clearZoomPreview()
+    }
+
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, w, h)
     ctx.fillStyle = '#2b3036'
@@ -498,7 +618,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       if (!aSel && bSel) return -1
       return 0
     })
-    const activeSmoothDrag = smoothDragRef.current
     const movingIds =
       activeSmoothDrag?.kind === 'tile'
         ? new Set([activeSmoothDrag.instanceId])
@@ -561,21 +680,23 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       })
     }
 
-    if (activeSmoothDrag?.kind === 'tile') {
-      drawCellHighlight(activeSmoothDrag.targetGx, activeSmoothDrag.targetGy, {
-        invalid: !activeSmoothDrag.valid,
-        strong: activeSmoothDrag.valid,
-      })
-    } else if (activeSmoothDrag?.kind === 'group') {
-      for (const origin of activeSmoothDrag.origins.values()) {
-        drawCellHighlight(
-          origin.gridX + activeSmoothDrag.targetDx,
-          origin.gridY + activeSmoothDrag.targetDy,
-          {
-            invalid: !activeSmoothDrag.valid,
-            strong: activeSmoothDrag.valid,
-          },
-        )
+    if (!skipDragOverlay) {
+      if (activeSmoothDrag?.kind === 'tile') {
+        drawCellHighlight(activeSmoothDrag.targetGx, activeSmoothDrag.targetGy, {
+          invalid: !activeSmoothDrag.valid,
+          strong: activeSmoothDrag.valid,
+        })
+      } else if (activeSmoothDrag?.kind === 'group') {
+        for (const origin of activeSmoothDrag.origins.values()) {
+          drawCellHighlight(
+            origin.gridX + activeSmoothDrag.targetDx,
+            origin.gridY + activeSmoothDrag.targetDy,
+            {
+              invalid: !activeSmoothDrag.valid,
+              strong: activeSmoothDrag.valid,
+            },
+          )
+        }
       }
     }
 
@@ -615,7 +736,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       ctx.setLineDash([])
     }
 
-    if (activeSmoothDrag) {
+    if (!skipDragOverlay && activeSmoothDrag) {
       ctx.save()
       ctx.globalAlpha = activeSmoothDrag.valid ? 0.92 : 0.55
 
@@ -868,9 +989,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     if (zoomPreviewRef.current) {
       clearZoomPreview()
     }
+    clearPlateSnapshot()
     paintRef.current()
     onViewRotationChange?.(next)
-  }, [clearZoomPreview, onViewRotationChange])
+  }, [clearPlateSnapshot, clearZoomPreview, onViewRotationChange])
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (zoomPreviewRef.current) commitZoomPreview()
@@ -1131,7 +1253,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         dyScreen,
         targetDx: dx,
         targetDy: dy,
-        valid: canMoveGroup(tiles, groupIds, drag.origins, dx, dy),
+        valid: canMoveGroup(tilesRef.current, groupIds, drag.origins, dx, dy),
       })
       e.preventDefault()
       return
