@@ -1,5 +1,6 @@
 import type { CatalogEntry, Rotation, Side } from './types'
 import { TILE_SIZE } from './catalog'
+import { CENTER_GRID_X, CENTER_GRID_Y } from './plate'
 import { drawSymbol, getSymbolLeads } from './symbols/draw'
 import type { SymbolBounds } from './symbols/types'
 
@@ -220,9 +221,14 @@ export function drawPlate(
   ctx.fillStyle = g
   ctx.fillRect(0, 0, width, height)
 
+  const step = TILE_SIZE
+  const hx = CENTER_GRID_X * step
+  const hy = CENTER_GRID_Y * step
+  ctx.fillStyle = 'rgba(140, 175, 210, 0.14)'
+  ctx.fillRect(hx + 1, hy + 1, step - 2, step - 2)
+
   ctx.strokeStyle = 'rgba(255,255,255,0.06)'
   ctx.lineWidth = 1
-  const step = TILE_SIZE
   for (let x = 0; x <= width; x += step) {
     ctx.beginPath()
     ctx.moveTo(x, 0)
