@@ -204,7 +204,6 @@ export function CircuitCanvas({
   } | null>(null)
   const [placementPreview, setPlacementPreview] =
     useState<PlacementPreviewState | null>(null)
-  const [smoothDrag, setSmoothDrag] = useState<SmoothDragState | null>(null)
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
   const smoothDragRef = useRef<SmoothDragState | null>(null)
@@ -222,11 +221,6 @@ export function CircuitCanvas({
   } | null>(null)
   const selectedSet = new Set(selectedIds)
 
-  const updateSmoothDrag = useCallback((next: SmoothDragState | null) => {
-    smoothDragRef.current = next
-    setSmoothDrag(next)
-  }, [])
-
   const schedulePaint = useCallback(() => {
     if (paintFrameRef.current != null) return
     paintFrameRef.current = requestAnimationFrame(() => {
@@ -234,6 +228,14 @@ export function CircuitCanvas({
       paintRef.current()
     })
   }, [])
+
+  const updateSmoothDrag = useCallback(
+    (next: SmoothDragState | null) => {
+      smoothDragRef.current = next
+      schedulePaint()
+    },
+    [schedulePaint],
+  )
 
   const syncViewState = useCallback(() => {
     if (viewStateFrameRef.current != null) return
@@ -371,7 +373,7 @@ export function CircuitCanvas({
       if (!aSel && bSel) return -1
       return 0
     })
-    const activeSmoothDrag = smoothDrag
+    const activeSmoothDrag = smoothDragRef.current
     const movingIds =
       activeSmoothDrag?.kind === 'tile'
         ? new Set([activeSmoothDrag.instanceId])
@@ -588,7 +590,6 @@ export function CircuitCanvas({
     hoverCell,
     placementPreview,
     placementRotation,
-    smoothDrag,
     marquee,
   ])
 
