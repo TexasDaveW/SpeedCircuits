@@ -11,7 +11,7 @@ import {
 } from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
 import type { TileClipboard } from '../tileClipboard'
-import type { PlacedTile, Rotation } from '../types'
+import type { CatalogEntry, PlacedTile, Rotation } from '../types'
 
 const PLATE_W = PLATE_COLS * GRID_CELL
 const PLATE_H = PLATE_ROWS * GRID_CELL
@@ -223,6 +223,16 @@ type MarqueeState = {
   y1: number
 }
 
+type RotationFastPaint = {
+  instanceId: string
+  gridX: number
+  gridY: number
+  entry: CatalogEntry
+  rotation: Rotation
+}
+
+const DRAG_SNAPSHOT_MOVE_PX = 4
+
 type ZoomPreviewState = {
   baseZoom: number
   basePan: { x: number; y: number }
@@ -306,6 +316,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const viewStateFrameRef = useRef<number | null>(null)
   const zoomPreviewRef = useRef<ZoomPreviewState | null>(null)
   const plateSnapshotRef = useRef<HTMLCanvasElement | null>(null)
+  const staticSceneSnapshotRef = useRef<HTMLCanvasElement | null>(null)
+  const dragSnapshotPendingRef = useRef(false)
+  const rotationFastPaintRef = useRef<RotationFastPaint | null>(null)
   const snapshotCaptureRef = useRef(false)
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
@@ -327,6 +340,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
 
   useEffect(() => {
     tilesRef.current = tiles
+    staticSceneSnapshotRef.current = null
     schedulePaint()
   }, [tiles, schedulePaint])
 
@@ -364,6 +378,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     plateSnapshotRef.current = null
   }, [])
 
+  const clearStaticSceneSnapshot = useCallback(() => {
+    staticSceneSnapshotRef.current = null
+  }, [])
+
   const capturePlateSnapshot = useCallback(() => {
     const main = canvasRef.current
     if (!main) return
@@ -377,12 +395,37 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     snap.getContext('2d')?.drawImage(main, 0, 0)
   }, [])
 
+  const captureStaticSceneSnapshot = useCallback(() => {
+    const main = canvasRef.current
+    if (!main) return
+    let snap = staticSceneSnapshotRef.current
+    if (!snap) {
+      snap = document.createElement('canvas')
+      staticSceneSnapshotRef.current = snap
+    }
+    snap.width = main.width
+    snap.height = main.height
+    snap.getContext('2d')?.drawImage(main, 0, 0)
+  }, [])
+
+  const captureDragSnapshot = useCallback(() => {
+    snapshotCaptureRef.current = true
+    paintRef.current()
+    capturePlateSnapshot()
+    snapshotCaptureRef.current = false
+  }, [capturePlateSnapshot])
+
   const commitZoomPreview = useCallback(() => {
     clearZoomPreview()
     clearPlateSnapshot()
+    clearStaticSceneSnapshot()
     paintRef.current()
     syncViewState()
-  }, [clearPlateSnapshot, clearZoomPreview, syncViewState])
+  }, [clearPlateSnapshot, clearStaticSceneSnapshot, clearZoomPreview, syncViewState])
+
+  const commitZoomPreviewIfNeeded = useCallback(() => {
+    if (zoomPreviewRef.current) commitZoomPreview()
+  }, [commitZoomPreview])
 
   const showZoomPreview = useCallback(
     (nextZoom: number, nextPan: { x: number; y: number }) => {
@@ -422,33 +465,53 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [clearZoomPreview])
 
   const updateSmoothDrag = useCallback(
-    (next: SmoothDragState | null) => {
+    (next: SmoothDragState | null, opts?: { deferSnapshot?: boolean }) => {
       const hadDrag = smoothDragRef.current != null
       smoothDragRef.current = next
       if (next && !hadDrag) {
-        snapshotCaptureRef.current = true
-        paintRef.current()
-        capturePlateSnapshot()
-        snapshotCaptureRef.current = false
+        if (opts?.deferSnapshot) {
+          dragSnapshotPendingRef.current = true
+        } else {
+          dragSnapshotPendingRef.current = false
+          captureDragSnapshot()
+        }
       } else if (!next) {
         clearPlateSnapshot()
+        dragSnapshotPendingRef.current = false
       }
       repaintNow()
     },
-    [capturePlateSnapshot, clearPlateSnapshot, repaintNow],
+    [captureDragSnapshot, clearPlateSnapshot, repaintNow],
   )
 
   const applyTileRotation = useCallback(
     (instanceId: string) => {
+      const tile = tilesRef.current.find((t) => t.instanceId === instanceId)
+      if (!tile) return
+      const entry = catalogById.get(tile.catalogId)
+      if (!entry) return
+      const rotation = nextRotation(tile.rotation)
       const nextTiles = tilesRef.current.map((t) =>
-        t.instanceId === instanceId
-          ? { ...t, rotation: nextRotation(t.rotation) }
-          : t,
+        t.instanceId === instanceId ? { ...t, rotation } : t,
       )
       tilesRef.current = nextTiles
       smoothDragRef.current = null
       clearPlateSnapshot()
-      repaintNow()
+      dragSnapshotPendingRef.current = false
+
+      if (staticSceneSnapshotRef.current) {
+        rotationFastPaintRef.current = {
+          instanceId,
+          gridX: tile.gridX,
+          gridY: tile.gridY,
+          entry,
+          rotation,
+        }
+        repaintNow()
+        rotationFastPaintRef.current = null
+      } else {
+        repaintNow()
+      }
       requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
     },
     [clearPlateSnapshot, repaintNow],
@@ -522,6 +585,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       canvas.style.height = `${h}px`
       canvasSizeRef.current = { width: w, height: h, dpr }
       plateSnapshotRef.current = null
+      staticSceneSnapshotRef.current = null
     }
 
     const ctx = canvas.getContext('2d')
@@ -531,6 +595,35 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     const activeSmoothDrag = smoothDragRef.current
     const snap = plateSnapshotRef.current
     const skipDragOverlay = snapshotCaptureRef.current
+    const rotationFast = rotationFastPaintRef.current
+    const staticSnap = staticSceneSnapshotRef.current
+
+    if (rotationFast && staticSnap && !skipDragOverlay && !activeSmoothDrag) {
+      if (zoomPreviewRef.current) {
+        clearZoomPreview()
+      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(staticSnap, 0, 0)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.save()
+      ctx.translate(currentPan.x, currentPan.y)
+      ctx.scale(currentZoom, currentZoom)
+      ctx.translate(PLATE_CENTER.x, PLATE_CENTER.y)
+      ctx.rotate((currentViewRotation * Math.PI) / 180)
+      ctx.translate(-PLATE_CENTER.x, -PLATE_CENTER.y)
+      drawTile(
+        ctx,
+        rotationFast.gridX * GRID_CELL,
+        rotationFast.gridY * GRID_CELL,
+        rotationFast.entry,
+        rotationFast.rotation,
+        { selected: selectedSet.has(rotationFast.instanceId) },
+      )
+      ctx.restore()
+      captureStaticSceneSnapshot()
+      return
+    }
 
     if (activeSmoothDrag && snap && !skipDragOverlay) {
       if (zoomPreviewRef.current) {
@@ -852,7 +945,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         h - 16,
       )
     }
+
+    if (!smoothDragRef.current && !snapshotCaptureRef.current) {
+      captureStaticSceneSnapshot()
+    }
   }, [
+    captureStaticSceneSnapshot,
     clearZoomPreview,
     selectedIds,
     pendingCatalogId,
@@ -1021,12 +1119,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       clearZoomPreview()
     }
     clearPlateSnapshot()
+    clearStaticSceneSnapshot()
     paintRef.current()
     onViewRotationChange?.(next)
-  }, [clearPlateSnapshot, clearZoomPreview, onViewRotationChange])
+  }, [clearPlateSnapshot, clearStaticSceneSnapshot, clearZoomPreview, onViewRotationChange])
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    if (zoomPreviewRef.current) commitZoomPreview()
     containerRef.current?.focus({ preventScroll: true })
     const rect = containerRef.current!.getBoundingClientRect()
     const currentPan = panRef.current
@@ -1051,6 +1149,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     )
 
     if (isPanPointer(e)) {
+      commitZoomPreviewIfNeeded()
       e.preventDefault()
       canvasRef.current?.setPointerCapture(e.pointerId)
       setIsPanning(true)
@@ -1106,18 +1205,22 @@ export const CircuitCanvas = memo(function CircuitCanvas({
           startScreenY: e.clientY - rect.top,
           origins,
         }
-        updateSmoothDrag({
-          kind: 'group',
-          instanceIds: activeIds,
-          origins,
-          dxWorld: 0,
-          dyWorld: 0,
-          dxScreen: 0,
-          dyScreen: 0,
-          targetDx: 0,
-          targetDy: 0,
-          valid: true,
-        })
+        commitZoomPreviewIfNeeded()
+        updateSmoothDrag(
+          {
+            kind: 'group',
+            instanceIds: activeIds,
+            origins,
+            dxWorld: 0,
+            dyWorld: 0,
+            dxScreen: 0,
+            dyScreen: 0,
+            targetDx: 0,
+            targetDy: 0,
+            valid: true,
+          },
+          { deferSnapshot: true },
+        )
         return
       }
 
@@ -1125,6 +1228,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         lastTileTapRef.current = null
         canvasRef.current?.setPointerCapture(e.pointerId)
         dragRef.current = { kind: 'rotateTap', instanceId: hit.instanceId }
+        if (zoomPreviewRef.current) {
+          clearZoomPreview()
+          syncViewState()
+        }
         applyTileRotation(hit.instanceId)
         onSelectionChange([hit.instanceId])
         return
@@ -1149,21 +1256,26 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         screenOffsetX: e.clientX - rect.left - tileScreen.x,
         screenOffsetY: e.clientY - rect.top - tileScreen.y,
       }
-      updateSmoothDrag({
-        kind: 'tile',
-        instanceId: hit.instanceId,
-        x: tileX,
-        y: tileY,
-        screenX: tileScreen.x,
-        screenY: tileScreen.y,
-        targetGx: hit.gridX,
-        targetGy: hit.gridY,
-        valid: true,
-      })
+      commitZoomPreviewIfNeeded()
+      updateSmoothDrag(
+        {
+          kind: 'tile',
+          instanceId: hit.instanceId,
+          x: tileX,
+          y: tileY,
+          screenX: tileScreen.x,
+          screenY: tileScreen.y,
+          targetGx: hit.gridX,
+          targetGy: hit.gridY,
+          valid: true,
+        },
+        { deferSnapshot: true },
+      )
       return
     }
 
     // Empty plate or canvas: box-select (drag). Click without drag places/pastes.
+    commitZoomPreviewIfNeeded()
     canvasRef.current?.setPointerCapture(e.pointerId)
 
     let pendingClick: { kind: 'place' | 'paste'; gx: number; gy: number } | undefined
@@ -1254,6 +1366,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     if (!drag) return
 
     if (drag.kind === 'pan') {
+      clearStaticSceneSnapshot()
       const newPan = {
         x: drag.panX + (e.clientX - drag.startX),
         y: drag.panY + (e.clientY - drag.startY),
@@ -1265,6 +1378,16 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     }
 
     if (drag.kind === 'group') {
+      if (dragSnapshotPendingRef.current) {
+        const moved = Math.hypot(
+          e.clientX - drag.startScreenX,
+          e.clientY - drag.startScreenY,
+        )
+        if (moved > DRAG_SNAPSHOT_MOVE_PX) {
+          dragSnapshotPendingRef.current = false
+          captureDragSnapshot()
+        }
+      }
       const currentZoom = zoomRef.current
       const currentPan = panRef.current
       const world = screenToWorld(
@@ -1300,6 +1423,13 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     }
 
     if (drag.kind === 'tile') {
+      if (dragSnapshotPendingRef.current) {
+        const moved = Math.hypot(e.clientX - drag.startScreenX, e.clientY - drag.startScreenY)
+        if (moved > DRAG_SNAPSHOT_MOVE_PX) {
+          dragSnapshotPendingRef.current = false
+          captureDragSnapshot()
+        }
+      }
       const currentPan = panRef.current
       const currentZoom = zoomRef.current
       const pointerWorld = screenToWorld(
