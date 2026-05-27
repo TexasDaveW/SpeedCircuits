@@ -1,4 +1,4 @@
-export const PLATE_COLS = 22
+export const PLATE_COLS = 30
 export const PLATE_ROWS = 16
 
 export function inPlateBounds(gx: number, gy: number): boolean {
