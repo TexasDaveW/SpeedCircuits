@@ -238,6 +238,7 @@ export function CircuitCanvas({
   const [pan, setPan] = useState({ x: 80, y: 60 })
   const zoomRef = useRef(1)
   const panRef = useRef({ x: 80, y: 60 })
+  const viewRotationRef = useRef(viewRotation)
   const pendingCatalogIdRef = useRef<string | null>(null)
   const tileClipboardRef = useRef<TileClipboard | null>(null)
   const onTileClipboardChangeRef = useRef(onTileClipboardChange)
@@ -247,6 +248,10 @@ export function CircuitCanvas({
     zoomRef.current = zoom
     panRef.current = pan
   }, [zoom, pan])
+
+  useEffect(() => {
+    viewRotationRef.current = viewRotation
+  }, [viewRotation])
 
   const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
   const [placementRotation, setPlacementRotation] = useState<Rotation>(0)
@@ -371,9 +376,9 @@ export function CircuitCanvas({
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
+    e.button === 2 ||
     spaceHeldRef.current ||
-    (e.button === 0 && (e.altKey || e.ctrlKey)) ||
-    (e.button === 2 && e.ctrlKey)
+    (e.button === 0 && (e.altKey || e.ctrlKey))
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -398,6 +403,13 @@ export function CircuitCanvas({
     const canvas = canvasRef.current
     const container = containerRef.current
     if (!canvas || !container) return
+
+    // Full repaints must drop the wheel-zoom CSS transform so the bitmap matches zoomRef/panRef.
+    if (zoomPreviewRef.current) {
+      clearZoomPreview()
+    }
+
+    const currentViewRotation = viewRotationRef.current
 
     // Cap DPR so full-screen Retina canvases do not repaint 4x as many pixels on every drag/zoom.
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
@@ -433,7 +445,7 @@ export function CircuitCanvas({
     ctx.translate(currentPan.x, currentPan.y)
     ctx.scale(currentZoom, currentZoom)
     ctx.translate(PLATE_CENTER.x, PLATE_CENTER.y)
-    ctx.rotate((viewRotation * Math.PI) / 180)
+    ctx.rotate((currentViewRotation * Math.PI) / 180)
     ctx.translate(-PLATE_CENTER.x, -PLATE_CENTER.y)
 
     ctx.save()
@@ -647,14 +659,14 @@ export function CircuitCanvas({
       ctx.fillStyle = '#7d8796'
       ctx.font = '13px system-ui, sans-serif'
       ctx.fillText(
-        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · G: turns grid · B: centers · Ctrl/Space+drag pans',
+        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · G: turns grid · B: centers · Right-drag or Space+drag pans',
         16,
         h - 16,
       )
     }
   }, [
+    clearZoomPreview,
     tiles,
-    viewRotation,
     selectedIds,
     pendingCatalogId,
     tileClipboard,
@@ -722,7 +734,7 @@ export function CircuitCanvas({
         localY,
         zoomRef.current,
         panRef.current,
-        viewRotation,
+        viewRotationRef.current,
         opts,
       )
       zoomRef.current = next.zoom
@@ -730,7 +742,7 @@ export function CircuitCanvas({
       schedulePaint()
       syncViewState()
     },
-    [commitZoomPreview, schedulePaint, syncViewState, viewRotation],
+    [commitZoomPreview, schedulePaint, syncViewState],
   )
 
   // Block Safari trackpad rotate/pinch gestures from transforming the canvas DOM.
@@ -773,7 +785,7 @@ export function CircuitCanvas({
         my,
         zoomRef.current,
         panRef.current,
-        viewRotation,
+        viewRotationRef.current,
         {
           multiply: factor,
         },
@@ -785,7 +797,7 @@ export function CircuitCanvas({
 
     container.addEventListener('wheel', onWheel, { passive: false })
     return () => container.removeEventListener('wheel', onWheel)
-  }, [showZoomPreview, viewRotation])
+  }, [showZoomPreview])
 
   const zoomFromToolbar = (factor: number) => {
     const container = containerRef.current
@@ -799,7 +811,7 @@ export function CircuitCanvas({
     const container = containerRef.current
     if (!container) return
     const rect = container.getBoundingClientRect()
-    const bounds = rotatedPlateBounds(viewRotation)
+    const bounds = rotatedPlateBounds(viewRotationRef.current)
     const nextPan = {
       x: (rect.width - bounds.width * zoomRef.current) / 2 - bounds.minX * zoomRef.current,
       y:
@@ -809,13 +821,14 @@ export function CircuitCanvas({
     panRef.current = nextPan
     schedulePaint()
     syncViewState()
-  }, [commitZoomPreview, schedulePaint, syncViewState, viewRotation])
+  }, [commitZoomPreview, schedulePaint, syncViewState])
 
   const rotateView = useCallback(() => {
-    if (zoomPreviewRef.current) commitZoomPreview()
-    onViewRotationChange(nextRotation(viewRotation))
-    schedulePaint()
-  }, [commitZoomPreview, onViewRotationChange, schedulePaint, viewRotation])
+    const next = nextRotation(viewRotationRef.current)
+    viewRotationRef.current = next
+    onViewRotationChange(next)
+    paintRef.current()
+  }, [onViewRotationChange])
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (zoomPreviewRef.current) commitZoomPreview()
@@ -829,7 +842,7 @@ export function CircuitCanvas({
       currentPan.x,
       currentPan.y,
       currentZoom,
-      viewRotation,
+      viewRotationRef.current,
       rect,
     )
     const world = screenToWorld(
@@ -838,7 +851,7 @@ export function CircuitCanvas({
       currentPan.x,
       currentPan.y,
       currentZoom,
-      viewRotation,
+      viewRotationRef.current,
       rect,
     )
 
@@ -915,7 +928,13 @@ export function CircuitCanvas({
 
       const tileX = hit.gridX * GRID_CELL
       const tileY = hit.gridY * GRID_CELL
-      const tileScreen = worldToScreen(tileX, tileY, currentPan, currentZoom, viewRotation)
+      const tileScreen = worldToScreen(
+        tileX,
+        tileY,
+        currentPan,
+        currentZoom,
+        viewRotationRef.current,
+      )
       dragRef.current = {
         kind: 'tile',
         instanceId: hit.instanceId,
@@ -979,7 +998,7 @@ export function CircuitCanvas({
       currentPan.x,
       currentPan.y,
       zoomRef.current,
-      viewRotation,
+      viewRotationRef.current,
       rect,
     )
     setHoverCell(grid)
@@ -990,7 +1009,7 @@ export function CircuitCanvas({
         currentPan.x,
         currentPan.y,
         zoomRef.current,
-        viewRotation,
+        viewRotationRef.current,
         rect,
       )
       setPlacementPreview({
@@ -1021,7 +1040,7 @@ export function CircuitCanvas({
         currentPan.x,
         currentPan.y,
         zoomRef.current,
-        viewRotation,
+        viewRotationRef.current,
         rect,
       )
       updateMarquee({ x0: drag.startX, y0: drag.startY, x1: world.x, y1: world.y })
@@ -1050,7 +1069,7 @@ export function CircuitCanvas({
         currentPan.x,
         currentPan.y,
         currentZoom,
-        viewRotation,
+        viewRotationRef.current,
         rect,
       )
       const dxScreen = e.clientX - rect.left - drag.startScreenX
@@ -1085,12 +1104,12 @@ export function CircuitCanvas({
         currentPan.x,
         currentPan.y,
         currentZoom,
-        viewRotation,
+        viewRotationRef.current,
         rect,
       )
       const x = pointerWorld.x - drag.pointerOffsetX
       const y = pointerWorld.y - drag.pointerOffsetY
-      const screen = worldToScreen(x, y, currentPan, currentZoom, viewRotation)
+      const screen = worldToScreen(x, y, currentPan, currentZoom, viewRotationRef.current)
       const gx = Math.round(x / GRID_CELL)
       const gy = Math.round(y / GRID_CELL)
       updateSmoothDrag({
@@ -1246,7 +1265,7 @@ export function CircuitCanvas({
   }
 
   const handleContextMenu = (e: React.MouseEvent) => {
-    if (e.ctrlKey) e.preventDefault()
+    e.preventDefault()
   }
 
   const rotateSelected = useCallback(() => {
@@ -1409,7 +1428,7 @@ export function CircuitCanvas({
         className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
           pendingCatalogId ? ' place-mode' : ''
         }${isPanning ? ' panning' : ''}`}
-        title="R: rotates · G: turns grid · B: centers · Hold Ctrl or Space and drag to pan · scroll to zoom"
+        title="R: rotates · G: turns grid · B: centers · Right-drag, Space+drag, or Ctrl+drag to pan · scroll to zoom"
         onContextMenu={handleContextMenu}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
