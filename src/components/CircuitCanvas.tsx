@@ -182,6 +182,7 @@ type DragState =
       pendingClick?: { kind: 'place' | 'paste'; gx: number; gy: number }
     }
   | { kind: 'rotateTap'; instanceId: string }
+  | { kind: 'place'; catalogId: string }
 
 type SmoothDragState =
   | {
@@ -1357,14 +1358,32 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       return
     }
 
-    // Empty plate or canvas: box-select (drag). Click without drag places/pastes.
+    // Placing a new part from the palette: follow the pointer (no marquee / click-vs-drag wait).
+    if (pendingCatalogId) {
+      commitZoomPreviewIfNeeded()
+      canvasRef.current?.setPointerCapture(e.pointerId)
+      if (!e.shiftKey) {
+        onSelectionChange([])
+      }
+      dragRef.current = { kind: 'place', catalogId: pendingCatalogId }
+      hoverCellRef.current = grid
+      placementPreviewRef.current = {
+        screenX: e.clientX - rect.left,
+        screenY: e.clientY - rect.top,
+        worldX: world.x,
+        worldY: world.y,
+        grid,
+      }
+      repaintNow()
+      return
+    }
+
+    // Empty plate or canvas: box-select (drag). Click without drag pastes.
     commitZoomPreviewIfNeeded()
     canvasRef.current?.setPointerCapture(e.pointerId)
 
     let pendingClick: { kind: 'place' | 'paste'; gx: number; gy: number } | undefined
-    if (grid && pendingCatalogId) {
-      pendingClick = { kind: 'place', gx: grid.gx, gy: grid.gy }
-    } else if (grid && tileClipboard && !occupied(grid.gx, grid.gy)) {
+    if (grid && tileClipboard && !occupied(grid.gx, grid.gy)) {
       pendingClick = { kind: 'paste', gx: grid.gx, gy: grid.gy }
     }
 
@@ -1433,9 +1452,14 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    const drag = dragRef.current
+    if (drag?.kind === 'place') {
+      updatePointerHover(e)
+      return
+    }
+
     updatePointerHover(e)
     const rect = containerRef.current!.getBoundingClientRect()
-    const drag = dragRef.current
 
     if (drag?.kind === 'marquee') {
       const currentPan = panRef.current
@@ -1550,6 +1574,26 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     }
   }
 
+  const finishPlaceDrag = (catalogId: string, e: React.PointerEvent) => {
+    const rect = containerRef.current!.getBoundingClientRect()
+    const grid = screenToGrid(
+      e.clientX,
+      e.clientY,
+      panRef.current.x,
+      panRef.current.y,
+      zoomRef.current,
+      viewRotationRef.current,
+      rect,
+    )
+    if (grid && inPlateBounds(grid.gx, grid.gy) && !occupied(grid.gx, grid.gy)) {
+      placeTile(catalogId, grid.gx, grid.gy)
+    } else {
+      placementPreviewRef.current = null
+      hoverCellRef.current = null
+      repaintNow()
+    }
+  }
+
   const finishMarquee = (drag: Extract<DragState, { kind: 'marquee' }>) => {
     const box = marqueeRef.current ?? {
       x0: drag.startX,
@@ -1562,9 +1606,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     const isClick = w < MARQUEE_MIN_PX && h < MARQUEE_MIN_PX
 
     if (isClick) {
-      if (drag.pendingClick?.kind === 'place' && pendingCatalogId) {
-        placeTile(pendingCatalogId, drag.pendingClick.gx, drag.pendingClick.gy)
-      } else if (drag.pendingClick?.kind === 'paste') {
+      if (drag.pendingClick?.kind === 'paste') {
         if (!onPasteAtCell(drag.pendingClick.gx, drag.pendingClick.gy)) {
           onPasteTargetChange({ gx: drag.pendingClick.gx, gy: drag.pendingClick.gy })
         }
@@ -1664,7 +1706,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       canvasRef.current.releasePointerCapture(e.pointerId)
     }
     const drag = dragRef.current
-    if (drag?.kind === 'marquee') {
+    if (drag?.kind === 'place') {
+      finishPlaceDrag(drag.catalogId, e)
+    } else if (drag?.kind === 'marquee') {
       finishMarquee(drag)
     } else if (drag?.kind === 'rotateTap') {
       // Rotation already applied on the second pointer down.
@@ -1686,6 +1730,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     if (
       dragRef.current?.kind !== 'pan' &&
       dragRef.current?.kind !== 'marquee' &&
+      dragRef.current?.kind !== 'place' &&
       dragRef.current?.kind !== 'rotateTap' &&
       !canvasRef.current?.hasPointerCapture(e.pointerId)
     ) {
