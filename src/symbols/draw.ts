@@ -728,6 +728,33 @@ function drawMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.fillText('M', cx, cy + 1)
 }
 
+/** Vibration motor: motor circle with off-center eccentric weight (no polarity). */
+function drawVibrationMotor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  prep(ctx)
+  const cy = midY(b)
+  const cx = midX(b)
+  const r = Math.min(b.w, b.h) * 0.32
+  ctx.beginPath()
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(cx - r, cy)
+  ctx.moveTo(cx + r, cy)
+  ctx.lineTo(b.x + b.w, cy)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.stroke()
+
+  const weightR = r * 0.22
+  const weightX = cx + r * 0.42
+  const weightY = cy - r * 0.12
+  ctx.beginPath()
+  ctx.arc(weightX, weightY, weightR, 0, Math.PI * 2)
+  ctx.fillStyle = STROKE
+  ctx.fill()
+  ctx.stroke()
+}
+
 function drawBuzzer(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   drawMotor(ctx, b)
   prep(ctx)
@@ -876,6 +903,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   hall_sensor: drawHallSensor,
   optical_interrupt: drawOpticalInterrupt,
   motor: drawMotor,
+  vibration_motor: drawVibrationMotor,
   buzzer: drawBuzzer,
   touch_pad: drawTouchPad,
   ground: drawGround,
@@ -905,6 +933,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   hall_sensor: defaultLeads4,
   optical_interrupt: defaultLeads4,
   motor: defaultLeads2,
+  vibration_motor: defaultLeads2,
   buzzer: defaultLeads2,
   touch_pad: defaultLeads2,
   ground: defaultLeads4,

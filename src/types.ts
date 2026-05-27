@@ -29,6 +29,7 @@ export type SymbolId =
   | 'hall_sensor'
   | 'optical_interrupt'
   | 'motor'
+  | 'vibration_motor'
   | 'buzzer'
   | 'touch_pad'
   | 'ground'

@@ -80,6 +80,7 @@ export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
     case 'potentiometer':
       return 'potentiometers'
     case 'motor':
+    case 'vibration_motor':
     case 'buzzer':
       return 'outputs'
     case 'sensor':
