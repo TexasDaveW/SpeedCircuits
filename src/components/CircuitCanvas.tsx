@@ -181,6 +181,7 @@ type DragState =
       addToSelection: boolean
       pendingClick?: { kind: 'place' | 'paste'; gx: number; gy: number }
     }
+  | { kind: 'rotateTap'; instanceId: string }
 
 type SmoothDragState =
   | {
@@ -436,6 +437,36 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     },
     [capturePlateSnapshot, clearPlateSnapshot, repaintNow],
   )
+
+  const applyTileRotation = useCallback(
+    (instanceId: string) => {
+      const nextTiles = tilesRef.current.map((t) =>
+        t.instanceId === instanceId
+          ? { ...t, rotation: nextRotation(t.rotation) }
+          : t,
+      )
+      tilesRef.current = nextTiles
+      smoothDragRef.current = null
+      clearPlateSnapshot()
+      repaintNow()
+      requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
+    },
+    [clearPlateSnapshot, repaintNow],
+  )
+
+  const isDoubleClickOnTile = (
+    instanceId: string,
+    clientX: number,
+    clientY: number,
+  ) => {
+    const lastTap = lastTileTapRef.current
+    if (!lastTap || lastTap.instanceId !== instanceId) return false
+    if (performance.now() - lastTap.time > DOUBLE_TAP_MS) return false
+    return (
+      Math.hypot(clientX - lastTap.screenX, clientY - lastTap.screenY) <=
+      DOUBLE_TAP_MAX_MOVE_PX
+    )
+  }
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
@@ -1090,6 +1121,15 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         return
       }
 
+      if (isDoubleClickOnTile(hit.instanceId, e.clientX, e.clientY)) {
+        lastTileTapRef.current = null
+        canvasRef.current?.setPointerCapture(e.pointerId)
+        dragRef.current = { kind: 'rotateTap', instanceId: hit.instanceId }
+        applyTileRotation(hit.instanceId)
+        onSelectionChange([hit.instanceId])
+        return
+      }
+
       const tileX = hit.gridX * GRID_CELL
       const tileY = hit.gridY * GRID_CELL
       const tileScreen = worldToScreen(
@@ -1347,17 +1387,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
             DOUBLE_TAP_MAX_MOVE_PX
 
         if (doubleTapped) {
-          const nextTiles = tilesRef.current.map((t) =>
-            t.instanceId === drag.instanceId
-              ? { ...t, rotation: nextRotation(t.rotation) }
-              : t,
-          )
-          tilesRef.current = nextTiles
-          repaintNow()
-          requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
+          applyTileRotation(drag.instanceId)
           onSelectionChange([drag.instanceId])
           lastTileTapRef.current = null
-          updateSmoothDrag(null)
+          dragRef.current = null
           return
         }
 
@@ -1367,18 +1400,26 @@ export const CircuitCanvas = memo(function CircuitCanvas({
           screenX: e.clientX,
           screenY: e.clientY,
         }
+        updateSmoothDrag(null)
+        return
       } else {
         lastTileTapRef.current = null
       }
 
       if (drag.valid) {
-        onTilesChange(
-          tiles.map((t) =>
+        const tile = tilesRef.current.find((t) => t.instanceId === drag.instanceId)
+        const moved =
+          tile != null &&
+          (tile.gridX !== drag.targetGx || tile.gridY !== drag.targetGy)
+        if (moved) {
+          const nextTiles = tilesRef.current.map((t) =>
             t.instanceId === drag.instanceId
               ? { ...t, gridX: drag.targetGx, gridY: drag.targetGy }
               : t,
-          ),
-        )
+          )
+          tilesRef.current = nextTiles
+          requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
+        }
       }
     } else {
       lastTileTapRef.current = null
@@ -1406,6 +1447,8 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     const drag = dragRef.current
     if (drag?.kind === 'marquee') {
       finishMarquee(drag)
+    } else if (drag?.kind === 'rotateTap') {
+      // Rotation already applied on the second pointer down.
     } else if (drag?.kind === 'tile' || drag?.kind === 'group') {
       finishSmoothDrag(drag, e)
     }
@@ -1423,6 +1466,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     if (
       dragRef.current?.kind !== 'pan' &&
       dragRef.current?.kind !== 'marquee' &&
+      dragRef.current?.kind !== 'rotateTap' &&
       !canvasRef.current?.hasPointerCapture(e.pointerId)
     ) {
       endPointer(e)
@@ -1440,9 +1484,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       set.has(t.instanceId) ? { ...t, rotation: nextRotation(t.rotation) } : t,
     )
     tilesRef.current = nextTiles
+    clearPlateSnapshot()
     repaintNow()
     requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
-  }, [selectedIds, repaintNow])
+  }, [clearPlateSnapshot, selectedIds, repaintNow])
 
   const rotatePlacementPasteOrSelection = useCallback(() => {
     if (pendingCatalogId) {
