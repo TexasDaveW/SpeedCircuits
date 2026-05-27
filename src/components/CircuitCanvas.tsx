@@ -1,8 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { catalogById, GRID_CELL } from '../catalog'
 import { drawPlate, drawTile } from '../drawTile'
 import { nextRotation } from '../geometry'
-import { inPlateBounds, PLATE_COLS, PLATE_ROWS } from '../plate'
+import {
+  inPlateBounds,
+  PLATE_COLS,
+  PLATE_PIVOT_GRID_X,
+  PLATE_PIVOT_GRID_Y,
+  PLATE_ROWS,
+} from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
 import type { TileClipboard } from '../tileClipboard'
 import type { PlacedTile, Rotation } from '../types'
@@ -15,7 +21,10 @@ const MAX_ZOOM = 2.5
 const DOUBLE_TAP_MS = 350
 const DOUBLE_TAP_MAX_MOVE_PX = 10
 
-const PLATE_CENTER = { x: PLATE_W / 2, y: PLATE_H / 2 }
+const PLATE_CENTER = {
+  x: PLATE_PIVOT_GRID_X * GRID_CELL,
+  y: PLATE_PIVOT_GRID_Y * GRID_CELL,
+}
 
 function clampZoom(z: number) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z))
@@ -86,7 +95,9 @@ function computeZoomAtLocal(
 
 interface CircuitCanvasProps {
   tiles: PlacedTile[]
-  viewRotation: Rotation
+  /** Bumped when a circuit is loaded or cleared so view rotation can reset without React state on every G press. */
+  canvasRevision: number
+  loadViewRotation: Rotation
   selectedIds: string[]
   pendingCatalogId: string | null
   tileClipboard: TileClipboard | null
@@ -95,7 +106,8 @@ interface CircuitCanvasProps {
   onPasteAtCell: (gx: number, gy: number) => boolean
   onTileClipboardChange: (clipboard: TileClipboard) => void
   onTilesChange: (tiles: PlacedTile[]) => void
-  onViewRotationChange: (rotation: Rotation) => void
+  /** Ref-only sync for save/export; must not call setState synchronously on G. */
+  onViewRotationChange?: (rotation: Rotation) => void
   onRemoveTiles: (instanceIds: string[]) => void
   onSelectionChange: (ids: string[]) => void
   onPendingClear: () => void
@@ -216,9 +228,10 @@ type ZoomPreviewState = {
   commitTimer: number | null
 }
 
-export function CircuitCanvas({
+export const CircuitCanvas = memo(function CircuitCanvas({
   tiles,
-  viewRotation,
+  canvasRevision,
+  loadViewRotation,
   selectedIds,
   pendingCatalogId,
   tileClipboard,
@@ -233,25 +246,25 @@ export function CircuitCanvas({
   onPendingClear,
 }: CircuitCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 80, y: 60 })
   const zoomRef = useRef(1)
   const panRef = useRef({ x: 80, y: 60 })
-  const viewRotationRef = useRef(viewRotation)
+  const viewRotationRef = useRef(loadViewRotation)
   const pendingCatalogIdRef = useRef<string | null>(null)
   const tileClipboardRef = useRef<TileClipboard | null>(null)
   const onTileClipboardChangeRef = useRef(onTileClipboardChange)
+  const onTilesChangeRef = useRef(onTilesChange)
+  const tilesRef = useRef(tiles)
+  const placementRotationRef = useRef<Rotation>(0)
   const lastWheelAtRef = useRef(0)
 
   useEffect(() => {
     zoomRef.current = zoom
     panRef.current = pan
   }, [zoom, pan])
-
-  useEffect(() => {
-    viewRotationRef.current = viewRotation
-  }, [viewRotation])
 
   const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
   const [placementRotation, setPlacementRotation] = useState<Rotation>(0)
@@ -269,7 +282,16 @@ export function CircuitCanvas({
   }, [onTileClipboardChange])
 
   useEffect(() => {
+    onTilesChangeRef.current = onTilesChange
+  }, [onTilesChange])
+
+  useEffect(() => {
+    placementRotationRef.current = placementRotation
+  }, [placementRotation])
+
+  useEffect(() => {
     setPlacementRotation(0)
+    placementRotationRef.current = 0
     setPlacementPreview(null)
   }, [pendingCatalogId])
   const [placementPreview, setPlacementPreview] =
@@ -299,6 +321,11 @@ export function CircuitCanvas({
       paintRef.current()
     })
   }, [])
+
+  useEffect(() => {
+    tilesRef.current = tiles
+    schedulePaint()
+  }, [tiles, schedulePaint])
 
   const updateMarquee = useCallback(
     (next: MarqueeState | null) => {
@@ -330,10 +357,10 @@ export function CircuitCanvas({
     if (preview?.commitTimer != null) {
       window.clearTimeout(preview.commitTimer)
     }
-    const canvas = canvasRef.current
-    if (canvas) {
-      canvas.style.transform = ''
-      canvas.style.willChange = ''
+    const viewport = viewportRef.current
+    if (viewport) {
+      viewport.style.transform = ''
+      viewport.style.willChange = ''
     }
     zoomPreviewRef.current = null
   }, [])
@@ -346,8 +373,8 @@ export function CircuitCanvas({
 
   const showZoomPreview = useCallback(
     (nextZoom: number, nextPan: { x: number; y: number }) => {
-      const canvas = canvasRef.current
-      if (!canvas) return
+      const viewport = viewportRef.current
+      if (!viewport) return
 
       let preview = zoomPreviewRef.current
       if (!preview) {
@@ -364,15 +391,22 @@ export function CircuitCanvas({
       const dx = nextPan.x - preview.basePan.x * scale
       const dy = nextPan.y - preview.basePan.y * scale
 
-      canvas.style.transformOrigin = '0 0'
-      canvas.style.willChange = 'transform'
-      canvas.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`
+      viewport.style.transformOrigin = '0 0'
+      viewport.style.willChange = 'transform'
+      viewport.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`
 
       preview.commitTimer = window.setTimeout(commitZoomPreview, 90)
       zoomPreviewRef.current = preview
     },
     [commitZoomPreview],
   )
+
+  const repaintNow = useCallback(() => {
+    if (zoomPreviewRef.current) {
+      clearZoomPreview()
+    }
+    paintRef.current()
+  }, [clearZoomPreview])
 
   const isPanPointer = (e: React.PointerEvent | PointerEvent) =>
     e.button === 1 ||
@@ -410,6 +444,8 @@ export function CircuitCanvas({
     }
 
     const currentViewRotation = viewRotationRef.current
+    const plateTiles = tilesRef.current
+    const clipboard = tileClipboardRef.current ?? tileClipboard
 
     // Cap DPR so full-screen Retina canvases do not repaint 4x as many pixels on every drag/zoom.
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
@@ -455,7 +491,7 @@ export function CircuitCanvas({
     drawPlate(ctx, PLATE_W, PLATE_H)
     ctx.restore()
 
-    const sorted = [...tiles].sort((a, b) => {
+    const sorted = [...plateTiles].sort((a, b) => {
       const aSel = selectedSet.has(a.instanceId)
       const bSel = selectedSet.has(b.instanceId)
       if (aSel && !bSel) return 1
@@ -480,7 +516,7 @@ export function CircuitCanvas({
     }
 
     const placementCell = pendingCatalogId ? (placementPreview?.grid ?? hoverCell) : null
-    const pasteCell = tileClipboard ? (hoverCell ?? pasteTarget) : null
+    const pasteCell = clipboard ? (hoverCell ?? pasteTarget) : null
     const highlightCell = placementCell ?? pasteCell
 
     const drawCellHighlight = (
@@ -505,17 +541,17 @@ export function CircuitCanvas({
     }
 
     if (highlightCell) {
-      const cellOccupied = tiles.some(
+      const cellOccupied = plateTiles.some(
         (t) => t.gridX === highlightCell.gx && t.gridY === highlightCell.gy,
       )
-      const pasteEntry = tileClipboard ? catalogById.get(tileClipboard.catalogId) : null
+      const pasteEntry = clipboard ? catalogById.get(clipboard.catalogId) : null
       const pasteQuantityBlocked =
         pasteEntry != null &&
-        tiles.filter((t) => t.catalogId === tileClipboard!.catalogId).length >=
+        plateTiles.filter((t) => t.catalogId === clipboard!.catalogId).length >=
           pasteEntry.quantity
       const pasteInvalid = cellOccupied || pasteQuantityBlocked
       const isPasteTarget =
-        tileClipboard != null &&
+        clipboard != null &&
         pasteTarget?.gx === highlightCell.gx &&
         pasteTarget?.gy === highlightCell.gy
       const highlightInvalid = placementCell ? cellOccupied : pasteInvalid
@@ -543,13 +579,13 @@ export function CircuitCanvas({
       }
     }
 
-    if (pasteCell && tileClipboard && !pendingCatalogId) {
-      const entry = catalogById.get(tileClipboard.catalogId)
+    if (pasteCell && clipboard && !pendingCatalogId) {
+      const entry = catalogById.get(clipboard.catalogId)
       if (entry) {
-        const cellOccupied = tiles.some(
+        const cellOccupied = plateTiles.some(
           (t) => t.gridX === pasteCell.gx && t.gridY === pasteCell.gy,
         )
-        const used = tiles.filter((t) => t.catalogId === tileClipboard.catalogId).length
+        const used = plateTiles.filter((t) => t.catalogId === clipboard.catalogId).length
         const invalid = cellOccupied || used >= entry.quantity
         ctx.save()
         ctx.globalAlpha = invalid ? 0.38 : 0.72
@@ -558,7 +594,7 @@ export function CircuitCanvas({
           pasteCell.gx * GRID_CELL,
           pasteCell.gy * GRID_CELL,
           entry,
-          tileClipboard.rotation,
+          clipboard.rotation,
         )
         ctx.restore()
       }
@@ -593,13 +629,13 @@ export function CircuitCanvas({
       }
 
       if (activeSmoothDrag.kind === 'tile') {
-        const tile = tiles.find((t) => t.instanceId === activeSmoothDrag.instanceId)
+        const tile = plateTiles.find((t) => t.instanceId === activeSmoothDrag.instanceId)
         const entry = tile ? catalogById.get(tile.catalogId) : null
         if (tile && entry) {
           drawMovingTile(tile, entry, activeSmoothDrag.x, activeSmoothDrag.y)
         }
       } else {
-        for (const tile of tiles) {
+        for (const tile of plateTiles) {
           const origin = activeSmoothDrag.origins.get(tile.instanceId)
           if (!origin) continue
           const entry = catalogById.get(tile.catalogId)
@@ -621,7 +657,7 @@ export function CircuitCanvas({
       if (entry) {
         const invalid =
           placementPreview.grid == null ||
-          tiles.some(
+          plateTiles.some(
             (t) =>
               t.gridX === placementPreview.grid?.gx &&
               t.gridY === placementPreview.grid?.gy,
@@ -633,7 +669,7 @@ export function CircuitCanvas({
           placementPreview.worldX - GRID_CELL / 2,
           placementPreview.worldY - GRID_CELL / 2,
           entry,
-          placementRotation,
+          placementRotationRef.current,
         )
         ctx.restore()
       }
@@ -649,7 +685,7 @@ export function CircuitCanvas({
         16,
         h - 16,
       )
-    } else if (tileClipboard) {
+    } else if (clipboard) {
       ctx.fillStyle = '#b8c4d8'
       ctx.font = '14px system-ui, sans-serif'
       const msg =
@@ -666,19 +702,22 @@ export function CircuitCanvas({
     }
   }, [
     clearZoomPreview,
-    tiles,
     selectedIds,
     pendingCatalogId,
     tileClipboard,
     pasteTarget,
     hoverCell,
     placementPreview,
-    placementRotation,
   ])
 
   useEffect(() => {
     paintRef.current = paint
   }, [paint])
+
+  useEffect(() => {
+    viewRotationRef.current = loadViewRotation
+    paintRef.current()
+  }, [canvasRevision, loadViewRotation])
 
   useEffect(() => {
     paint()
@@ -826,9 +865,12 @@ export function CircuitCanvas({
   const rotateView = useCallback(() => {
     const next = nextRotation(viewRotationRef.current)
     viewRotationRef.current = next
-    onViewRotationChange(next)
+    if (zoomPreviewRef.current) {
+      clearZoomPreview()
+    }
     paintRef.current()
-  }, [onViewRotationChange])
+    onViewRotationChange?.(next)
+  }, [clearZoomPreview, onViewRotationChange])
 
   const handlePointerDown = (e: React.PointerEvent) => {
     if (zoomPreviewRef.current) commitZoomPreview()
@@ -1183,13 +1225,14 @@ export function CircuitCanvas({
             DOUBLE_TAP_MAX_MOVE_PX
 
         if (doubleTapped) {
-          onTilesChange(
-            tiles.map((t) =>
-              t.instanceId === drag.instanceId
-                ? { ...t, rotation: nextRotation(t.rotation) }
-                : t,
-            ),
+          const nextTiles = tilesRef.current.map((t) =>
+            t.instanceId === drag.instanceId
+              ? { ...t, rotation: nextRotation(t.rotation) }
+              : t,
           )
+          tilesRef.current = nextTiles
+          repaintNow()
+          requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
           onSelectionChange([drag.instanceId])
           lastTileTapRef.current = null
           updateSmoothDrag(null)
@@ -1271,27 +1314,36 @@ export function CircuitCanvas({
   const rotateSelected = useCallback(() => {
     if (selectedIds.length === 0) return
     const set = new Set(selectedIds)
-    onTilesChange(
-      tiles.map((t) =>
-        set.has(t.instanceId) ? { ...t, rotation: nextRotation(t.rotation) } : t,
-      ),
+    const nextTiles = tilesRef.current.map((t) =>
+      set.has(t.instanceId) ? { ...t, rotation: nextRotation(t.rotation) } : t,
     )
-  }, [selectedIds, tiles, onTilesChange])
+    tilesRef.current = nextTiles
+    repaintNow()
+    requestAnimationFrame(() => onTilesChangeRef.current(nextTiles))
+  }, [selectedIds, repaintNow])
 
   const rotatePlacementPasteOrSelection = useCallback(() => {
     if (pendingCatalogId) {
-      setPlacementRotation((r) => nextRotation(r))
+      placementRotationRef.current = nextRotation(placementRotationRef.current)
+      repaintNow()
+      requestAnimationFrame(() =>
+        setPlacementRotation(placementRotationRef.current),
+      )
       return
     }
-    if (tileClipboard) {
-      onTileClipboardChange({
-        ...tileClipboard,
-        rotation: nextRotation(tileClipboard.rotation),
-      })
+    const clip = tileClipboardRef.current ?? tileClipboard
+    if (clip) {
+      const next = {
+        ...clip,
+        rotation: nextRotation(clip.rotation),
+      }
+      tileClipboardRef.current = next
+      repaintNow()
+      requestAnimationFrame(() => onTileClipboardChangeRef.current(next))
       return
     }
     rotateSelected()
-  }, [pendingCatalogId, tileClipboard, onTileClipboardChange, rotateSelected])
+  }, [pendingCatalogId, tileClipboard, repaintNow, rotateSelected])
 
   function isEditableTarget(target: EventTarget | null): boolean {
     const el = target as HTMLElement | null
@@ -1307,8 +1359,6 @@ export function CircuitCanvas({
       if (isEditableTarget(e.target)) return
       if (e.code !== 'KeyR' && e.key !== 'r' && e.key !== 'R') return
       if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
-      // Ignore key events that often follow trackpad pinch/zoom gestures.
-      if (performance.now() - lastWheelAtRef.current < 200) return
 
       e.preventDefault()
       rotatePlacementPasteOrSelection()
@@ -1423,18 +1473,20 @@ export function CircuitCanvas({
         </button>
         <span className="zoom-label">{Math.round(zoom * 100)}%</span>
       </div>
-      <canvas
-        ref={canvasRef}
-        className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
-          pendingCatalogId ? ' place-mode' : ''
-        }${isPanning ? ' panning' : ''}`}
-        title="R: rotates · G: turns grid · B: centers · Right-drag, Space+drag, or Ctrl+drag to pan · scroll to zoom"
-        onContextMenu={handleContextMenu}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerLeave}
-      />
+      <div ref={viewportRef} className="circuit-viewport">
+        <canvas
+          ref={canvasRef}
+          className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
+            pendingCatalogId ? ' place-mode' : ''
+          }${isPanning ? ' panning' : ''}`}
+          title="R: rotates · G: turns grid · B: centers · Right-drag, Space+drag, or Ctrl+drag to pan · scroll to zoom"
+          onContextMenu={handleContextMenu}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerLeave}
+        />
+      </div>
     </div>
   )
-}
+})

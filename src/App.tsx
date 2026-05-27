@@ -25,7 +25,9 @@ export default function App() {
   const [pendingCatalogId, setPendingCatalogId] = useState<string | null>(null)
   const [circuitName, setCircuitName] = useState('circuit')
   const [lesson, setLesson] = useState<CircuitLesson | null>(null)
-  const [viewRotation, setViewRotation] = useState<Rotation>(0)
+  const viewRotationRef = useRef<Rotation>(0)
+  const [canvasRevision, setCanvasRevision] = useState(0)
+  const [loadViewRotation, setLoadViewRotation] = useState<Rotation>(0)
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null)
   const [showLessonPanel, setShowLessonPanel] = useState(readLessonPanelVisible)
   const [exportJson, setExportJson] = useState<string | null>(null)
@@ -46,6 +48,10 @@ export default function App() {
     setPendingCatalogId(null)
     setPasteTarget(null)
     setTileClipboard(null)
+  }, [])
+
+  const handleViewRotationChange = useCallback((rotation: Rotation) => {
+    viewRotationRef.current = rotation
   }, [])
 
   const setStatus = (message: string, isError = false) => {
@@ -77,7 +83,10 @@ export default function App() {
       if (name?.trim()) setCircuitName(name.trim())
       const nextLesson = lessonInfo ?? null
       setLesson(nextLesson)
-      setViewRotation(view?.rotation ?? 0)
+      const rot = view?.rotation ?? 0
+      viewRotationRef.current = rot
+      setLoadViewRotation(rot)
+      setCanvasRevision((n) => n + 1)
       setActiveLessonId(builtinId ?? null)
       clearUndoHistory()
       setTiles(tileList)
@@ -149,7 +158,7 @@ export default function App() {
     setCircuitName(nextCircuitName)
 
     const json = buildCircuitJson(tiles, nextCircuitName, lesson, {
-      rotation: viewRotation,
+      rotation: viewRotationRef.current,
     })
     const result = await saveCircuitJsonFile(json, nextCircuitName)
     if (result === 'saved') {
@@ -161,7 +170,7 @@ export default function App() {
     } else {
       setStatus('Could not save file.', true)
     }
-  }, [tiles, circuitName, lesson, viewRotation, buildCircuitJson])
+  }, [tiles, circuitName, lesson, buildCircuitJson])
 
   const handleOpenCircuit = useCallback(async () => {
     const opened = await openCircuitJsonFile()
@@ -191,7 +200,7 @@ export default function App() {
   const handleCopyJson = async () => {
     const json =
       exportJson ??
-      buildCircuitJson(tiles, circuitName, lesson, { rotation: viewRotation })
+      buildCircuitJson(tiles, circuitName, lesson, { rotation: viewRotationRef.current })
     if (!exportJson) setExportJson(json)
     try {
       await navigator.clipboard.writeText(json)
@@ -207,7 +216,9 @@ export default function App() {
       setStatus('JSON preview hidden.')
       return
     }
-    const json = buildCircuitJson(tiles, circuitName, lesson, { rotation: viewRotation })
+    const json = buildCircuitJson(tiles, circuitName, lesson, {
+      rotation: viewRotationRef.current,
+    })
     setExportJson(json)
     setStatus('JSON preview shown below (click Preview JSON again to hide).')
   }
@@ -248,7 +259,9 @@ export default function App() {
       setPendingCatalogId(null)
       setExportJson(null)
       setLesson(null)
-      setViewRotation(0)
+      viewRotationRef.current = 0
+      setLoadViewRotation(0)
+      setCanvasRevision((n) => n + 1)
       setActiveLessonId(null)
       setStatus('Canvas cleared.')
     }
@@ -455,7 +468,8 @@ export default function App() {
         <div className="workspace-body">
           <CircuitCanvas
             tiles={tiles}
-            viewRotation={viewRotation}
+            canvasRevision={canvasRevision}
+            loadViewRotation={loadViewRotation}
             selectedIds={selectedIds}
             pendingCatalogId={pendingCatalogId}
             tileClipboard={tileClipboard}
@@ -464,7 +478,7 @@ export default function App() {
             onPasteAtCell={pasteAtCell}
             onTileClipboardChange={setTileClipboard}
             onTilesChange={setTiles}
-            onViewRotationChange={setViewRotation}
+            onViewRotationChange={handleViewRotationChange}
             onRemoveTiles={handleRemoveTiles}
             onSelectionChange={(ids) => {
               setSelectedIds(ids)
