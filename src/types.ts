@@ -71,12 +71,19 @@ export interface CircuitLesson {
   description: string
 }
 
+export interface CircuitView {
+  /** View-only board rotation. Tile coordinates and circuit nets stay unchanged. */
+  rotation?: Rotation
+}
+
 export interface CircuitDocument {
   version: 1
   /** User-visible circuit name (filename stem when saving) */
   name?: string
   /** Teaching notes shown in the lesson panel */
   lesson?: CircuitLesson
+  /** Optional display preferences; omitted JSONs use the default view. */
+  view?: CircuitView
   exportedAt: string
   tiles: Array<{
     instanceId: string

@@ -1,11 +1,11 @@
 import { catalogById } from './catalog'
 import { inPlateBounds } from './plate'
-import type { CircuitLesson, PlacedTile, Rotation } from './types'
+import type { CircuitLesson, CircuitView, PlacedTile, Rotation } from './types'
 
 const VALID_ROTATIONS = new Set<Rotation>([0, 90, 180, 270])
 
 export type ImportResult =
-  | { ok: true; tiles: PlacedTile[]; name?: string; lesson?: CircuitLesson }
+  | { ok: true; tiles: PlacedTile[]; name?: string; lesson?: CircuitLesson; view?: CircuitView }
   | { ok: false; errors: string[] }
 
 function parseLesson(raw: Record<string, unknown>): CircuitLesson | undefined {
@@ -23,6 +23,18 @@ function parseLesson(raw: Record<string, unknown>): CircuitLesson | undefined {
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return v != null && typeof v === 'object' && !Array.isArray(v)
+}
+
+function parseView(raw: Record<string, unknown>, errors: string[]): CircuitView | undefined {
+  const viewRaw = raw.view
+  if (!isRecord(viewRaw)) return undefined
+  const rotation = viewRaw.rotation
+  if (rotation == null) return undefined
+  if (typeof rotation !== 'number' || !VALID_ROTATIONS.has(rotation as Rotation)) {
+    errors.push('View rotation must be 0, 90, 180, or 270.')
+    return undefined
+  }
+  return { rotation: rotation as Rotation }
 }
 
 export function importCircuit(raw: unknown): ImportResult {
@@ -113,8 +125,13 @@ export function importCircuit(raw: unknown): ImportResult {
 
   const name = typeof raw.name === 'string' && raw.name.trim() ? raw.name.trim() : undefined
   const lesson = parseLesson(raw)
+  const view = parseView(raw, errors)
 
-  return { ok: true, tiles: placed, name, lesson }
+  if (errors.length > 0) {
+    return { ok: false, errors }
+  }
+
+  return { ok: true, tiles: placed, name, lesson, view }
 }
 
 export function parseCircuitJson(text: string): ImportResult {

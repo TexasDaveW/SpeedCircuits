@@ -4,6 +4,7 @@ import type {
   CircuitConnection,
   CircuitDocument,
   CircuitLesson,
+  CircuitView,
   PlacedTile,
   Side,
 } from './types'
@@ -201,10 +202,12 @@ export function exportCircuit(
   tiles: PlacedTile[],
   name?: string,
   lesson?: CircuitLesson,
+  view?: CircuitView,
 ): CircuitDocument {
   const connections = buildConnections(tiles)
   const trimmed = name?.trim()
   const description = lesson?.description?.trim()
+  const viewRotation = view?.rotation ?? 0
   return {
     version: 1,
     name: trimmed || undefined,
@@ -214,6 +217,7 @@ export function exportCircuit(
           description,
         }
       : undefined,
+    view: viewRotation !== 0 ? { rotation: viewRotation } : undefined,
     exportedAt: new Date().toISOString(),
     tiles: tiles.map((t) => {
       const entry = catalogById.get(t.catalogId)!
