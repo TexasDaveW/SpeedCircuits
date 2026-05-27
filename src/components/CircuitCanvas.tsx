@@ -141,6 +141,13 @@ type PlacementPreviewState = {
   grid: { gx: number; gy: number } | null
 }
 
+type MarqueeState = {
+  x0: number
+  y0: number
+  x1: number
+  y1: number
+}
+
 type ZoomPreviewState = {
   baseZoom: number
   basePan: { x: number; y: number }
@@ -196,16 +203,11 @@ export function CircuitCanvas({
     setPlacementRotation(0)
     setPlacementPreview(null)
   }, [pendingCatalogId])
-  const [marquee, setMarquee] = useState<{
-    x0: number
-    y0: number
-    x1: number
-    y1: number
-  } | null>(null)
   const [placementPreview, setPlacementPreview] =
     useState<PlacementPreviewState | null>(null)
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
+  const marqueeRef = useRef<MarqueeState | null>(null)
   const smoothDragRef = useRef<SmoothDragState | null>(null)
   const paintRef = useRef<() => void>(() => {})
   const paintFrameRef = useRef<number | null>(null)
@@ -228,6 +230,14 @@ export function CircuitCanvas({
       paintRef.current()
     })
   }, [])
+
+  const updateMarquee = useCallback(
+    (next: MarqueeState | null) => {
+      marqueeRef.current = next
+      schedulePaint()
+    },
+    [schedulePaint],
+  )
 
   const updateSmoothDrag = useCallback(
     (next: SmoothDragState | null) => {
@@ -475,11 +485,12 @@ export function CircuitCanvas({
       }
     }
 
-    if (marquee) {
-      const mx = Math.min(marquee.x0, marquee.x1)
-      const my = Math.min(marquee.y0, marquee.y1)
-      const mw = Math.abs(marquee.x1 - marquee.x0)
-      const mh = Math.abs(marquee.y1 - marquee.y0)
+    const activeMarquee = marqueeRef.current
+    if (activeMarquee) {
+      const mx = Math.min(activeMarquee.x0, activeMarquee.x1)
+      const my = Math.min(activeMarquee.y0, activeMarquee.y1)
+      const mw = Math.abs(activeMarquee.x1 - activeMarquee.x0)
+      const mh = Math.abs(activeMarquee.y1 - activeMarquee.y0)
       ctx.fillStyle = 'rgba(77, 159, 255, 0.12)'
       ctx.fillRect(mx, my, mw, mh)
       ctx.strokeStyle = 'rgba(77, 159, 255, 0.95)'
@@ -590,7 +601,6 @@ export function CircuitCanvas({
     hoverCell,
     placementPreview,
     placementRotation,
-    marquee,
   ])
 
   useEffect(() => {
@@ -866,7 +876,7 @@ export function CircuitCanvas({
       addToSelection: e.shiftKey,
       pendingClick,
     }
-    setMarquee({ x0: world.x, y0: world.y, x1: world.x, y1: world.y })
+    updateMarquee({ x0: world.x, y0: world.y, x1: world.x, y1: world.y })
   }
 
   const updateHoverCell = (e: React.PointerEvent) => {
@@ -916,7 +926,7 @@ export function CircuitCanvas({
         zoomRef.current,
         rect,
       )
-      setMarquee({ x0: drag.startX, y0: drag.startY, x1: world.x, y1: world.y })
+      updateMarquee({ x0: drag.startX, y0: drag.startY, x1: world.x, y1: world.y })
       return
     }
 
@@ -983,7 +993,7 @@ export function CircuitCanvas({
   }
 
   const finishMarquee = (drag: Extract<DragState, { kind: 'marquee' }>) => {
-    const box = marquee ?? {
+    const box = marqueeRef.current ?? {
       x0: drag.startX,
       y0: drag.startY,
       x1: drag.startX,
@@ -1001,7 +1011,7 @@ export function CircuitCanvas({
           onPasteTargetChange({ gx: drag.pendingClick.gx, gy: drag.pendingClick.gy })
         }
       }
-      setMarquee(null)
+      updateMarquee(null)
       return
     }
 
@@ -1013,7 +1023,7 @@ export function CircuitCanvas({
     } else {
       onSelectionChange(ids)
     }
-    setMarquee(null)
+    updateMarquee(null)
   }
 
   const finishSmoothDrag = (
@@ -1198,7 +1208,7 @@ export function CircuitCanvas({
         e.preventDefault()
         onSelectionChange([])
         onPendingClear()
-        setMarquee(null)
+        updateMarquee(null)
         dragRef.current = null
         updateSmoothDrag(null)
         setPlacementPreview(null)
@@ -1206,7 +1216,14 @@ export function CircuitCanvas({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [selectedIds, onRemoveTiles, onSelectionChange, onPendingClear, updateSmoothDrag])
+  }, [
+    selectedIds,
+    onRemoveTiles,
+    onSelectionChange,
+    onPendingClear,
+    updateMarquee,
+    updateSmoothDrag,
+  ])
 
   return (
     <div
