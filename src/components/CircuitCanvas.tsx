@@ -277,8 +277,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     panRef.current = pan
   }, [zoom, pan])
 
-  const [hoverCell, setHoverCell] = useState<{ gx: number; gy: number } | null>(null)
   const [placementRotation, setPlacementRotation] = useState<Rotation>(0)
+  const hoverCellRef = useRef<{ gx: number; gy: number } | null>(null)
+  const placementPreviewRef = useRef<PlacementPreviewState | null>(null)
 
   useEffect(() => {
     pendingCatalogIdRef.current = pendingCatalogId
@@ -300,13 +301,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     placementRotationRef.current = placementRotation
   }, [placementRotation])
 
-  useEffect(() => {
-    setPlacementRotation(0)
-    placementRotationRef.current = 0
-    setPlacementPreview(null)
-  }, [pendingCatalogId])
-  const [placementPreview, setPlacementPreview] =
-    useState<PlacementPreviewState | null>(null)
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
   const marqueeRef = useRef<MarqueeState | null>(null)
@@ -517,6 +511,15 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     [clearPlateSnapshot, repaintNow],
   )
 
+  useEffect(() => {
+    setPlacementRotation(0)
+    placementRotationRef.current = 0
+    placementPreviewRef.current = null
+    hoverCellRef.current = null
+    clearStaticSceneSnapshot()
+    repaintNow()
+  }, [clearStaticSceneSnapshot, pendingCatalogId, repaintNow])
+
   const isDoubleClickOnTile = (
     instanceId: string,
     clientX: number,
@@ -622,6 +625,84 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       )
       ctx.restore()
       captureStaticSceneSnapshot()
+      return
+    }
+
+    const pendingPlaceId = pendingCatalogIdRef.current
+    const placementPreview = placementPreviewRef.current
+    if (
+      pendingPlaceId &&
+      placementPreview &&
+      staticSnap &&
+      !activeSmoothDrag &&
+      !rotationFast &&
+      !skipDragOverlay
+    ) {
+      if (zoomPreviewRef.current) {
+        clearZoomPreview()
+      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.drawImage(staticSnap, 0, 0)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      const drawCellHighlight = (
+        gx: number,
+        gy: number,
+        options: { invalid: boolean; strong?: boolean },
+      ) => {
+        if (!inPlateBounds(gx, gy)) return
+        const hx = gx * GRID_CELL
+        const hy = gy * GRID_CELL
+        ctx.fillStyle = options.invalid
+          ? 'rgba(220, 80, 80, 0.22)'
+          : options.strong
+            ? 'rgba(77, 159, 255, 0.35)'
+            : 'rgba(77, 159, 255, 0.18)'
+        ctx.fillRect(hx, hy, GRID_CELL, GRID_CELL)
+        ctx.strokeStyle = options.invalid
+          ? 'rgba(220, 80, 80, 0.85)'
+          : 'rgba(77, 159, 255, 0.9)'
+        ctx.lineWidth = options.strong ? 3 : 2
+        ctx.strokeRect(hx + 1, hy + 1, GRID_CELL - 2, GRID_CELL - 2)
+      }
+
+      ctx.save()
+      ctx.translate(currentPan.x, currentPan.y)
+      ctx.scale(currentZoom, currentZoom)
+      ctx.translate(PLATE_CENTER.x, PLATE_CENTER.y)
+      ctx.rotate((currentViewRotation * Math.PI) / 180)
+      ctx.translate(-PLATE_CENTER.x, -PLATE_CENTER.y)
+
+      const entry = catalogById.get(pendingPlaceId)
+      if (entry) {
+        const grid = placementPreview.grid
+        const cellOccupied =
+          grid != null &&
+          plateTiles.some((t) => t.gridX === grid.gx && t.gridY === grid.gy)
+        if (grid) {
+          drawCellHighlight(grid.gx, grid.gy, {
+            invalid: cellOccupied,
+            strong: false,
+          })
+        }
+        const invalid =
+          grid == null ||
+          plateTiles.some(
+            (t) => t.gridX === grid?.gx && t.gridY === grid?.gy,
+          )
+        ctx.save()
+        ctx.globalAlpha = invalid ? 0.42 : 0.76
+        drawTile(
+          ctx,
+          placementPreview.worldX - GRID_CELL / 2,
+          placementPreview.worldY - GRID_CELL / 2,
+          entry,
+          placementRotationRef.current,
+        )
+        ctx.restore()
+      }
+      ctx.restore()
       return
     }
 
@@ -758,7 +839,11 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       })
     }
 
-    const placementCell = pendingCatalogId ? (placementPreview?.grid ?? hoverCell) : null
+    const placementPreviewState = placementPreviewRef.current
+    const hoverCell = hoverCellRef.current
+    const placementCell = pendingCatalogId
+      ? (placementPreviewState?.grid ?? hoverCell)
+      : null
     const pasteCell = clipboard ? (hoverCell ?? pasteTarget) : null
     const highlightCell = placementCell ?? pasteCell
 
@@ -897,22 +982,22 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       ctx.restore()
     }
 
-    if (placementPreview && pendingCatalogId) {
+    if (placementPreviewState && pendingCatalogId) {
       const entry = catalogById.get(pendingCatalogId)
       if (entry) {
         const invalid =
-          placementPreview.grid == null ||
+          placementPreviewState.grid == null ||
           plateTiles.some(
             (t) =>
-              t.gridX === placementPreview.grid?.gx &&
-              t.gridY === placementPreview.grid?.gy,
+              t.gridX === placementPreviewState.grid?.gx &&
+              t.gridY === placementPreviewState.grid?.gy,
           )
         ctx.save()
         ctx.globalAlpha = invalid ? 0.42 : 0.76
         drawTile(
           ctx,
-          placementPreview.worldX - GRID_CELL / 2,
-          placementPreview.worldY - GRID_CELL / 2,
+          placementPreviewState.worldX - GRID_CELL / 2,
+          placementPreviewState.worldY - GRID_CELL / 2,
           entry,
           placementRotationRef.current,
         )
@@ -956,8 +1041,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     pendingCatalogId,
     tileClipboard,
     pasteTarget,
-    hoverCell,
-    placementPreview,
   ])
 
   useEffect(() => {
@@ -1299,10 +1382,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     updateMarquee({ x0: world.x, y0: world.y, x1: world.x, y1: world.y })
   }
 
-  const updateHoverCell = (e: React.PointerEvent) => {
-    if (!tileClipboard && !pendingCatalogId) {
-      setHoverCell(null)
-      setPlacementPreview(null)
+  const updatePointerHover = (e: React.PointerEvent) => {
+    if (!tileClipboard && !pendingCatalogIdRef.current) {
+      hoverCellRef.current = null
+      placementPreviewRef.current = null
       return
     }
     const rect = containerRef.current?.getBoundingClientRect()
@@ -1317,8 +1400,8 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       viewRotationRef.current,
       rect,
     )
-    setHoverCell(grid)
-    if (pendingCatalogId) {
+
+    if (pendingCatalogIdRef.current) {
       const world = screenToWorld(
         e.clientX,
         e.clientY,
@@ -1328,23 +1411,29 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         viewRotationRef.current,
         rect,
       )
-      setPlacementPreview({
+      hoverCellRef.current = grid
+      placementPreviewRef.current = {
         screenX: e.clientX - rect.left,
         screenY: e.clientY - rect.top,
         worldX: world.x,
         worldY: world.y,
         grid,
-      })
+      }
+      repaintNow()
+      return
     }
+
+    hoverCellRef.current = grid
     if (tileClipboard && grid && !occupied(grid.gx, grid.gy)) {
       onPasteTargetChange({ gx: grid.gx, gy: grid.gy })
     } else if (tileClipboard) {
       onPasteTargetChange(null)
     }
+    schedulePaint()
   }
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    updateHoverCell(e)
+    updatePointerHover(e)
     const rect = containerRef.current!.getBoundingClientRect()
     const drag = dragRef.current
 
@@ -1591,8 +1680,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }
 
   const handlePointerLeave = (e: React.PointerEvent) => {
-    setHoverCell(null)
-    setPlacementPreview(null)
+    hoverCellRef.current = null
+    placementPreviewRef.current = null
+    repaintNow()
     if (
       dragRef.current?.kind !== 'pan' &&
       dragRef.current?.kind !== 'marquee' &&
@@ -1706,7 +1796,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         updateMarquee(null)
         dragRef.current = null
         updateSmoothDrag(null)
-        setPlacementPreview(null)
+        placementPreviewRef.current = null
+        hoverCellRef.current = null
+        repaintNow()
       }
     }
     window.addEventListener('keydown', onKey)
@@ -1716,6 +1808,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     onRemoveTiles,
     onSelectionChange,
     onPendingClear,
+    repaintNow,
     updateMarquee,
     updateSmoothDrag,
   ])
