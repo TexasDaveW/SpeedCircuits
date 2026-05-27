@@ -73,7 +73,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
     ports: ['west', 'east', 'north', 'south'],
     symbolId: 'npn',
   },
-  { id: 'nmos', name: 'NMOS transistor', category: 'component', quantity: 3, valueLabel: 'NMOS', typeLabel: 'MOSFET', ports: ['west', 'east', 'south'], symbolId: 'nmos' },
+  { id: 'nmos', name: 'NMOS transistor', category: 'component', quantity: 3, valueLabel: 'NMOS', typeLabel: 'MOSFET', ports: ['west', 'east', 'north', 'south'], symbolId: 'nmos' },
   { id: 'schottky', name: 'Schottky diode', category: 'component', quantity: 5, valueLabel: 'DIODE', typeLabel: 'SCHOTTKY', ports: ['west', 'east'], symbolId: 'diode' },
   { id: 'inductor', name: 'Inductor', category: 'component', quantity: 3, valueLabel: 'IND', typeLabel: 'INDUCTOR', ports: ['west', 'east'], symbolId: 'inductor' },
   {

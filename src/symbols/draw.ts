@@ -383,7 +383,7 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.restore()
 }
 
-/** NMOS leads: D west, S east, G south at tile rotation 0°. */
+/** NMOS leads: D west, S east, G north + south at tile rotation 0°. */
 function nmosLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
   const cx = midX(b)
@@ -391,13 +391,14 @@ function nmosLeads(b: SymbolBounds): SymbolLeads {
   return {
     west: { x: b.x, y: cy },
     east: { x: b.x + b.w, y: cy },
+    north: { x: cx, y: b.y + inset },
     south: { x: cx, y: b.y + b.h - inset },
   }
 }
 
 /**
  * Enhancement NMOS (IEC): circled symbol like BJT/NPN; classic G–channel–D/S layout
- * rotated 90° CCW so at 0°: west = drain, east = source, south = gate (matches 90° tile use).
+ * rotated 90° CCW so at 0°: west = drain, east = source, north/south = gate.
  */
 function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   const cx = midX(b)
@@ -405,6 +406,7 @@ function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   const size = Math.min(b.w, b.h)
   const r = size * 0.46
   const inset = size * 0.1
+  const northY = b.y + inset
   const southY = b.y + b.h - inset
   const chY = cy
   const chHalfW = r * 0.36
@@ -445,8 +447,10 @@ function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.lineTo(cx + gateHalfW, gateY)
   ctx.stroke()
 
-  // Gate lead from south magnet
+  // Gate leads from both north and south magnets
   ctx.beginPath()
+  ctx.moveTo(cx, northY)
+  ctx.lineTo(cx, gateY)
   ctx.moveTo(cx, southY)
   ctx.lineTo(cx, gateY)
   ctx.stroke()
@@ -459,9 +463,10 @@ function drawNmos(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = STROKE
-  ctx.fillText('D', b.x + outGap, chY - beside)
-  ctx.fillText('S', b.x + b.w - outGap, chY - beside)
-  ctx.fillText('G', cx - gateHalfW - outGap, gateY)
+  ctx.fillText('D', cx - r - outGap, chY - beside)
+  ctx.fillText('S', cx + r + outGap, chY - beside)
+  ctx.fillText('G', cx - beside, cy - r - outGap)
+  ctx.fillText('G', cx - beside, cy + r + outGap)
   ctx.restore()
 }
 
