@@ -1,0 +1,282 @@
+{
+  "version": 1,
+  "name": "RC Siren-Style Buzzer",
+  "lesson": {
+    "title": "RC Siren-Style Buzzer",
+    "description": "A stock-tile siren-style buzzer based on the lesson 77 NMOS driver path. USB feeds 10k and potentiometer control into the NMOS gate while the buzzer branch uses 150 ohm for current limiting. Turn the potentiometer while powered to hear the buzzer character shift. Compare lessons 71, 77, and 85."
+  },
+  "exportedAt": "2026-05-27T13:05:00.000Z",
+  "tiles": [
+    {
+      "instanceId": "power-tile-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 5,
+      "gridY": 4,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "t-connector-2",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 5,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "resistor-10k-3",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "potentiometer-4",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 5,
+      "gridY": 7,
+      "rotation": 270
+    },
+    {
+      "instanceId": "resistor-10k-5",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 5,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-6",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 5,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "nmos-7",
+      "catalogId": "nmos",
+      "name": "NMOS transistor",
+      "category": "component",
+      "value": "NMOS",
+      "gridX": 6,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ground-tile-8",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 6,
+      "gridY": 9,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "corner-cube-9",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 6,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "resistor-150-10",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 6,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "buzzer-11",
+      "catalogId": "buzzer",
+      "name": "Buzzer",
+      "category": "component",
+      "value": "BUZZ",
+      "gridX": 6,
+      "gridY": 8,
+      "rotation": 90
+    }
+  ],
+  "connections": [
+    {
+      "a": { "instanceId": "power-tile-1", "side": "west" },
+      "b": { "net": "PLATE_GND" }
+    },
+    {
+      "a": { "instanceId": "power-tile-1", "side": "south" },
+      "b": { "net": "USB_VCC" }
+    },
+    {
+      "a": { "instanceId": "power-tile-1", "side": "south" },
+      "b": { "instanceId": "t-connector-2", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "t-connector-2", "side": "south" },
+      "b": { "instanceId": "tact-button-3", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "tact-button-3", "side": "south" },
+      "b": { "instanceId": "potentiometer-4", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "potentiometer-4", "side": "south" },
+      "b": { "instanceId": "resistor-10k-5", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "resistor-10k-5", "side": "south" },
+      "b": { "instanceId": "ground-tile-6", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "ground-tile-6", "side": "south" },
+      "b": { "net": "PLATE_GND" }
+    },
+    {
+      "a": { "instanceId": "potentiometer-4", "side": "east" },
+      "b": { "instanceId": "corner-cube-7", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "corner-cube-7", "side": "south" },
+      "b": { "instanceId": "t-connector-8", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "t-connector-8", "side": "south" },
+      "b": { "instanceId": "cap-100u-9", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "cap-100u-9", "side": "south" },
+      "b": { "instanceId": "ground-tile-10", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "ground-tile-10", "side": "south" },
+      "b": { "net": "PLATE_GND" }
+    },
+    {
+      "a": { "instanceId": "t-connector-8", "side": "east" },
+      "b": { "instanceId": "resistor-47k-11", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "resistor-47k-11", "side": "east" },
+      "b": { "instanceId": "nmos-12", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "t-connector-2", "side": "east" },
+      "b": { "instanceId": "corner-cube-14", "side": "west" }
+    },
+    {
+      "a": { "instanceId": "corner-cube-14", "side": "south" },
+      "b": { "instanceId": "resistor-150-15", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "resistor-150-15", "side": "south" },
+      "b": { "instanceId": "buzzer-16", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "buzzer-16", "side": "south" },
+      "b": { "instanceId": "nmos-12", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "nmos-12", "side": "south" },
+      "b": { "instanceId": "ground-tile-13", "side": "north" }
+    },
+    {
+      "a": { "instanceId": "ground-tile-13", "side": "south" },
+      "b": { "net": "PLATE_GND" }
+    }
+  ],
+  "nets": [
+    [
+      "ground-tile-10:south",
+      "ground-tile-13:south",
+      "ground-tile-6:south",
+      "net:PLATE_GND",
+      "power-tile-1:west"
+    ],
+    [
+      "net:USB_VCC",
+      "power-tile-1:south",
+      "t-connector-2:north"
+    ],
+    [
+      "t-connector-2:south",
+      "tact-button-3:north"
+    ],
+    [
+      "potentiometer-4:north",
+      "tact-button-3:south"
+    ],
+    [
+      "potentiometer-4:south",
+      "resistor-10k-5:north"
+    ],
+    [
+      "ground-tile-6:north",
+      "resistor-10k-5:south"
+    ],
+    [
+      "corner-cube-7:west",
+      "potentiometer-4:east"
+    ],
+    [
+      "corner-cube-7:south",
+      "t-connector-8:north"
+    ],
+    [
+      "cap-100u-9:north",
+      "t-connector-8:south"
+    ],
+    [
+      "cap-100u-9:south",
+      "ground-tile-10:north"
+    ],
+    [
+      "resistor-47k-11:west",
+      "t-connector-8:east"
+    ],
+    [
+      "nmos-12:west",
+      "resistor-47k-11:east"
+    ],
+    [
+      "corner-cube-14:west",
+      "t-connector-2:east"
+    ],
+    [
+      "corner-cube-14:south",
+      "resistor-150-15:north"
+    ],
+    [
+      "buzzer-16:north",
+      "resistor-150-15:south"
+    ],
+    [
+      "buzzer-16:south",
+      "nmos-12:north"
+    ],
+    [
+      "ground-tile-13:north",
+      "nmos-12:south"
+    ]
+  ]
+}

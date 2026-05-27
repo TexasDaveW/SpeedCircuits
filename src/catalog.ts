@@ -24,7 +24,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
     ports: ['north', 'east', 'south', 'west'],
   },
   { id: 'cross-cube', name: 'Cross cube', category: 'routing', quantity: 4, typeLabel: 'CROSS', ports: ['north', 'east', 'south', 'west'] },
-  { id: 't-connector', name: 'T connector', category: 'routing', quantity: 4, typeLabel: 'T-JOIN', ports: ['north', 'east', 'west'] },
+  { id: 't-connector', name: 'T connector', category: 'routing', quantity: 8, typeLabel: 'T-JOIN', ports: ['north', 'east', 'west'] },
   { id: 'spring-contact', name: 'Spring contact', category: 'routing', quantity: 5, typeLabel: 'SPRING', ports: ['west', 'east'] },
   { id: 'straight-cube', name: 'Straight cube', category: 'routing', quantity: 20, typeLabel: 'STRAIGHT', ports: ['west', 'east'] },
   { id: 'resistor-150', name: '150Ω resistor', category: 'component', quantity: 4, valueLabel: '150Ω', typeLabel: 'RESISTOR', ports: ['west', 'east'], symbolId: 'resistor' },
