@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { catalogById, GRID_CELL } from '../catalog'
 import { drawPlate, drawPlateGrid, drawTile } from '../drawTile'
 import { nextRotation } from '../geometry'
@@ -339,10 +339,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [placementRotation])
 
   useEffect(() => {
-    referenceLayerRef.current = referenceLayer
-  }, [referenceLayer])
-
-  useEffect(() => {
     referenceScaleRef.current = referenceScale
   }, [referenceScale])
 
@@ -386,6 +382,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
   const didInitialCenterRef = useRef(false)
+
+  useLayoutEffect(() => {
+    referenceLayerRef.current = referenceLayer
+    staticSceneSnapshotRef.current = null
+  }, [referenceLayer])
+
   const lastTileTapRef = useRef<{
     instanceId: string
     time: number
@@ -503,6 +505,47 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     snap.height = main.height
     snap.getContext('2d')?.drawImage(main, 0, 0)
   }, [])
+
+  const drawReferenceOnPlate = useCallback(
+    (ctx: CanvasRenderingContext2D, layer: ReferenceLayer) => {
+      const refImg = referenceImageRef.current
+      if (!refImg || layer === 'hidden') return
+      drawReferenceBackground(
+        ctx,
+        refImg,
+        PLATE_W,
+        PLATE_H,
+        referenceScaleRef.current,
+        referenceOffsetRef.current,
+        referenceOpacityForLayer(layer),
+      )
+      if (layer === 'underneath') {
+        drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
+      }
+    },
+    [],
+  )
+
+  const overlayReferenceAboveTiles = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      layer: ReferenceLayer,
+      pan: { x: number; y: number },
+      zoom: number,
+      viewRotation: Rotation,
+    ) => {
+      if (layer !== 'above') return
+      ctx.save()
+      ctx.translate(pan.x, pan.y)
+      ctx.scale(zoom, zoom)
+      ctx.translate(PLATE_CENTER.x, PLATE_CENTER.y)
+      ctx.rotate((viewRotation * Math.PI) / 180)
+      ctx.translate(-PLATE_CENTER.x, -PLATE_CENTER.y)
+      drawReferenceOnPlate(ctx, layer)
+      ctx.restore()
+    },
+    [drawReferenceOnPlate],
+  )
 
   const captureDragSnapshot = useCallback(() => {
     snapshotCaptureRef.current = true
@@ -727,6 +770,13 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         { selected: selectedSet.has(rotationFast.instanceId) },
       )
       ctx.restore()
+      overlayReferenceAboveTiles(
+        ctx,
+        referenceLayerRef.current,
+        currentPan,
+        currentZoom,
+        currentViewRotation,
+      )
       captureStaticSceneSnapshot()
       return
     }
@@ -806,6 +856,13 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         ctx.restore()
       }
       ctx.restore()
+      overlayReferenceAboveTiles(
+        ctx,
+        referenceLayerRef.current,
+        currentPan,
+        currentZoom,
+        currentViewRotation,
+      )
       return
     }
 
@@ -919,26 +976,11 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     drawPlate(ctx, PLATE_W, PLATE_H)
     ctx.restore()
 
-    const drawReferenceOnPlate = () => {
-      const layer = referenceLayerRef.current
-      const refImg = referenceImageRef.current
-      if (!refImg || layer === 'hidden') return
-      drawReferenceBackground(
-        ctx,
-        refImg,
-        PLATE_W,
-        PLATE_H,
-        referenceScaleRef.current,
-        referenceOffsetRef.current,
-        referenceOpacityForLayer(layer),
-      )
-      if (layer === 'underneath') {
-        drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
-      }
-    }
+    const refLayer = referenceLayerRef.current
+    let capturedStaticWithoutReference = false
 
-    if (referenceLayerRef.current === 'underneath') {
-      drawReferenceOnPlate()
+    if (refLayer === 'underneath') {
+      drawReferenceOnPlate(ctx, refLayer)
     }
 
     const sorted = [...plateTiles].sort((a, b) => {
@@ -964,8 +1006,17 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       })
     }
 
-    if (referenceLayerRef.current === 'above') {
-      drawReferenceOnPlate()
+    if (
+      refLayer === 'above' &&
+      !smoothDragRef.current &&
+      !snapshotCaptureRef.current
+    ) {
+      captureStaticSceneSnapshot()
+      capturedStaticWithoutReference = true
+    }
+
+    if (refLayer === 'above') {
+      drawReferenceOnPlate(ctx, refLayer)
     }
 
     const placementPreviewState = placementPreviewRef.current
@@ -1138,12 +1189,19 @@ export const CircuitCanvas = memo(function CircuitCanvas({
 
     ctx.restore()
 
-    if (!smoothDragRef.current && !snapshotCaptureRef.current) {
+    if (
+      !smoothDragRef.current &&
+      !snapshotCaptureRef.current &&
+      !capturedStaticWithoutReference
+    ) {
       captureStaticSceneSnapshot()
     }
   }, [
     captureStaticSceneSnapshot,
     clearZoomPreview,
+    drawReferenceOnPlate,
+    overlayReferenceAboveTiles,
+    referenceLayer,
     selectedIds,
     pendingCatalogId,
     tileClipboard,

@@ -1,7 +1,7 @@
 /** Faded so tiles and emphasized grid stay readable underneath. */
 export const REFERENCE_OPACITY_UNDERNEATH = 0.38
 /** Stronger when drawn on top of tiles for tracing the schematic. */
-export const REFERENCE_OPACITY_ABOVE = 0.68
+export const REFERENCE_OPACITY_ABOVE = 0.85
 export const REFERENCE_SCALE_MIN = 0.25
 export const REFERENCE_SCALE_MAX = 3
 export const REFERENCE_SCALE_STEP = 0.05
