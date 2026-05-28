@@ -453,18 +453,6 @@ export default function App() {
         {statusMessage && (
           <p className={`file-status${statusIsError ? ' error' : ''}`}>{statusMessage}</p>
         )}
-        {tileClipboard && (
-          <p className="paste-hint">
-            Click an empty cell to paste once. <strong>R</strong> to rotate before placing.{' '}
-            <strong>Esc</strong> to cancel.
-          </p>
-        )}
-        {selectedIds.length > 1 && (
-          <p className="paste-hint selection-hint">
-            {selectedIds.length} tiles selected — drag to move together.{' '}
-            <strong>Shift</strong>+click or drag a box to add to selection.
-          </p>
-        )}
         <div className="workspace-body">
           <CircuitCanvas
             tiles={tiles}
