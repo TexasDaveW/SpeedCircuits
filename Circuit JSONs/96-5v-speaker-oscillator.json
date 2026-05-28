@@ -1,0 +1,904 @@
+{
+  "version": 1,
+  "name": "5V Speaker Oscillator",
+  "lesson": {
+    "title": "5V Speaker Oscillator",
+    "description": "Fixed-tone 5V (USB) speaker oscillator — not the variable pot build in lesson 95. Two NPN astable: dual 10k bias, 0.1uF cross-coupling, 150 ohm to loudspeaker (left), 470 ohm + LED (right). Layout is shifted on the plate so it is easy to tell apart from lesson 95."
+  },
+  "exportedAt": "2026-05-28T16:13:44.079Z",
+  "tiles": [
+    {
+      "instanceId": "pwr-1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 9,
+      "gridY": 6,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "r150-l",
+      "catalogId": "resistor-150",
+      "name": "150Ω resistor",
+      "category": "component",
+      "value": "150Ω",
+      "gridX": 7,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "r470-r",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 12,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "r10k-l",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 9,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "r10k-r",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 10,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-vcc",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 10,
+      "gridY": 7,
+      "rotation": 180
+    },
+    {
+      "instanceId": "c-vcc-r",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 12,
+      "gridY": 7,
+      "rotation": 180
+    },
+    {
+      "instanceId": "cap-lr",
+      "catalogId": "cap-0u1",
+      "name": "0.1µF capacitor",
+      "category": "component",
+      "value": "0.1µF",
+      "gridX": 8,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "cap-rl",
+      "catalogId": "cap-0u1",
+      "name": "0.1µF capacitor",
+      "category": "component",
+      "value": "0.1µF",
+      "gridX": 11,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "t-mid-l",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 10,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-mid-r",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 10,
+      "gridY": 10,
+      "rotation": 90
+    },
+    {
+      "instanceId": "s-vcc-l",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "s-vcc-r",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 11,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-l",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 7,
+      "gridY": 11,
+      "rotation": 0
+    },
+    {
+      "instanceId": "npn-r",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 12,
+      "gridY": 11,
+      "rotation": 0
+    },
+    {
+      "instanceId": "spk",
+      "catalogId": "loudspeaker-cube",
+      "name": "Loudspeaker cube",
+      "category": "component",
+      "value": "8Ω",
+      "gridX": 7,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "led-r",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 12,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "s-mid-l",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "s-mid-r",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 10,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "t-col-r",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 12,
+      "gridY": 10,
+      "rotation": 270
+    },
+    {
+      "instanceId": "t-col-l",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 10,
+      "rotation": 90
+    },
+    {
+      "instanceId": "c-base-l",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 11,
+      "rotation": 0
+    },
+    {
+      "instanceId": "s-base-r",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 11,
+      "gridY": 11,
+      "rotation": 0
+    },
+    {
+      "instanceId": "gnd-l",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 7,
+      "gridY": 12,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "gnd-r",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 12,
+      "gridY": 12,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "ovr",
+      "catalogId": "overpass-cube",
+      "name": "Overpass cube",
+      "category": "routing",
+      "gridX": 10,
+      "gridY": 11,
+      "rotation": 270
+    },
+    {
+      "instanceId": "s-gnd",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 12,
+      "rotation": 0
+    },
+    {
+      "instanceId": "c-gnd-l",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 12,
+      "rotation": 0
+    },
+    {
+      "instanceId": "c-gnd-lu",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 8,
+      "gridY": 11,
+      "rotation": 180
+    },
+    {
+      "instanceId": "c-gnd-r",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 10,
+      "gridY": 12,
+      "rotation": 270
+    },
+    {
+      "instanceId": "x-vcc",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 9,
+      "gridY": 7,
+      "rotation": 0
+    },
+    {
+      "instanceId": "c-vcc-l",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 7,
+      "gridY": 7,
+      "rotation": 90
+    }
+  ],
+  "connections": [
+    {
+      "a": {
+        "instanceId": "pwr-1",
+        "side": "west"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "pwr-1",
+        "side": "south"
+      },
+      "b": {
+        "net": "USB_VCC"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "pwr-1",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "x-vcc",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r150-l",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "c-vcc-l",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r150-l",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "spk",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r470-r",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "c-vcc-r",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r470-r",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "led-r",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r10k-l",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "x-vcc",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r10k-l",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "s-mid-l",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r10k-r",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "t-vcc",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "r10k-r",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "s-mid-r",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-vcc",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "x-vcc",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-vcc",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "s-vcc-r",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "c-vcc-r",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "s-vcc-r",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-lr",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-col-l",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-lr",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-mid-l",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-rl",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "t-mid-r",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "cap-rl",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "t-col-r",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-mid-l",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "s-mid-l",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-mid-l",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "c-base-l",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-mid-r",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ovr",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "t-mid-r",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "s-mid-r",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "s-vcc-l",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "c-vcc-l",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "s-vcc-l",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "x-vcc",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-l",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "c-gnd-lu",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-l",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "t-col-l",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-l",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "gnd-l",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-l",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "npn-l",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-r",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "s-base-r",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-r",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "t-col-r",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-r",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "gnd-r",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "npn-r",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "npn-r",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "spk",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-col-l",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "led-r",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "t-col-r",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "c-base-l",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "ovr",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "s-base-r",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "ovr",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "gnd-l",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "gnd-r",
+        "side": "south"
+      },
+      "b": {
+        "net": "PLATE_GND"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ovr",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "c-gnd-r",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ovr",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "ovr",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "ovr",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "ovr",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "s-gnd",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "c-gnd-l",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "s-gnd",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "c-gnd-r",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "c-gnd-l",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "c-gnd-lu",
+        "side": "south"
+      }
+    }
+  ],
+  "nets": [
+    [
+      "pwr-1:west",
+      "gnd-l:south",
+      "gnd-r:south",
+      "net:PLATE_GND"
+    ],
+    [
+      "pwr-1:south",
+      "x-vcc:north",
+      "net:USB_VCC"
+    ],
+    [
+      "r150-l:north",
+      "c-vcc-l:south"
+    ],
+    [
+      "r150-l:south",
+      "spk:north"
+    ],
+    [
+      "c-vcc-r:south",
+      "r470-r:north"
+    ],
+    [
+      "r470-r:south",
+      "led-r:north"
+    ],
+    [
+      "r10k-l:north",
+      "x-vcc:south"
+    ],
+    [
+      "r10k-l:south",
+      "s-mid-l:north"
+    ],
+    [
+      "r10k-r:north",
+      "t-vcc:south"
+    ],
+    [
+      "s-mid-r:north",
+      "r10k-r:south"
+    ],
+    [
+      "t-vcc:west",
+      "x-vcc:east"
+    ],
+    [
+      "t-vcc:east",
+      "s-vcc-r:west"
+    ],
+    [
+      "c-vcc-r:west",
+      "s-vcc-r:east"
+    ],
+    [
+      "t-col-l:east",
+      "cap-lr:west"
+    ],
+    [
+      "t-mid-l:west",
+      "cap-lr:east"
+    ],
+    [
+      "t-mid-r:east",
+      "cap-rl:west"
+    ],
+    [
+      "cap-rl:east",
+      "t-col-r:west"
+    ],
+    [
+      "t-mid-l:north",
+      "s-mid-l:south"
+    ],
+    [
+      "t-mid-l:south",
+      "c-base-l:north"
+    ],
+    [
+      "t-mid-r:south",
+      "ovr:north",
+      "ovr:south",
+      "c-gnd-r:north"
+    ],
+    [
+      "t-mid-r:north",
+      "s-mid-r:south"
+    ],
+    [
+      "c-vcc-l:east",
+      "s-vcc-l:west"
+    ],
+    [
+      "s-vcc-l:east",
+      "x-vcc:west"
+    ],
+    [
+      "npn-l:east",
+      "npn-l:west",
+      "c-gnd-lu:west"
+    ],
+    [
+      "npn-l:north",
+      "t-col-l:south"
+    ],
+    [
+      "npn-l:south",
+      "gnd-l:north"
+    ],
+    [
+      "npn-r:east",
+      "npn-r:west",
+      "s-base-r:east"
+    ],
+    [
+      "npn-r:north",
+      "t-col-r:south"
+    ],
+    [
+      "npn-r:south",
+      "gnd-r:north"
+    ],
+    [
+      "spk:south",
+      "t-col-l:north"
+    ],
+    [
+      "t-col-r:north",
+      "led-r:south"
+    ],
+    [
+      "c-base-l:east",
+      "s-base-r:west",
+      "ovr:east",
+      "ovr:west"
+    ],
+    [
+      "c-gnd-l:east",
+      "s-gnd:west"
+    ],
+    [
+      "s-gnd:east",
+      "c-gnd-r:west"
+    ],
+    [
+      "c-gnd-l:north",
+      "c-gnd-lu:south"
+    ]
+  ]
+}

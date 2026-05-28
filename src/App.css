@@ -206,9 +206,64 @@
   min-height: 0;
 }
 
-.workspace-body .canvas-panel {
+.workspace-body .canvas-workspace {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.workspace-body .canvas-workspace .canvas-panel {
   flex: 1;
   min-height: 0;
+}
+
+.reference-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 24, 30, 0.35);
+  pointer-events: auto;
+}
+
+.reference-overlay-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(37, 42, 49, 0.95);
+  border-bottom: 1px solid #363c46;
+  font-size: 0.78rem;
+  color: #b8c4d8;
+}
+
+.reference-overlay-bar button {
+  padding: 0.28rem 0.55rem;
+  font-size: 0.72rem;
+  border-radius: 5px;
+  border: 1px solid #4a5260;
+  background: #343b48;
+  color: #e8eaed;
+  cursor: pointer;
+}
+
+.reference-overlay-bar button:hover {
+  background: #3d4554;
+}
+
+.reference-overlay-image {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  opacity: 0.88;
+  user-select: none;
+  pointer-events: none;
 }
 
 .lesson-panel {

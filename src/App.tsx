@@ -7,6 +7,7 @@ import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } fro
 import { getBuiltinLesson, resolveBuiltinLessonId } from './builtinCircuits'
 import { importCircuit, parseCircuitJson } from './circuitImport'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
+import { readImageFromClipboard, readImageFromFile } from './referenceImage'
 import { copyTiles, pasteTileAt, type TileClipboard } from './tileClipboard'
 import { pushUndoSnapshot } from './tileUndo'
 import type { CircuitLesson, CircuitView, PlacedTile, Rotation } from './types'
@@ -37,7 +38,10 @@ export default function App() {
     null,
   )
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const referenceFileInputRef = useRef<HTMLInputElement>(null)
   const undoStackRef = useRef<PlacedTile[][]>([])
+  const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null)
+  const [referenceVisible, setReferenceVisible] = useState(false)
 
   const clearUndoHistory = useCallback(() => {
     undoStackRef.current = []
@@ -356,6 +360,19 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [handleUndo])
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (isEditableTarget(e.target)) return
+      if (e.code !== 'KeyI' && e.key !== 'i' && e.key !== 'I') return
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
+      if (!referenceImageUrl) return
+      e.preventDefault()
+      setReferenceVisible((on) => !on)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [referenceImageUrl])
+
   const canCopy = selectedIds.length > 0
   const canPaste =
     !!tileClipboard &&
@@ -370,6 +387,62 @@ export default function App() {
     })
   }
 
+  const pasteReferenceImage = useCallback(async () => {
+    try {
+      const dataUrl = await readImageFromClipboard()
+      if (dataUrl) {
+        setReferenceImageUrl(dataUrl)
+        setReferenceVisible(true)
+        setStatus('Reference image pasted from clipboard.')
+        return
+      }
+      setStatus(
+        'No image on clipboard. Copy a picture first, or use “Choose reference image…”.',
+        true,
+      )
+    } catch {
+      setStatus(
+        'Could not read clipboard image. Try “Choose reference image…” or allow clipboard access.',
+        true,
+      )
+    }
+  }, [])
+
+  const toggleReferenceOverlay = useCallback(() => {
+    if (!referenceImageUrl) {
+      void pasteReferenceImage()
+      return
+    }
+    setReferenceVisible((on) => {
+      setStatus(on ? 'Reference shown over circuit.' : 'Reference hidden.')
+      return !on
+    })
+  }, [pasteReferenceImage, referenceImageUrl])
+
+  const clearReferenceImage = useCallback(() => {
+    setReferenceImageUrl(null)
+    setReferenceVisible(false)
+    setStatus('Reference image cleared.')
+  }, [])
+
+  const handleReferenceFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    readImageFromFile(file).then(
+      (dataUrl) => {
+        if (!dataUrl) {
+          setStatus('That file is not an image.', true)
+          return
+        }
+        setReferenceImageUrl(dataUrl)
+        setReferenceVisible(true)
+        setStatus('Reference image loaded.')
+      },
+      () => setStatus('Could not read image file.', true),
+    )
+  }
+
   const lessonTitle = lesson?.title?.trim() || circuitName
   const lessonDescription = lesson?.description?.trim() || null
 
@@ -381,6 +454,13 @@ export default function App() {
         accept=".json,application/json"
         className="file-input-hidden"
         onChange={handleFileInputChange}
+      />
+      <input
+        ref={referenceFileInputRef}
+        type="file"
+        accept="image/*"
+        className="file-input-hidden"
+        onChange={handleReferenceFileChange}
       />
       <Palette
         tiles={tiles}
@@ -427,6 +507,37 @@ export default function App() {
           >
             Lesson notes
           </button>
+          <button type="button" onClick={() => void pasteReferenceImage()}>
+            Paste reference
+          </button>
+          <button
+            type="button"
+            className={referenceVisible ? 'toggle-active' : undefined}
+            onClick={toggleReferenceOverlay}
+            aria-pressed={referenceVisible}
+            title={
+              referenceImageUrl
+                ? 'Show or hide reference overlay (I)'
+                : 'Paste from clipboard first'
+            }
+          >
+            {referenceImageUrl
+              ? referenceVisible
+                ? 'Hide reference'
+                : 'Show reference'
+              : 'Show reference'}
+          </button>
+          <button
+            type="button"
+            onClick={() => referenceFileInputRef.current?.click()}
+          >
+            Choose reference…
+          </button>
+          {referenceImageUrl && (
+            <button type="button" onClick={clearReferenceImage}>
+              Clear reference
+            </button>
+          )}
           <button type="button" onClick={copySelectedTile} disabled={!canCopy} title="⌘C">
             Copy tile
           </button>
@@ -444,26 +555,44 @@ export default function App() {
           <p className={`file-status${statusIsError ? ' error' : ''}`}>{statusMessage}</p>
         )}
         <div className="workspace-body">
-          <CircuitCanvas
-            tiles={tiles}
-            canvasRevision={canvasRevision}
-            loadViewRotation={loadViewRotation}
-            selectedIds={selectedIds}
-            pendingCatalogId={pendingCatalogId}
-            tileClipboard={tileClipboard}
-            pasteTarget={pasteTarget}
-            onPasteTargetChange={setPasteTarget}
-            onPasteAtCell={pasteAtCell}
-            onTileClipboardChange={setTileClipboard}
-            onTilesChange={setTiles}
-            onViewRotationChange={handleViewRotationChange}
-            onRemoveTiles={handleRemoveTiles}
-            onSelectionChange={(ids) => {
-              setSelectedIds(ids)
-              if (ids.length > 0) setPasteTarget(null)
-            }}
-            onPendingClear={clearPlacementModes}
-          />
+          <div className="canvas-workspace">
+            <CircuitCanvas
+              tiles={tiles}
+              canvasRevision={canvasRevision}
+              loadViewRotation={loadViewRotation}
+              selectedIds={selectedIds}
+              pendingCatalogId={pendingCatalogId}
+              tileClipboard={tileClipboard}
+              pasteTarget={pasteTarget}
+              onPasteTargetChange={setPasteTarget}
+              onPasteAtCell={pasteAtCell}
+              onTileClipboardChange={setTileClipboard}
+              onTilesChange={setTiles}
+              onViewRotationChange={handleViewRotationChange}
+              onRemoveTiles={handleRemoveTiles}
+              onSelectionChange={(ids) => {
+                setSelectedIds(ids)
+                if (ids.length > 0) setPasteTarget(null)
+              }}
+              onPendingClear={clearPlacementModes}
+            />
+            {referenceImageUrl && referenceVisible && (
+              <div className="reference-overlay" aria-label="Reference schematic overlay">
+                <div className="reference-overlay-bar">
+                  <span>Reference image</span>
+                  <button type="button" onClick={() => setReferenceVisible(false)}>
+                    Hide
+                  </button>
+                </div>
+                <img
+                  className="reference-overlay-image"
+                  src={referenceImageUrl}
+                  alt="Schematic reference"
+                  draggable={false}
+                />
+              </div>
+            )}
+          </div>
           {showLessonPanel && (
             <LessonPanel title={lessonTitle} description={lessonDescription} />
           )}
