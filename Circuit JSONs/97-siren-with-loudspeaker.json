@@ -5,10 +5,10 @@
     "title": "Siren with Loudspeaker",
     "description": "Two-NPN astable siren on 5V USB with a tact button in series on the supply path — press to run the oscillator, release to stop. A loudspeaker cube on the collector branch; 47µF and 1µF cross-couple the bases with 10kΩ and 47kΩ bias. Compare lessons 94–96 (always-on speaker oscillators) and lesson 60 (tact + single transistor)."
   },
-  "exportedAt": "2026-05-28T19:59:12.399Z",
+  "exportedAt": "2026-05-28T21:17:27.131Z",
   "tiles": [
     {
-      "instanceId": "ef189d78-6080-4650-a1b6-d6c4f9093ff1",
+      "instanceId": "f739d6ec-e383-4af7-88b9-a18e3376ae54",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
@@ -19,16 +19,16 @@
       "plateGround": true
     },
     {
-      "instanceId": "e6b2e290-c37a-402d-8c0b-be194251ef71",
+      "instanceId": "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
       "gridX": 17,
       "gridY": 6,
-      "rotation": 0
+      "rotation": 270
     },
     {
-      "instanceId": "bcbc0d12-8444-43b2-86a9-771f2149418c",
+      "instanceId": "5009a5af-7081-4ef6-a764-786fdb6824ae",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -37,7 +37,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
+      "instanceId": "b19af4c0-2b1f-414e-8167-693b6d28a107",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
@@ -47,7 +47,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd",
+      "instanceId": "aa54f7d9-7d5d-4720-966c-8662b9961954",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -56,7 +56,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "60e2a187-6397-40a3-959f-bfb605e2c73d",
+      "instanceId": "6c767710-e59f-4954-a3fe-4e5dcbccfaf4",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
@@ -65,7 +65,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "62a71a93-787e-4a4c-b927-a4ecdbae853e",
+      "instanceId": "0b98b7c7-c999-4ef8-b3cd-dec9af43b937",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -74,7 +74,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "fc95c11d-4a28-47fe-8d26-d622a3985437",
+      "instanceId": "11779e2e-f7c7-4552-8529-d40ebde24ffc",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -83,7 +83,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "7a8a657f-ff31-4700-b113-e7091596c7b9",
+      "instanceId": "41fc65a1-563a-4dd7-9af1-01701ecd9baf",
       "catalogId": "resistor-47k",
       "name": "47k resistor",
       "category": "component",
@@ -93,7 +93,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "8b2adddb-4567-483b-b3eb-76e28f3542a9",
+      "instanceId": "4f5262c1-cc68-460a-90e3-503290678074",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
@@ -102,7 +102,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "41c01c32-0395-4526-b894-76fead51e327",
+      "instanceId": "0b8dedd9-f3e3-493a-a66d-f2b59e77e53f",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -111,7 +111,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "ffb31623-0270-4140-899b-d81c696fa441",
+      "instanceId": "8cf579f2-23ea-4898-9aad-8840f583c809",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -120,7 +120,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
+      "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
       "catalogId": "overpass-cube",
       "name": "Overpass cube",
       "category": "routing",
@@ -129,7 +129,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
+      "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
       "catalogId": "npn",
       "name": "NPN transistor",
       "category": "component",
@@ -139,7 +139,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
+      "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
       "catalogId": "npn",
       "name": "NPN transistor",
       "category": "component",
@@ -149,7 +149,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "a1ac97be-a6a0-485a-97d6-6f383c9c402b",
+      "instanceId": "8c86c33a-270d-4bc3-81df-3ca0a654b07c",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
@@ -158,7 +158,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "8a6a537b-a5a9-49ab-96e8-ba0ba47395a0",
+      "instanceId": "e4fb7cdb-d324-4538-91be-e1e07ab3debe",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -167,7 +167,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "1bb02ac0-e235-4086-bf6f-68155d48ebff",
+      "instanceId": "dd343c08-e9ad-430a-8a6e-efba72589cab",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -176,7 +176,7 @@
       "rotation": 180
     },
     {
-      "instanceId": "0f33f632-cfb8-4512-a1f6-635b3038e899",
+      "instanceId": "f16bd3a0-44c8-4b7b-ba01-682d08195b0a",
       "catalogId": "resistor-47k",
       "name": "47k resistor",
       "category": "component",
@@ -186,7 +186,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "75f02ada-c725-424b-88c7-4d78f2344d0b",
+      "instanceId": "bb16d2ff-4277-4e41-9383-8a9932902438",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -195,7 +195,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "dbaa857f-cd7c-4bbe-ad92-41709bd49cb2",
+      "instanceId": "f72d3478-793d-45ad-a80a-dbc22b7c80f8",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
@@ -206,7 +206,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "f80368f7-7789-4f7e-986f-bc032c184f6e",
+      "instanceId": "f5f85d3a-2c38-4e5c-9a58-461e4c5ff443",
       "catalogId": "cap-47u",
       "name": "47µF capacitor",
       "category": "component",
@@ -216,7 +216,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "6611fac8-b113-40de-8892-32111acfd889",
+      "instanceId": "58629cac-78de-45ff-ad85-a0ac0ba2290c",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
@@ -225,7 +225,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c",
+      "instanceId": "6623c888-f4ca-4ad5-9404-0057f5807aa9",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -234,7 +234,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "9b867f00-acde-41b5-97b2-7d86db0ff66e",
+      "instanceId": "0f243170-c3f7-444d-b075-fdfb2ff3db5d",
       "catalogId": "cap-1u",
       "name": "1µF capacitor",
       "category": "component",
@@ -244,7 +244,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "948c071f-0fa1-499d-8f07-ea3221c02466",
+      "instanceId": "d2a52a3a-60c7-4a5c-a02c-8237bdc37578",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
@@ -253,7 +253,7 @@
       "rotation": 270
     },
     {
-      "instanceId": "45462674-85f7-4a0d-a625-ea99c91c871c",
+      "instanceId": "01ecbd02-0478-4833-a880-150e59fdf42a",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
@@ -264,7 +264,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "0bea34ae-f6ac-42e0-bccd-8b91db7322da",
+      "instanceId": "23623f2b-a6af-4649-bcb0-caab868f6dce",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
@@ -275,7 +275,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "8aa205ee-840a-4b39-9ec6-aabb0f5cf0c8",
+      "instanceId": "9d59f829-7299-4968-9fea-1ee58c350da9",
       "catalogId": "loudspeaker-cube",
       "name": "Loudspeaker cube",
       "category": "component",
@@ -285,7 +285,7 @@
       "rotation": 0
     },
     {
-      "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
+      "instanceId": "85eb77b9-e8d4-41df-997b-ced1eeec88b1",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
@@ -298,7 +298,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "ef189d78-6080-4650-a1b6-d6c4f9093ff1",
+        "instanceId": "f739d6ec-e383-4af7-88b9-a18e3376ae54",
         "side": "west"
       },
       "b": {
@@ -307,7 +307,7 @@
     },
     {
       "a": {
-        "instanceId": "ef189d78-6080-4650-a1b6-d6c4f9093ff1",
+        "instanceId": "f739d6ec-e383-4af7-88b9-a18e3376ae54",
         "side": "south"
       },
       "b": {
@@ -316,327 +316,337 @@
     },
     {
       "a": {
-        "instanceId": "ef189d78-6080-4650-a1b6-d6c4f9093ff1",
+        "instanceId": "f739d6ec-e383-4af7-88b9-a18e3376ae54",
         "side": "south"
       },
       "b": {
-        "instanceId": "e6b2e290-c37a-402d-8c0b-be194251ef71",
+        "instanceId": "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "e6b2e290-c37a-402d-8c0b-be194251ef71",
+        "instanceId": "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33",
         "side": "west"
       },
       "b": {
-        "instanceId": "bcbc0d12-8444-43b2-86a9-771f2149418c",
+        "instanceId": "5009a5af-7081-4ef6-a764-786fdb6824ae",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "bcbc0d12-8444-43b2-86a9-771f2149418c",
-        "side": "west"
-      },
-      "b": {
-        "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
-        "side": "east"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
-        "side": "west"
-      },
-      "b": {
-        "instanceId": "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd",
-        "side": "east"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
-        "side": "east"
-      },
-      "b": {
-        "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
-        "side": "west"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd",
-        "side": "west"
-      },
-      "b": {
-        "instanceId": "60e2a187-6397-40a3-959f-bfb605e2c73d",
-        "side": "east"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "60e2a187-6397-40a3-959f-bfb605e2c73d",
+        "instanceId": "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33",
         "side": "south"
       },
       "b": {
-        "instanceId": "62a71a93-787e-4a4c-b927-a4ecdbae853e",
+        "instanceId": "58629cac-78de-45ff-ad85-a0ac0ba2290c",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "62a71a93-787e-4a4c-b927-a4ecdbae853e",
+        "instanceId": "5009a5af-7081-4ef6-a764-786fdb6824ae",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "85eb77b9-e8d4-41df-997b-ced1eeec88b1",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "b19af4c0-2b1f-414e-8167-693b6d28a107",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "aa54f7d9-7d5d-4720-966c-8662b9961954",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "b19af4c0-2b1f-414e-8167-693b6d28a107",
         "side": "east"
       },
       "b": {
-        "instanceId": "f80368f7-7789-4f7e-986f-bc032c184f6e",
+        "instanceId": "85eb77b9-e8d4-41df-997b-ced1eeec88b1",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "62a71a93-787e-4a4c-b927-a4ecdbae853e",
+        "instanceId": "aa54f7d9-7d5d-4720-966c-8662b9961954",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "6c767710-e59f-4954-a3fe-4e5dcbccfaf4",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "6c767710-e59f-4954-a3fe-4e5dcbccfaf4",
         "side": "south"
       },
       "b": {
-        "instanceId": "fc95c11d-4a28-47fe-8d26-d622a3985437",
+        "instanceId": "0b98b7c7-c999-4ef8-b3cd-dec9af43b937",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "fc95c11d-4a28-47fe-8d26-d622a3985437",
+        "instanceId": "0b98b7c7-c999-4ef8-b3cd-dec9af43b937",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "f5f85d3a-2c38-4e5c-9a58-461e4c5ff443",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "0b98b7c7-c999-4ef8-b3cd-dec9af43b937",
         "side": "south"
       },
       "b": {
-        "instanceId": "7a8a657f-ff31-4700-b113-e7091596c7b9",
+        "instanceId": "11779e2e-f7c7-4552-8529-d40ebde24ffc",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "7a8a657f-ff31-4700-b113-e7091596c7b9",
+        "instanceId": "11779e2e-f7c7-4552-8529-d40ebde24ffc",
         "side": "south"
       },
       "b": {
-        "instanceId": "8b2adddb-4567-483b-b3eb-76e28f3542a9",
+        "instanceId": "41fc65a1-563a-4dd7-9af1-01701ecd9baf",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "8b2adddb-4567-483b-b3eb-76e28f3542a9",
-        "side": "east"
-      },
-      "b": {
-        "instanceId": "41c01c32-0395-4526-b894-76fead51e327",
-        "side": "west"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "41c01c32-0395-4526-b894-76fead51e327",
-        "side": "east"
-      },
-      "b": {
-        "instanceId": "ffb31623-0270-4140-899b-d81c696fa441",
-        "side": "west"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "ffb31623-0270-4140-899b-d81c696fa441",
-        "side": "north"
-      },
-      "b": {
-        "instanceId": "75f02ada-c725-424b-88c7-4d78f2344d0b",
-        "side": "south"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "ffb31623-0270-4140-899b-d81c696fa441",
-        "side": "east"
-      },
-      "b": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
-        "side": "west"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
-        "side": "north"
-      },
-      "b": {
-        "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
-        "side": "south"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
-        "side": "east"
-      },
-      "b": {
-        "instanceId": "9b867f00-acde-41b5-97b2-7d86db0ff66e",
-        "side": "west"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
+        "instanceId": "41fc65a1-563a-4dd7-9af1-01701ecd9baf",
         "side": "south"
       },
       "b": {
-        "instanceId": "45462674-85f7-4a0d-a625-ea99c91c871c",
+        "instanceId": "4f5262c1-cc68-460a-90e3-503290678074",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
-        "side": "west"
+        "instanceId": "4f5262c1-cc68-460a-90e3-503290678074",
+        "side": "east"
       },
       "b": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
-        "side": "east"
+        "instanceId": "0b8dedd9-f3e3-493a-a66d-f2b59e77e53f",
+        "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
+        "instanceId": "0b8dedd9-f3e3-493a-a66d-f2b59e77e53f",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "8cf579f2-23ea-4898-9aad-8840f583c809",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8cf579f2-23ea-4898-9aad-8840f583c809",
         "side": "north"
       },
       "b": {
-        "instanceId": "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6",
+        "instanceId": "bb16d2ff-4277-4e41-9383-8a9932902438",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
-        "side": "west"
+        "instanceId": "8cf579f2-23ea-4898-9aad-8840f583c809",
+        "side": "east"
       },
       "b": {
-        "instanceId": "8a6a537b-a5a9-49ab-96e8-ba0ba47395a0",
-        "side": "east"
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
+        "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "north"
       },
       "b": {
-        "instanceId": "6611fac8-b113-40de-8892-32111acfd889",
+        "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "0f243170-c3f7-444d-b075-fdfb2ff3db5d",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "south"
       },
       "b": {
-        "instanceId": "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c",
+        "instanceId": "01ecbd02-0478-4833-a880-150e59fdf42a",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "west"
       },
       "b": {
-        "instanceId": "949b7bab-8978-4661-bf02-92676e68735a",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
-        "side": "west"
-      },
-      "b": {
-        "instanceId": "75f02ada-c725-424b-88c7-4d78f2344d0b",
-        "side": "east"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "north"
       },
       "b": {
-        "instanceId": "a1ac97be-a6a0-485a-97d6-6f383c9c402b",
+        "instanceId": "8167461a-ece5-426c-8d03-dce018788a29",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
+        "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
         "side": "west"
       },
       "b": {
-        "instanceId": "9abe728e-107d-4082-a052-7b39883764a2",
+        "instanceId": "e4fb7cdb-d324-4538-91be-e1e07ab3debe",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "a1ac97be-a6a0-485a-97d6-6f383c9c402b",
-        "side": "east"
+        "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
+        "side": "north"
       },
       "b": {
-        "instanceId": "8a6a537b-a5a9-49ab-96e8-ba0ba47395a0",
-        "side": "west"
+        "instanceId": "58629cac-78de-45ff-ad85-a0ac0ba2290c",
+        "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "1bb02ac0-e235-4086-bf6f-68155d48ebff",
+        "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
         "side": "south"
       },
       "b": {
-        "instanceId": "0f33f632-cfb8-4512-a1f6-635b3038e899",
+        "instanceId": "6623c888-f4ca-4ad5-9404-0057f5807aa9",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "1bb02ac0-e235-4086-bf6f-68155d48ebff",
+        "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
         "side": "west"
       },
       "b": {
-        "instanceId": "f80368f7-7789-4f7e-986f-bc032c184f6e",
+        "instanceId": "a9f5f0b9-b572-4c4d-818d-ebeeca840abc",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "1bb02ac0-e235-4086-bf6f-68155d48ebff",
+        "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "bb16d2ff-4277-4e41-9383-8a9932902438",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "8c86c33a-270d-4bc3-81df-3ca0a654b07c",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "8c86c33a-270d-4bc3-81df-3ca0a654b07c",
         "side": "east"
       },
       "b": {
-        "instanceId": "dbaa857f-cd7c-4bbe-ad92-41709bd49cb2",
+        "instanceId": "e4fb7cdb-d324-4538-91be-e1e07ab3debe",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "0f33f632-cfb8-4512-a1f6-635b3038e899",
+        "instanceId": "dd343c08-e9ad-430a-8a6e-efba72589cab",
         "side": "south"
       },
       "b": {
-        "instanceId": "75f02ada-c725-424b-88c7-4d78f2344d0b",
+        "instanceId": "f16bd3a0-44c8-4b7b-ba01-682d08195b0a",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "dbaa857f-cd7c-4bbe-ad92-41709bd49cb2",
+        "instanceId": "dd343c08-e9ad-430a-8a6e-efba72589cab",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "f5f85d3a-2c38-4e5c-9a58-461e4c5ff443",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "dd343c08-e9ad-430a-8a6e-efba72589cab",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "f72d3478-793d-45ad-a80a-dbc22b7c80f8",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f16bd3a0-44c8-4b7b-ba01-682d08195b0a",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "bb16d2ff-4277-4e41-9383-8a9932902438",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f72d3478-793d-45ad-a80a-dbc22b7c80f8",
         "side": "south"
       },
       "b": {
@@ -645,37 +655,37 @@
     },
     {
       "a": {
-        "instanceId": "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c",
+        "instanceId": "6623c888-f4ca-4ad5-9404-0057f5807aa9",
         "side": "east"
       },
       "b": {
-        "instanceId": "8aa205ee-840a-4b39-9ec6-aabb0f5cf0c8",
+        "instanceId": "9d59f829-7299-4968-9fea-1ee58c350da9",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c",
+        "instanceId": "6623c888-f4ca-4ad5-9404-0057f5807aa9",
         "side": "south"
       },
       "b": {
-        "instanceId": "948c071f-0fa1-499d-8f07-ea3221c02466",
+        "instanceId": "d2a52a3a-60c7-4a5c-a02c-8237bdc37578",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "9b867f00-acde-41b5-97b2-7d86db0ff66e",
+        "instanceId": "0f243170-c3f7-444d-b075-fdfb2ff3db5d",
         "side": "east"
       },
       "b": {
-        "instanceId": "948c071f-0fa1-499d-8f07-ea3221c02466",
+        "instanceId": "d2a52a3a-60c7-4a5c-a02c-8237bdc37578",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "45462674-85f7-4a0d-a625-ea99c91c871c",
+        "instanceId": "01ecbd02-0478-4833-a880-150e59fdf42a",
         "side": "south"
       },
       "b": {
@@ -684,7 +694,7 @@
     },
     {
       "a": {
-        "instanceId": "0bea34ae-f6ac-42e0-bccd-8b91db7322da",
+        "instanceId": "23623f2b-a6af-4649-bcb0-caab868f6dce",
         "side": "south"
       },
       "b": {
@@ -693,149 +703,153 @@
     },
     {
       "a": {
-        "instanceId": "0bea34ae-f6ac-42e0-bccd-8b91db7322da",
+        "instanceId": "23623f2b-a6af-4649-bcb0-caab868f6dce",
         "side": "west"
       },
       "b": {
-        "instanceId": "8aa205ee-840a-4b39-9ec6-aabb0f5cf0c8",
+        "instanceId": "9d59f829-7299-4968-9fea-1ee58c350da9",
         "side": "east"
       }
     }
   ],
   "nets": [
     [
-      "0bea34ae-f6ac-42e0-bccd-8b91db7322da:south",
-      "45462674-85f7-4a0d-a625-ea99c91c871c:south",
-      "dbaa857f-cd7c-4bbe-ad92-41709bd49cb2:south",
-      "ef189d78-6080-4650-a1b6-d6c4f9093ff1:west",
+      "01ecbd02-0478-4833-a880-150e59fdf42a:south",
+      "23623f2b-a6af-4649-bcb0-caab868f6dce:south",
+      "f72d3478-793d-45ad-a80a-dbc22b7c80f8:south",
+      "f739d6ec-e383-4af7-88b9-a18e3376ae54:west",
       "net:PLATE_GND"
     ],
     [
-      "e6b2e290-c37a-402d-8c0b-be194251ef71:north",
-      "ef189d78-6080-4650-a1b6-d6c4f9093ff1:south",
+      "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33:north",
+      "f739d6ec-e383-4af7-88b9-a18e3376ae54:south",
       "net:USB_VCC"
     ],
     [
-      "bcbc0d12-8444-43b2-86a9-771f2149418c:east",
-      "e6b2e290-c37a-402d-8c0b-be194251ef71:west"
+      "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33:west",
+      "5009a5af-7081-4ef6-a764-786fdb6824ae:east"
     ],
     [
-      "ad4ddf43-8589-462a-a12f-94180ecf60bd:east",
-      "bcbc0d12-8444-43b2-86a9-771f2149418c:west"
+      "3315efd6-7f4e-4a5b-afa5-cdf9d1c29b33:south",
+      "58629cac-78de-45ff-ad85-a0ac0ba2290c:north"
     ],
     [
-      "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd:east",
-      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:west"
+      "5009a5af-7081-4ef6-a764-786fdb6824ae:west",
+      "85eb77b9-e8d4-41df-997b-ced1eeec88b1:east"
     ],
     [
-      "ad4ddf43-8589-462a-a12f-94180ecf60bd:west",
-      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:east"
+      "aa54f7d9-7d5d-4720-966c-8662b9961954:east",
+      "b19af4c0-2b1f-414e-8167-693b6d28a107:west"
     ],
     [
-      "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd:west",
-      "60e2a187-6397-40a3-959f-bfb605e2c73d:east"
+      "85eb77b9-e8d4-41df-997b-ced1eeec88b1:west",
+      "b19af4c0-2b1f-414e-8167-693b6d28a107:east"
     ],
     [
-      "60e2a187-6397-40a3-959f-bfb605e2c73d:south",
-      "62a71a93-787e-4a4c-b927-a4ecdbae853e:north"
+      "6c767710-e59f-4954-a3fe-4e5dcbccfaf4:east",
+      "aa54f7d9-7d5d-4720-966c-8662b9961954:west"
     ],
     [
-      "62a71a93-787e-4a4c-b927-a4ecdbae853e:east",
-      "f80368f7-7789-4f7e-986f-bc032c184f6e:west"
+      "0b98b7c7-c999-4ef8-b3cd-dec9af43b937:north",
+      "6c767710-e59f-4954-a3fe-4e5dcbccfaf4:south"
     ],
     [
-      "62a71a93-787e-4a4c-b927-a4ecdbae853e:south",
-      "fc95c11d-4a28-47fe-8d26-d622a3985437:north"
+      "0b98b7c7-c999-4ef8-b3cd-dec9af43b937:east",
+      "f5f85d3a-2c38-4e5c-9a58-461e4c5ff443:west"
     ],
     [
-      "7a8a657f-ff31-4700-b113-e7091596c7b9:north",
-      "fc95c11d-4a28-47fe-8d26-d622a3985437:south"
+      "0b98b7c7-c999-4ef8-b3cd-dec9af43b937:south",
+      "11779e2e-f7c7-4552-8529-d40ebde24ffc:north"
     ],
     [
-      "7a8a657f-ff31-4700-b113-e7091596c7b9:south",
-      "8b2adddb-4567-483b-b3eb-76e28f3542a9:north"
+      "11779e2e-f7c7-4552-8529-d40ebde24ffc:south",
+      "41fc65a1-563a-4dd7-9af1-01701ecd9baf:north"
     ],
     [
-      "41c01c32-0395-4526-b894-76fead51e327:west",
-      "8b2adddb-4567-483b-b3eb-76e28f3542a9:east"
+      "41fc65a1-563a-4dd7-9af1-01701ecd9baf:south",
+      "4f5262c1-cc68-460a-90e3-503290678074:north"
     ],
     [
-      "41c01c32-0395-4526-b894-76fead51e327:east",
-      "ffb31623-0270-4140-899b-d81c696fa441:west"
+      "0b8dedd9-f3e3-493a-a66d-f2b59e77e53f:west",
+      "4f5262c1-cc68-460a-90e3-503290678074:east"
     ],
     [
-      "75f02ada-c725-424b-88c7-4d78f2344d0b:south",
-      "ffb31623-0270-4140-899b-d81c696fa441:north"
+      "0b8dedd9-f3e3-493a-a66d-f2b59e77e53f:east",
+      "8cf579f2-23ea-4898-9aad-8840f583c809:west"
     ],
     [
-      "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6:east",
-      "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6:west",
-      "9b867f00-acde-41b5-97b2-7d86db0ff66e:west",
-      "ffb31623-0270-4140-899b-d81c696fa441:east"
+      "8cf579f2-23ea-4898-9aad-8840f583c809:north",
+      "bb16d2ff-4277-4e41-9383-8a9932902438:south"
     ],
     [
-      "45462674-85f7-4a0d-a625-ea99c91c871c:north",
-      "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6:north",
-      "8a7f63c5-0d3a-4e3b-afd2-190ef4cc3ee6:south",
-      "9abe728e-107d-4082-a052-7b39883764a2:south"
+      "0f243170-c3f7-444d-b075-fdfb2ff3db5d:west",
+      "8167461a-ece5-426c-8d03-dce018788a29:east",
+      "8167461a-ece5-426c-8d03-dce018788a29:west",
+      "8cf579f2-23ea-4898-9aad-8840f583c809:east"
     ],
     [
-      "8a6a537b-a5a9-49ab-96e8-ba0ba47395a0:east",
-      "949b7bab-8978-4661-bf02-92676e68735a:east",
-      "949b7bab-8978-4661-bf02-92676e68735a:west"
+      "01ecbd02-0478-4833-a880-150e59fdf42a:north",
+      "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3:south",
+      "8167461a-ece5-426c-8d03-dce018788a29:north",
+      "8167461a-ece5-426c-8d03-dce018788a29:south"
     ],
     [
-      "6611fac8-b113-40de-8892-32111acfd889:south",
-      "949b7bab-8978-4661-bf02-92676e68735a:north"
+      "a9f5f0b9-b572-4c4d-818d-ebeeca840abc:east",
+      "a9f5f0b9-b572-4c4d-818d-ebeeca840abc:west",
+      "e4fb7cdb-d324-4538-91be-e1e07ab3debe:east"
     ],
     [
-      "949b7bab-8978-4661-bf02-92676e68735a:south",
-      "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c:north"
+      "58629cac-78de-45ff-ad85-a0ac0ba2290c:south",
+      "a9f5f0b9-b572-4c4d-818d-ebeeca840abc:north"
     ],
     [
-      "75f02ada-c725-424b-88c7-4d78f2344d0b:east",
-      "9abe728e-107d-4082-a052-7b39883764a2:east",
-      "9abe728e-107d-4082-a052-7b39883764a2:west"
+      "6623c888-f4ca-4ad5-9404-0057f5807aa9:north",
+      "a9f5f0b9-b572-4c4d-818d-ebeeca840abc:south"
     ],
     [
-      "9abe728e-107d-4082-a052-7b39883764a2:north",
-      "a1ac97be-a6a0-485a-97d6-6f383c9c402b:south"
+      "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3:east",
+      "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3:west",
+      "bb16d2ff-4277-4e41-9383-8a9932902438:east"
     ],
     [
-      "8a6a537b-a5a9-49ab-96e8-ba0ba47395a0:west",
-      "a1ac97be-a6a0-485a-97d6-6f383c9c402b:east"
+      "07e07de5-a30a-44ac-a6f4-4fc0d5226ea3:north",
+      "8c86c33a-270d-4bc3-81df-3ca0a654b07c:south"
     ],
     [
-      "0f33f632-cfb8-4512-a1f6-635b3038e899:north",
-      "1bb02ac0-e235-4086-bf6f-68155d48ebff:south"
+      "8c86c33a-270d-4bc3-81df-3ca0a654b07c:east",
+      "e4fb7cdb-d324-4538-91be-e1e07ab3debe:west"
     ],
     [
-      "1bb02ac0-e235-4086-bf6f-68155d48ebff:west",
-      "f80368f7-7789-4f7e-986f-bc032c184f6e:east"
+      "dd343c08-e9ad-430a-8a6e-efba72589cab:south",
+      "f16bd3a0-44c8-4b7b-ba01-682d08195b0a:north"
     ],
     [
-      "1bb02ac0-e235-4086-bf6f-68155d48ebff:east",
-      "dbaa857f-cd7c-4bbe-ad92-41709bd49cb2:west"
+      "dd343c08-e9ad-430a-8a6e-efba72589cab:west",
+      "f5f85d3a-2c38-4e5c-9a58-461e4c5ff443:east"
     ],
     [
-      "0f33f632-cfb8-4512-a1f6-635b3038e899:south",
-      "75f02ada-c725-424b-88c7-4d78f2344d0b:north"
+      "dd343c08-e9ad-430a-8a6e-efba72589cab:east",
+      "f72d3478-793d-45ad-a80a-dbc22b7c80f8:west"
     ],
     [
-      "8aa205ee-840a-4b39-9ec6-aabb0f5cf0c8:west",
-      "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c:east"
+      "bb16d2ff-4277-4e41-9383-8a9932902438:north",
+      "f16bd3a0-44c8-4b7b-ba01-682d08195b0a:south"
     ],
     [
-      "948c071f-0fa1-499d-8f07-ea3221c02466:north",
-      "ed2be421-2dd1-419f-ad1b-9ed8f5fc779c:south"
+      "6623c888-f4ca-4ad5-9404-0057f5807aa9:east",
+      "9d59f829-7299-4968-9fea-1ee58c350da9:west"
     ],
     [
-      "948c071f-0fa1-499d-8f07-ea3221c02466:west",
-      "9b867f00-acde-41b5-97b2-7d86db0ff66e:east"
+      "6623c888-f4ca-4ad5-9404-0057f5807aa9:south",
+      "d2a52a3a-60c7-4a5c-a02c-8237bdc37578:north"
     ],
     [
-      "0bea34ae-f6ac-42e0-bccd-8b91db7322da:west",
-      "8aa205ee-840a-4b39-9ec6-aabb0f5cf0c8:east"
+      "0f243170-c3f7-444d-b075-fdfb2ff3db5d:east",
+      "d2a52a3a-60c7-4a5c-a02c-8237bdc37578:west"
+    ],
+    [
+      "23623f2b-a6af-4649-bcb0-caab868f6dce:west",
+      "9d59f829-7299-4968-9fea-1ee58c350da9:east"
     ]
   ]
 }
