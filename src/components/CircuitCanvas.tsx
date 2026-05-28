@@ -380,6 +380,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const snapshotCaptureRef = useRef(false)
   const canvasSizeRef = useRef({ width: 0, height: 0, dpr: 0 })
   const spaceHeldRef = useRef(false)
+  const didInitialCenterRef = useRef(false)
   const lastTileTapRef = useRef<{
     instanceId: string
     time: number
@@ -1282,6 +1283,24 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     schedulePaint()
     syncViewState()
   }, [commitZoomPreview, schedulePaint, syncViewState])
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const tryInitialCenter = () => {
+      if (didInitialCenterRef.current) return
+      const rect = container.getBoundingClientRect()
+      if (rect.width < 1 || rect.height < 1) return
+      didInitialCenterRef.current = true
+      centerCanvas()
+    }
+
+    tryInitialCenter()
+    const ro = new ResizeObserver(tryInitialCenter)
+    ro.observe(container)
+    return () => ro.disconnect()
+  }, [centerCanvas])
 
   const rotateView = useCallback(() => {
     const next = nextRotation(viewRotationRef.current)
