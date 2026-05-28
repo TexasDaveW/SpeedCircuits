@@ -1,4 +1,7 @@
-export const REFERENCE_OPACITY = 0.38
+/** Faded so tiles and emphasized grid stay readable underneath. */
+export const REFERENCE_OPACITY_UNDERNEATH = 0.38
+/** Stronger when drawn on top of tiles for tracing the schematic. */
+export const REFERENCE_OPACITY_ABOVE = 0.68
 export const REFERENCE_SCALE_MIN = 0.25
 export const REFERENCE_SCALE_MAX = 3
 export const REFERENCE_SCALE_STEP = 0.05
@@ -36,6 +39,10 @@ export function referenceLayerStatusMessage(layer: ReferenceLayer): string {
 
 export function isReferenceLayerVisible(layer: ReferenceLayer): boolean {
   return layer !== 'hidden'
+}
+
+export function referenceOpacityForLayer(layer: ReferenceLayer): number {
+  return layer === 'above' ? REFERENCE_OPACITY_ABOVE : REFERENCE_OPACITY_UNDERNEATH
 }
 
 export function clampReferenceScale(scale: number): number {
@@ -79,6 +86,7 @@ export function drawReferenceBackground(
   plateH: number,
   scaleMultiplier: number,
   offset: ReferenceOffset = REFERENCE_OFFSET_ZERO,
+  opacity = REFERENCE_OPACITY_UNDERNEATH,
 ) {
   const { w: nw, h: nh } = imagePixelSize(img)
   const fit = containFitSize(nw, nh, plateW, plateH)
@@ -87,7 +95,7 @@ export function drawReferenceBackground(
   const x = (plateW - w) / 2 + offset.x
   const y = (plateH - h) / 2 + offset.y
   ctx.save()
-  ctx.globalAlpha = REFERENCE_OPACITY
+  ctx.globalAlpha = opacity
   ctx.drawImage(img, x, y, w, h)
   ctx.restore()
 }

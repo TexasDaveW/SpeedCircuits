@@ -3,9 +3,9 @@
   "name": "Siren with Loudspeaker",
   "lesson": {
     "title": "Siren with Loudspeaker",
-    "description": "Two-NPN astable “siren” on 5V USB driving the loudspeaker cube. Timing uses 47µF and 1µF cross-coupling with 10kΩ and 47kΩ base paths — a richer tone than the fixed speaker builds in lessons 94–96. Power at the top feeds the multivibrator; the speaker branch comes off the right-hand transistor collector. Compare lesson 91 (pot + buzzer siren) and lessons 92–93 (LED astables)."
+    "description": "Two-NPN astable siren on 5V USB with a tact button in series on the supply path — press to run the oscillator, release to stop. A loudspeaker cube on the collector branch; 47µF and 1µF cross-couple the bases with 10kΩ and 47kΩ bias. Compare lessons 94–96 (always-on speaker oscillators) and lesson 60 (tact + single transistor)."
   },
-  "exportedAt": "2026-05-28T19:52:16.050Z",
+  "exportedAt": "2026-05-28T19:59:12.399Z",
   "tiles": [
     {
       "instanceId": "ef189d78-6080-4650-a1b6-d6c4f9093ff1",
@@ -42,15 +42,6 @@
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 15,
-      "gridY": 6,
-      "rotation": 0
-    },
-    {
-      "instanceId": "c58da2fb-e9b8-4d19-98c4-91e673c00081",
-      "catalogId": "straight-cube",
-      "name": "Straight cube",
-      "category": "routing",
       "gridX": 14,
       "gridY": 6,
       "rotation": 0
@@ -292,6 +283,16 @@
       "gridX": 18,
       "gridY": 9,
       "rotation": 0
+    },
+    {
+      "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 15,
+      "gridY": 6,
+      "rotation": 0
     }
   ],
   "connections": [
@@ -339,28 +340,28 @@
         "side": "west"
       },
       "b": {
-        "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
+        "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
         "side": "east"
       }
     },
     {
       "a": {
         "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
-        "side": "west"
-      },
-      "b": {
-        "instanceId": "c58da2fb-e9b8-4d19-98c4-91e673c00081",
-        "side": "east"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "c58da2fb-e9b8-4d19-98c4-91e673c00081",
         "side": "west"
       },
       "b": {
         "instanceId": "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd",
         "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "ad4ddf43-8589-462a-a12f-94180ecf60bd",
+        "side": "west"
       }
     },
     {
@@ -719,16 +720,16 @@
       "e6b2e290-c37a-402d-8c0b-be194251ef71:west"
     ],
     [
-      "bcbc0d12-8444-43b2-86a9-771f2149418c:west",
-      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:east"
-    ],
-    [
-      "c58da2fb-e9b8-4d19-98c4-91e673c00081:east",
-      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:west"
+      "ad4ddf43-8589-462a-a12f-94180ecf60bd:east",
+      "bcbc0d12-8444-43b2-86a9-771f2149418c:west"
     ],
     [
       "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd:east",
-      "c58da2fb-e9b8-4d19-98c4-91e673c00081:west"
+      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:west"
+    ],
+    [
+      "ad4ddf43-8589-462a-a12f-94180ecf60bd:west",
+      "e5c41c2e-7d17-4c08-921e-1f90ca3fdffc:east"
     ],
     [
       "5b78b1cb-a6c4-4a60-a1b0-dcf76b3b76dd:west",

@@ -13,6 +13,7 @@ import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selecti
 import {
   drawReferenceBackground,
   isReferenceLayerVisible,
+  referenceOpacityForLayer,
   REFERENCE_OFFSET_ZERO,
   REFERENCE_PAN_COARSE_STEP,
   REFERENCE_PAN_STEP,
@@ -919,8 +920,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     ctx.restore()
 
     const drawReferenceOnPlate = () => {
+      const layer = referenceLayerRef.current
       const refImg = referenceImageRef.current
-      if (!refImg || referenceLayerRef.current === 'hidden') return
+      if (!refImg || layer === 'hidden') return
       drawReferenceBackground(
         ctx,
         refImg,
@@ -928,8 +930,11 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         PLATE_H,
         referenceScaleRef.current,
         referenceOffsetRef.current,
+        referenceOpacityForLayer(layer),
       )
-      drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
+      if (layer === 'underneath') {
+        drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
+      }
     }
 
     if (referenceLayerRef.current === 'underneath') {
