@@ -10,6 +10,34 @@ export type ReferenceOffset = { x: number; y: number }
 
 export const REFERENCE_OFFSET_ZERO: ReferenceOffset = { x: 0, y: 0 }
 
+export type ReferenceLayer = 'hidden' | 'underneath' | 'above'
+
+export function nextReferenceLayer(current: ReferenceLayer): ReferenceLayer {
+  if (current === 'hidden') return 'underneath'
+  if (current === 'underneath') return 'above'
+  return 'hidden'
+}
+
+export function referenceLayerButtonLabel(
+  layer: ReferenceLayer,
+  hasImage: boolean,
+): string {
+  if (!hasImage) return 'Show reference'
+  if (layer === 'hidden') return 'Show underneath'
+  if (layer === 'underneath') return 'Show above'
+  return 'Hide reference'
+}
+
+export function referenceLayerStatusMessage(layer: ReferenceLayer): string {
+  if (layer === 'hidden') return 'Reference hidden.'
+  if (layer === 'underneath') return 'Reference shown behind tiles.'
+  return 'Reference shown above tiles.'
+}
+
+export function isReferenceLayerVisible(layer: ReferenceLayer): boolean {
+  return layer !== 'hidden'
+}
+
 export function clampReferenceScale(scale: number): number {
   return Math.min(REFERENCE_SCALE_MAX, Math.max(REFERENCE_SCALE_MIN, scale))
 }

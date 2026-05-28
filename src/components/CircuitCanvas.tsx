@@ -12,11 +12,13 @@ import {
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
 import {
   drawReferenceBackground,
+  isReferenceLayerVisible,
   REFERENCE_OFFSET_ZERO,
   REFERENCE_PAN_COARSE_STEP,
   REFERENCE_PAN_STEP,
   REFERENCE_SCALE_COARSE_STEP,
   REFERENCE_SCALE_STEP,
+  type ReferenceLayer,
   type ReferenceOffset,
 } from '../referenceBackground'
 import type { TileClipboard } from '../tileClipboard'
@@ -121,7 +123,7 @@ interface CircuitCanvasProps {
   onSelectionChange: (ids: string[]) => void
   onPendingClear: () => void
   referenceImageUrl?: string | null
-  referenceVisible?: boolean
+  referenceLayer?: ReferenceLayer
   referenceScale?: number
   referenceOffset?: ReferenceOffset
   onReferenceNudge?: (dx: number, dy: number) => void
@@ -277,7 +279,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   onSelectionChange,
   onPendingClear,
   referenceImageUrl = null,
-  referenceVisible = false,
+  referenceLayer = 'hidden',
   referenceScale = 1,
   referenceOffset = REFERENCE_OFFSET_ZERO,
   onReferenceNudge,
@@ -299,7 +301,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const placementRotationRef = useRef<Rotation>(0)
   const lastWheelAtRef = useRef(0)
   const referenceImageRef = useRef<HTMLImageElement | null>(null)
-  const referenceVisibleRef = useRef(referenceVisible)
+  const referenceLayerRef = useRef(referenceLayer)
   const referenceScaleRef = useRef(referenceScale)
   const referenceOffsetRef = useRef(referenceOffset)
   const referenceAdjustActiveRef = useRef(false)
@@ -336,8 +338,8 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [placementRotation])
 
   useEffect(() => {
-    referenceVisibleRef.current = referenceVisible
-  }, [referenceVisible])
+    referenceLayerRef.current = referenceLayer
+  }, [referenceLayer])
 
   useEffect(() => {
     referenceScaleRef.current = referenceScale
@@ -348,8 +350,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [referenceOffset])
 
   useEffect(() => {
-    referenceAdjustActiveRef.current = !!(referenceImageUrl && referenceVisible)
-  }, [referenceImageUrl, referenceVisible])
+    referenceAdjustActiveRef.current = !!(
+      referenceImageUrl && isReferenceLayerVisible(referenceLayer)
+    )
+  }, [referenceImageUrl, referenceLayer])
 
   useEffect(() => {
     onReferenceNudgeRef.current = onReferenceNudge
@@ -360,10 +364,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [onReferenceScaleBy])
 
   useEffect(() => {
-    if (referenceImageUrl && referenceVisible) {
+    if (referenceImageUrl && isReferenceLayerVisible(referenceLayer)) {
       containerRef.current?.focus({ preventScroll: true })
     }
-  }, [referenceImageUrl, referenceVisible])
+  }, [referenceImageUrl, referenceLayer])
 
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
@@ -466,7 +470,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     clearStaticSceneSnapshot()
     schedulePaint()
   }, [
-    referenceVisible,
+    referenceLayer,
     referenceScale,
     referenceOffset,
     clearStaticSceneSnapshot,
@@ -914,8 +918,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     drawPlate(ctx, PLATE_W, PLATE_H)
     ctx.restore()
 
-    const refImg = referenceImageRef.current
-    if (referenceVisibleRef.current && refImg) {
+    const drawReferenceOnPlate = () => {
+      const refImg = referenceImageRef.current
+      if (!refImg || referenceLayerRef.current === 'hidden') return
       drawReferenceBackground(
         ctx,
         refImg,
@@ -925,6 +930,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
         referenceOffsetRef.current,
       )
       drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
+    }
+
+    if (referenceLayerRef.current === 'underneath') {
+      drawReferenceOnPlate()
     }
 
     const sorted = [...plateTiles].sort((a, b) => {
@@ -948,6 +957,10 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       drawTile(ctx, tile.gridX * GRID_CELL, tile.gridY * GRID_CELL, entry, tile.rotation, {
         selected: selectedSet.has(tile.instanceId),
       })
+    }
+
+    if (referenceLayerRef.current === 'above') {
+      drawReferenceOnPlate()
     }
 
     const placementPreviewState = placementPreviewRef.current

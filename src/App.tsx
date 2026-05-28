@@ -10,7 +10,12 @@ import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPr
 import {
   clampReferenceScale,
   formatReferenceScalePercent,
+  isReferenceLayerVisible,
+  nextReferenceLayer,
+  referenceLayerButtonLabel,
+  referenceLayerStatusMessage,
   REFERENCE_OFFSET_ZERO,
+  type ReferenceLayer,
   type ReferenceOffset,
 } from './referenceBackground'
 import { readImageFromClipboard, readImageFromFile } from './referenceImage'
@@ -47,7 +52,7 @@ export default function App() {
   const referenceFileInputRef = useRef<HTMLInputElement>(null)
   const undoStackRef = useRef<PlacedTile[][]>([])
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null)
-  const [referenceVisible, setReferenceVisible] = useState(false)
+  const [referenceLayer, setReferenceLayer] = useState<ReferenceLayer>('hidden')
   const [referenceScale, setReferenceScale] = useState(1)
   const [referenceOffset, setReferenceOffset] = useState<ReferenceOffset>(
     REFERENCE_OFFSET_ZERO,
@@ -377,7 +382,11 @@ export default function App() {
       if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
       if (!referenceImageUrl) return
       e.preventDefault()
-      setReferenceVisible((on) => !on)
+      setReferenceLayer((layer) => {
+        const next = nextReferenceLayer(layer)
+        setStatus(referenceLayerStatusMessage(next))
+        return next
+      })
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -418,10 +427,10 @@ export default function App() {
       const dataUrl = await readImageFromClipboard()
       if (dataUrl) {
         setReferenceImageUrl(dataUrl)
-        setReferenceVisible(true)
+        setReferenceLayer('underneath')
         setReferenceScale(1)
         setReferenceOffset(REFERENCE_OFFSET_ZERO)
-        setStatus('Reference image pasted from clipboard.')
+        setStatus(referenceLayerStatusMessage('underneath'))
         return
       }
       setStatus(
@@ -441,15 +450,16 @@ export default function App() {
       void pasteReferenceImage()
       return
     }
-    setReferenceVisible((on) => {
-      setStatus(on ? 'Reference hidden.' : 'Reference shown behind tiles.')
-      return !on
+    setReferenceLayer((layer) => {
+      const next = nextReferenceLayer(layer)
+      setStatus(referenceLayerStatusMessage(next))
+      return next
     })
   }, [pasteReferenceImage, referenceImageUrl])
 
   const clearReferenceImage = useCallback(() => {
     setReferenceImageUrl(null)
-    setReferenceVisible(false)
+    setReferenceLayer('hidden')
     setReferenceScale(1)
     setReferenceOffset(REFERENCE_OFFSET_ZERO)
     setStatus('Reference image cleared.')
@@ -466,10 +476,10 @@ export default function App() {
           return
         }
         setReferenceImageUrl(dataUrl)
-        setReferenceVisible(true)
+        setReferenceLayer('underneath')
         setReferenceScale(1)
         setReferenceOffset(REFERENCE_OFFSET_ZERO)
-        setStatus('Reference image loaded.')
+        setStatus(referenceLayerStatusMessage('underneath'))
       },
       () => setStatus('Could not read image file.', true),
     )
@@ -544,20 +554,16 @@ export default function App() {
           </button>
           <button
             type="button"
-            className={referenceVisible ? 'toggle-active' : undefined}
+            className={isReferenceLayerVisible(referenceLayer) ? 'toggle-active' : undefined}
             onClick={toggleReferenceOverlay}
-            aria-pressed={referenceVisible}
+            aria-pressed={isReferenceLayerVisible(referenceLayer)}
             title={
               referenceImageUrl
-                ? 'Show or hide reference (I). Arrows move; ⌘/Ctrl+↑/↓ scale; Shift = coarse.'
+                ? 'Cycle reference: underneath → above → hide (I). Arrows move; ⌘/Ctrl+↑/↓ scale.'
                 : 'Paste from clipboard first'
             }
           >
-            {referenceImageUrl
-              ? referenceVisible
-                ? 'Hide reference'
-                : 'Show reference'
-              : 'Show reference'}
+            {referenceLayerButtonLabel(referenceLayer, !!referenceImageUrl)}
           </button>
           <button
             type="button"
@@ -608,7 +614,7 @@ export default function App() {
               }}
               onPendingClear={clearPlacementModes}
               referenceImageUrl={referenceImageUrl}
-              referenceVisible={referenceVisible}
+              referenceLayer={referenceLayer}
               referenceScale={referenceScale}
               referenceOffset={referenceOffset}
               onReferenceNudge={nudgeReference}
