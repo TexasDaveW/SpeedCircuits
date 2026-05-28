@@ -70,6 +70,7 @@ export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
     case 'diode':
       return 'diodes'
     case 'npn':
+    case 'pnp':
     case 'nmos':
       return 'transistors'
     case 'led':

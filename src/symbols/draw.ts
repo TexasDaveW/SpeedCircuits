@@ -505,6 +505,71 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.restore()
 }
 
+/** PNP: same B/C/E ports as NPN; emitter arrow points toward the base (IEC). */
+function drawPnp(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  const cx = midX(b)
+  const cy = midY(b)
+  const size = Math.min(b.w, b.h)
+  const r = size * 0.48
+  const inset = size * 0.1
+  const northY = b.y + inset
+  const southY = b.y + b.h - inset
+
+  const barX = cx - r * 0.16
+  const halfH = r * 0.36
+  const cBendY = cy - r * 0.52
+  const eBendY = cy + r * 0.52
+
+  prep(ctx)
+  ctx.beginPath()
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  ctx.stroke()
+
+  ctx.lineWidth = 3.5
+  prep(ctx)
+  ctx.beginPath()
+  ctx.moveTo(barX, cy - halfH)
+  ctx.lineTo(barX, cy + halfH)
+  ctx.stroke()
+  ctx.lineWidth = 2
+
+  prep(ctx)
+
+  ctx.beginPath()
+  ctx.moveTo(b.x, cy)
+  ctx.lineTo(barX, cy)
+  ctx.lineTo(b.x + b.w, cy)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(barX, cy - halfH)
+  ctx.lineTo(cx, cBendY)
+  ctx.lineTo(cx, northY)
+  ctx.stroke()
+
+  ctx.beginPath()
+  ctx.moveTo(barX, cy + halfH)
+  ctx.lineTo(cx, eBendY)
+  ctx.lineTo(cx, southY)
+  ctx.stroke()
+  prep(ctx)
+  strokeArrowOnSegment(ctx, cx, eBendY, barX, cy + halfH)
+
+  const fs = Math.max(6, b.h * 0.19)
+  const outGap = fs * 0.72
+  const beside = fs * 0.82
+  ctx.save()
+  ctx.font = `700 ${fs}px system-ui, sans-serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = STROKE
+  ctx.fillText('B', cx - r - outGap, cy - beside)
+  ctx.fillText('B', cx + r + outGap, cy - beside)
+  ctx.fillText('C', cx + beside, cy - r - outGap)
+  ctx.fillText('E', cx + beside, cy + r + outGap)
+  ctx.restore()
+}
+
 /** NMOS leads: D west, S east, G north + south at tile rotation 0°. */
 function nmosLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
@@ -1070,6 +1135,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   led: (ctx, b) => drawLed(ctx, b, false),
   led_rgb: (ctx, b) => drawLed(ctx, b, true),
   npn: drawNpn,
+  pnp: drawPnp,
   nmos: drawNmos,
   potentiometer: drawPot,
   switch_spdt: drawSpdt,
@@ -1102,6 +1168,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   led: defaultLeads2,
   led_rgb: defaultLeads4,
   npn: npnLeads,
+  pnp: npnLeads,
   nmos: nmosLeads,
   potentiometer: defaultLeads3,
   switch_spdt: defaultLeads3,

@@ -19,6 +19,7 @@ export type SymbolId =
   | 'led'
   | 'led_rgb'
   | 'npn'
+  | 'pnp'
   | 'nmos'
   | 'potentiometer'
   | 'switch_spdt'

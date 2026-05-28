@@ -141,8 +141,8 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
       )
     }
 
-    // NPN: west and east are the same base (route control or Darlington link from either side).
-    if (entry.id === 'npn') {
+    // BJT: west and east are the same base (route control or Darlington link from either side).
+    if (entry.id === 'npn' || entry.id === 'pnp') {
       linkPorts(
         connections,
         seen,

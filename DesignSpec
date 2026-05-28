@@ -39,6 +39,7 @@ These components will be items that include:
 | Blue LED | 2 |
 | Potentiometer | 3 |
 | NPN transistor | 3 |
+| PNP transistor | 2 |
 | NMOS transistor | 3 |
 | Schottky diode | 5 |
 | Inductor | 3 |

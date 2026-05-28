@@ -38,6 +38,7 @@ var COMPONENT_CATALOG = [
   { id: "led-blue", name: "Blue LED", category: "component", quantity: 2, valueLabel: "BLU", typeLabel: "LED", ports: ["west", "east"], symbolId: "led" },
   { id: "potentiometer", name: "Potentiometer", category: "component", quantity: 3, valueLabel: "POT", typeLabel: "POT", ports: ["west", "east", "south"], symbolId: "potentiometer" },
   { id: "npn", name: "NPN transistor", category: "component", quantity: 3, valueLabel: "NPN", typeLabel: "TRANSISTOR", ports: ["west", "east", "south"], symbolId: "npn" },
+  { id: "pnp", name: "PNP transistor", category: "component", quantity: 2, valueLabel: "PNP", typeLabel: "TRANSISTOR", ports: ["west", "east", "south"], symbolId: "pnp" },
   { id: "nmos", name: "NMOS transistor", category: "component", quantity: 3, valueLabel: "NMOS", typeLabel: "MOSFET", ports: ["west", "east", "south"], symbolId: "nmos" },
   { id: "schottky", name: "Schottky diode", category: "component", quantity: 5, valueLabel: "DIODE", typeLabel: "SCHOTTKY", ports: ["west", "east"], symbolId: "diode" },
   { id: "inductor", name: "Inductor", category: "component", quantity: 3, valueLabel: "IND", typeLabel: "INDUCTOR", ports: ["west", "east"], symbolId: "inductor" },
