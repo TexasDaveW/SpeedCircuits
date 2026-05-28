@@ -7,6 +7,12 @@ import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } fro
 import { getBuiltinLesson, resolveBuiltinLessonId } from './builtinCircuits'
 import { importCircuit, parseCircuitJson } from './circuitImport'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
+import {
+  clampReferenceScale,
+  formatReferenceScalePercent,
+  REFERENCE_OFFSET_ZERO,
+  type ReferenceOffset,
+} from './referenceBackground'
 import { readImageFromClipboard, readImageFromFile } from './referenceImage'
 import { copyTiles, pasteTileAt, type TileClipboard } from './tileClipboard'
 import { pushUndoSnapshot } from './tileUndo'
@@ -42,6 +48,10 @@ export default function App() {
   const undoStackRef = useRef<PlacedTile[][]>([])
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null)
   const [referenceVisible, setReferenceVisible] = useState(false)
+  const [referenceScale, setReferenceScale] = useState(1)
+  const [referenceOffset, setReferenceOffset] = useState<ReferenceOffset>(
+    REFERENCE_OFFSET_ZERO,
+  )
 
   const clearUndoHistory = useCallback(() => {
     undoStackRef.current = []
@@ -373,6 +383,22 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [referenceImageUrl])
 
+  const nudgeReference = useCallback((dx: number, dy: number) => {
+    setReferenceOffset((o) => {
+      const next = { x: o.x + dx, y: o.y + dy }
+      setStatus(`Reference position ${next.x}, ${next.y}.`)
+      return next
+    })
+  }, [])
+
+  const scaleReferenceBy = useCallback((delta: number) => {
+    setReferenceScale((s) => {
+      const next = clampReferenceScale(s + delta)
+      setStatus(`Reference scale ${formatReferenceScalePercent(next)}.`)
+      return next
+    })
+  }, [])
+
   const canCopy = selectedIds.length > 0
   const canPaste =
     !!tileClipboard &&
@@ -393,6 +419,8 @@ export default function App() {
       if (dataUrl) {
         setReferenceImageUrl(dataUrl)
         setReferenceVisible(true)
+        setReferenceScale(1)
+        setReferenceOffset(REFERENCE_OFFSET_ZERO)
         setStatus('Reference image pasted from clipboard.')
         return
       }
@@ -414,7 +442,7 @@ export default function App() {
       return
     }
     setReferenceVisible((on) => {
-      setStatus(on ? 'Reference shown over circuit.' : 'Reference hidden.')
+      setStatus(on ? 'Reference hidden.' : 'Reference shown behind tiles.')
       return !on
     })
   }, [pasteReferenceImage, referenceImageUrl])
@@ -422,6 +450,8 @@ export default function App() {
   const clearReferenceImage = useCallback(() => {
     setReferenceImageUrl(null)
     setReferenceVisible(false)
+    setReferenceScale(1)
+    setReferenceOffset(REFERENCE_OFFSET_ZERO)
     setStatus('Reference image cleared.')
   }, [])
 
@@ -437,6 +467,8 @@ export default function App() {
         }
         setReferenceImageUrl(dataUrl)
         setReferenceVisible(true)
+        setReferenceScale(1)
+        setReferenceOffset(REFERENCE_OFFSET_ZERO)
         setStatus('Reference image loaded.')
       },
       () => setStatus('Could not read image file.', true),
@@ -517,7 +549,7 @@ export default function App() {
             aria-pressed={referenceVisible}
             title={
               referenceImageUrl
-                ? 'Show or hide reference overlay (I)'
+                ? 'Show or hide reference (I). Arrows move; ⌘/Ctrl+↑/↓ scale; Shift = coarse.'
                 : 'Paste from clipboard first'
             }
           >
@@ -575,23 +607,13 @@ export default function App() {
                 if (ids.length > 0) setPasteTarget(null)
               }}
               onPendingClear={clearPlacementModes}
+              referenceImageUrl={referenceImageUrl}
+              referenceVisible={referenceVisible}
+              referenceScale={referenceScale}
+              referenceOffset={referenceOffset}
+              onReferenceNudge={nudgeReference}
+              onReferenceScaleBy={scaleReferenceBy}
             />
-            {referenceImageUrl && referenceVisible && (
-              <div className="reference-overlay" aria-label="Reference schematic overlay">
-                <div className="reference-overlay-bar">
-                  <span>Reference image</span>
-                  <button type="button" onClick={() => setReferenceVisible(false)}>
-                    Hide
-                  </button>
-                </div>
-                <img
-                  className="reference-overlay-image"
-                  src={referenceImageUrl}
-                  alt="Schematic reference"
-                  draggable={false}
-                />
-              </div>
-            )}
           </div>
           {showLessonPanel && (
             <LessonPanel title={lessonTitle} description={lessonDescription} />

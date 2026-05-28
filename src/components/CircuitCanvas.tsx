@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { catalogById, GRID_CELL } from '../catalog'
-import { drawPlate, drawTile } from '../drawTile'
+import { drawPlate, drawPlateGrid, drawTile } from '../drawTile'
 import { nextRotation } from '../geometry'
 import {
   inPlateBounds,
@@ -10,6 +10,15 @@ import {
   PLATE_ROWS,
 } from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
+import {
+  drawReferenceBackground,
+  REFERENCE_OFFSET_ZERO,
+  REFERENCE_PAN_COARSE_STEP,
+  REFERENCE_PAN_STEP,
+  REFERENCE_SCALE_COARSE_STEP,
+  REFERENCE_SCALE_STEP,
+  type ReferenceOffset,
+} from '../referenceBackground'
 import type { TileClipboard } from '../tileClipboard'
 import type { CatalogEntry, PlacedTile, Rotation } from '../types'
 
@@ -111,6 +120,12 @@ interface CircuitCanvasProps {
   onRemoveTiles: (instanceIds: string[]) => void
   onSelectionChange: (ids: string[]) => void
   onPendingClear: () => void
+  referenceImageUrl?: string | null
+  referenceVisible?: boolean
+  referenceScale?: number
+  referenceOffset?: ReferenceOffset
+  onReferenceNudge?: (dx: number, dy: number) => void
+  onReferenceScaleBy?: (delta: number) => void
 }
 
 function clipboardPrimaryTile(clipboard: TileClipboard | null) {
@@ -261,6 +276,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   onRemoveTiles,
   onSelectionChange,
   onPendingClear,
+  referenceImageUrl = null,
+  referenceVisible = false,
+  referenceScale = 1,
+  referenceOffset = REFERENCE_OFFSET_ZERO,
+  onReferenceNudge,
+  onReferenceScaleBy,
 }: CircuitCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
@@ -277,6 +298,13 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const tilesRef = useRef(tiles)
   const placementRotationRef = useRef<Rotation>(0)
   const lastWheelAtRef = useRef(0)
+  const referenceImageRef = useRef<HTMLImageElement | null>(null)
+  const referenceVisibleRef = useRef(referenceVisible)
+  const referenceScaleRef = useRef(referenceScale)
+  const referenceOffsetRef = useRef(referenceOffset)
+  const referenceAdjustActiveRef = useRef(false)
+  const onReferenceNudgeRef = useRef(onReferenceNudge)
+  const onReferenceScaleByRef = useRef(onReferenceScaleBy)
 
   useEffect(() => {
     zoomRef.current = zoom
@@ -306,6 +334,36 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   useEffect(() => {
     placementRotationRef.current = placementRotation
   }, [placementRotation])
+
+  useEffect(() => {
+    referenceVisibleRef.current = referenceVisible
+  }, [referenceVisible])
+
+  useEffect(() => {
+    referenceScaleRef.current = referenceScale
+  }, [referenceScale])
+
+  useEffect(() => {
+    referenceOffsetRef.current = referenceOffset
+  }, [referenceOffset])
+
+  useEffect(() => {
+    referenceAdjustActiveRef.current = !!(referenceImageUrl && referenceVisible)
+  }, [referenceImageUrl, referenceVisible])
+
+  useEffect(() => {
+    onReferenceNudgeRef.current = onReferenceNudge
+  }, [onReferenceNudge])
+
+  useEffect(() => {
+    onReferenceScaleByRef.current = onReferenceScaleBy
+  }, [onReferenceScaleBy])
+
+  useEffect(() => {
+    if (referenceImageUrl && referenceVisible) {
+      containerRef.current?.focus({ preventScroll: true })
+    }
+  }, [referenceImageUrl, referenceVisible])
 
   const [isPanning, setIsPanning] = useState(false)
   const dragRef = useRef<DragState | null>(null)
@@ -381,6 +439,38 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const clearStaticSceneSnapshot = useCallback(() => {
     staticSceneSnapshotRef.current = null
   }, [])
+
+  useEffect(() => {
+    if (!referenceImageUrl) {
+      referenceImageRef.current = null
+      clearStaticSceneSnapshot()
+      schedulePaint()
+      return
+    }
+    const img = new Image()
+    img.onload = () => {
+      referenceImageRef.current = img
+      clearStaticSceneSnapshot()
+      schedulePaint()
+    }
+    img.onerror = () => {
+      referenceImageRef.current = null
+      clearStaticSceneSnapshot()
+      schedulePaint()
+    }
+    img.src = referenceImageUrl
+  }, [referenceImageUrl, clearStaticSceneSnapshot, schedulePaint])
+
+  useEffect(() => {
+    clearStaticSceneSnapshot()
+    schedulePaint()
+  }, [
+    referenceVisible,
+    referenceScale,
+    referenceOffset,
+    clearStaticSceneSnapshot,
+    schedulePaint,
+  ])
 
   const capturePlateSnapshot = useCallback(() => {
     const main = canvasRef.current
@@ -822,6 +912,19 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     ctx.shadowOffsetY = 8
     drawPlate(ctx, PLATE_W, PLATE_H)
     ctx.restore()
+
+    const refImg = referenceImageRef.current
+    if (referenceVisibleRef.current && refImg) {
+      drawReferenceBackground(
+        ctx,
+        refImg,
+        PLATE_W,
+        PLATE_H,
+        referenceScaleRef.current,
+        referenceOffsetRef.current,
+      )
+      drawPlateGrid(ctx, PLATE_W, PLATE_H, true)
+    }
 
     const sorted = [...plateTiles].sort((a, b) => {
       const aSel = selectedSet.has(a.instanceId)
@@ -1769,6 +1872,43 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     if (el.isContentEditable) return true
     return false
   }
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!referenceAdjustActiveRef.current) return
+      if (isEditableTarget(e.target)) return
+      const arrow =
+        e.key === 'ArrowUp' ||
+        e.key === 'ArrowDown' ||
+        e.key === 'ArrowLeft' ||
+        e.key === 'ArrowRight'
+      if (!arrow) return
+      if (e.altKey) return
+
+      e.preventDefault()
+      e.stopPropagation()
+
+      const mod = e.ctrlKey || e.metaKey
+      if (mod) {
+        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
+        const step = e.shiftKey ? REFERENCE_SCALE_COARSE_STEP : REFERENCE_SCALE_STEP
+        const delta = e.key === 'ArrowUp' ? step : -step
+        onReferenceScaleByRef.current?.(delta)
+        return
+      }
+
+      const step = e.shiftKey ? REFERENCE_PAN_COARSE_STEP : REFERENCE_PAN_STEP
+      let dx = 0
+      let dy = 0
+      if (e.key === 'ArrowLeft') dx = -step
+      else if (e.key === 'ArrowRight') dx = step
+      else if (e.key === 'ArrowUp') dy = -step
+      else if (e.key === 'ArrowDown') dy = step
+      onReferenceNudgeRef.current?.(dx, dy)
+    }
+    window.addEventListener('keydown', onKey, { capture: true })
+    return () => window.removeEventListener('keydown', onKey, { capture: true })
+  }, [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

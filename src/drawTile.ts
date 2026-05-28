@@ -209,26 +209,21 @@ export function drawTile(
   ctx.restore()
 }
 
-export function drawPlate(
+/** Grid lines and center marker; redraw with `emphasis` over a reference image. */
+export function drawPlateGrid(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
+  emphasis = false,
 ) {
-  const g = ctx.createLinearGradient(0, 0, width, height)
-  g.addColorStop(0, '#5c6369')
-  g.addColorStop(0.5, '#4a5158')
-  g.addColorStop(1, '#3d444b')
-  ctx.fillStyle = g
-  ctx.fillRect(0, 0, width, height)
-
   const step = TILE_SIZE
   const hx = CENTER_GRID_X * step
   const hy = CENTER_GRID_Y * step
-  ctx.fillStyle = 'rgba(140, 175, 210, 0.14)'
+  ctx.fillStyle = emphasis ? 'rgba(140, 175, 210, 0.28)' : 'rgba(140, 175, 210, 0.14)'
   ctx.fillRect(hx + 1, hy + 1, step - 2, step - 2)
 
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)'
-  ctx.lineWidth = 1
+  ctx.strokeStyle = emphasis ? 'rgba(255, 255, 255, 0.32)' : 'rgba(255,255,255,0.06)'
+  ctx.lineWidth = emphasis ? 1.25 : 1
   for (let x = 0; x <= width; x += step) {
     ctx.beginPath()
     ctx.moveTo(x, 0)
@@ -241,4 +236,18 @@ export function drawPlate(
     ctx.lineTo(width, y)
     ctx.stroke()
   }
+}
+
+export function drawPlate(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+) {
+  const g = ctx.createLinearGradient(0, 0, width, height)
+  g.addColorStop(0, '#5c6369')
+  g.addColorStop(0.5, '#4a5158')
+  g.addColorStop(1, '#3d444b')
+  ctx.fillStyle = g
+  ctx.fillRect(0, 0, width, height)
+  drawPlateGrid(ctx, width, height)
 }
