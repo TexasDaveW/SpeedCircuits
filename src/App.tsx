@@ -6,9 +6,8 @@ import { exportCircuit } from './circuit'
 import { openCircuitJsonFile, saveCircuitJsonFile, sanitizeCircuitFilename } from './circuitFile'
 import { getBuiltinLesson, resolveBuiltinLessonId } from './builtinCircuits'
 import { importCircuit, parseCircuitJson } from './circuitImport'
-import { catalogById } from './catalog'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
-import { copyTile, pasteTileAt, type TileClipboard } from './tileClipboard'
+import { copyTiles, pasteTileAt, type TileClipboard } from './tileClipboard'
 import { pushUndoSnapshot } from './tileUndo'
 import type { CircuitLesson, CircuitView, PlacedTile, Rotation } from './types'
 import './App.css'
@@ -268,10 +267,11 @@ export default function App() {
   }
 
   const copySelectedTile = useCallback(() => {
-    if (selectedIds.length !== 1) return false
     const tile = tiles.find((t) => t.instanceId === selectedIds[0])
-    if (!tile) return false
-    setTileClipboard(copyTile(tile))
+    if (selectedIds.length === 0) return false
+    const selected = tiles.filter((t) => selectedIds.includes(t.instanceId))
+    if (selected.length === 0) return false
+    setTileClipboard(copyTiles(selected))
     setPasteTarget(null)
     setSelectedIds([])
     return true
@@ -281,9 +281,9 @@ export default function App() {
     (gx: number, gy: number) => {
       if (!tileClipboard) return false
       const placed = pasteTileAt(tileClipboard, tiles, gx, gy)
-      if (!placed) return false
-      setTiles([...tiles, placed])
-      setSelectedIds([placed.instanceId])
+      if (!placed || placed.length === 0) return false
+      setTiles([...tiles, ...placed])
+      setSelectedIds(placed.map((t) => t.instanceId))
       setPasteTarget(null)
       setTileClipboard(null)
       setPendingCatalogId(null)
@@ -315,7 +315,7 @@ export default function App() {
       if (!mod) return
 
       if (e.key === 'c' || e.key === 'C') {
-        if (selectedIds.length !== 1) return
+        if (selectedIds.length === 0) return
         e.preventDefault()
         copySelectedTile()
       }
@@ -357,20 +357,11 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [handleUndo])
 
-  const canCopy = selectedIds.length === 1
-  const pasteCellFree =
-    pasteTarget &&
-    !tiles.some((t) => t.gridX === pasteTarget.gx && t.gridY === pasteTarget.gy)
-  const quantityOk =
-    tileClipboard &&
-    (() => {
-      const entry = catalogById.get(tileClipboard.catalogId)
-      if (!entry) return false
-      const used = tiles.filter((t) => t.catalogId === tileClipboard.catalogId).length
-      return used < entry.quantity
-    })()
-
-  const canPaste = !!tileClipboard && !!pasteCellFree && !!quantityOk
+  const canCopy = selectedIds.length > 0
+  const canPaste =
+    !!tileClipboard &&
+    !!pasteTarget &&
+    !!pasteTileAt(tileClipboard, tiles, pasteTarget.gx, pasteTarget.gy)
 
   const toggleLessonPanel = () => {
     setShowLessonPanel((on) => {

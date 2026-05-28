@@ -113,6 +113,11 @@ interface CircuitCanvasProps {
   onPendingClear: () => void
 }
 
+function clipboardPrimaryTile(clipboard: TileClipboard | null) {
+  if (!clipboard || clipboard.tiles.length !== 1) return null
+  return clipboard.tiles[0]
+}
+
 function screenToGrid(
   sx: number,
   sy: number,
@@ -568,6 +573,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     const currentViewRotation = viewRotationRef.current
     const plateTiles = tilesRef.current
     const clipboard = tileClipboardRef.current ?? tileClipboard
+    const singleClipboardTile = clipboardPrimaryTile(clipboard)
 
     // Cap DPR so full-screen Retina canvases do not repaint 4x as many pixels on every drag/zoom.
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
@@ -873,10 +879,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       const cellOccupied = plateTiles.some(
         (t) => t.gridX === highlightCell.gx && t.gridY === highlightCell.gy,
       )
-      const pasteEntry = clipboard ? catalogById.get(clipboard.catalogId) : null
+      const pasteEntry = singleClipboardTile
+        ? catalogById.get(singleClipboardTile.catalogId)
+        : null
       const pasteQuantityBlocked =
-        pasteEntry != null &&
-        plateTiles.filter((t) => t.catalogId === clipboard!.catalogId).length >=
+        pasteEntry != null && singleClipboardTile != null &&
+        plateTiles.filter((t) => t.catalogId === singleClipboardTile.catalogId).length >=
           pasteEntry.quantity
       const pasteInvalid = cellOccupied || pasteQuantityBlocked
       const isPasteTarget =
@@ -910,13 +918,13 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       }
     }
 
-    if (pasteCell && clipboard && !pendingCatalogId) {
-      const entry = catalogById.get(clipboard.catalogId)
+    if (pasteCell && singleClipboardTile && !pendingCatalogId) {
+      const entry = catalogById.get(singleClipboardTile.catalogId)
       if (entry) {
         const cellOccupied = plateTiles.some(
           (t) => t.gridX === pasteCell.gx && t.gridY === pasteCell.gy,
         )
-        const used = plateTiles.filter((t) => t.catalogId === clipboard.catalogId).length
+        const used = plateTiles.filter((t) => t.catalogId === singleClipboardTile.catalogId).length
         const invalid = cellOccupied || used >= entry.quantity
         ctx.save()
         ctx.globalAlpha = invalid ? 0.38 : 0.72
@@ -925,7 +933,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
           pasteCell.gx * GRID_CELL,
           pasteCell.gy * GRID_CELL,
           entry,
-          clipboard.rotation,
+          singleClipboardTile.rotation,
         )
         ctx.restore()
       }
@@ -1359,7 +1367,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     canvasRef.current?.setPointerCapture(e.pointerId)
 
     let pendingClick: { kind: 'place' | 'paste'; gx: number; gy: number } | undefined
-    if (grid && tileClipboard && !occupied(grid.gx, grid.gy)) {
+    if (grid && tileClipboard) {
       pendingClick = { kind: 'paste', gx: grid.gx, gy: grid.gy }
     }
 
@@ -1419,7 +1427,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     }
 
     hoverCellRef.current = grid
-    if (tileClipboard && grid && !occupied(grid.gx, grid.gy)) {
+    if (tileClipboard && grid) {
       onPasteTargetChange({ gx: grid.gx, gy: grid.gy })
     } else if (tileClipboard) {
       onPasteTargetChange(null)
@@ -1741,9 +1749,9 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     }
     const clip = tileClipboardRef.current ?? tileClipboard
     if (clip) {
+      if (clip.tiles.length !== 1) return
       const next = {
-        ...clip,
-        rotation: nextRotation(clip.rotation),
+        tiles: [{ ...clip.tiles[0], rotation: nextRotation(clip.tiles[0].rotation) }],
       }
       tileClipboardRef.current = next
       repaintNow()
