@@ -86,6 +86,16 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'schottky', name: 'Schottky diode', category: 'component', quantity: 5, valueLabel: 'DIODE', typeLabel: 'SCHOTTKY', ports: ['west', 'east'], symbolId: 'diode' },
   { id: 'inductor', name: 'Inductor', category: 'component', quantity: 3, valueLabel: 'IND', typeLabel: 'INDUCTOR', ports: ['west', 'east'], symbolId: 'inductor' },
   {
+    id: 'transformer-cube',
+    name: 'Transformer cube',
+    category: 'component',
+    quantity: 1,
+    valueLabel: 'XFMR',
+    typeLabel: 'TRANSFORMER',
+    ports: ['north', 'east', 'south', 'west'],
+    symbolId: 'transformer',
+  },
+  {
     id: 'iron-bar-cube',
     name: 'Iron bar cube',
     category: 'magnetic',

@@ -65,6 +65,7 @@ export function paletteGroupFor(entry: CatalogEntry): PaletteGroup {
     case 'capacitor':
       return 'capacitors'
     case 'inductor':
+    case 'transformer':
       return 'inductors'
     case 'diode':
       return 'diodes'

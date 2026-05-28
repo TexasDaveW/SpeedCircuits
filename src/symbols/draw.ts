@@ -122,6 +122,128 @@ function drawInductor(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.stroke()
 }
 
+/** Transformer: dual coils + magnetic core, with 4 leads (N/E/S/W). */
+function drawTransformer(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  prep(ctx)
+  const cx = midX(b)
+  const coilR = Math.min(b.w, b.h) * 0.08
+  const leftCx = b.x + b.w * 0.38
+  const rightCx = b.x + b.w * 0.62
+  const topY = b.y + b.h * 0.2
+  const bottomY = b.y + b.h * 0.8
+  const step = (bottomY - topY) / 4
+  const yTop = topY + step / 2
+  const yBottom = topY + 3 * step + step / 2
+  const leftStubX = b.x + b.w * 0.12
+  const rightStubX = b.x + b.w * 0.88
+
+  // Draw coils (match reference style: "C" on left, mirrored "C" on right).
+  ctx.beginPath()
+  for (let i = 0; i < 4; i++) {
+    const y = topY + i * step + step / 2
+    ctx.arc(leftCx, y, coilR, Math.PI / 2, -Math.PI / 2, true)
+  }
+  ctx.stroke()
+
+  ctx.beginPath()
+  for (let i = 0; i < 4; i++) {
+    const y = topY + i * step + step / 2
+    ctx.arc(rightCx, y, coilR, -Math.PI / 2, Math.PI / 2, true)
+  }
+  ctx.stroke()
+
+  // Center magnetic core bars.
+  const coreL = cx - b.w * 0.03
+  const coreR = cx + b.w * 0.03
+  ctx.beginPath()
+  ctx.moveTo(coreL, topY - b.h * 0.03)
+  ctx.lineTo(coreL, bottomY + b.h * 0.03)
+  ctx.moveTo(coreR, topY - b.h * 0.03)
+  ctx.lineTo(coreR, bottomY + b.h * 0.03)
+  ctx.stroke()
+
+  // Symbol terminal lines (no circles), like reference image.
+  ctx.beginPath()
+  ctx.moveTo(leftStubX, yTop)
+  ctx.lineTo(leftCx - coilR, yTop)
+  ctx.moveTo(leftStubX, yBottom)
+  ctx.lineTo(leftCx - coilR, yBottom)
+  ctx.moveTo(rightCx + coilR, yTop)
+  ctx.lineTo(rightStubX, yTop)
+  ctx.moveTo(rightCx + coilR, yBottom)
+  ctx.lineTo(rightStubX, yBottom)
+  ctx.stroke()
+
+  // Route tile-magnet leads around the outside (avoid crossing symbol body).
+  const north = leadForSide(b, 'north')
+  const west = leadForSide(b, 'west')
+  const east = leadForSide(b, 'east')
+  const south = leadForSide(b, 'south')
+  const topRailY = b.y + b.h * 0.08
+  const bottomRailY = b.y + b.h * 0.92
+  const leftRailX = b.x + b.w * 0.04
+  const rightRailX = b.x + b.w * 0.96
+  const r = Math.max(3, b.w * 0.03)
+
+  // Helper: rounded orthogonal polyline for cleaner routing.
+  const roundedRoute = (points: Array<{ x: number; y: number }>) => {
+    if (points.length < 2) return
+    ctx.beginPath()
+    ctx.moveTo(points[0].x, points[0].y)
+    for (let i = 1; i < points.length - 1; i++) {
+      const p0 = points[i - 1]
+      const p1 = points[i]
+      const p2 = points[i + 1]
+      const v1x = p1.x - p0.x
+      const v1y = p1.y - p0.y
+      const v2x = p2.x - p1.x
+      const v2y = p2.y - p1.y
+      const l1 = Math.hypot(v1x, v1y) || 1
+      const l2 = Math.hypot(v2x, v2y) || 1
+      const rr = Math.min(r, l1 * 0.45, l2 * 0.45)
+      const a = { x: p1.x - (v1x / l1) * rr, y: p1.y - (v1y / l1) * rr }
+      const b2 = { x: p1.x + (v2x / l2) * rr, y: p1.y + (v2y / l2) * rr }
+      ctx.lineTo(a.x, a.y)
+      ctx.quadraticCurveTo(p1.x, p1.y, b2.x, b2.y)
+    }
+    const last = points[points.length - 1]
+    ctx.lineTo(last.x, last.y)
+    ctx.stroke()
+  }
+
+  // North -> left-top symbol terminal
+  roundedRoute([
+    { x: north.x, y: north.y },
+    { x: north.x, y: topRailY },
+    { x: leftStubX, y: topRailY },
+    { x: leftStubX, y: yTop },
+  ])
+
+  // West -> left-bottom symbol terminal
+  roundedRoute([
+    { x: west.x, y: west.y },
+    { x: leftRailX, y: west.y },
+    { x: leftRailX, y: yBottom },
+    { x: leftStubX, y: yBottom },
+  ])
+
+  // East -> right-top symbol terminal
+  roundedRoute([
+    { x: east.x, y: east.y },
+    { x: rightRailX, y: east.y },
+    { x: rightRailX, y: yTop },
+    { x: rightStubX, y: yTop },
+  ])
+
+  // South -> right-bottom symbol terminal
+  roundedRoute([
+    { x: south.x, y: south.y },
+    { x: south.x, y: bottomRailY },
+    { x: rightStubX, y: bottomRailY },
+    { x: rightStubX, y: yBottom },
+  ])
+}
+
 /** Soft-iron bar: flux bridge only, no circuit conductors */
 function drawIronBar(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   const cy = midY(b)
@@ -887,6 +1009,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   resistor: drawResistor,
   capacitor: drawCapacitor,
   inductor: drawInductor,
+  transformer: drawTransformer,
   iron_bar: drawIronBar,
   diode: (ctx, b) => drawDiode(ctx, b, true),
   led: (ctx, b) => drawLed(ctx, b, false),
@@ -917,6 +1040,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   resistor: defaultLeads2,
   capacitor: defaultLeads2,
   inductor: defaultLeads2,
+  transformer: defaultLeads4,
   iron_bar: ironBarLeads,
   diode: defaultLeads2,
   led: defaultLeads2,

@@ -14,6 +14,7 @@ export type SymbolId =
   | 'resistor'
   | 'capacitor'
   | 'inductor'
+  | 'transformer'
   | 'diode'
   | 'led'
   | 'led_rgb'
