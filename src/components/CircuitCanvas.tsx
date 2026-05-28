@@ -1890,7 +1890,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
           className={`circuit-canvas${tileClipboard ? ' paste-mode' : ''}${
             pendingCatalogId ? ' place-mode' : ''
           }${isPanning ? ' panning' : ''}`}
-          title="R: rotates · G: turns grid · B: centers · Right-drag, Space+drag, or Ctrl+drag to pan · scroll to zoom"
           onContextMenu={handleContextMenu}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
