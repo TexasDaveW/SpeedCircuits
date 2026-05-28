@@ -907,9 +907,7 @@ function drawSpeaker(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   const coneBot = cy + b.h * 0.48
   const bodyTop = cy - b.h * 0.28
   const bodyBot = cy + b.h * 0.28
-  const wireTopY = cy - b.h * 0.56
   const wireBotY = cy + b.h * 0.72
-  const westWireX = b.x + b.w * 0.22
   const eastWireX = b.x + b.w * 0.78
 
   // Magnet leads -> symbol terminal legs, routed around symbol.
