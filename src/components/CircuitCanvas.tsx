@@ -1008,30 +1008,6 @@ export const CircuitCanvas = memo(function CircuitCanvas({
 
     ctx.restore()
 
-    if (pendingCatalogId) {
-      ctx.fillStyle = '#b8c4d8'
-      ctx.font = '14px system-ui, sans-serif'
-      ctx.fillText(
-        'Click to place · R to rotate · scroll to zoom · Esc to cancel',
-        16,
-        h - 16,
-      )
-    } else if (clipboard) {
-      ctx.fillStyle = '#b8c4d8'
-      ctx.font = '14px system-ui, sans-serif'
-      const msg =
-        'Click an empty cell to paste once · R to rotate · Esc to cancel'
-      ctx.fillText(msg, 16, h - 16)
-    } else if (selectedIds.length === 0) {
-      ctx.fillStyle = '#7d8796'
-      ctx.font = '13px system-ui, sans-serif'
-      ctx.fillText(
-        'Drag on empty space to box-select tiles · Shift+drag adds · R: rotates · G: turns grid · B: centers · Right-drag or Space+drag pans',
-        16,
-        h - 16,
-      )
-    }
-
     if (!smoothDragRef.current && !snapshotCaptureRef.current) {
       captureStaticSceneSnapshot()
     }
