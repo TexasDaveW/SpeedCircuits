@@ -32,6 +32,7 @@ export type SymbolId =
   | 'motor'
   | 'vibration_motor'
   | 'buzzer'
+  | 'speaker'
   | 'touch_pad'
   | 'ground'
   | 'ground_tile'

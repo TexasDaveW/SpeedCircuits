@@ -889,6 +889,63 @@ function drawBuzzer(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   }
 }
 
+function drawSpeaker(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  prep(ctx)
+  const cy = midY(b)
+  const westMag = leadForSide(b, 'west')
+  const eastMag = leadForSide(b, 'east')
+
+  // Proportions: compact width, taller profile, centered in tile.
+  const leadYTop = cy - b.h * 0.24
+  const leadYBot = cy + b.h * 0.24
+  const leadX0 = b.x + b.w * 0.31
+  const bodyLeft = b.x + b.w * 0.47
+  const bodyRight = b.x + b.w * 0.505
+  const coneLeft = bodyRight
+  const coneRight = b.x + b.w * 0.69
+  const coneTop = cy - b.h * 0.48
+  const coneBot = cy + b.h * 0.48
+  const bodyTop = cy - b.h * 0.28
+  const bodyBot = cy + b.h * 0.28
+  const wireTopY = cy - b.h * 0.56
+  const wireBotY = cy + b.h * 0.72
+  const westWireX = b.x + b.w * 0.22
+  const eastWireX = b.x + b.w * 0.78
+
+  // Magnet leads -> symbol terminal legs, routed around symbol.
+  ctx.beginPath()
+  ctx.moveTo(westMag.x, westMag.y)
+  ctx.lineTo(leadX0, westMag.y)
+  ctx.lineTo(leadX0, leadYTop)
+  ctx.moveTo(eastMag.x, eastMag.y)
+  ctx.lineTo(eastWireX, eastMag.y)
+  ctx.lineTo(eastWireX, wireBotY)
+  ctx.lineTo(leadX0, wireBotY)
+  ctx.lineTo(leadX0, leadYBot)
+  ctx.stroke()
+
+  // Symbol terminal legs into driver.
+  ctx.beginPath()
+  ctx.moveTo(leadX0, leadYTop)
+  ctx.lineTo(bodyLeft, leadYTop)
+  ctx.moveTo(leadX0, leadYBot)
+  ctx.lineTo(bodyLeft, leadYBot)
+  ctx.stroke()
+
+  // Driver rectangle.
+  ctx.beginPath()
+  ctx.rect(bodyLeft, bodyTop, bodyRight - bodyLeft, bodyBot - bodyTop)
+  ctx.stroke()
+
+  // Cone (open on left at driver).
+  ctx.beginPath()
+  ctx.moveTo(coneLeft, bodyTop)
+  ctx.lineTo(coneRight, coneTop)
+  ctx.lineTo(coneRight, coneBot)
+  ctx.lineTo(coneLeft, bodyBot)
+  ctx.stroke()
+}
+
 function drawTouchPad(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   prep(ctx)
   const cy = midY(b)
@@ -1028,6 +1085,7 @@ const DRAWERS: Record<SymbolId, (ctx: CanvasRenderingContext2D, b: SymbolBounds)
   motor: drawMotor,
   vibration_motor: drawVibrationMotor,
   buzzer: drawBuzzer,
+  speaker: drawSpeaker,
   touch_pad: drawTouchPad,
   ground: drawGround,
   ground_tile: drawGroundTile,
@@ -1059,6 +1117,7 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   motor: defaultLeads2,
   vibration_motor: defaultLeads2,
   buzzer: defaultLeads2,
+  speaker: defaultLeads2,
   touch_pad: defaultLeads2,
   ground: defaultLeads4,
   ground_tile: defaultLeadsGroundTile,
