@@ -25,10 +25,10 @@ export function referenceLayerButtonLabel(
   layer: ReferenceLayer,
   hasImage: boolean,
 ): string {
-  if (!hasImage) return 'Show reference'
-  if (layer === 'hidden') return 'Show underneath'
-  if (layer === 'underneath') return 'Show above'
-  return 'Hide reference'
+  if (!hasImage) return 'Move Back'
+  if (layer === 'hidden') return 'Move Back'
+  if (layer === 'underneath') return 'Move Top'
+  return 'Hide'
 }
 
 export function referenceLayerStatusMessage(layer: ReferenceLayer): string {

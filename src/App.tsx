@@ -41,7 +41,6 @@ export default function App() {
   const [loadViewRotation, setLoadViewRotation] = useState<Rotation>(0)
   const [activeLessonId, setActiveLessonId] = useState<string | null>(null)
   const [showLessonPanel, setShowLessonPanel] = useState(readLessonPanelVisible)
-  const [exportJson, setExportJson] = useState<string | null>(null)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [statusIsError, setStatusIsError] = useState(false)
   const [tileClipboard, setTileClipboard] = useState<TileClipboard | null>(null)
@@ -110,7 +109,6 @@ export default function App() {
       setTiles(tileList)
       setSelectedIds([])
       clearPlacementModes()
-      setExportJson(null)
       setStatus(`Loaded ${tileList.length} tile${tileList.length === 1 ? '' : 's'}.`)
     },
     [clearPlacementModes, clearUndoHistory],
@@ -216,29 +214,15 @@ export default function App() {
   }
 
   const handleCopyJson = async () => {
-    const json =
-      exportJson ??
-      buildCircuitJson(tiles, circuitName, lesson, { rotation: viewRotationRef.current })
-    if (!exportJson) setExportJson(json)
+    const json = buildCircuitJson(tiles, circuitName, lesson, {
+      rotation: viewRotationRef.current,
+    })
     try {
       await navigator.clipboard.writeText(json)
       setStatus('Circuit JSON copied to clipboard.')
     } catch {
       setStatus('Could not copy to clipboard.', true)
     }
-  }
-
-  const handlePreviewJson = () => {
-    if (exportJson) {
-      setExportJson(null)
-      setStatus('JSON preview hidden.')
-      return
-    }
-    const json = buildCircuitJson(tiles, circuitName, lesson, {
-      rotation: viewRotationRef.current,
-    })
-    setExportJson(json)
-    setStatus('JSON preview shown below (click Preview JSON again to hide).')
   }
 
   const handleRemoveTiles = useCallback(
@@ -275,7 +259,6 @@ export default function App() {
       setTileClipboard(null)
       setPasteTarget(null)
       setPendingCatalogId(null)
-      setExportJson(null)
       setLesson(null)
       viewRotationRef.current = 0
       setLoadViewRotation(0)
@@ -529,14 +512,11 @@ export default function App() {
               spellCheck={false}
             />
           </label>
-          <button type="button" onClick={handleSaveCircuit} title="⌘S">
-            Save circuit…
+          <button type="button" onClick={handleSaveCircuit} title="Save circuit… (⌘S)">
+            Save
           </button>
-          <button type="button" onClick={handleOpenCircuit} title="⌘O">
-            Open circuit…
-          </button>
-          <button type="button" onClick={handlePreviewJson}>
-            Preview JSON
+          <button type="button" onClick={handleOpenCircuit} title="Open circuit… (⌘O)">
+            Open
           </button>
           <button type="button" onClick={handleCopyJson}>
             Copy JSON
@@ -547,10 +527,10 @@ export default function App() {
             onClick={toggleLessonPanel}
             aria-pressed={showLessonPanel}
           >
-            Lesson notes
+            Lesson
           </button>
-          <button type="button" onClick={() => void pasteReferenceImage()}>
-            Paste reference
+          <button type="button" onClick={() => void pasteReferenceImage()} title="Paste reference image from clipboard">
+            Paste Ref
           </button>
           <button
             type="button"
@@ -569,18 +549,18 @@ export default function App() {
             type="button"
             onClick={() => referenceFileInputRef.current?.click()}
           >
-            Choose reference…
+            Choose Ref
           </button>
           {referenceImageUrl && (
-            <button type="button" onClick={clearReferenceImage}>
-              Clear reference
+            <button type="button" onClick={clearReferenceImage} title="Clear reference image">
+              Clear Ref
             </button>
           )}
-          <button type="button" onClick={copySelectedTile} disabled={!canCopy} title="⌘C">
-            Copy tile
+          <button type="button" onClick={copySelectedTile} disabled={!canCopy} title="Copy tile (⌘C)">
+            Copy
           </button>
-          <button type="button" onClick={pasteFromClipboard} disabled={!canPaste} title="⌘V">
-            Paste tile
+          <button type="button" onClick={pasteFromClipboard} disabled={!canPaste} title="Paste tile (⌘V)">
+            Paste
           </button>
           <button type="button" onClick={handleUndo} title="⌘Z">
             Undo
@@ -625,19 +605,6 @@ export default function App() {
             <LessonPanel title={lessonTitle} description={lessonDescription} />
           )}
         </div>
-        {exportJson && (
-          <div className="json-preview-wrap">
-            <div className="json-preview-header">
-              <span>JSON preview</span>
-              <button type="button" onClick={() => setExportJson(null)}>
-                Close
-              </button>
-            </div>
-            <pre className="json-preview" aria-label="Circuit JSON preview">
-              {exportJson}
-            </pre>
-          </div>
-        )}
       </main>
     </div>
   )
