@@ -418,8 +418,10 @@ function strokeArrowOnSegment(
   ctx.fill()
 }
 
-/** NPN leads: B west + east (same node), C north, E south at tile rotation 0°. */
-function npnLeads(b: SymbolBounds): SymbolLeads {
+type BjtPolarity = 'npn' | 'pnp'
+
+/** BJT leads: B west + east (same node); north/south at collector & emitter magnets. */
+function bjtLeads(b: SymbolBounds): SymbolLeads {
   const cy = midY(b)
   const cx = midX(b)
   const inset = Math.min(b.w, b.h) * 0.1
@@ -432,10 +434,11 @@ function npnLeads(b: SymbolBounds): SymbolLeads {
 }
 
 /**
- * Standard NPN symbol (IEC): large circle encloses the junction (bar + C/E diagonals).
- * B/C/E straight leads cross the circle boundary to the tile magnets.
+ * IEC BJT at 0°: B west/east, vertical C|E bar, base meets bar at center.
+ * NPN: C north, E south, arrow out on emitter (Not Pointing iN).
+ * PNP: E north, C south, arrow in on emitter toward base (Pointing iN) — textbook layout.
  */
-function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+function drawBjt(ctx: CanvasRenderingContext2D, b: SymbolBounds, polarity: BjtPolarity) {
   const cx = midX(b)
   const cy = midY(b)
   const size = Math.min(b.w, b.h)
@@ -444,11 +447,16 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   const northY = b.y + inset
   const southY = b.y + b.h - inset
 
-  // Junction inside the circle (bar + diagonals stay within r)
   const barX = cx - r * 0.16
   const halfH = r * 0.36
-  const cBendY = cy - r * 0.52
-  const eBendY = cy + r * 0.52
+  const topBendY = cy - r * 0.52
+  const botBendY = cy + r * 0.52
+  const barTop = { x: barX, y: cy - halfH }
+  const barBot = { x: barX, y: cy + halfH }
+  const topBend = { x: cx, y: topBendY }
+  const botBend = { x: cx, y: botBendY }
+
+  const emitterOnTop = polarity === 'pnp'
 
   prep(ctx)
   ctx.beginPath()
@@ -458,36 +466,52 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.lineWidth = 3.5
   prep(ctx)
   ctx.beginPath()
-  ctx.moveTo(barX, cy - halfH)
-  ctx.lineTo(barX, cy + halfH)
+  ctx.moveTo(barTop.x, barTop.y)
+  ctx.lineTo(barBot.x, barBot.y)
   ctx.stroke()
   ctx.lineWidth = 2
 
   prep(ctx)
 
-  // Base: full width through circle to bar (west and east magnets)
   ctx.beginPath()
   ctx.moveTo(b.x, cy)
   ctx.lineTo(barX, cy)
   ctx.lineTo(b.x + b.w, cy)
   ctx.stroke()
 
-  // Collector: diagonal inside circle, then vertical to north
-  ctx.beginPath()
-  ctx.moveTo(barX, cy - halfH)
-  ctx.lineTo(cx, cBendY)
-  ctx.lineTo(cx, northY)
-  ctx.stroke()
+  if (emitterOnTop) {
+    ctx.beginPath()
+    ctx.moveTo(barBot.x, barBot.y)
+    ctx.lineTo(botBend.x, botBend.y)
+    ctx.lineTo(cx, southY)
+    ctx.stroke()
 
-  // Emitter: diagonal inside circle (arrow outward), then vertical to south
-  ctx.beginPath()
-  ctx.moveTo(barX, cy + halfH)
-  ctx.lineTo(cx, eBendY)
-  ctx.lineTo(cx, southY)
-  ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(barTop.x, barTop.y)
+    ctx.lineTo(topBend.x, topBend.y)
+    ctx.lineTo(cx, northY)
+    ctx.stroke()
+  } else {
+    ctx.beginPath()
+    ctx.moveTo(barTop.x, barTop.y)
+    ctx.lineTo(topBend.x, topBend.y)
+    ctx.lineTo(cx, northY)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(barBot.x, barBot.y)
+    ctx.lineTo(botBend.x, botBend.y)
+    ctx.lineTo(cx, southY)
+    ctx.stroke()
+  }
+
   prep(ctx)
   ctx.fillStyle = STROKE
-  strokeArrowOnSegment(ctx, barX, cy + halfH, cx, eBendY)
+  if (emitterOnTop) {
+    strokeArrowOnSegment(ctx, topBend.x, topBend.y, barTop.x, barTop.y)
+  } else {
+    strokeArrowOnSegment(ctx, barBot.x, barBot.y, botBend.x, botBend.y)
+  }
 
   const fs = Math.max(6, b.h * 0.19)
   const outGap = fs * 0.72
@@ -497,77 +521,24 @@ function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = STROKE
-  // Beside each lead, clear of the circle and not on the stroke
   ctx.fillText('B', cx - r - outGap, cy - beside)
   ctx.fillText('B', cx + r + outGap, cy - beside)
-  ctx.fillText('C', cx + beside, cy - r - outGap)
-  ctx.fillText('E', cx + beside, cy + r + outGap)
+  if (emitterOnTop) {
+    ctx.fillText('E', cx + beside, cy - r - outGap)
+    ctx.fillText('C', cx + beside, cy + r + outGap)
+  } else {
+    ctx.fillText('C', cx + beside, cy - r - outGap)
+    ctx.fillText('E', cx + beside, cy + r + outGap)
+  }
   ctx.restore()
 }
 
-/** PNP: same B/C/E ports as NPN; emitter arrow points toward the base (IEC). */
+function drawNpn(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
+  drawBjt(ctx, b, 'npn')
+}
+
 function drawPnp(ctx: CanvasRenderingContext2D, b: SymbolBounds) {
-  const cx = midX(b)
-  const cy = midY(b)
-  const size = Math.min(b.w, b.h)
-  const r = size * 0.48
-  const inset = size * 0.1
-  const northY = b.y + inset
-  const southY = b.y + b.h - inset
-
-  const barX = cx - r * 0.16
-  const halfH = r * 0.36
-  const cBendY = cy - r * 0.52
-  const eBendY = cy + r * 0.52
-
-  prep(ctx)
-  ctx.beginPath()
-  ctx.arc(cx, cy, r, 0, Math.PI * 2)
-  ctx.stroke()
-
-  ctx.lineWidth = 3.5
-  prep(ctx)
-  ctx.beginPath()
-  ctx.moveTo(barX, cy - halfH)
-  ctx.lineTo(barX, cy + halfH)
-  ctx.stroke()
-  ctx.lineWidth = 2
-
-  prep(ctx)
-
-  ctx.beginPath()
-  ctx.moveTo(b.x, cy)
-  ctx.lineTo(barX, cy)
-  ctx.lineTo(b.x + b.w, cy)
-  ctx.stroke()
-
-  ctx.beginPath()
-  ctx.moveTo(barX, cy - halfH)
-  ctx.lineTo(cx, cBendY)
-  ctx.lineTo(cx, northY)
-  ctx.stroke()
-
-  ctx.beginPath()
-  ctx.moveTo(barX, cy + halfH)
-  ctx.lineTo(cx, eBendY)
-  ctx.lineTo(cx, southY)
-  ctx.stroke()
-  prep(ctx)
-  strokeArrowOnSegment(ctx, cx, eBendY, barX, cy + halfH)
-
-  const fs = Math.max(6, b.h * 0.19)
-  const outGap = fs * 0.72
-  const beside = fs * 0.82
-  ctx.save()
-  ctx.font = `700 ${fs}px system-ui, sans-serif`
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.fillStyle = STROKE
-  ctx.fillText('B', cx - r - outGap, cy - beside)
-  ctx.fillText('B', cx + r + outGap, cy - beside)
-  ctx.fillText('C', cx + beside, cy - r - outGap)
-  ctx.fillText('E', cx + beside, cy + r + outGap)
-  ctx.restore()
+  drawBjt(ctx, b, 'pnp')
 }
 
 /** NMOS leads: D west, S east, G north + south at tile rotation 0°. */
@@ -1167,8 +1138,8 @@ const LEAD_GETTERS: Record<SymbolId, (b: SymbolBounds) => SymbolLeads> = {
   diode: defaultLeads2,
   led: defaultLeads2,
   led_rgb: defaultLeads4,
-  npn: npnLeads,
-  pnp: npnLeads,
+  npn: bjtLeads,
+  pnp: bjtLeads,
   nmos: nmosLeads,
   potentiometer: defaultLeads3,
   switch_spdt: defaultLeads3,
