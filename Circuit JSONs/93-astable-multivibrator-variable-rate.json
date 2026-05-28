@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "name": "Astable Multivibrator (Variable Rate)",
+  "lesson": {
+    "title": "Astable Multivibrator (Variable Rate)",
+    "description": "Variable-rate astable multivibrator. Two NPN stages are cross-coupled by 10uF capacitors and drive mirrored 470 ohm plus LED collector loads. A potentiometer in the timing network changes the blink rate while fixed resistors keep the oscillator stable."
+  },
+  "exportedAt": "2026-05-28T01:48:27.120Z",
+  "tiles": [
+    {
+      "instanceId": "f921bd5a-794e-42dd-8f86-420eb6d30fa1",
+      "catalogId": "power-tile",
+      "name": "Power tile",
+      "category": "power",
+      "value": "USB",
+      "gridX": 16,
+      "gridY": 4,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "bc4e8475-ee11-4546-9351-6bd0e099f790",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 13,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "70cf5750-01a6-487b-8647-d68e6f1157f5",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 19,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "1ea8482e-3cf4-4b98-beb6-39373b0f66cc",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 17,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "867d2d70-9e50-4bf7-832a-6b5bbeec3184",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 19,
+      "gridY": 5,
+      "rotation": 180
+    },
+    {
+      "instanceId": "5ca4dad7-ae65-4c8a-9e69-95eae36e982b",
+      "catalogId": "cap-10u",
+      "name": "10µF capacitor",
+      "category": "component",
+      "value": "10µF",
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 0
+    },
+    {
+      "instanceId": "87228c76-2565-4090-a379-3255a9da6a16",
+      "catalogId": "cap-10u",
+      "name": "10µF capacitor",
+      "category": "component",
+      "value": "10µF",
+      "gridX": 18,
+      "gridY": 8,
+      "rotation": 0
+    },
+    {
+      "instanceId": "439efe3a-4d51-4641-a4b2-a1c6f6874617",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 8,
+      "rotation": 270
+    },
+    {
+      "instanceId": "70d9fff3-9f4c-400e-aeef-fc28f5c8855c",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 17,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "c033d486-20e6-4966-b315-647b1649ef2b",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "09f6a11c-8e24-4d93-baf8-344dc3be9ad7",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 18,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "7f2ac492-1d92-430c-a42d-037c22d114e3",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 13,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "f4305af0-56d7-4286-b6cc-746687b78f66",
+      "catalogId": "npn",
+      "name": "NPN transistor",
+      "category": "component",
+      "value": "NPN",
+      "gridX": 19,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "2642c4c5-ecab-4855-b004-94f02eef0648",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 13,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a59fa8ff-1415-4b03-9c65-d7924cef1c3c",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 19,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "15e50bed-6168-4c51-a7ef-b6313cda1947",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 17,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "970652e0-8dc6-4e8e-8fc1-c155eeee9405",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 19,
+      "gridY": 8,
+      "rotation": 270
+    },
+    {
+      "instanceId": "187d602e-00d8-4071-9d70-7f9c7d5d90cb",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 13,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "f008be3e-182f-4190-b4e2-df3d0ec1a284",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "7a76eba8-05ab-49b3-8d4b-e6794adbeb9f",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 18,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "863c27a4-f07c-4f42-881d-3b954cf7b33c",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 13,
+      "gridY": 10,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "7d440818-9769-4abc-8269-1197da1fb6c5",
+      "catalogId": "ground-tile",
+      "name": "Ground tile",
+      "category": "ground",
+      "value": "GND",
+      "gridX": 19,
+      "gridY": 10,
+      "rotation": 0,
+      "plateGround": true
+    },
+    {
+      "instanceId": "f4d94a11-47ff-418f-8542-de6af67fe369",
+      "catalogId": "overpass-cube",
+      "name": "Overpass cube",
+      "category": "routing",
+      "gridX": 17,
+      "gridY": 9,
+      "rotation": 270
+    },
+    {
+      "instanceId": "e7b84beb-0490-4050-8a5a-49f89bede415",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "ce9019c1-4ab3-4772-afb6-20babb201c95",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "925d5b74-26c4-4cae-825e-a3531e4f6225",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 180
+    },
+    {
+      "instanceId": "3babfeae-df84-40da-b9c4-7b5cf6e6b8ab",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 17,
+      "gridY": 10,
+      "rotation": 270
+    },
+    {
+      "instanceId": "f1008df9-1efb-4084-b7d2-fdbb5632eabe",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 13,
+      "gridY": 5,
+      "rotation": 90
+    },
+    {
+      "instanceId": "78ef2b39-f7d8-4357-bef2-7c69f2f4b6f3",
+      "catalogId": "resistor-10k",
+      "name": "10k resistor",
+      "category": "component",
+      "value": "10kΩ",
+      "gridX": 17,
+      "gridY": 6,
+      "rotation": 90
+    },
+    {
+      "instanceId": "86280207-d140-4c9d-b541-390b1db54d00",
+      "catalogId": "potentiometer",
+      "name": "Potentiometer",
+      "category": "component",
+      "value": "POT",
+      "gridX": 16,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "93b036e7-0791-4d39-a800-8d4cba974fc2",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "ad19aea8-d9b0-40db-8e93-9e02bc5d6fc6",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 16,
+      "gridY": 9,
+      "rotation": 0
+    },
+    {
+      "instanceId": "dcf4ecb2-ada4-40bf-a387-ac0d7b26729e",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 16,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "b4d50afe-2073-4e59-a1e7-4ead182b2a0a",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "14215abd-43ce-4783-994b-7da77eddc6b1",
+      "catalogId": "cross-cube",
+      "name": "Cross cube",
+      "category": "routing",
+      "gridX": 16,
+      "gridY": 5,
+      "rotation": 0
+    },
+    {
+      "instanceId": "dbd7877f-3b46-4c83-893e-51839216c4d6",
+      "catalogId": "resistor-4k7",
+      "name": "4.7k resistor",
+      "category": "component",
+      "value": "4.7kΩ",
+      "gridX": 16,
+      "gridY": 6,
+      "rotation": 90
+    }
+  ],
+  "connections": [],
+  "nets": []
+}
