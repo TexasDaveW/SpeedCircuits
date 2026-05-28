@@ -267,7 +267,6 @@ export default function App() {
   }
 
   const copySelectedTile = useCallback(() => {
-    const tile = tiles.find((t) => t.instanceId === selectedIds[0])
     if (selectedIds.length === 0) return false
     const selected = tiles.filter((t) => selectedIds.includes(t.instanceId))
     if (selected.length === 0) return false
