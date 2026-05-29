@@ -8,15 +8,18 @@ import { getBuiltinLesson, resolveBuiltinLessonId } from './builtinCircuits'
 import { importCircuit, parseCircuitJson } from './circuitImport'
 import { readLessonPanelVisible, writeLessonPanelVisible } from './lessonPanelPreference'
 import {
-  clampReferenceScale,
-  formatReferenceScalePercent,
+  applyReferenceScaleDelta,
+  formatReferenceScalePair,
+  normalizeReferenceScale,
   isReferenceLayerVisible,
   nextReferenceLayer,
   referenceLayerButtonLabel,
   referenceLayerStatusMessage,
   REFERENCE_OFFSET_ZERO,
+  REFERENCE_SCALE_ONE,
   type ReferenceLayer,
   type ReferenceOffset,
+  type ReferenceScale,
 } from './referenceBackground'
 import { readImageFromClipboard, readImageFromFile } from './referenceImage'
 import { copyTiles, pasteTileAt, type TileClipboard } from './tileClipboard'
@@ -52,10 +55,23 @@ export default function App() {
   const undoStackRef = useRef<PlacedTile[][]>([])
   const [referenceImageUrl, setReferenceImageUrl] = useState<string | null>(null)
   const [referenceLayer, setReferenceLayer] = useState<ReferenceLayer>('hidden')
-  const [referenceScale, setReferenceScale] = useState(1)
+  const [referenceScale, setReferenceScale] = useState<ReferenceScale>(REFERENCE_SCALE_ONE)
   const [referenceOffset, setReferenceOffset] = useState<ReferenceOffset>(
     REFERENCE_OFFSET_ZERO,
   )
+
+  // Recover from hot-reload leaving a legacy uniform number in state.
+  useEffect(() => {
+    setReferenceScale((s) => {
+      const next = normalizeReferenceScale(s)
+      if (typeof s === 'number') return next
+      if (s && typeof s === 'object') {
+        const o = s as ReferenceScale
+        if (o.x === next.x && o.y === next.y) return s
+      }
+      return next
+    })
+  }, [])
 
   const clearUndoHistory = useCallback(() => {
     undoStackRef.current = []
@@ -383,10 +399,10 @@ export default function App() {
     })
   }, [])
 
-  const scaleReferenceBy = useCallback((delta: number) => {
+  const scaleReferenceBy = useCallback((deltaX: number, deltaY: number) => {
     setReferenceScale((s) => {
-      const next = clampReferenceScale(s + delta)
-      setStatus(`Reference scale ${formatReferenceScalePercent(next)}.`)
+      const next = applyReferenceScaleDelta(s, deltaX, deltaY)
+      setStatus(`Reference scale ${formatReferenceScalePair(next)}.`)
       return next
     })
   }, [])
@@ -411,7 +427,7 @@ export default function App() {
       if (dataUrl) {
         setReferenceImageUrl(dataUrl)
         setReferenceLayer('underneath')
-        setReferenceScale(1)
+        setReferenceScale(REFERENCE_SCALE_ONE)
         setReferenceOffset(REFERENCE_OFFSET_ZERO)
         setStatus(referenceLayerStatusMessage('underneath'))
         return
@@ -443,7 +459,7 @@ export default function App() {
   const clearReferenceImage = useCallback(() => {
     setReferenceImageUrl(null)
     setReferenceLayer('hidden')
-    setReferenceScale(1)
+    setReferenceScale(REFERENCE_SCALE_ONE)
     setReferenceOffset(REFERENCE_OFFSET_ZERO)
     setStatus('Reference image cleared.')
   }, [])
@@ -460,7 +476,7 @@ export default function App() {
         }
         setReferenceImageUrl(dataUrl)
         setReferenceLayer('underneath')
-        setReferenceScale(1)
+        setReferenceScale(REFERENCE_SCALE_ONE)
         setReferenceOffset(REFERENCE_OFFSET_ZERO)
         setStatus(referenceLayerStatusMessage('underneath'))
       },
@@ -539,7 +555,7 @@ export default function App() {
             aria-pressed={isReferenceLayerVisible(referenceLayer)}
             title={
               referenceImageUrl
-                ? 'Cycle reference: underneath → above → hide (I). Arrows move; ⌘/Ctrl+↑/↓ scale.'
+                ? 'Cycle reference: underneath → above → hide (I). Arrows move; ⌘/Ctrl+↑/↓ scale height, ←/→ scale width.'
                 : 'Paste from clipboard first'
             }
           >

@@ -11,16 +11,20 @@ import {
 } from '../plate'
 import { canMoveGroup, moveGroupFromOrigins, tilesInWorldRect } from '../selection'
 import {
+  applyReferenceScaleDelta,
   drawReferenceBackground,
+  normalizeReferenceScale,
   isReferenceLayerVisible,
   referenceOpacityForLayer,
   REFERENCE_OFFSET_ZERO,
   REFERENCE_PAN_COARSE_STEP,
   REFERENCE_PAN_STEP,
   REFERENCE_SCALE_COARSE_STEP,
+  REFERENCE_SCALE_ONE,
   REFERENCE_SCALE_STEP,
   type ReferenceLayer,
   type ReferenceOffset,
+  type ReferenceScale,
 } from '../referenceBackground'
 import type { TileClipboard } from '../tileClipboard'
 import type { CatalogEntry, PlacedTile, Rotation } from '../types'
@@ -125,10 +129,10 @@ interface CircuitCanvasProps {
   onPendingClear: () => void
   referenceImageUrl?: string | null
   referenceLayer?: ReferenceLayer
-  referenceScale?: number
+  referenceScale?: ReferenceScale
   referenceOffset?: ReferenceOffset
   onReferenceNudge?: (dx: number, dy: number) => void
-  onReferenceScaleBy?: (delta: number) => void
+  onReferenceScaleBy?: (deltaX: number, deltaY: number) => void
 }
 
 function clipboardPrimaryTile(clipboard: TileClipboard | null) {
@@ -281,7 +285,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   onPendingClear,
   referenceImageUrl = null,
   referenceLayer = 'hidden',
-  referenceScale = 1,
+  referenceScale = REFERENCE_SCALE_ONE,
   referenceOffset = REFERENCE_OFFSET_ZERO,
   onReferenceNudge,
   onReferenceScaleBy,
@@ -303,7 +307,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   const lastWheelAtRef = useRef(0)
   const referenceImageRef = useRef<HTMLImageElement | null>(null)
   const referenceLayerRef = useRef(referenceLayer)
-  const referenceScaleRef = useRef(referenceScale)
+  const referenceScaleRef = useRef(normalizeReferenceScale(referenceScale))
   const referenceOffsetRef = useRef(referenceOffset)
   const referenceAdjustActiveRef = useRef(false)
   const onReferenceNudgeRef = useRef(onReferenceNudge)
@@ -339,7 +343,7 @@ export const CircuitCanvas = memo(function CircuitCanvas({
   }, [placementRotation])
 
   useEffect(() => {
-    referenceScaleRef.current = referenceScale
+    referenceScaleRef.current = normalizeReferenceScale(referenceScale)
   }, [referenceScale])
 
   useEffect(() => {
@@ -1968,6 +1972,12 @@ export const CircuitCanvas = memo(function CircuitCanvas({
     return false
   }
 
+  const referenceModHeld = (e: KeyboardEvent) =>
+    e.ctrlKey ||
+    e.metaKey ||
+    e.getModifierState('Control') ||
+    e.getModifierState('Meta')
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!referenceAdjustActiveRef.current) return
@@ -1983,12 +1993,29 @@ export const CircuitCanvas = memo(function CircuitCanvas({
       e.preventDefault()
       e.stopPropagation()
 
-      const mod = e.ctrlKey || e.metaKey
+      // macOS auto-repeat often omits metaKey on repeated events while ⌘ is still held.
+      const mod = referenceModHeld(e)
       if (mod) {
-        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
         const step = e.shiftKey ? REFERENCE_SCALE_COARSE_STEP : REFERENCE_SCALE_STEP
-        const delta = e.key === 'ArrowUp' ? step : -step
-        onReferenceScaleByRef.current?.(delta)
+        let deltaX = 0
+        let deltaY = 0
+        if (e.key === 'ArrowUp') deltaY = step
+        else if (e.key === 'ArrowDown') deltaY = -step
+        else if (e.key === 'ArrowRight') deltaX = step
+        else if (e.key === 'ArrowLeft') deltaX = -step
+        else return
+        referenceScaleRef.current = applyReferenceScaleDelta(
+          referenceScaleRef.current,
+          deltaX,
+          deltaY,
+        )
+        staticSceneSnapshotRef.current = null
+        onReferenceScaleByRef.current?.(deltaX, deltaY)
+        if (paintFrameRef.current != null) {
+          cancelAnimationFrame(paintFrameRef.current)
+          paintFrameRef.current = null
+        }
+        paintRef.current()
         return
       }
 
