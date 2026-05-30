@@ -5,67 +5,67 @@
     "title": "Capacitor Pulse Circuit",
     "description": "Flip the slide switch on, then off. USB → 470Ω → 100µF capacitor → red LED → ground — the cap is in series, so it blocks steady DC once charged. You get a short flash when the switch changes (charge pulse on, discharge pulse off), not a steady glow like lesson 9. τ ≈ 47 ms with 100µF — much snappier than lesson 19’s 1000µF after the LED. LED at 90° (anode north); cap + toward power."
   },
-  "exportedAt": "2026-05-19T22:59:09.565Z",
+  "exportedAt": "2026-05-30T11:51:34.011Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "3e2da6bc-0024-428b-a711-96ce1c0537b3",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "slide-switch-2",
+      "instanceId": "3bf4ae4c-a9cd-43b1-bb04-e44057e2e8b3",
       "catalogId": "slide-switch",
       "name": "Slide switch SPDT",
       "category": "component",
       "value": "SPDT",
-      "gridX": 5,
-      "gridY": 4,
-      "rotation": 90
-    },
-    {
-      "instanceId": "resistor-470-3",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "cap-100u-4",
-      "catalogId": "cap-100u",
-      "name": "100µF capacitor",
-      "category": "component",
-      "value": "100µF",
-      "gridX": 5,
+      "gridX": 14,
       "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-5",
-      "catalogId": "led-red",
-      "name": "Red LED",
+      "instanceId": "4dd70be5-435c-43a5-888e-1335e6f2bd64",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
       "category": "component",
-      "value": "RED",
-      "gridX": 5,
+      "value": "470Ω",
+      "gridX": 14,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-6",
+      "instanceId": "6918d52c-5e7e-41d3-bd58-77715a7fc053",
+      "catalogId": "cap-100u",
+      "name": "100µF capacitor",
+      "category": "component",
+      "value": "100µF",
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "a3939131-7f5e-4654-a207-eba9ebba7eb0",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "8d8871b9-b6f0-4fa3-a414-3a4d2334b984",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 8,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -73,7 +73,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3e2da6bc-0024-428b-a711-96ce1c0537b3",
         "side": "west"
       },
       "b": {
@@ -82,7 +82,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3e2da6bc-0024-428b-a711-96ce1c0537b3",
         "side": "south"
       },
       "b": {
@@ -91,57 +91,57 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3e2da6bc-0024-428b-a711-96ce1c0537b3",
         "side": "south"
       },
       "b": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "3bf4ae4c-a9cd-43b1-bb04-e44057e2e8b3",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "3bf4ae4c-a9cd-43b1-bb04-e44057e2e8b3",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "4dd70be5-435c-43a5-888e-1335e6f2bd64",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "4dd70be5-435c-43a5-888e-1335e6f2bd64",
         "side": "south"
       },
       "b": {
-        "instanceId": "cap-100u-4",
+        "instanceId": "6918d52c-5e7e-41d3-bd58-77715a7fc053",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "cap-100u-4",
+        "instanceId": "6918d52c-5e7e-41d3-bd58-77715a7fc053",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-5",
+        "instanceId": "a3939131-7f5e-4654-a207-eba9ebba7eb0",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-5",
+        "instanceId": "a3939131-7f5e-4654-a207-eba9ebba7eb0",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "8d8871b9-b6f0-4fa3-a414-3a4d2334b984",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "8d8871b9-b6f0-4fa3-a414-3a4d2334b984",
         "side": "south"
       },
       "b": {
@@ -151,30 +151,30 @@
   ],
   "nets": [
     [
-      "ground-tile-6:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "3e2da6bc-0024-428b-a711-96ce1c0537b3:west",
+      "8d8871b9-b6f0-4fa3-a414-3a4d2334b984:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "slide-switch-2:north"
+      "3bf4ae4c-a9cd-43b1-bb04-e44057e2e8b3:north",
+      "3e2da6bc-0024-428b-a711-96ce1c0537b3:south",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-3:north",
-      "slide-switch-2:south"
+      "3bf4ae4c-a9cd-43b1-bb04-e44057e2e8b3:south",
+      "4dd70be5-435c-43a5-888e-1335e6f2bd64:north"
     ],
     [
-      "cap-100u-4:north",
-      "resistor-470-3:south"
+      "4dd70be5-435c-43a5-888e-1335e6f2bd64:south",
+      "6918d52c-5e7e-41d3-bd58-77715a7fc053:north"
     ],
     [
-      "cap-100u-4:south",
-      "led-red-5:north"
+      "6918d52c-5e7e-41d3-bd58-77715a7fc053:south",
+      "a3939131-7f5e-4654-a207-eba9ebba7eb0:north"
     ],
     [
-      "ground-tile-6:north",
-      "led-red-5:south"
+      "8d8871b9-b6f0-4fa3-a414-3a4d2334b984:north",
+      "a3939131-7f5e-4654-a207-eba9ebba7eb0:south"
     ]
   ]
 }

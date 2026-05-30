@@ -81,7 +81,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   { id: 'led-red', name: 'Red LED', category: 'component', quantity: 2, valueLabel: 'RED', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
   { id: 'led-green', name: 'Green LED', category: 'component', quantity: 2, valueLabel: 'GRN', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
   { id: 'led-blue', name: 'Blue LED', category: 'component', quantity: 2, valueLabel: 'BLU', typeLabel: 'LED', ports: ['west', 'east'], symbolId: 'led' },
-  { id: 'potentiometer', name: 'Potentiometer', category: 'component', quantity: 3, valueLabel: 'POT', typeLabel: 'POT', ports: ['west', 'east', 'south'], symbolId: 'potentiometer' },
+  { id: 'potentiometer', name: '10k Pot', category: 'component', quantity: 3, valueLabel: '10k Pot', typeLabel: 'POT', ports: ['west', 'east', 'south'], symbolId: 'potentiometer' },
   {
     id: 'npn',
     name: 'NPN transistor',

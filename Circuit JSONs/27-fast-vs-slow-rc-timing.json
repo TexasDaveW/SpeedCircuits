@@ -5,158 +5,149 @@
     "title": "Fast vs Slow RC Timing",
     "description": "Flip the slide switch on. Shared 470Ω feeds a cross: west branch has 100µF + red LED (fast τ), east branch has 1000µF + red LED (slow τ). Watch both when you switch on or off — the small cap’s LED responds quickly, the big cap’s LED fades slowly. Same resistor, different C. LEDs at 90°; cap + toward power on each branch."
   },
-  "exportedAt": "2026-05-19T22:52:45.991Z",
+  "exportedAt": "2026-05-30T11:48:10.488Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 4,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "slide-switch-2",
+      "instanceId": "eb5e92d9-9f18-4ce1-bf43-762f8576ee03",
       "catalogId": "slide-switch",
       "name": "Slide switch SPDT",
       "category": "component",
       "value": "SPDT",
-      "gridX": 5,
-      "gridY": 4,
-      "rotation": 90
-    },
-    {
-      "instanceId": "resistor-470-3",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 5,
+      "gridX": 14,
       "gridY": 5,
       "rotation": 90
     },
     {
-      "instanceId": "cross-cube-4",
-      "catalogId": "cross-cube",
-      "name": "Cross cube",
-      "category": "routing",
-      "gridX": 5,
+      "instanceId": "767b4672-8e97-4e7e-b13c-b61dafccb8fb",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 14,
       "gridY": 6,
-      "rotation": 0
-    },
-    {
-      "instanceId": "straight-cube-5",
-      "catalogId": "straight-cube",
-      "name": "Straight cube",
-      "category": "routing",
-      "gridX": 5,
-      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "t-connector-6",
+      "instanceId": "799ea70c-f00f-468a-b4a6-9430a3922ed3",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 8,
-      "rotation": 90
+      "gridX": 14,
+      "gridY": 10,
+      "rotation": 180
     },
     {
-      "instanceId": "ground-tile-7",
+      "instanceId": "62f39938-cfcc-4f42-a939-9f174cff2b64",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 9,
+      "gridX": 14,
+      "gridY": 11,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-8",
+      "instanceId": "a9bbd78b-fcdd-469c-b9e4-19fcf5ad36ed",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 4,
-      "gridY": 6,
-      "rotation": 180
+      "gridX": 13,
+      "gridY": 7,
+      "rotation": 90
     },
     {
-      "instanceId": "cap-100u-9",
+      "instanceId": "4ef53c44-4f1e-4d90-a597-916e31e44812",
       "catalogId": "cap-100u",
       "name": "100µF capacitor",
       "category": "component",
       "value": "100µF",
-      "gridX": 4,
-      "gridY": 7,
-      "rotation": 90
-    },
-    {
-      "instanceId": "led-red-10",
-      "catalogId": "led-red",
-      "name": "Red LED",
-      "category": "component",
-      "value": "RED",
-      "gridX": 4,
+      "gridX": 13,
       "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "corner-cube-11",
-      "catalogId": "corner-cube",
-      "name": "Corner cube",
-      "category": "routing",
-      "gridX": 4,
+      "instanceId": "98deda1c-bc1a-48f3-9d8c-0b61564e2307",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 13,
       "gridY": 9,
-      "rotation": 270
+      "rotation": 90
     },
     {
-      "instanceId": "corner-cube-12",
+      "instanceId": "19d68d23-4604-4aaf-a787-a17e248f341e",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 6,
+      "gridX": 13,
+      "gridY": 10,
+      "rotation": 0
+    },
+    {
+      "instanceId": "27b56699-a990-4fe3-913c-3cb464122eaa",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 7,
       "rotation": 180
     },
     {
-      "instanceId": "cap-1000u-13",
+      "instanceId": "fc248c0a-4205-41a0-b07c-d77cefa2a08f",
       "catalogId": "cap-1000u",
       "name": "1000µF capacitor",
       "category": "component",
       "value": "1000µF",
-      "gridX": 6,
-      "gridY": 7,
-      "rotation": 90
-    },
-    {
-      "instanceId": "led-red-14",
-      "catalogId": "led-red",
-      "name": "Red LED",
-      "category": "component",
-      "value": "RED",
-      "gridX": 6,
+      "gridX": 15,
       "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "corner-cube-15",
+      "instanceId": "8327adce-01b2-4cf6-a915-7463f56a0a7f",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 15,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "48e33070-9f54-4012-b54a-f8be71af1268",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 9,
+      "gridX": 15,
+      "gridY": 10,
       "rotation": 270
+    },
+    {
+      "instanceId": "6fcdf77f-9545-469b-9763-e5ed30e4bdb3",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 7,
+      "rotation": 0
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f",
         "side": "west"
       },
       "b": {
@@ -165,7 +156,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f",
         "side": "south"
       },
       "b": {
@@ -174,77 +165,67 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f",
         "side": "south"
       },
       "b": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "eb5e92d9-9f18-4ce1-bf43-762f8576ee03",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "eb5e92d9-9f18-4ce1-bf43-762f8576ee03",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "767b4672-8e97-4e7e-b13c-b61dafccb8fb",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "767b4672-8e97-4e7e-b13c-b61dafccb8fb",
         "side": "south"
       },
       "b": {
-        "instanceId": "cross-cube-4",
+        "instanceId": "6fcdf77f-9545-469b-9763-e5ed30e4bdb3",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "cross-cube-4",
+        "instanceId": "799ea70c-f00f-468a-b4a6-9430a3922ed3",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "62f39938-cfcc-4f42-a939-9f174cff2b64",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "799ea70c-f00f-468a-b4a6-9430a3922ed3",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "19d68d23-4604-4aaf-a787-a17e248f341e",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "799ea70c-f00f-468a-b4a6-9430a3922ed3",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-12",
+        "instanceId": "48e33070-9f54-4012-b54a-f8be71af1268",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "cross-cube-4",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "straight-cube-5",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "straight-cube-5",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "t-connector-6",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "t-connector-6",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "ground-tile-7",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "ground-tile-7",
+        "instanceId": "62f39938-cfcc-4f42-a939-9f174cff2b64",
         "side": "south"
       },
       "b": {
@@ -253,123 +234,147 @@
     },
     {
       "a": {
-        "instanceId": "corner-cube-8",
+        "instanceId": "a9bbd78b-fcdd-469c-b9e4-19fcf5ad36ed",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "6fcdf77f-9545-469b-9763-e5ed30e4bdb3",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "a9bbd78b-fcdd-469c-b9e4-19fcf5ad36ed",
         "side": "south"
       },
       "b": {
-        "instanceId": "cap-100u-9",
+        "instanceId": "4ef53c44-4f1e-4d90-a597-916e31e44812",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "cap-100u-9",
+        "instanceId": "4ef53c44-4f1e-4d90-a597-916e31e44812",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-10",
+        "instanceId": "98deda1c-bc1a-48f3-9d8c-0b61564e2307",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-10",
+        "instanceId": "98deda1c-bc1a-48f3-9d8c-0b61564e2307",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-11",
+        "instanceId": "19d68d23-4604-4aaf-a787-a17e248f341e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "corner-cube-12",
+        "instanceId": "27b56699-a990-4fe3-913c-3cb464122eaa",
         "side": "south"
       },
       "b": {
-        "instanceId": "cap-1000u-13",
+        "instanceId": "fc248c0a-4205-41a0-b07c-d77cefa2a08f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "cap-1000u-13",
+        "instanceId": "27b56699-a990-4fe3-913c-3cb464122eaa",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "6fcdf77f-9545-469b-9763-e5ed30e4bdb3",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "fc248c0a-4205-41a0-b07c-d77cefa2a08f",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-14",
+        "instanceId": "8327adce-01b2-4cf6-a915-7463f56a0a7f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-14",
+        "instanceId": "8327adce-01b2-4cf6-a915-7463f56a0a7f",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-15",
+        "instanceId": "48e33070-9f54-4012-b54a-f8be71af1268",
         "side": "north"
       }
     }
   ],
   "nets": [
     [
-      "ground-tile-7:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f:west",
+      "62f39938-cfcc-4f42-a939-9f174cff2b64:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "slide-switch-2:north"
+      "2fb213b7-d06a-47f5-bfae-d9c5c7f7aa0f:south",
+      "eb5e92d9-9f18-4ce1-bf43-762f8576ee03:north",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-3:north",
-      "slide-switch-2:south"
+      "767b4672-8e97-4e7e-b13c-b61dafccb8fb:north",
+      "eb5e92d9-9f18-4ce1-bf43-762f8576ee03:south"
     ],
     [
-      "cross-cube-4:north",
-      "resistor-470-3:south"
+      "6fcdf77f-9545-469b-9763-e5ed30e4bdb3:north",
+      "767b4672-8e97-4e7e-b13c-b61dafccb8fb:south"
     ],
     [
-      "corner-cube-12:west",
-      "cross-cube-4:east"
+      "62f39938-cfcc-4f42-a939-9f174cff2b64:north",
+      "799ea70c-f00f-468a-b4a6-9430a3922ed3:south"
     ],
     [
-      "cross-cube-4:south",
-      "straight-cube-5:north"
+      "19d68d23-4604-4aaf-a787-a17e248f341e:east",
+      "799ea70c-f00f-468a-b4a6-9430a3922ed3:west"
     ],
     [
-      "straight-cube-5:south",
-      "t-connector-6:north"
+      "48e33070-9f54-4012-b54a-f8be71af1268:west",
+      "799ea70c-f00f-468a-b4a6-9430a3922ed3:east"
     ],
     [
-      "ground-tile-7:north",
-      "t-connector-6:south"
+      "6fcdf77f-9545-469b-9763-e5ed30e4bdb3:west",
+      "a9bbd78b-fcdd-469c-b9e4-19fcf5ad36ed:east"
     ],
     [
-      "cap-100u-9:north",
-      "corner-cube-8:south"
+      "4ef53c44-4f1e-4d90-a597-916e31e44812:north",
+      "a9bbd78b-fcdd-469c-b9e4-19fcf5ad36ed:south"
     ],
     [
-      "cap-100u-9:south",
-      "led-red-10:north"
+      "4ef53c44-4f1e-4d90-a597-916e31e44812:south",
+      "98deda1c-bc1a-48f3-9d8c-0b61564e2307:north"
     ],
     [
-      "corner-cube-11:north",
-      "led-red-10:south"
+      "19d68d23-4604-4aaf-a787-a17e248f341e:north",
+      "98deda1c-bc1a-48f3-9d8c-0b61564e2307:south"
     ],
     [
-      "cap-1000u-13:north",
-      "corner-cube-12:south"
+      "27b56699-a990-4fe3-913c-3cb464122eaa:south",
+      "fc248c0a-4205-41a0-b07c-d77cefa2a08f:north"
     ],
     [
-      "cap-1000u-13:south",
-      "led-red-14:north"
+      "27b56699-a990-4fe3-913c-3cb464122eaa:west",
+      "6fcdf77f-9545-469b-9763-e5ed30e4bdb3:east"
     ],
     [
-      "corner-cube-15:north",
-      "led-red-14:south"
+      "8327adce-01b2-4cf6-a915-7463f56a0a7f:north",
+      "fc248c0a-4205-41a0-b07c-d77cefa2a08f:south"
+    ],
+    [
+      "48e33070-9f54-4012-b54a-f8be71af1268:north",
+      "8327adce-01b2-4cf6-a915-7463f56a0a7f:south"
     ]
   ]
 }
