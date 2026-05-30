@@ -5,103 +5,103 @@
     "title": "Two-Button Parallel Logic",
     "description": "Two tact buttons are wired in parallel. Press either button to light the LED — an OR gate. Both pressed also works. One shared resistor and LED sit below the merge point."
   },
-  "exportedAt": "2026-05-19T04:41:16.872Z",
+  "exportedAt": "2026-05-30T03:24:09.916Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "e056d1cb-3811-4623-a038-bc0aa1fddbee",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "t-connector-2",
+      "instanceId": "73054fb1-6eca-4e18-9662-e25e9c28061d",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 4,
-      "rotation": 90
-    },
-    {
-      "instanceId": "tact-button-3",
-      "catalogId": "tact-button",
-      "name": "Tact button",
-      "category": "component",
-      "value": "BTN",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "corner-cube-4",
-      "catalogId": "corner-cube",
-      "name": "Corner cube",
-      "category": "routing",
-      "gridX": 6,
-      "gridY": 4,
-      "rotation": 180
-    },
-    {
-      "instanceId": "tact-button-5",
-      "catalogId": "tact-button",
-      "name": "Tact button",
-      "category": "component",
-      "value": "BTN",
-      "gridX": 6,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "corner-cube-6",
-      "catalogId": "corner-cube",
-      "name": "Corner cube",
-      "category": "routing",
-      "gridX": 6,
-      "gridY": 6,
-      "rotation": 270
-    },
-    {
-      "instanceId": "t-connector-7",
-      "catalogId": "t-connector",
-      "name": "T connector",
-      "category": "routing",
-      "gridX": 5,
+      "gridX": 14,
       "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-470-8",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
+      "instanceId": "97245fa3-4c6a-42db-b514-3b3e8b7be9cd",
+      "catalogId": "tact-button",
+      "name": "Tact button",
       "category": "component",
-      "value": "470Ω",
-      "gridX": 5,
+      "value": "BTN",
+      "gridX": 14,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-9",
-      "catalogId": "led-red",
-      "name": "Red LED",
+      "instanceId": "1cb5c406-cfd8-454b-9e55-19bb630212aa",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 15,
+      "gridY": 6,
+      "rotation": 180
+    },
+    {
+      "instanceId": "0940d439-bade-4141-98df-6f0497f1a5d3",
+      "catalogId": "tact-button",
+      "name": "Tact button",
       "category": "component",
-      "value": "RED",
-      "gridX": 5,
+      "value": "BTN",
+      "gridX": 15,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "d4da69d9-d6be-43e4-a166-9869b2ff8f85",
+      "catalogId": "corner-cube",
+      "name": "Corner cube",
+      "category": "routing",
+      "gridX": 15,
       "gridY": 8,
       "rotation": 270
     },
     {
-      "instanceId": "ground-tile-10",
+      "instanceId": "1f7eecb9-1852-470c-ac69-58eb43ac7591",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "73f4fde9-a53e-49e4-bdaf-869344f7f5c8",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "31f6f396-33b8-485b-90f2-d9712840f907",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 14,
+      "gridY": 10,
+      "rotation": 270
+    },
+    {
+      "instanceId": "ddc5be63-e0ed-4291-8b4d-880a1e9e2956",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 9,
+      "gridX": 14,
+      "gridY": 11,
       "rotation": 0,
       "plateGround": true
     }
@@ -109,7 +109,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e056d1cb-3811-4623-a038-bc0aa1fddbee",
         "side": "west"
       },
       "b": {
@@ -118,7 +118,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e056d1cb-3811-4623-a038-bc0aa1fddbee",
         "side": "south"
       },
       "b": {
@@ -127,107 +127,107 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e056d1cb-3811-4623-a038-bc0aa1fddbee",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-2",
+        "instanceId": "73054fb1-6eca-4e18-9662-e25e9c28061d",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "73054fb1-6eca-4e18-9662-e25e9c28061d",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-4",
+        "instanceId": "1cb5c406-cfd8-454b-9e55-19bb630212aa",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "73054fb1-6eca-4e18-9662-e25e9c28061d",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-3",
+        "instanceId": "97245fa3-4c6a-42db-b514-3b3e8b7be9cd",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-3",
+        "instanceId": "97245fa3-4c6a-42db-b514-3b3e8b7be9cd",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-7",
+        "instanceId": "1f7eecb9-1852-470c-ac69-58eb43ac7591",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "corner-cube-4",
+        "instanceId": "1cb5c406-cfd8-454b-9e55-19bb630212aa",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-5",
+        "instanceId": "0940d439-bade-4141-98df-6f0497f1a5d3",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-5",
+        "instanceId": "0940d439-bade-4141-98df-6f0497f1a5d3",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-6",
+        "instanceId": "d4da69d9-d6be-43e4-a166-9869b2ff8f85",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "corner-cube-6",
+        "instanceId": "d4da69d9-d6be-43e4-a166-9869b2ff8f85",
         "side": "west"
       },
       "b": {
-        "instanceId": "t-connector-7",
+        "instanceId": "1f7eecb9-1852-470c-ac69-58eb43ac7591",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-7",
+        "instanceId": "1f7eecb9-1852-470c-ac69-58eb43ac7591",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-8",
+        "instanceId": "73f4fde9-a53e-49e4-bdaf-869344f7f5c8",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-8",
+        "instanceId": "73f4fde9-a53e-49e4-bdaf-869344f7f5c8",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-9",
+        "instanceId": "31f6f396-33b8-485b-90f2-d9712840f907",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-9",
+        "instanceId": "31f6f396-33b8-485b-90f2-d9712840f907",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-10",
+        "instanceId": "ddc5be63-e0ed-4291-8b4d-880a1e9e2956",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-10",
+        "instanceId": "ddc5be63-e0ed-4291-8b4d-880a1e9e2956",
         "side": "south"
       },
       "b": {
@@ -237,50 +237,50 @@
   ],
   "nets": [
     [
-      "ground-tile-10:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "ddc5be63-e0ed-4291-8b4d-880a1e9e2956:south",
+      "e056d1cb-3811-4623-a038-bc0aa1fddbee:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "t-connector-2:north"
+      "73054fb1-6eca-4e18-9662-e25e9c28061d:north",
+      "e056d1cb-3811-4623-a038-bc0aa1fddbee:south",
+      "net:USB_VCC"
     ],
     [
-      "corner-cube-4:west",
-      "t-connector-2:east"
+      "1cb5c406-cfd8-454b-9e55-19bb630212aa:west",
+      "73054fb1-6eca-4e18-9662-e25e9c28061d:east"
     ],
     [
-      "t-connector-2:south",
-      "tact-button-3:north"
+      "73054fb1-6eca-4e18-9662-e25e9c28061d:south",
+      "97245fa3-4c6a-42db-b514-3b3e8b7be9cd:north"
     ],
     [
-      "t-connector-7:north",
-      "tact-button-3:south"
+      "1f7eecb9-1852-470c-ac69-58eb43ac7591:north",
+      "97245fa3-4c6a-42db-b514-3b3e8b7be9cd:south"
     ],
     [
-      "corner-cube-4:south",
-      "tact-button-5:north"
+      "0940d439-bade-4141-98df-6f0497f1a5d3:north",
+      "1cb5c406-cfd8-454b-9e55-19bb630212aa:south"
     ],
     [
-      "corner-cube-6:north",
-      "tact-button-5:south"
+      "0940d439-bade-4141-98df-6f0497f1a5d3:south",
+      "d4da69d9-d6be-43e4-a166-9869b2ff8f85:north"
     ],
     [
-      "corner-cube-6:west",
-      "t-connector-7:east"
+      "1f7eecb9-1852-470c-ac69-58eb43ac7591:east",
+      "d4da69d9-d6be-43e4-a166-9869b2ff8f85:west"
     ],
     [
-      "resistor-470-8:north",
-      "t-connector-7:south"
+      "1f7eecb9-1852-470c-ac69-58eb43ac7591:south",
+      "73f4fde9-a53e-49e4-bdaf-869344f7f5c8:north"
     ],
     [
-      "led-red-9:north",
-      "resistor-470-8:south"
+      "31f6f396-33b8-485b-90f2-d9712840f907:north",
+      "73f4fde9-a53e-49e4-bdaf-869344f7f5c8:south"
     ],
     [
-      "ground-tile-10:north",
-      "led-red-9:south"
+      "31f6f396-33b8-485b-90f2-d9712840f907:south",
+      "ddc5be63-e0ed-4291-8b4d-880a1e9e2956:north"
     ]
   ]
 }

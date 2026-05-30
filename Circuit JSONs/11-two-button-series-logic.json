@@ -5,67 +5,67 @@
     "title": "Two-Button Series Logic",
     "description": "Two tact buttons are wired in series. The LED lights only when you press both at the same time — an AND gate. Press just one button and the path stays open."
   },
-  "exportedAt": "2026-05-19T04:27:09.456Z",
+  "exportedAt": "2026-05-30T03:23:36.866Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "bd086476-2d96-41ba-852f-8698938e185f",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "tact-button-2",
+      "instanceId": "088c5030-3da1-4783-b586-3203463031cf",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
       "value": "BTN",
-      "gridX": 5,
-      "gridY": 4,
-      "rotation": 90
-    },
-    {
-      "instanceId": "tact-button-3",
-      "catalogId": "tact-button",
-      "name": "Tact button",
-      "category": "component",
-      "value": "BTN",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "resistor-470-4",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 5,
+      "gridX": 14,
       "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-5",
+      "instanceId": "a3fd34c3-17a2-41fb-b654-1dd95ec2db3f",
+      "catalogId": "tact-button",
+      "name": "Tact button",
+      "category": "component",
+      "value": "BTN",
+      "gridX": 14,
+      "gridY": 7,
+      "rotation": 90
+    },
+    {
+      "instanceId": "294027fe-799f-43f3-a075-dfd870f7f78d",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "2618b763-6bb7-49c1-84a8-2523a8c90816",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 7,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "ground-tile-6",
+      "instanceId": "3ae77ec3-4a3d-4d8b-b2e0-002fccfb496f",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 8,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -73,7 +73,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "bd086476-2d96-41ba-852f-8698938e185f",
         "side": "west"
       },
       "b": {
@@ -82,7 +82,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "bd086476-2d96-41ba-852f-8698938e185f",
         "side": "south"
       },
       "b": {
@@ -91,57 +91,57 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "bd086476-2d96-41ba-852f-8698938e185f",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-2",
+        "instanceId": "088c5030-3da1-4783-b586-3203463031cf",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-2",
+        "instanceId": "088c5030-3da1-4783-b586-3203463031cf",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-3",
+        "instanceId": "a3fd34c3-17a2-41fb-b654-1dd95ec2db3f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-3",
+        "instanceId": "a3fd34c3-17a2-41fb-b654-1dd95ec2db3f",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-4",
+        "instanceId": "294027fe-799f-43f3-a075-dfd870f7f78d",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-4",
+        "instanceId": "294027fe-799f-43f3-a075-dfd870f7f78d",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-5",
+        "instanceId": "2618b763-6bb7-49c1-84a8-2523a8c90816",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-5",
+        "instanceId": "2618b763-6bb7-49c1-84a8-2523a8c90816",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "3ae77ec3-4a3d-4d8b-b2e0-002fccfb496f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "3ae77ec3-4a3d-4d8b-b2e0-002fccfb496f",
         "side": "south"
       },
       "b": {
@@ -151,30 +151,30 @@
   ],
   "nets": [
     [
-      "ground-tile-6:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "3ae77ec3-4a3d-4d8b-b2e0-002fccfb496f:south",
+      "bd086476-2d96-41ba-852f-8698938e185f:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "tact-button-2:north"
+      "088c5030-3da1-4783-b586-3203463031cf:north",
+      "bd086476-2d96-41ba-852f-8698938e185f:south",
+      "net:USB_VCC"
     ],
     [
-      "tact-button-2:south",
-      "tact-button-3:north"
+      "088c5030-3da1-4783-b586-3203463031cf:south",
+      "a3fd34c3-17a2-41fb-b654-1dd95ec2db3f:north"
     ],
     [
-      "resistor-470-4:north",
-      "tact-button-3:south"
+      "294027fe-799f-43f3-a075-dfd870f7f78d:north",
+      "a3fd34c3-17a2-41fb-b654-1dd95ec2db3f:south"
     ],
     [
-      "led-red-5:north",
-      "resistor-470-4:south"
+      "2618b763-6bb7-49c1-84a8-2523a8c90816:north",
+      "294027fe-799f-43f3-a075-dfd870f7f78d:south"
     ],
     [
-      "ground-tile-6:north",
-      "led-red-5:south"
+      "2618b763-6bb7-49c1-84a8-2523a8c90816:south",
+      "3ae77ec3-4a3d-4d8b-b2e0-002fccfb496f:north"
     ]
   ]
 }

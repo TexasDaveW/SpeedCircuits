@@ -5,10 +5,10 @@
     "title": "Reverse LED Polarity Test",
     "description": "The LED is flipped compared to lesson 1. Current cannot flow the wrong way through an LED, so it stays dark. Swap polarity and it lights again."
   },
-  "exportedAt": "2026-05-30T03:10:23.982Z",
+  "exportedAt": "2026-05-30T03:22:39.401Z",
   "tiles": [
     {
-      "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
+      "instanceId": "2ee08ce9-5145-48c4-bfc5-cb37885c926c",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
@@ -19,7 +19,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
+      "instanceId": "7aa7e0c2-a437-4349-9f19-8cf10eabb68b",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
@@ -29,17 +29,17 @@
       "rotation": 90
     },
     {
-      "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
+      "instanceId": "d9520dd7-38b3-459a-8472-6796b6d07482",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
       "gridX": 14,
       "gridY": 9,
-      "rotation": 90
+      "rotation": 270
     },
     {
-      "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
+      "instanceId": "f8d74fe4-4d43-47fd-9651-ca9c9a6c2bcf",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
@@ -53,7 +53,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
+        "instanceId": "2ee08ce9-5145-48c4-bfc5-cb37885c926c",
         "side": "west"
       },
       "b": {
@@ -62,7 +62,7 @@
     },
     {
       "a": {
-        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
+        "instanceId": "2ee08ce9-5145-48c4-bfc5-cb37885c926c",
         "side": "south"
       },
       "b": {
@@ -71,37 +71,37 @@
     },
     {
       "a": {
-        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
+        "instanceId": "2ee08ce9-5145-48c4-bfc5-cb37885c926c",
         "side": "south"
       },
       "b": {
-        "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
+        "instanceId": "7aa7e0c2-a437-4349-9f19-8cf10eabb68b",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
+        "instanceId": "7aa7e0c2-a437-4349-9f19-8cf10eabb68b",
         "side": "south"
       },
       "b": {
-        "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
+        "instanceId": "d9520dd7-38b3-459a-8472-6796b6d07482",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
+        "instanceId": "d9520dd7-38b3-459a-8472-6796b6d07482",
         "side": "south"
       },
       "b": {
-        "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
+        "instanceId": "f8d74fe4-4d43-47fd-9651-ca9c9a6c2bcf",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
+        "instanceId": "f8d74fe4-4d43-47fd-9651-ca9c9a6c2bcf",
         "side": "south"
       },
       "b": {
@@ -111,22 +111,22 @@
   ],
   "nets": [
     [
-      "76f66118-456a-47c6-8b17-731b29f58764:south",
-      "b6573020-7489-4829-96e5-ed769923f9af:west",
+      "2ee08ce9-5145-48c4-bfc5-cb37885c926c:west",
+      "f8d74fe4-4d43-47fd-9651-ca9c9a6c2bcf:south",
       "net:PLATE_GND"
     ],
     [
-      "1e04c13a-bc47-4d23-b98d-72b676b2e615:north",
-      "b6573020-7489-4829-96e5-ed769923f9af:south",
+      "2ee08ce9-5145-48c4-bfc5-cb37885c926c:south",
+      "7aa7e0c2-a437-4349-9f19-8cf10eabb68b:north",
       "net:USB_VCC"
     ],
     [
-      "1e04c13a-bc47-4d23-b98d-72b676b2e615:south",
-      "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba:north"
+      "7aa7e0c2-a437-4349-9f19-8cf10eabb68b:south",
+      "d9520dd7-38b3-459a-8472-6796b6d07482:north"
     ],
     [
-      "76f66118-456a-47c6-8b17-731b29f58764:north",
-      "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba:south"
+      "d9520dd7-38b3-459a-8472-6796b6d07482:south",
+      "f8d74fe4-4d43-47fd-9651-ca9c9a6c2bcf:north"
     ]
   ]
 }
