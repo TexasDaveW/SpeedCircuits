@@ -5,74 +5,74 @@
     "title": "Adjustable Voltage Divider",
     "description": "USB and ground bracket a pot between two 10kΩ resistors. Turning the knob moves the wiper tap from near 0 V to near 5 V. The east corner marks the adjustable output — this same divider idea feeds the base in lesson 16."
   },
-  "exportedAt": "2026-05-19T21:37:03.747Z",
+  "exportedAt": "2026-05-30T03:32:17.865Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "56c91d6e-194c-40f4-8e42-115676aee5ea",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-10k-2",
+      "instanceId": "cfa3ecc1-619f-41b3-99c9-cec74dd0fe96",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "potentiometer-3",
+      "instanceId": "0fb94bb9-6b9c-449a-a56c-f064f9af1fee",
       "catalogId": "potentiometer",
       "name": "Potentiometer",
       "category": "component",
       "value": "POT",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 270
     },
     {
-      "instanceId": "resistor-10k-4",
+      "instanceId": "b42e58dd-155c-451e-80e1-5a3fbe48ed5f",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-5",
+      "instanceId": "6a01704a-059b-4073-8b9e-4585747905d0",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-6",
+      "instanceId": "105ae03a-8ab9-4f52-a879-08210a2bb451",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 5,
+      "gridX": 15,
+      "gridY": 8,
       "rotation": 180
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "56c91d6e-194c-40f4-8e42-115676aee5ea",
         "side": "west"
       },
       "b": {
@@ -81,7 +81,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "56c91d6e-194c-40f4-8e42-115676aee5ea",
         "side": "south"
       },
       "b": {
@@ -90,57 +90,57 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "56c91d6e-194c-40f4-8e42-115676aee5ea",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-2",
+        "instanceId": "cfa3ecc1-619f-41b3-99c9-cec74dd0fe96",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-2",
+        "instanceId": "cfa3ecc1-619f-41b3-99c9-cec74dd0fe96",
         "side": "south"
       },
       "b": {
-        "instanceId": "potentiometer-3",
+        "instanceId": "0fb94bb9-6b9c-449a-a56c-f064f9af1fee",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "potentiometer-3",
+        "instanceId": "0fb94bb9-6b9c-449a-a56c-f064f9af1fee",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "b42e58dd-155c-451e-80e1-5a3fbe48ed5f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "potentiometer-3",
+        "instanceId": "0fb94bb9-6b9c-449a-a56c-f064f9af1fee",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-6",
+        "instanceId": "105ae03a-8ab9-4f52-a879-08210a2bb451",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "b42e58dd-155c-451e-80e1-5a3fbe48ed5f",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "6a01704a-059b-4073-8b9e-4585747905d0",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "6a01704a-059b-4073-8b9e-4585747905d0",
         "side": "south"
       },
       "b": {
@@ -150,30 +150,30 @@
   ],
   "nets": [
     [
-      "ground-tile-5:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "56c91d6e-194c-40f4-8e42-115676aee5ea:west",
+      "6a01704a-059b-4073-8b9e-4585747905d0:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-10k-2:north"
+      "56c91d6e-194c-40f4-8e42-115676aee5ea:south",
+      "cfa3ecc1-619f-41b3-99c9-cec74dd0fe96:north",
+      "net:USB_VCC"
     ],
     [
-      "potentiometer-3:north",
-      "resistor-10k-2:south"
+      "0fb94bb9-6b9c-449a-a56c-f064f9af1fee:north",
+      "cfa3ecc1-619f-41b3-99c9-cec74dd0fe96:south"
     ],
     [
-      "potentiometer-3:south",
-      "resistor-10k-4:north"
+      "0fb94bb9-6b9c-449a-a56c-f064f9af1fee:south",
+      "b42e58dd-155c-451e-80e1-5a3fbe48ed5f:north"
     ],
     [
-      "corner-cube-6:west",
-      "potentiometer-3:east"
+      "0fb94bb9-6b9c-449a-a56c-f064f9af1fee:east",
+      "105ae03a-8ab9-4f52-a879-08210a2bb451:west"
     ],
     [
-      "ground-tile-5:north",
-      "resistor-10k-4:south"
+      "6a01704a-059b-4073-8b9e-4585747905d0:north",
+      "b42e58dd-155c-451e-80e1-5a3fbe48ed5f:south"
     ]
   ]
 }
