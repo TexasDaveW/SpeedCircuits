@@ -5,10 +5,10 @@
     "title": "Capacitor Discharge Demo",
     "description": "Hold the tact button to charge the 1000µF capacitor through the center 470Ω resistor. The cap and the east branch (470Ω + red LED) are in parallel. Release the button — USB disconnects, but the charged cap powers the LED through the east branch and it fades out over about 1–2 seconds as the cap empties. Orient the LED at 90° (anode north, cathode south). Put the cap + toward the power side."
   },
-  "exportedAt": "2026-05-30T03:33:57.224Z",
+  "exportedAt": "2026-05-30T11:29:56.083Z",
   "tiles": [
     {
-      "instanceId": "47456e94-0d69-4f41-b9d5-d3c1d97aaefe",
+      "instanceId": "4a9c3193-eec2-4a25-b617-8fa973b32ffa",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
@@ -19,7 +19,7 @@
       "plateGround": true
     },
     {
-      "instanceId": "365c72a2-b7cd-477b-8e2b-4e5777a6a3f6",
+      "instanceId": "62d960ab-d51d-4eeb-92f9-e1e99a109a19",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
@@ -29,7 +29,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "f4c7b918-1399-449e-94d5-b7188417b0c9",
+      "instanceId": "42c1a57b-904d-44e1-b228-35a13f895c2d",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
@@ -39,7 +39,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "0807b820-2543-47cb-b5a1-07ad2721ba49",
+      "instanceId": "1fe2a270-969d-41b3-bcda-9a0166cefb5e",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
@@ -48,7 +48,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "3540f1c8-b84f-4fc5-abd0-43563ae2a580",
+      "instanceId": "39c79da7-50d4-4227-9a97-e341f038a2d2",
       "catalogId": "cap-1000u",
       "name": "1000µF capacitor",
       "category": "component",
@@ -58,27 +58,27 @@
       "rotation": 90
     },
     {
-      "instanceId": "1ced7e4b-ec94-4d19-8b9d-56d56262c666",
+      "instanceId": "5590057c-505d-427d-8e9e-8d227b212b07",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
       "gridX": 14,
-      "gridY": 9,
+      "gridY": 10,
       "rotation": 90
     },
     {
-      "instanceId": "fe0111b2-2768-4c67-a13a-c9642af91f91",
+      "instanceId": "1785fc88-7119-455e-95e4-6f7e0cdcbd0d",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
       "gridX": 14,
-      "gridY": 10,
+      "gridY": 11,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "5aaee9dd-1b71-41e6-bc15-2ece9f9519f7",
+      "instanceId": "16504a92-fc7a-4c98-8569-b8ab91050bbe",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
@@ -87,7 +87,7 @@
       "rotation": 180
     },
     {
-      "instanceId": "bf5b7b2f-994a-4c8d-85dc-7bf54abe54f0",
+      "instanceId": "fc7a3ef0-24d1-42c7-9767-3513190282f4",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
@@ -97,7 +97,7 @@
       "rotation": 90
     },
     {
-      "instanceId": "a7e727e3-2398-4a9f-8bd9-050842111114",
+      "instanceId": "e52fc6b9-bd06-41e9-a5c0-123ab8744b6e",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
@@ -107,19 +107,28 @@
       "rotation": 90
     },
     {
-      "instanceId": "22c9363b-5421-40c5-80a4-b6411a973d88",
+      "instanceId": "a985d298-88c2-489e-9af1-2ec2aec5d984",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
       "gridX": 15,
       "gridY": 10,
       "rotation": 270
+    },
+    {
+      "instanceId": "2fffe1a2-00f8-49df-ad82-53c0111bde0e",
+      "catalogId": "straight-cube",
+      "name": "Straight cube",
+      "category": "routing",
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "47456e94-0d69-4f41-b9d5-d3c1d97aaefe",
+        "instanceId": "4a9c3193-eec2-4a25-b617-8fa973b32ffa",
         "side": "west"
       },
       "b": {
@@ -128,7 +137,7 @@
     },
     {
       "a": {
-        "instanceId": "47456e94-0d69-4f41-b9d5-d3c1d97aaefe",
+        "instanceId": "4a9c3193-eec2-4a25-b617-8fa973b32ffa",
         "side": "south"
       },
       "b": {
@@ -137,77 +146,97 @@
     },
     {
       "a": {
-        "instanceId": "47456e94-0d69-4f41-b9d5-d3c1d97aaefe",
+        "instanceId": "4a9c3193-eec2-4a25-b617-8fa973b32ffa",
         "side": "south"
       },
       "b": {
-        "instanceId": "365c72a2-b7cd-477b-8e2b-4e5777a6a3f6",
+        "instanceId": "62d960ab-d51d-4eeb-92f9-e1e99a109a19",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "365c72a2-b7cd-477b-8e2b-4e5777a6a3f6",
+        "instanceId": "62d960ab-d51d-4eeb-92f9-e1e99a109a19",
         "side": "south"
       },
       "b": {
-        "instanceId": "f4c7b918-1399-449e-94d5-b7188417b0c9",
+        "instanceId": "42c1a57b-904d-44e1-b228-35a13f895c2d",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "f4c7b918-1399-449e-94d5-b7188417b0c9",
+        "instanceId": "42c1a57b-904d-44e1-b228-35a13f895c2d",
         "side": "south"
       },
       "b": {
-        "instanceId": "0807b820-2543-47cb-b5a1-07ad2721ba49",
+        "instanceId": "1fe2a270-969d-41b3-bcda-9a0166cefb5e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "0807b820-2543-47cb-b5a1-07ad2721ba49",
+        "instanceId": "1fe2a270-969d-41b3-bcda-9a0166cefb5e",
         "side": "east"
       },
       "b": {
-        "instanceId": "5aaee9dd-1b71-41e6-bc15-2ece9f9519f7",
+        "instanceId": "16504a92-fc7a-4c98-8569-b8ab91050bbe",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "0807b820-2543-47cb-b5a1-07ad2721ba49",
+        "instanceId": "1fe2a270-969d-41b3-bcda-9a0166cefb5e",
         "side": "south"
       },
       "b": {
-        "instanceId": "3540f1c8-b84f-4fc5-abd0-43563ae2a580",
+        "instanceId": "39c79da7-50d4-4227-9a97-e341f038a2d2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "3540f1c8-b84f-4fc5-abd0-43563ae2a580",
+        "instanceId": "39c79da7-50d4-4227-9a97-e341f038a2d2",
         "side": "south"
       },
       "b": {
-        "instanceId": "1ced7e4b-ec94-4d19-8b9d-56d56262c666",
+        "instanceId": "2fffe1a2-00f8-49df-ad82-53c0111bde0e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "1ced7e4b-ec94-4d19-8b9d-56d56262c666",
+        "instanceId": "5590057c-505d-427d-8e9e-8d227b212b07",
+        "side": "east"
+      },
+      "b": {
+        "instanceId": "a985d298-88c2-489e-9af1-2ec2aec5d984",
+        "side": "west"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "5590057c-505d-427d-8e9e-8d227b212b07",
         "side": "south"
       },
       "b": {
-        "instanceId": "fe0111b2-2768-4c67-a13a-c9642af91f91",
+        "instanceId": "1785fc88-7119-455e-95e4-6f7e0cdcbd0d",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "fe0111b2-2768-4c67-a13a-c9642af91f91",
+        "instanceId": "5590057c-505d-427d-8e9e-8d227b212b07",
+        "side": "north"
+      },
+      "b": {
+        "instanceId": "2fffe1a2-00f8-49df-ad82-53c0111bde0e",
+        "side": "south"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "1785fc88-7119-455e-95e4-6f7e0cdcbd0d",
         "side": "south"
       },
       "b": {
@@ -216,81 +245,89 @@
     },
     {
       "a": {
-        "instanceId": "5aaee9dd-1b71-41e6-bc15-2ece9f9519f7",
+        "instanceId": "16504a92-fc7a-4c98-8569-b8ab91050bbe",
         "side": "south"
       },
       "b": {
-        "instanceId": "bf5b7b2f-994a-4c8d-85dc-7bf54abe54f0",
+        "instanceId": "fc7a3ef0-24d1-42c7-9767-3513190282f4",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "bf5b7b2f-994a-4c8d-85dc-7bf54abe54f0",
+        "instanceId": "fc7a3ef0-24d1-42c7-9767-3513190282f4",
         "side": "south"
       },
       "b": {
-        "instanceId": "a7e727e3-2398-4a9f-8bd9-050842111114",
+        "instanceId": "e52fc6b9-bd06-41e9-a5c0-123ab8744b6e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "a7e727e3-2398-4a9f-8bd9-050842111114",
+        "instanceId": "e52fc6b9-bd06-41e9-a5c0-123ab8744b6e",
         "side": "south"
       },
       "b": {
-        "instanceId": "22c9363b-5421-40c5-80a4-b6411a973d88",
+        "instanceId": "a985d298-88c2-489e-9af1-2ec2aec5d984",
         "side": "north"
       }
     }
   ],
   "nets": [
     [
-      "47456e94-0d69-4f41-b9d5-d3c1d97aaefe:west",
-      "fe0111b2-2768-4c67-a13a-c9642af91f91:south",
+      "1785fc88-7119-455e-95e4-6f7e0cdcbd0d:south",
+      "4a9c3193-eec2-4a25-b617-8fa973b32ffa:west",
       "net:PLATE_GND"
     ],
     [
-      "365c72a2-b7cd-477b-8e2b-4e5777a6a3f6:north",
-      "47456e94-0d69-4f41-b9d5-d3c1d97aaefe:south",
+      "4a9c3193-eec2-4a25-b617-8fa973b32ffa:south",
+      "62d960ab-d51d-4eeb-92f9-e1e99a109a19:north",
       "net:USB_VCC"
     ],
     [
-      "365c72a2-b7cd-477b-8e2b-4e5777a6a3f6:south",
-      "f4c7b918-1399-449e-94d5-b7188417b0c9:north"
+      "42c1a57b-904d-44e1-b228-35a13f895c2d:north",
+      "62d960ab-d51d-4eeb-92f9-e1e99a109a19:south"
     ],
     [
-      "0807b820-2543-47cb-b5a1-07ad2721ba49:north",
-      "f4c7b918-1399-449e-94d5-b7188417b0c9:south"
+      "1fe2a270-969d-41b3-bcda-9a0166cefb5e:north",
+      "42c1a57b-904d-44e1-b228-35a13f895c2d:south"
     ],
     [
-      "0807b820-2543-47cb-b5a1-07ad2721ba49:east",
-      "5aaee9dd-1b71-41e6-bc15-2ece9f9519f7:west"
+      "16504a92-fc7a-4c98-8569-b8ab91050bbe:west",
+      "1fe2a270-969d-41b3-bcda-9a0166cefb5e:east"
     ],
     [
-      "0807b820-2543-47cb-b5a1-07ad2721ba49:south",
-      "3540f1c8-b84f-4fc5-abd0-43563ae2a580:north"
+      "1fe2a270-969d-41b3-bcda-9a0166cefb5e:south",
+      "39c79da7-50d4-4227-9a97-e341f038a2d2:north"
     ],
     [
-      "1ced7e4b-ec94-4d19-8b9d-56d56262c666:north",
-      "3540f1c8-b84f-4fc5-abd0-43563ae2a580:south"
+      "2fffe1a2-00f8-49df-ad82-53c0111bde0e:north",
+      "39c79da7-50d4-4227-9a97-e341f038a2d2:south"
     ],
     [
-      "1ced7e4b-ec94-4d19-8b9d-56d56262c666:south",
-      "fe0111b2-2768-4c67-a13a-c9642af91f91:north"
+      "5590057c-505d-427d-8e9e-8d227b212b07:east",
+      "a985d298-88c2-489e-9af1-2ec2aec5d984:west"
     ],
     [
-      "5aaee9dd-1b71-41e6-bc15-2ece9f9519f7:south",
-      "bf5b7b2f-994a-4c8d-85dc-7bf54abe54f0:north"
+      "1785fc88-7119-455e-95e4-6f7e0cdcbd0d:north",
+      "5590057c-505d-427d-8e9e-8d227b212b07:south"
     ],
     [
-      "a7e727e3-2398-4a9f-8bd9-050842111114:north",
-      "bf5b7b2f-994a-4c8d-85dc-7bf54abe54f0:south"
+      "2fffe1a2-00f8-49df-ad82-53c0111bde0e:south",
+      "5590057c-505d-427d-8e9e-8d227b212b07:north"
     ],
     [
-      "22c9363b-5421-40c5-80a4-b6411a973d88:north",
-      "a7e727e3-2398-4a9f-8bd9-050842111114:south"
+      "16504a92-fc7a-4c98-8569-b8ab91050bbe:south",
+      "fc7a3ef0-24d1-42c7-9767-3513190282f4:north"
+    ],
+    [
+      "e52fc6b9-bd06-41e9-a5c0-123ab8744b6e:north",
+      "fc7a3ef0-24d1-42c7-9767-3513190282f4:south"
+    ],
+    [
+      "a985d298-88c2-489e-9af1-2ec2aec5d984:north",
+      "e52fc6b9-bd06-41e9-a5c0-123ab8744b6e:south"
     ]
   ]
 }
