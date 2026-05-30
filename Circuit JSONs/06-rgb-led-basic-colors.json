@@ -1,47 +1,51 @@
 {
   "version": 1,
   "name": "RGB LED Basic Colors",
-  "exportedAt": "2026-05-19T04:07:50.470Z",
+  "lesson": {
+    "title": "RGB LED Basic Colors",
+    "description": "A 470Ω resistor feeds the RGB LED. All three color dies share one current path — you see mixed light. This is the simplest way to power a common RGB module."
+  },
+  "exportedAt": "2026-05-30T03:15:50.001Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "f421db14-7f0a-45db-85dc-dbca42f1151a",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-470-2",
+      "instanceId": "f33eac2e-5414-4b67-aa74-35f56be58a3a",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "rgb-led-3",
+      "instanceId": "452b1f95-e9e7-4e08-82aa-443ee10b0469",
       "catalogId": "rgb-led",
       "name": "RGB LED",
       "category": "component",
       "value": "RGB",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "ground-tile-4",
+      "instanceId": "fda0c817-aab8-416e-b9c3-fcd977f7bf3f",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -49,7 +53,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "f421db14-7f0a-45db-85dc-dbca42f1151a",
         "side": "west"
       },
       "b": {
@@ -58,7 +62,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "f421db14-7f0a-45db-85dc-dbca42f1151a",
         "side": "south"
       },
       "b": {
@@ -67,37 +71,37 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "f421db14-7f0a-45db-85dc-dbca42f1151a",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "f33eac2e-5414-4b67-aa74-35f56be58a3a",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "f33eac2e-5414-4b67-aa74-35f56be58a3a",
         "side": "south"
       },
       "b": {
-        "instanceId": "rgb-led-3",
+        "instanceId": "452b1f95-e9e7-4e08-82aa-443ee10b0469",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "rgb-led-3",
+        "instanceId": "452b1f95-e9e7-4e08-82aa-443ee10b0469",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "fda0c817-aab8-416e-b9c3-fcd977f7bf3f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "fda0c817-aab8-416e-b9c3-fcd977f7bf3f",
         "side": "south"
       },
       "b": {
@@ -107,26 +111,22 @@
   ],
   "nets": [
     [
-      "ground-tile-4:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "f421db14-7f0a-45db-85dc-dbca42f1151a:west",
+      "fda0c817-aab8-416e-b9c3-fcd977f7bf3f:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-470-2:north"
+      "f33eac2e-5414-4b67-aa74-35f56be58a3a:north",
+      "f421db14-7f0a-45db-85dc-dbca42f1151a:south",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-2:south",
-      "rgb-led-3:north"
+      "452b1f95-e9e7-4e08-82aa-443ee10b0469:north",
+      "f33eac2e-5414-4b67-aa74-35f56be58a3a:south"
     ],
     [
-      "ground-tile-4:north",
-      "rgb-led-3:south"
+      "452b1f95-e9e7-4e08-82aa-443ee10b0469:south",
+      "fda0c817-aab8-416e-b9c3-fcd977f7bf3f:north"
     ]
-  ],
-  "lesson": {
-    "title": "RGB LED Basic Colors",
-    "description": "A 470Ω resistor feeds the RGB LED. All three color dies share one current path — you see mixed light. This is the simplest way to power a common RGB module."
-  }
+  ]
 }

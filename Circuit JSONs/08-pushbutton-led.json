@@ -1,57 +1,61 @@
 {
   "version": 1,
   "name": "Pushbutton LED",
-  "exportedAt": "2026-05-19T04:07:50.471Z",
+  "lesson": {
+    "title": "Pushbutton LED",
+    "description": "Press the tact button to close the switch. Current flows USB → button → 470Ω → red LED → ground only while you hold it down. Release the button and the path opens."
+  },
+  "exportedAt": "2026-05-30T03:17:40.652Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "297007e3-1b6f-4575-bdd5-03d18a555b54",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "tact-button-2",
+      "instanceId": "78b11cf7-ddc8-4921-9040-ecf99db51244",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
       "value": "BTN",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-470-3",
+      "instanceId": "a010960c-d4ab-40d0-9779-5d49e15355ca",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-4",
+      "instanceId": "05ebfaf1-40b1-4a1f-9f68-c74de64d75a1",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 6,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "ground-tile-5",
+      "instanceId": "e9d08a02-5a40-4a53-ba71-6455a7571fd9",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -59,7 +63,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "297007e3-1b6f-4575-bdd5-03d18a555b54",
         "side": "west"
       },
       "b": {
@@ -68,7 +72,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "297007e3-1b6f-4575-bdd5-03d18a555b54",
         "side": "south"
       },
       "b": {
@@ -77,47 +81,47 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "297007e3-1b6f-4575-bdd5-03d18a555b54",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-2",
+        "instanceId": "78b11cf7-ddc8-4921-9040-ecf99db51244",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-2",
+        "instanceId": "78b11cf7-ddc8-4921-9040-ecf99db51244",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "a010960c-d4ab-40d0-9779-5d49e15355ca",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "a010960c-d4ab-40d0-9779-5d49e15355ca",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-4",
+        "instanceId": "05ebfaf1-40b1-4a1f-9f68-c74de64d75a1",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-4",
+        "instanceId": "05ebfaf1-40b1-4a1f-9f68-c74de64d75a1",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "e9d08a02-5a40-4a53-ba71-6455a7571fd9",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "e9d08a02-5a40-4a53-ba71-6455a7571fd9",
         "side": "south"
       },
       "b": {
@@ -127,30 +131,26 @@
   ],
   "nets": [
     [
-      "ground-tile-5:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "297007e3-1b6f-4575-bdd5-03d18a555b54:west",
+      "e9d08a02-5a40-4a53-ba71-6455a7571fd9:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "tact-button-2:north"
+      "297007e3-1b6f-4575-bdd5-03d18a555b54:south",
+      "78b11cf7-ddc8-4921-9040-ecf99db51244:north",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-3:north",
-      "tact-button-2:south"
+      "78b11cf7-ddc8-4921-9040-ecf99db51244:south",
+      "a010960c-d4ab-40d0-9779-5d49e15355ca:north"
     ],
     [
-      "led-red-4:north",
-      "resistor-470-3:south"
+      "05ebfaf1-40b1-4a1f-9f68-c74de64d75a1:north",
+      "a010960c-d4ab-40d0-9779-5d49e15355ca:south"
     ],
     [
-      "ground-tile-5:north",
-      "led-red-4:south"
+      "05ebfaf1-40b1-4a1f-9f68-c74de64d75a1:south",
+      "e9d08a02-5a40-4a53-ba71-6455a7571fd9:north"
     ]
-  ],
-  "lesson": {
-    "title": "Pushbutton LED",
-    "description": "Press the tact button to close the switch. Current flows USB → button → 470Ω → red LED → ground only while you hold it down. Release the button and the path opens."
-  }
+  ]
 }

@@ -5,47 +5,47 @@
     "title": "LED + Resistor",
     "description": "Your first complete circuit. USB power flows through a 470Ω resistor, then the red LED, to ground. The resistor limits current so the LED does not burn out."
   },
-  "exportedAt": "2026-05-22T13:39:24.255Z",
+  "exportedAt": "2026-05-30T03:08:40.061Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-470-2",
+      "instanceId": "c31c134b-1dc1-4e82-9bd3-7d95a50fa0ac",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-3",
+      "instanceId": "14232086-92c5-4bea-9341-2d6c5d57171b",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "ground-tile-4",
+      "instanceId": "5444e082-4e0e-4983-80f6-1166f4640906",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -53,7 +53,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc",
         "side": "west"
       },
       "b": {
@@ -62,7 +62,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc",
         "side": "south"
       },
       "b": {
@@ -71,37 +71,37 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "c31c134b-1dc1-4e82-9bd3-7d95a50fa0ac",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "c31c134b-1dc1-4e82-9bd3-7d95a50fa0ac",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-3",
+        "instanceId": "14232086-92c5-4bea-9341-2d6c5d57171b",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "14232086-92c5-4bea-9341-2d6c5d57171b",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "5444e082-4e0e-4983-80f6-1166f4640906",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "5444e082-4e0e-4983-80f6-1166f4640906",
         "side": "south"
       },
       "b": {
@@ -111,22 +111,22 @@
   ],
   "nets": [
     [
-      "ground-tile-4:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "5444e082-4e0e-4983-80f6-1166f4640906:south",
+      "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-470-2:north"
+      "a1069ea5-22f1-492f-9e5e-08a61fdb6cfc:south",
+      "c31c134b-1dc1-4e82-9bd3-7d95a50fa0ac:north",
+      "net:USB_VCC"
     ],
     [
-      "led-red-3:north",
-      "resistor-470-2:south"
+      "14232086-92c5-4bea-9341-2d6c5d57171b:north",
+      "c31c134b-1dc1-4e82-9bd3-7d95a50fa0ac:south"
     ],
     [
-      "ground-tile-4:north",
-      "led-red-3:south"
+      "14232086-92c5-4bea-9341-2d6c5d57171b:south",
+      "5444e082-4e0e-4983-80f6-1166f4640906:north"
     ]
   ]
 }

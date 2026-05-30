@@ -5,57 +5,57 @@
     "title": "Two LEDs in Series",
     "description": "Both LEDs share the same current in one path. With a 1kΩ limit resistor, they light dimmer than a single LED — each drops voltage along the chain."
   },
-  "exportedAt": "2026-05-22T13:39:24.257Z",
+  "exportedAt": "2026-05-30T03:11:24.707Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "8354c87c-ed28-43db-85cc-475503523e5f",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-1k-2",
+      "instanceId": "5e5b28e7-9e24-47bb-887b-54b9b66c39b1",
       "catalogId": "resistor-1k",
       "name": "1k resistor",
       "category": "component",
       "value": "1kΩ",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-3",
+      "instanceId": "7f700e27-03c9-4905-bd2d-2376a6c972f2",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 90
     },
     {
-      "instanceId": "led-green-4",
+      "instanceId": "92d96992-c290-417d-bf9f-39cd7df2d96e",
       "catalogId": "led-green",
       "name": "Green LED",
       "category": "component",
       "value": "GRN",
-      "gridX": 5,
-      "gridY": 6,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "ground-tile-5",
+      "instanceId": "ac47d074-652e-4159-8182-1e6533d4ea6b",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -63,7 +63,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "8354c87c-ed28-43db-85cc-475503523e5f",
         "side": "west"
       },
       "b": {
@@ -72,7 +72,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "8354c87c-ed28-43db-85cc-475503523e5f",
         "side": "south"
       },
       "b": {
@@ -81,47 +81,47 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "8354c87c-ed28-43db-85cc-475503523e5f",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-1k-2",
+        "instanceId": "5e5b28e7-9e24-47bb-887b-54b9b66c39b1",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-1k-2",
+        "instanceId": "5e5b28e7-9e24-47bb-887b-54b9b66c39b1",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-3",
+        "instanceId": "7f700e27-03c9-4905-bd2d-2376a6c972f2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "7f700e27-03c9-4905-bd2d-2376a6c972f2",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-green-4",
+        "instanceId": "92d96992-c290-417d-bf9f-39cd7df2d96e",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-green-4",
+        "instanceId": "92d96992-c290-417d-bf9f-39cd7df2d96e",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "ac47d074-652e-4159-8182-1e6533d4ea6b",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "ac47d074-652e-4159-8182-1e6533d4ea6b",
         "side": "south"
       },
       "b": {
@@ -131,26 +131,26 @@
   ],
   "nets": [
     [
-      "ground-tile-5:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "8354c87c-ed28-43db-85cc-475503523e5f:west",
+      "ac47d074-652e-4159-8182-1e6533d4ea6b:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-1k-2:north"
+      "5e5b28e7-9e24-47bb-887b-54b9b66c39b1:north",
+      "8354c87c-ed28-43db-85cc-475503523e5f:south",
+      "net:USB_VCC"
     ],
     [
-      "led-red-3:north",
-      "resistor-1k-2:south"
+      "5e5b28e7-9e24-47bb-887b-54b9b66c39b1:south",
+      "7f700e27-03c9-4905-bd2d-2376a6c972f2:north"
     ],
     [
-      "led-green-4:north",
-      "led-red-3:south"
+      "7f700e27-03c9-4905-bd2d-2376a6c972f2:south",
+      "92d96992-c290-417d-bf9f-39cd7df2d96e:north"
     ],
     [
-      "ground-tile-5:north",
-      "led-green-4:south"
+      "92d96992-c290-417d-bf9f-39cd7df2d96e:south",
+      "ac47d074-652e-4159-8182-1e6533d4ea6b:north"
     ]
   ]
 }

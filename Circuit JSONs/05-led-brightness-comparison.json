@@ -1,111 +1,115 @@
 {
   "version": 1,
   "name": "LED Brightness Comparison",
-  "exportedAt": "2026-05-19T04:07:50.469Z",
+  "lesson": {
+    "title": "LED Brightness Comparison",
+    "description": "Same supply, two branches: a 150Ω resistor allows more current (brighter LED) and a 4.7kΩ resistor restricts current (dimmer LED). Compare brightness side by side."
+  },
+  "exportedAt": "2026-05-30T03:14:48.986Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "6f0997fa-a601-493b-a861-3ffa3e112488",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 13,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "t-connector-2",
+      "instanceId": "8b9a206f-9f48-4d8a-a30d-cec2b92b2748",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 13,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-150-3",
+      "instanceId": "46956d3c-887b-41f4-ad68-58ca39f3b785",
       "catalogId": "resistor-150",
       "name": "150Ω resistor",
       "category": "component",
       "value": "150Ω",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 13,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-4",
+      "instanceId": "42886014-7629-4f98-aa54-8ba3d4247737",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 6,
-      "rotation": 270
-    },
-    {
-      "instanceId": "t-connector-5",
-      "catalogId": "t-connector",
-      "name": "T connector",
-      "category": "routing",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 13,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-6",
+      "instanceId": "3fd51709-572b-4ee9-8dfe-665fafd0f831",
+      "catalogId": "t-connector",
+      "name": "T connector",
+      "category": "routing",
+      "gridX": 13,
+      "gridY": 10,
+      "rotation": 90
+    },
+    {
+      "instanceId": "14ca5075-be64-4d87-9a35-1bd240bf50f9",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 8,
+      "gridX": 13,
+      "gridY": 11,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-7",
+      "instanceId": "02251fad-b4d9-42d2-92ef-165847662ba9",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 180
     },
     {
-      "instanceId": "resistor-4k7-8",
+      "instanceId": "ee22f216-84bb-4fba-9884-be808db55d0b",
       "catalogId": "resistor-4k7",
       "name": "4.7k resistor",
       "category": "component",
       "value": "4.7kΩ",
-      "gridX": 6,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-9",
+      "instanceId": "48c528d0-b218-4d46-8c3a-75d262731778",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 6,
-      "gridY": 6,
-      "rotation": 270
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
     },
     {
-      "instanceId": "corner-cube-10",
+      "instanceId": "756f54da-a3ce-4edd-a7cf-a9d8d56a7603",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 270
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "6f0997fa-a601-493b-a861-3ffa3e112488",
         "side": "west"
       },
       "b": {
@@ -114,7 +118,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "6f0997fa-a601-493b-a861-3ffa3e112488",
         "side": "south"
       },
       "b": {
@@ -123,77 +127,77 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "6f0997fa-a601-493b-a861-3ffa3e112488",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-2",
+        "instanceId": "8b9a206f-9f48-4d8a-a30d-cec2b92b2748",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "8b9a206f-9f48-4d8a-a30d-cec2b92b2748",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-7",
+        "instanceId": "02251fad-b4d9-42d2-92ef-165847662ba9",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "8b9a206f-9f48-4d8a-a30d-cec2b92b2748",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-150-3",
+        "instanceId": "46956d3c-887b-41f4-ad68-58ca39f3b785",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-150-3",
+        "instanceId": "46956d3c-887b-41f4-ad68-58ca39f3b785",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-4",
+        "instanceId": "42886014-7629-4f98-aa54-8ba3d4247737",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-4",
+        "instanceId": "42886014-7629-4f98-aa54-8ba3d4247737",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-5",
+        "instanceId": "3fd51709-572b-4ee9-8dfe-665fafd0f831",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-5",
+        "instanceId": "3fd51709-572b-4ee9-8dfe-665fafd0f831",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "756f54da-a3ce-4edd-a7cf-a9d8d56a7603",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-5",
+        "instanceId": "3fd51709-572b-4ee9-8dfe-665fafd0f831",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "14ca5075-be64-4d87-9a35-1bd240bf50f9",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "14ca5075-be64-4d87-9a35-1bd240bf50f9",
         "side": "south"
       },
       "b": {
@@ -202,85 +206,81 @@
     },
     {
       "a": {
-        "instanceId": "corner-cube-7",
+        "instanceId": "02251fad-b4d9-42d2-92ef-165847662ba9",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-4k7-8",
+        "instanceId": "ee22f216-84bb-4fba-9884-be808db55d0b",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-4k7-8",
+        "instanceId": "ee22f216-84bb-4fba-9884-be808db55d0b",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-9",
+        "instanceId": "48c528d0-b218-4d46-8c3a-75d262731778",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-9",
+        "instanceId": "48c528d0-b218-4d46-8c3a-75d262731778",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "756f54da-a3ce-4edd-a7cf-a9d8d56a7603",
         "side": "north"
       }
     }
   ],
   "nets": [
     [
-      "ground-tile-6:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "14ca5075-be64-4d87-9a35-1bd240bf50f9:south",
+      "6f0997fa-a601-493b-a861-3ffa3e112488:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "t-connector-2:north"
+      "6f0997fa-a601-493b-a861-3ffa3e112488:south",
+      "8b9a206f-9f48-4d8a-a30d-cec2b92b2748:north",
+      "net:USB_VCC"
     ],
     [
-      "corner-cube-7:west",
-      "t-connector-2:east"
+      "02251fad-b4d9-42d2-92ef-165847662ba9:west",
+      "8b9a206f-9f48-4d8a-a30d-cec2b92b2748:east"
     ],
     [
-      "resistor-150-3:north",
-      "t-connector-2:south"
+      "46956d3c-887b-41f4-ad68-58ca39f3b785:north",
+      "8b9a206f-9f48-4d8a-a30d-cec2b92b2748:south"
     ],
     [
-      "led-red-4:north",
-      "resistor-150-3:south"
+      "42886014-7629-4f98-aa54-8ba3d4247737:north",
+      "46956d3c-887b-41f4-ad68-58ca39f3b785:south"
     ],
     [
-      "led-red-4:south",
-      "t-connector-5:north"
+      "3fd51709-572b-4ee9-8dfe-665fafd0f831:north",
+      "42886014-7629-4f98-aa54-8ba3d4247737:south"
     ],
     [
-      "corner-cube-10:west",
-      "t-connector-5:east"
+      "3fd51709-572b-4ee9-8dfe-665fafd0f831:east",
+      "756f54da-a3ce-4edd-a7cf-a9d8d56a7603:west"
     ],
     [
-      "ground-tile-6:north",
-      "t-connector-5:south"
+      "14ca5075-be64-4d87-9a35-1bd240bf50f9:north",
+      "3fd51709-572b-4ee9-8dfe-665fafd0f831:south"
     ],
     [
-      "corner-cube-7:south",
-      "resistor-4k7-8:north"
+      "02251fad-b4d9-42d2-92ef-165847662ba9:south",
+      "ee22f216-84bb-4fba-9884-be808db55d0b:north"
     ],
     [
-      "led-red-9:north",
-      "resistor-4k7-8:south"
+      "48c528d0-b218-4d46-8c3a-75d262731778:north",
+      "ee22f216-84bb-4fba-9884-be808db55d0b:south"
     ],
     [
-      "corner-cube-10:north",
-      "led-red-9:south"
+      "48c528d0-b218-4d46-8c3a-75d262731778:south",
+      "756f54da-a3ce-4edd-a7cf-a9d8d56a7603:north"
     ]
-  ],
-  "lesson": {
-    "title": "LED Brightness Comparison",
-    "description": "Same supply, two branches: a 150Ω resistor allows more current (brighter LED) and a 4.7kΩ resistor restricts current (dimmer LED). Compare brightness side by side."
-  }
+  ]
 }

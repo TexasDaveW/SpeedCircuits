@@ -5,47 +5,47 @@
     "title": "Reverse LED Polarity Test",
     "description": "The LED is flipped compared to lesson 1. Current cannot flow the wrong way through an LED, so it stays dark. Swap polarity and it lights again."
   },
-  "exportedAt": "2026-05-22T13:39:24.257Z",
+  "exportedAt": "2026-05-30T03:10:23.982Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-470-2",
+      "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-3",
+      "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-4",
+      "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -53,7 +53,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
         "side": "west"
       },
       "b": {
@@ -62,7 +62,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
         "side": "south"
       },
       "b": {
@@ -71,37 +71,37 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "b6573020-7489-4829-96e5-ed769923f9af",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "1e04c13a-bc47-4d23-b98d-72b676b2e615",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-3",
+        "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-4",
+        "instanceId": "76f66118-456a-47c6-8b17-731b29f58764",
         "side": "south"
       },
       "b": {
@@ -111,22 +111,22 @@
   ],
   "nets": [
     [
-      "ground-tile-4:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "76f66118-456a-47c6-8b17-731b29f58764:south",
+      "b6573020-7489-4829-96e5-ed769923f9af:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-470-2:north"
+      "1e04c13a-bc47-4d23-b98d-72b676b2e615:north",
+      "b6573020-7489-4829-96e5-ed769923f9af:south",
+      "net:USB_VCC"
     ],
     [
-      "led-red-3:north",
-      "resistor-470-2:south"
+      "1e04c13a-bc47-4d23-b98d-72b676b2e615:south",
+      "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba:north"
     ],
     [
-      "ground-tile-4:north",
-      "led-red-3:south"
+      "76f66118-456a-47c6-8b17-731b29f58764:north",
+      "ebbfb8be-d5e0-4b1d-ab93-51561fead6ba:south"
     ]
   ]
 }
