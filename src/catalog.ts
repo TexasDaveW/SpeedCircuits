@@ -72,7 +72,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
     quantity: 1,
     valueLabel: '8Ω',
     typeLabel: 'SPEAKER',
-    ports: ['west', 'east'],
+    ports: ['north', 'east', 'south', 'west'],
     symbolId: 'speaker',
   },
   { id: 'tact-button', name: 'Tact button', category: 'component', quantity: 3, valueLabel: 'BTN', typeLabel: 'SWITCH', ports: ['west', 'east'], symbolId: 'switch_momentary' },

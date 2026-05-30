@@ -151,6 +151,24 @@ export function buildConnections(tiles: PlacedTile[]): CircuitConnection[] {
         rotateSide('east', tile.rotation),
       )
     }
+
+    // Loudspeaker: two coil terminals, each on two magnets (W+N and E+S at 0°).
+    if (entry.id === 'loudspeaker-cube') {
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('west', tile.rotation),
+        rotateSide('north', tile.rotation),
+      )
+      linkPorts(
+        connections,
+        seen,
+        tile.instanceId,
+        rotateSide('east', tile.rotation),
+        rotateSide('south', tile.rotation),
+      )
+    }
   }
 
   return connections

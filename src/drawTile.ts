@@ -137,6 +137,8 @@ export function drawTile(
   ctx.fillStyle = '#b8bcc4'
   ctx.fillText(entry.typeLabel, size / 2, size * 0.88)
 
+  const isSpeaker = entry.id === 'loudspeaker-cube'
+
   for (const side of entry.ports) {
     const p = portPixel(side, size)
     const hub = { x: center, y: isOverpass ? center : traceHubY }
@@ -146,18 +148,40 @@ export function drawTile(
       else if (side === 'east') traceEnd = { x: center + overpassHalfGap, y: center }
     }
     const from = leads?.[side] ?? traceEnd
-    ctx.strokeStyle = TRACE
-    ctx.lineWidth = isRouting ? 3 : 2
-    ctx.lineCap = 'round'
-    ctx.beginPath()
-    if (isOverpass && (side === 'west' || side === 'east')) {
+    if (isSpeaker && side === 'north') {
+      // Match drawSpeaker leadYTop horizontal (west / top terminal route).
+      const leadYTop = bandY + bandH / 2 - bandH * 0.24
+      ctx.strokeStyle = TRACE
+      ctx.lineWidth = 2
+      ctx.lineCap = 'round'
+      ctx.beginPath()
       ctx.moveTo(p.x, p.y)
-      ctx.lineTo(from.x, from.y)
-    } else {
-      ctx.moveTo(from.x, from.y)
+      ctx.lineTo(p.x, leadYTop)
+      ctx.stroke()
+    } else if (isSpeaker && side === 'south') {
+      // Match drawSpeaker wireBotY horizontal (east terminal route).
+      const wireBotY = bandY + bandH / 2 + bandH * 0.72
+      ctx.strokeStyle = TRACE
+      ctx.lineWidth = 2
+      ctx.lineCap = 'round'
+      ctx.beginPath()
+      ctx.moveTo(p.x, wireBotY)
       ctx.lineTo(p.x, p.y)
+      ctx.stroke()
+    } else {
+      ctx.strokeStyle = TRACE
+      ctx.lineWidth = isRouting ? 3 : 2
+      ctx.lineCap = 'round'
+      ctx.beginPath()
+      if (isOverpass && (side === 'west' || side === 'east')) {
+        ctx.moveTo(p.x, p.y)
+        ctx.lineTo(from.x, from.y)
+      } else {
+        ctx.moveTo(from.x, from.y)
+        ctx.lineTo(p.x, p.y)
+      }
+      ctx.stroke()
     }
-    ctx.stroke()
     const horizontal = side === 'west' || side === 'east'
     drawMagnet(ctx, p.x, p.y, horizontal, size)
   }
