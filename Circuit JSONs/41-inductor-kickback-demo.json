@@ -5,67 +5,67 @@
     "title": "Inductor Kickback Demo",
     "description": "Press and hold the tact button: USB → 470Ω → inductor → red LED → ground. Current builds in the coil and the LED glows. Release the button — the magnetic field collapses and the inductor “kicks back,” driving a short bright flash through the LED (the coil resists a sudden drop in current). Compare lesson 8 (no inductor — LED snaps off) and lesson 28 (capacitor pulse when the switch changes). LED at 90° (anode north)."
   },
-  "exportedAt": "2026-05-20T16:03:45.005Z",
+  "exportedAt": "2026-05-30T23:43:20.227Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "84b64b68-9e63-4e37-a59a-e958c7befc95",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "tact-button-2",
+      "instanceId": "abfe44e1-d5dc-451d-9971-92f4b58c85cf",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
       "value": "BTN",
-      "gridX": 5,
-      "gridY": 4,
-      "rotation": 90
-    },
-    {
-      "instanceId": "resistor-470-3",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 5,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "inductor-4",
-      "catalogId": "inductor",
-      "name": "Inductor",
-      "category": "component",
-      "value": "IND",
-      "gridX": 5,
+      "gridX": 14,
       "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "led-red-5",
-      "catalogId": "led-red",
-      "name": "Red LED",
+      "instanceId": "09eef018-571f-4e67-a9ab-dc405960ff27",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
       "category": "component",
-      "value": "RED",
-      "gridX": 5,
+      "value": "470Ω",
+      "gridX": 14,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-6",
+      "instanceId": "bcdb1fad-a708-4ccf-9695-ee50402166a4",
+      "catalogId": "inductor",
+      "name": "Inductor",
+      "category": "component",
+      "value": "IND",
+      "gridX": 14,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "2c1f0720-ac1d-49bd-9ff0-555afcfac6de",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 14,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "f95a448d-341e-49b8-af33-3a4dac92a40a",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 8,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -73,7 +73,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "84b64b68-9e63-4e37-a59a-e958c7befc95",
         "side": "west"
       },
       "b": {
@@ -82,7 +82,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "84b64b68-9e63-4e37-a59a-e958c7befc95",
         "side": "south"
       },
       "b": {
@@ -91,57 +91,57 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "84b64b68-9e63-4e37-a59a-e958c7befc95",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-2",
+        "instanceId": "abfe44e1-d5dc-451d-9971-92f4b58c85cf",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-2",
+        "instanceId": "abfe44e1-d5dc-451d-9971-92f4b58c85cf",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "09eef018-571f-4e67-a9ab-dc405960ff27",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-3",
+        "instanceId": "09eef018-571f-4e67-a9ab-dc405960ff27",
         "side": "south"
       },
       "b": {
-        "instanceId": "inductor-4",
+        "instanceId": "bcdb1fad-a708-4ccf-9695-ee50402166a4",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "inductor-4",
+        "instanceId": "bcdb1fad-a708-4ccf-9695-ee50402166a4",
         "side": "south"
       },
       "b": {
-        "instanceId": "led-red-5",
+        "instanceId": "2c1f0720-ac1d-49bd-9ff0-555afcfac6de",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-5",
+        "instanceId": "2c1f0720-ac1d-49bd-9ff0-555afcfac6de",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "f95a448d-341e-49b8-af33-3a4dac92a40a",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-6",
+        "instanceId": "f95a448d-341e-49b8-af33-3a4dac92a40a",
         "side": "south"
       },
       "b": {
@@ -151,30 +151,30 @@
   ],
   "nets": [
     [
-      "ground-tile-6:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "84b64b68-9e63-4e37-a59a-e958c7befc95:west",
+      "f95a448d-341e-49b8-af33-3a4dac92a40a:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "tact-button-2:north"
+      "84b64b68-9e63-4e37-a59a-e958c7befc95:south",
+      "abfe44e1-d5dc-451d-9971-92f4b58c85cf:north",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-3:north",
-      "tact-button-2:south"
+      "09eef018-571f-4e67-a9ab-dc405960ff27:north",
+      "abfe44e1-d5dc-451d-9971-92f4b58c85cf:south"
     ],
     [
-      "inductor-4:north",
-      "resistor-470-3:south"
+      "09eef018-571f-4e67-a9ab-dc405960ff27:south",
+      "bcdb1fad-a708-4ccf-9695-ee50402166a4:north"
     ],
     [
-      "inductor-4:south",
-      "led-red-5:north"
+      "2c1f0720-ac1d-49bd-9ff0-555afcfac6de:north",
+      "bcdb1fad-a708-4ccf-9695-ee50402166a4:south"
     ],
     [
-      "ground-tile-6:north",
-      "led-red-5:south"
+      "2c1f0720-ac1d-49bd-9ff0-555afcfac6de:south",
+      "f95a448d-341e-49b8-af33-3a4dac92a40a:north"
     ]
   ]
 }

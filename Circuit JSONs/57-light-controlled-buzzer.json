@@ -5,57 +5,57 @@
     "title": "Light-Controlled Buzzer",
     "description": "USB → 150Ω → LDR → buzzer → ground in one series path on the center column. The LDR and buzzer share the same current — in bright light the LDR resistance drops, so more current flows and the buzzer is louder; cover the sensor (dark) and resistance rises, so the buzzer fades or goes quiet. Compare lesson 53 (divider + LED on a tap, not series). 150Ω limits current; LDR and buzzer at 90°."
   },
-  "exportedAt": "2026-05-21T02:06:36.107Z",
+  "exportedAt": "2026-05-30T23:53:44.916Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-150-2",
+      "instanceId": "71790c26-f7a9-46db-ace1-09358dc5c2a2",
       "catalogId": "resistor-150",
       "name": "150Ω resistor",
       "category": "component",
       "value": "150Ω",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "ldr-3",
+      "instanceId": "32916c19-99e1-4afc-b863-5f8249b19072",
       "catalogId": "ldr",
       "name": "LDR",
       "category": "component",
       "value": "LDR",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "buzzer-4",
+      "instanceId": "a895e17b-173c-4166-b69d-1853369f9038",
       "catalogId": "buzzer",
       "name": "Buzzer",
       "category": "component",
       "value": "BUZZ",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-5",
+      "instanceId": "f785394a-8c7a-4bcd-9473-e9eb7ae72861",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -63,7 +63,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d",
         "side": "west"
       },
       "b": {
@@ -72,7 +72,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d",
         "side": "south"
       },
       "b": {
@@ -81,47 +81,47 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-150-2",
+        "instanceId": "71790c26-f7a9-46db-ace1-09358dc5c2a2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-150-2",
+        "instanceId": "71790c26-f7a9-46db-ace1-09358dc5c2a2",
         "side": "south"
       },
       "b": {
-        "instanceId": "ldr-3",
+        "instanceId": "32916c19-99e1-4afc-b863-5f8249b19072",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ldr-3",
+        "instanceId": "32916c19-99e1-4afc-b863-5f8249b19072",
         "side": "south"
       },
       "b": {
-        "instanceId": "buzzer-4",
+        "instanceId": "a895e17b-173c-4166-b69d-1853369f9038",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "buzzer-4",
+        "instanceId": "a895e17b-173c-4166-b69d-1853369f9038",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "f785394a-8c7a-4bcd-9473-e9eb7ae72861",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "f785394a-8c7a-4bcd-9473-e9eb7ae72861",
         "side": "south"
       },
       "b": {
@@ -131,26 +131,26 @@
   ],
   "nets": [
     [
-      "ground-tile-5:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d:west",
+      "f785394a-8c7a-4bcd-9473-e9eb7ae72861:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "resistor-150-2:north"
+      "3c5b54c0-10d3-4dd6-9442-f0e8cf78c95d:south",
+      "71790c26-f7a9-46db-ace1-09358dc5c2a2:north",
+      "net:USB_VCC"
     ],
     [
-      "ldr-3:north",
-      "resistor-150-2:south"
+      "32916c19-99e1-4afc-b863-5f8249b19072:north",
+      "71790c26-f7a9-46db-ace1-09358dc5c2a2:south"
     ],
     [
-      "buzzer-4:north",
-      "ldr-3:south"
+      "32916c19-99e1-4afc-b863-5f8249b19072:south",
+      "a895e17b-173c-4166-b69d-1853369f9038:north"
     ],
     [
-      "buzzer-4:south",
-      "ground-tile-5:north"
+      "a895e17b-173c-4166-b69d-1853369f9038:south",
+      "f785394a-8c7a-4bcd-9473-e9eb7ae72861:north"
     ]
   ]
 }

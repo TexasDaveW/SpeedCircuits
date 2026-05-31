@@ -5,171 +5,171 @@
     "title": "Transistor Signal Amplifier",
     "description": "Turn the pot slowly: the same 10kΩ–pot–10kΩ divider as lesson 16 sets NPN base voltage on the west column. The collector branch (USB → T → 470Ω → red LED → NPN north) carries the LED current — most of that current flows collector–emitter, not through the base. A 150Ω emitter resistor to ground sets a small emitter voltage (about 0.9 V at a few mA) so the transistor can still drive the LED; a 47kΩ emitter would need tens of volts at the emitter and would block the LED. Compare lesson 14 (pot feeds the LED directly), lesson 16 (no emitter resistor), and lesson 58 (tact switch). Pot 270°; NPN at 0°; LED at 90°."
   },
-  "exportedAt": "2026-05-21T16:49:33.301Z",
+  "exportedAt": "2026-05-30T23:56:36.566Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "e947cd3c-c061-4545-8b0d-a3e9a42b0628",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "resistor-470-2",
+      "instanceId": "64d3b5b7-0b52-4c5f-a0c1-03e3ff961326",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 6,
-      "gridY": 4,
+      "gridX": 15,
+      "gridY": 7,
       "rotation": 0
     },
     {
-      "instanceId": "led-red-3",
+      "instanceId": "2a7e3247-0c4c-4df0-9e12-701142e0a468",
       "catalogId": "led-red",
       "name": "Red LED",
       "category": "component",
       "value": "RED",
-      "gridX": 7,
-      "gridY": 5,
+      "gridX": 16,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "npn-4",
+      "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
       "catalogId": "npn",
       "name": "NPN transistor",
       "category": "component",
       "value": "NPN",
-      "gridX": 7,
-      "gridY": 6,
+      "gridX": 16,
+      "gridY": 9,
       "rotation": 0
     },
     {
-      "instanceId": "resistor-10k-5",
+      "instanceId": "f5b37ad8-2b02-4cd4-b4e6-4865fc3516b5",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 4,
-      "gridY": 4,
+      "gridX": 13,
+      "gridY": 7,
       "rotation": 0
     },
     {
-      "instanceId": "potentiometer-6",
+      "instanceId": "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9",
       "catalogId": "potentiometer",
-      "name": "Potentiometer",
+      "name": "10k Pot",
       "category": "component",
-      "value": "POT",
-      "gridX": 3,
-      "gridY": 5,
+      "value": "10k Pot",
+      "gridX": 12,
+      "gridY": 8,
       "rotation": 270
     },
     {
-      "instanceId": "resistor-10k-7",
+      "instanceId": "b5ca728f-296d-4dd2-838f-2eb7466a86ac",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 3,
-      "gridY": 6,
+      "gridX": 12,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-150-8",
+      "instanceId": "8828622f-7f49-44e6-b9c6-11c160d84942",
       "catalogId": "resistor-150",
       "name": "150Ω resistor",
       "category": "component",
       "value": "150Ω",
-      "gridX": 7,
-      "gridY": 7,
+      "gridX": 16,
+      "gridY": 10,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-9",
+      "instanceId": "65d91317-3ce1-4047-b190-e3a1b39f7422",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 7,
-      "gridY": 8,
+      "gridX": 16,
+      "gridY": 11,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-10",
+      "instanceId": "4d8a71a8-0bef-41ec-80ac-0de7b23221c0",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 4,
-      "gridY": 5,
+      "gridX": 13,
+      "gridY": 8,
       "rotation": 180
     },
     {
-      "instanceId": "corner-cube-11",
+      "instanceId": "00aa327e-247e-4c34-8b8e-41755b1d387a",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 4,
-      "gridY": 6,
+      "gridX": 13,
+      "gridY": 9,
       "rotation": 0
     },
     {
-      "instanceId": "corner-cube-12",
+      "instanceId": "2ff9d08f-0d5b-49d2-8a5b-eefe823c8df8",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 7,
-      "gridY": 4,
+      "gridX": 16,
+      "gridY": 7,
       "rotation": 180
     },
     {
-      "instanceId": "t-connector-13",
+      "instanceId": "276bbbfe-166e-4a12-871f-e7849b15a5f6",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 0
     },
     {
-      "instanceId": "corner-cube-14",
+      "instanceId": "78c553f4-122b-4242-9cbf-d1070328e904",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 3,
-      "gridY": 4,
+      "gridX": 12,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "straight-cube-15",
+      "instanceId": "bc1cf9ff-5aa6-4796-9d86-943a1e95166a",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 180
     },
     {
-      "instanceId": "straight-cube-16",
+      "instanceId": "3c55f8e2-3d6d-40c5-8202-95780d2ea629",
       "catalogId": "straight-cube",
       "name": "Straight cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 6,
+      "gridX": 15,
+      "gridY": 9,
       "rotation": 180
     },
     {
-      "instanceId": "ground-tile-17",
+      "instanceId": "f88afcf9-8060-43ac-b7f8-6d91f9563937",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 3,
-      "gridY": 7,
+      "gridX": 12,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -177,7 +177,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e947cd3c-c061-4545-8b0d-a3e9a42b0628",
         "side": "west"
       },
       "b": {
@@ -186,7 +186,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e947cd3c-c061-4545-8b0d-a3e9a42b0628",
         "side": "south"
       },
       "b": {
@@ -195,147 +195,157 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "e947cd3c-c061-4545-8b0d-a3e9a42b0628",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-13",
+        "instanceId": "276bbbfe-166e-4a12-871f-e7849b15a5f6",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "64d3b5b7-0b52-4c5f-a0c1-03e3ff961326",
         "side": "west"
       },
       "b": {
-        "instanceId": "t-connector-13",
+        "instanceId": "276bbbfe-166e-4a12-871f-e7849b15a5f6",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-470-2",
+        "instanceId": "64d3b5b7-0b52-4c5f-a0c1-03e3ff961326",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-12",
+        "instanceId": "2ff9d08f-0d5b-49d2-8a5b-eefe823c8df8",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "2a7e3247-0c4c-4df0-9e12-701142e0a468",
         "side": "north"
       },
       "b": {
-        "instanceId": "corner-cube-12",
+        "instanceId": "2ff9d08f-0d5b-49d2-8a5b-eefe823c8df8",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "led-red-3",
+        "instanceId": "2a7e3247-0c4c-4df0-9e12-701142e0a468",
         "side": "south"
       },
       "b": {
-        "instanceId": "npn-4",
+        "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "npn-4",
+        "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
         "side": "west"
       },
       "b": {
-        "instanceId": "straight-cube-16",
+        "instanceId": "3c55f8e2-3d6d-40c5-8202-95780d2ea629",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "npn-4",
+        "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-150-8",
+        "instanceId": "8828622f-7f49-44e6-b9c6-11c160d84942",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-5",
+        "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
         "side": "west"
       },
       "b": {
-        "instanceId": "corner-cube-14",
+        "instanceId": "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-5",
+        "instanceId": "f5b37ad8-2b02-4cd4-b4e6-4865fc3516b5",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "78c553f4-122b-4242-9cbf-d1070328e904",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f5b37ad8-2b02-4cd4-b4e6-4865fc3516b5",
         "side": "east"
       },
       "b": {
-        "instanceId": "t-connector-13",
+        "instanceId": "276bbbfe-166e-4a12-871f-e7849b15a5f6",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "potentiometer-6",
+        "instanceId": "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-7",
+        "instanceId": "b5ca728f-296d-4dd2-838f-2eb7466a86ac",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "potentiometer-6",
+        "instanceId": "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9",
         "side": "north"
       },
       "b": {
-        "instanceId": "corner-cube-14",
+        "instanceId": "78c553f4-122b-4242-9cbf-d1070328e904",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "potentiometer-6",
+        "instanceId": "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "4d8a71a8-0bef-41ec-80ac-0de7b23221c0",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-7",
+        "instanceId": "b5ca728f-296d-4dd2-838f-2eb7466a86ac",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-17",
+        "instanceId": "f88afcf9-8060-43ac-b7f8-6d91f9563937",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-150-8",
+        "instanceId": "8828622f-7f49-44e6-b9c6-11c160d84942",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-9",
+        "instanceId": "65d91317-3ce1-4047-b190-e3a1b39f7422",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-9",
+        "instanceId": "65d91317-3ce1-4047-b190-e3a1b39f7422",
         "side": "south"
       },
       "b": {
@@ -344,37 +354,37 @@
     },
     {
       "a": {
-        "instanceId": "corner-cube-10",
+        "instanceId": "4d8a71a8-0bef-41ec-80ac-0de7b23221c0",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-11",
+        "instanceId": "00aa327e-247e-4c34-8b8e-41755b1d387a",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "corner-cube-11",
+        "instanceId": "00aa327e-247e-4c34-8b8e-41755b1d387a",
         "side": "east"
       },
       "b": {
-        "instanceId": "straight-cube-15",
+        "instanceId": "bc1cf9ff-5aa6-4796-9d86-943a1e95166a",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "straight-cube-15",
+        "instanceId": "bc1cf9ff-5aa6-4796-9d86-943a1e95166a",
         "side": "east"
       },
       "b": {
-        "instanceId": "straight-cube-16",
+        "instanceId": "3c55f8e2-3d6d-40c5-8202-95780d2ea629",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-17",
+        "instanceId": "f88afcf9-8060-43ac-b7f8-6d91f9563937",
         "side": "south"
       },
       "b": {
@@ -384,79 +394,80 @@
   ],
   "nets": [
     [
-      "ground-tile-17:south",
-      "ground-tile-9:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "65d91317-3ce1-4047-b190-e3a1b39f7422:south",
+      "e947cd3c-c061-4545-8b0d-a3e9a42b0628:west",
+      "f88afcf9-8060-43ac-b7f8-6d91f9563937:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "t-connector-13:north"
+      "276bbbfe-166e-4a12-871f-e7849b15a5f6:north",
+      "e947cd3c-c061-4545-8b0d-a3e9a42b0628:south",
+      "net:USB_VCC"
     ],
     [
-      "resistor-470-2:west",
-      "t-connector-13:east"
+      "276bbbfe-166e-4a12-871f-e7849b15a5f6:west",
+      "f5b37ad8-2b02-4cd4-b4e6-4865fc3516b5:east"
     ],
     [
-      "corner-cube-12:west",
-      "resistor-470-2:east"
+      "276bbbfe-166e-4a12-871f-e7849b15a5f6:east",
+      "64d3b5b7-0b52-4c5f-a0c1-03e3ff961326:west"
     ],
     [
-      "corner-cube-12:south",
-      "led-red-3:north"
+      "2ff9d08f-0d5b-49d2-8a5b-eefe823c8df8:west",
+      "64d3b5b7-0b52-4c5f-a0c1-03e3ff961326:east"
     ],
     [
-      "led-red-3:south",
-      "npn-4:north"
+      "2a7e3247-0c4c-4df0-9e12-701142e0a468:north",
+      "2ff9d08f-0d5b-49d2-8a5b-eefe823c8df8:south"
     ],
     [
-      "npn-4:west",
-      "straight-cube-16:east"
+      "2a7e3247-0c4c-4df0-9e12-701142e0a468:south",
+      "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc:north"
     ],
     [
-      "npn-4:south",
-      "resistor-150-8:north"
+      "3c55f8e2-3d6d-40c5-8202-95780d2ea629:east",
+      "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc:east",
+      "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc:west"
     ],
     [
-      "corner-cube-14:east",
-      "resistor-10k-5:west"
+      "8828622f-7f49-44e6-b9c6-11c160d84942:north",
+      "a72faccc-0e4c-4aa1-b6b9-e59eb55711fc:south"
     ],
     [
-      "resistor-10k-5:east",
-      "t-connector-13:west"
+      "78c553f4-122b-4242-9cbf-d1070328e904:east",
+      "f5b37ad8-2b02-4cd4-b4e6-4865fc3516b5:west"
     ],
     [
-      "potentiometer-6:south",
-      "resistor-10k-7:north"
+      "b5ca728f-296d-4dd2-838f-2eb7466a86ac:north",
+      "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9:south"
     ],
     [
-      "corner-cube-14:south",
-      "potentiometer-6:north"
+      "78c553f4-122b-4242-9cbf-d1070328e904:south",
+      "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9:north"
     ],
     [
-      "corner-cube-10:west",
-      "potentiometer-6:east"
+      "4d8a71a8-0bef-41ec-80ac-0de7b23221c0:west",
+      "bd9a7ea1-3c94-4de4-b70e-5ff781894ca9:east"
     ],
     [
-      "ground-tile-17:north",
-      "resistor-10k-7:south"
+      "b5ca728f-296d-4dd2-838f-2eb7466a86ac:south",
+      "f88afcf9-8060-43ac-b7f8-6d91f9563937:north"
     ],
     [
-      "ground-tile-9:north",
-      "resistor-150-8:south"
+      "65d91317-3ce1-4047-b190-e3a1b39f7422:north",
+      "8828622f-7f49-44e6-b9c6-11c160d84942:south"
     ],
     [
-      "corner-cube-10:south",
-      "corner-cube-11:north"
+      "00aa327e-247e-4c34-8b8e-41755b1d387a:north",
+      "4d8a71a8-0bef-41ec-80ac-0de7b23221c0:south"
     ],
     [
-      "corner-cube-11:east",
-      "straight-cube-15:west"
+      "00aa327e-247e-4c34-8b8e-41755b1d387a:east",
+      "bc1cf9ff-5aa6-4796-9d86-943a1e95166a:west"
     ],
     [
-      "straight-cube-15:east",
-      "straight-cube-16:west"
+      "3c55f8e2-3d6d-40c5-8202-95780d2ea629:west",
+      "bc1cf9ff-5aa6-4796-9d86-943a1e95166a:east"
     ]
   ]
 }

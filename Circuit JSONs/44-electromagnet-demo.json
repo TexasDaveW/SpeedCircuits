@@ -5,57 +5,57 @@
     "title": "Electromagnet Demo",
     "description": "Flip the slide switch on: USB → 150Ω → inductor → ground (about three times the current of a 470Ω path). The coil becomes an electromagnet — rest a paper clip on the inductor tile or hold it against the steel plate and switch on. For a compass, touch the needle very close to the coil face; a small twitch is enough. Transistor high-current drivers come in lesson 72. Compare lesson 41 (LED + kickback, not magnetism). Slide at 90°."
   },
-  "exportedAt": "2026-05-20T16:27:43.914Z",
+  "exportedAt": "2026-05-30T23:45:18.194Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "58e27e78-01db-493c-af41-fbc6a7f34c66",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "slide-switch-2",
+      "instanceId": "c804d4b1-e06f-471f-883b-e24b3900f2b5",
       "catalogId": "slide-switch",
       "name": "Slide switch SPDT",
       "category": "component",
       "value": "SPDT",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-150-3",
+      "instanceId": "9199fd44-2142-481b-a7f4-db1af7a6cfec",
       "catalogId": "resistor-150",
       "name": "150Ω resistor",
       "category": "component",
       "value": "150Ω",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "inductor-4",
+      "instanceId": "73d9158f-2c43-4af2-86a2-9c3fe2e33586",
       "catalogId": "inductor",
       "name": "Inductor",
       "category": "component",
       "value": "IND",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 90
     },
     {
-      "instanceId": "ground-tile-5",
+      "instanceId": "4510424e-2eb9-4df6-b620-2e86faacdf22",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -63,7 +63,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "58e27e78-01db-493c-af41-fbc6a7f34c66",
         "side": "west"
       },
       "b": {
@@ -72,7 +72,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "58e27e78-01db-493c-af41-fbc6a7f34c66",
         "side": "south"
       },
       "b": {
@@ -81,47 +81,47 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "58e27e78-01db-493c-af41-fbc6a7f34c66",
         "side": "south"
       },
       "b": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "c804d4b1-e06f-471f-883b-e24b3900f2b5",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "slide-switch-2",
+        "instanceId": "c804d4b1-e06f-471f-883b-e24b3900f2b5",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-150-3",
+        "instanceId": "9199fd44-2142-481b-a7f4-db1af7a6cfec",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-150-3",
+        "instanceId": "9199fd44-2142-481b-a7f4-db1af7a6cfec",
         "side": "south"
       },
       "b": {
-        "instanceId": "inductor-4",
+        "instanceId": "73d9158f-2c43-4af2-86a2-9c3fe2e33586",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "inductor-4",
+        "instanceId": "73d9158f-2c43-4af2-86a2-9c3fe2e33586",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "4510424e-2eb9-4df6-b620-2e86faacdf22",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-5",
+        "instanceId": "4510424e-2eb9-4df6-b620-2e86faacdf22",
         "side": "south"
       },
       "b": {
@@ -131,26 +131,26 @@
   ],
   "nets": [
     [
-      "ground-tile-5:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "4510424e-2eb9-4df6-b620-2e86faacdf22:south",
+      "58e27e78-01db-493c-af41-fbc6a7f34c66:west",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "slide-switch-2:north"
+      "58e27e78-01db-493c-af41-fbc6a7f34c66:south",
+      "c804d4b1-e06f-471f-883b-e24b3900f2b5:north",
+      "net:USB_VCC"
     ],
     [
-      "resistor-150-3:north",
-      "slide-switch-2:south"
+      "9199fd44-2142-481b-a7f4-db1af7a6cfec:north",
+      "c804d4b1-e06f-471f-883b-e24b3900f2b5:south"
     ],
     [
-      "inductor-4:north",
-      "resistor-150-3:south"
+      "73d9158f-2c43-4af2-86a2-9c3fe2e33586:north",
+      "9199fd44-2142-481b-a7f4-db1af7a6cfec:south"
     ],
     [
-      "ground-tile-5:north",
-      "inductor-4:south"
+      "4510424e-2eb9-4df6-b620-2e86faacdf22:north",
+      "73d9158f-2c43-4af2-86a2-9c3fe2e33586:south"
     ]
   ]
 }

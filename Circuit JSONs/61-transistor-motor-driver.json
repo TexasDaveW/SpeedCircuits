@@ -5,112 +5,112 @@
     "title": "Transistor Motor Driver",
     "description": "Press and hold the tact button: USB → 10kΩ → NPN base (west) turns the transistor on. The collector branch (USB → 150Ω → vibration motor → north, emitter → ground on south) spins the motor. Compare lesson 44 (electromagnet, no transistor)."
   },
-  "exportedAt": "2026-05-21T16:24:45.297Z",
+  "exportedAt": "2026-05-30T23:55:43.015Z",
   "tiles": [
     {
-      "instanceId": "power-tile-1",
+      "instanceId": "67c6d716-b575-49e7-844f-afe72b88ba77",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 13,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "t-connector-2",
+      "instanceId": "c97b286d-7027-4986-b2da-140f9b477db7",
       "catalogId": "t-connector",
       "name": "T connector",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 13,
+      "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "tact-button-3",
+      "instanceId": "81dd0adc-18c3-4285-ad15-0e78b1946339",
       "catalogId": "tact-button",
       "name": "Tact button",
       "category": "component",
       "value": "BTN",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 13,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "resistor-10k-4",
+      "instanceId": "03248cbc-2fa8-4949-9e74-7e00de80eea1",
       "catalogId": "resistor-10k",
       "name": "10k resistor",
       "category": "component",
       "value": "10kΩ",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 13,
+      "gridY": 8,
       "rotation": 90
     },
     {
-      "instanceId": "corner-cube-5",
+      "instanceId": "886a6578-9b59-4bf8-b2ed-f46c511edf03",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 5,
-      "gridY": 7,
+      "gridX": 13,
+      "gridY": 9,
       "rotation": 0
     },
     {
-      "instanceId": "npn-6",
+      "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
       "catalogId": "npn",
       "name": "NPN transistor",
       "category": "component",
       "value": "NPN",
-      "gridX": 6,
-      "gridY": 7,
+      "gridX": 14,
+      "gridY": 9,
       "rotation": 0
     },
     {
-      "instanceId": "ground-tile-7",
+      "instanceId": "fe6f1f68-7259-464f-9ff3-0c23d64a7c46",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 6,
-      "gridY": 8,
+      "gridX": 14,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "corner-cube-8",
+      "instanceId": "5c50f42c-5886-46c6-b112-634f27603fa1",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 6,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 180
     },
     {
-      "instanceId": "resistor-150-9",
+      "instanceId": "64f59722-ad98-4396-b795-f4760c4305a1",
       "catalogId": "resistor-150",
       "name": "150Ω resistor",
       "category": "component",
       "value": "150Ω",
-      "gridX": 6,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "vibration-motor-10",
+      "instanceId": "5d721a42-cdb1-4c55-8af1-9e980ada0456",
       "catalogId": "vibration-motor",
       "name": "Vibration motor",
       "category": "component",
-      "value": "MOTOR",
-      "gridX": 6,
-      "gridY": 6,
+      "value": "VIB",
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 90
     }
   ],
   "connections": [
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "67c6d716-b575-49e7-844f-afe72b88ba77",
         "side": "west"
       },
       "b": {
@@ -119,7 +119,7 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "67c6d716-b575-49e7-844f-afe72b88ba77",
         "side": "south"
       },
       "b": {
@@ -128,87 +128,97 @@
     },
     {
       "a": {
-        "instanceId": "power-tile-1",
+        "instanceId": "67c6d716-b575-49e7-844f-afe72b88ba77",
         "side": "south"
       },
       "b": {
-        "instanceId": "t-connector-2",
+        "instanceId": "c97b286d-7027-4986-b2da-140f9b477db7",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "c97b286d-7027-4986-b2da-140f9b477db7",
         "side": "east"
       },
       "b": {
-        "instanceId": "corner-cube-8",
+        "instanceId": "5c50f42c-5886-46c6-b112-634f27603fa1",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "t-connector-2",
+        "instanceId": "c97b286d-7027-4986-b2da-140f9b477db7",
         "side": "south"
       },
       "b": {
-        "instanceId": "tact-button-3",
+        "instanceId": "81dd0adc-18c3-4285-ad15-0e78b1946339",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "tact-button-3",
+        "instanceId": "81dd0adc-18c3-4285-ad15-0e78b1946339",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "03248cbc-2fa8-4949-9e74-7e00de80eea1",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-10k-4",
+        "instanceId": "03248cbc-2fa8-4949-9e74-7e00de80eea1",
         "side": "south"
       },
       "b": {
-        "instanceId": "corner-cube-5",
+        "instanceId": "886a6578-9b59-4bf8-b2ed-f46c511edf03",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "corner-cube-5",
+        "instanceId": "886a6578-9b59-4bf8-b2ed-f46c511edf03",
         "side": "east"
       },
       "b": {
-        "instanceId": "npn-6",
+        "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
         "side": "west"
       }
     },
     {
       "a": {
-        "instanceId": "npn-6",
+        "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
         "side": "north"
       },
       "b": {
-        "instanceId": "vibration-motor-10",
+        "instanceId": "5d721a42-cdb1-4c55-8af1-9e980ada0456",
         "side": "south"
       }
     },
     {
       "a": {
-        "instanceId": "npn-6",
+        "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
         "side": "south"
       },
       "b": {
-        "instanceId": "ground-tile-7",
+        "instanceId": "fe6f1f68-7259-464f-9ff3-0c23d64a7c46",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "ground-tile-7",
+        "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
+        "side": "west"
+      },
+      "b": {
+        "instanceId": "8c278065-fa0e-4bbd-a2da-ad8829535054",
+        "side": "east"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "fe6f1f68-7259-464f-9ff3-0c23d64a7c46",
         "side": "south"
       },
       "b": {
@@ -217,71 +227,72 @@
     },
     {
       "a": {
-        "instanceId": "corner-cube-8",
+        "instanceId": "5c50f42c-5886-46c6-b112-634f27603fa1",
         "side": "south"
       },
       "b": {
-        "instanceId": "resistor-150-9",
+        "instanceId": "64f59722-ad98-4396-b795-f4760c4305a1",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "resistor-150-9",
+        "instanceId": "64f59722-ad98-4396-b795-f4760c4305a1",
         "side": "south"
       },
       "b": {
-        "instanceId": "vibration-motor-10",
+        "instanceId": "5d721a42-cdb1-4c55-8af1-9e980ada0456",
         "side": "north"
       }
     }
   ],
   "nets": [
     [
-      "ground-tile-7:south",
-      "net:PLATE_GND",
-      "power-tile-1:west"
+      "67c6d716-b575-49e7-844f-afe72b88ba77:west",
+      "fe6f1f68-7259-464f-9ff3-0c23d64a7c46:south",
+      "net:PLATE_GND"
     ],
     [
-      "net:USB_VCC",
-      "power-tile-1:south",
-      "t-connector-2:north"
+      "67c6d716-b575-49e7-844f-afe72b88ba77:south",
+      "c97b286d-7027-4986-b2da-140f9b477db7:north",
+      "net:USB_VCC"
     ],
     [
-      "corner-cube-8:west",
-      "t-connector-2:east"
+      "5c50f42c-5886-46c6-b112-634f27603fa1:west",
+      "c97b286d-7027-4986-b2da-140f9b477db7:east"
     ],
     [
-      "t-connector-2:south",
-      "tact-button-3:north"
+      "81dd0adc-18c3-4285-ad15-0e78b1946339:north",
+      "c97b286d-7027-4986-b2da-140f9b477db7:south"
     ],
     [
-      "resistor-10k-4:north",
-      "tact-button-3:south"
+      "03248cbc-2fa8-4949-9e74-7e00de80eea1:north",
+      "81dd0adc-18c3-4285-ad15-0e78b1946339:south"
     ],
     [
-      "corner-cube-5:north",
-      "resistor-10k-4:south"
+      "03248cbc-2fa8-4949-9e74-7e00de80eea1:south",
+      "886a6578-9b59-4bf8-b2ed-f46c511edf03:north"
     ],
     [
-      "corner-cube-5:east",
-      "npn-6:west"
+      "886a6578-9b59-4bf8-b2ed-f46c511edf03:east",
+      "8c278065-fa0e-4bbd-a2da-ad8829535054:east",
+      "8c278065-fa0e-4bbd-a2da-ad8829535054:west"
     ],
     [
-      "npn-6:north",
-      "vibration-motor-10:south"
+      "5d721a42-cdb1-4c55-8af1-9e980ada0456:south",
+      "8c278065-fa0e-4bbd-a2da-ad8829535054:north"
     ],
     [
-      "ground-tile-7:north",
-      "npn-6:south"
+      "8c278065-fa0e-4bbd-a2da-ad8829535054:south",
+      "fe6f1f68-7259-464f-9ff3-0c23d64a7c46:north"
     ],
     [
-      "corner-cube-8:south",
-      "resistor-150-9:north"
+      "5c50f42c-5886-46c6-b112-634f27603fa1:south",
+      "64f59722-ad98-4396-b795-f4760c4305a1:north"
     ],
     [
-      "resistor-150-9:south",
-      "vibration-motor-10:north"
+      "5d721a42-cdb1-4c55-8af1-9e980ada0456:north",
+      "64f59722-ad98-4396-b795-f4760c4305a1:south"
     ]
   ]
 }

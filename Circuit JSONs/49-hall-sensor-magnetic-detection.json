@@ -5,87 +5,87 @@
     "title": "Hall Sensor Magnetic Detection",
     "description": "USB → 470Ω → Hall sensor on the center column (+ on north toward USB, − on south toward GND). SIG on the west face feeds 470Ω → red LED → ground on the west column — when a magnet is in range, the output changes and the LED responds. Unlike lesson 48 (coil + motion), the Hall is a solid-state field detector. Wave a magnet or use the lesson 44 coil nearby; flip polarity to compare. Lesson 50 adds a dedicated LED trigger. Hall at 270°; LED at 90°."
   },
-  "exportedAt": "2026-05-20T20:01:39.116Z",
+  "exportedAt": "2026-05-30T23:50:14.163Z",
   "tiles": [
     {
-      "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+      "instanceId": "c30b62b3-b2fc-4a79-b881-d3882ed9f59e",
       "catalogId": "power-tile",
       "name": "Power tile",
       "category": "power",
       "value": "USB",
-      "gridX": 5,
-      "gridY": 3,
+      "gridX": 14,
+      "gridY": 5,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+      "instanceId": "74613089-8c81-4af5-bb1d-f1bf19ebf9a2",
       "catalogId": "resistor-470",
       "name": "470Ω resistor",
       "category": "component",
       "value": "470Ω",
-      "gridX": 5,
-      "gridY": 4,
+      "gridX": 14,
+      "gridY": 6,
       "rotation": 90
     },
     {
-      "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+      "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
       "catalogId": "hall-sensor",
       "name": "Hall sensor",
       "category": "component",
       "value": "HALL",
-      "gridX": 5,
-      "gridY": 5,
+      "gridX": 14,
+      "gridY": 7,
       "rotation": 270
     },
     {
-      "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
+      "instanceId": "74c67ea5-9121-4484-a440-62ae5f88b621",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 5,
-      "gridY": 6,
+      "gridX": 14,
+      "gridY": 8,
       "rotation": 0,
       "plateGround": true
     },
     {
-      "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+      "instanceId": "7b674a0c-c88f-45e4-acd9-23b973ef0cbd",
       "catalogId": "corner-cube",
       "name": "Corner cube",
       "category": "routing",
-      "gridX": 4,
-      "gridY": 5,
-      "rotation": 90
-    },
-    {
-      "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
-      "catalogId": "resistor-470",
-      "name": "470Ω resistor",
-      "category": "component",
-      "value": "470Ω",
-      "gridX": 4,
-      "gridY": 6,
-      "rotation": 90
-    },
-    {
-      "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
-      "catalogId": "led-red",
-      "name": "Red LED",
-      "category": "component",
-      "value": "RED",
-      "gridX": 4,
+      "gridX": 13,
       "gridY": 7,
       "rotation": 90
     },
     {
-      "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+      "instanceId": "b0a93e47-6254-4653-bf2d-64e90fcb1d80",
+      "catalogId": "resistor-470",
+      "name": "470Ω resistor",
+      "category": "component",
+      "value": "470Ω",
+      "gridX": 13,
+      "gridY": 8,
+      "rotation": 90
+    },
+    {
+      "instanceId": "c1fe5818-0bdd-4f39-aa39-44a56049926f",
+      "catalogId": "led-red",
+      "name": "Red LED",
+      "category": "component",
+      "value": "RED",
+      "gridX": 13,
+      "gridY": 9,
+      "rotation": 90
+    },
+    {
+      "instanceId": "30eb7786-1563-4f02-913a-9b643c9ce695",
       "catalogId": "ground-tile",
       "name": "Ground tile",
       "category": "ground",
       "value": "GND",
-      "gridX": 4,
-      "gridY": 8,
+      "gridX": 13,
+      "gridY": 10,
       "rotation": 0,
       "plateGround": true
     }
@@ -93,7 +93,7 @@
   "connections": [
     {
       "a": {
-        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "instanceId": "c30b62b3-b2fc-4a79-b881-d3882ed9f59e",
         "side": "west"
       },
       "b": {
@@ -102,7 +102,7 @@
     },
     {
       "a": {
-        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "instanceId": "c30b62b3-b2fc-4a79-b881-d3882ed9f59e",
         "side": "south"
       },
       "b": {
@@ -111,47 +111,57 @@
     },
     {
       "a": {
-        "instanceId": "30d5e66f-7b2b-41c0-99f2-009ee35cda45",
+        "instanceId": "c30b62b3-b2fc-4a79-b881-d3882ed9f59e",
         "side": "south"
       },
       "b": {
-        "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+        "instanceId": "74613089-8c81-4af5-bb1d-f1bf19ebf9a2",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "d1b15401-0ee8-4f84-abb2-f4ca078a12b0",
+        "instanceId": "74613089-8c81-4af5-bb1d-f1bf19ebf9a2",
         "side": "south"
       },
       "b": {
-        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+        "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
-        "side": "south"
-      },
-      "b": {
-        "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
-        "side": "north"
-      }
-    },
-    {
-      "a": {
-        "instanceId": "6e557d18-5d8b-4de8-a5cb-5e23fdf24373",
+        "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
         "side": "west"
       },
       "b": {
-        "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+        "instanceId": "7b674a0c-c88f-45e4-acd9-23b973ef0cbd",
         "side": "east"
       }
     },
     {
       "a": {
-        "instanceId": "ff0ed570-2630-4b3a-93a0-a3e3e46864db",
+        "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "74c67ea5-9121-4484-a440-62ae5f88b621",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
+        "side": "south"
+      },
+      "b": {
+        "instanceId": "f4038ad1-6012-4888-8192-1da5a559cdcb",
+        "side": "north"
+      }
+    },
+    {
+      "a": {
+        "instanceId": "74c67ea5-9121-4484-a440-62ae5f88b621",
         "side": "south"
       },
       "b": {
@@ -160,37 +170,37 @@
     },
     {
       "a": {
-        "instanceId": "9ad02f79-74ef-42b7-93c7-39047e889435",
+        "instanceId": "7b674a0c-c88f-45e4-acd9-23b973ef0cbd",
         "side": "south"
       },
       "b": {
-        "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
+        "instanceId": "b0a93e47-6254-4653-bf2d-64e90fcb1d80",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "7c44981e-b9f0-42c9-918b-f0f5dc47ff39",
+        "instanceId": "b0a93e47-6254-4653-bf2d-64e90fcb1d80",
         "side": "south"
       },
       "b": {
-        "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
+        "instanceId": "c1fe5818-0bdd-4f39-aa39-44a56049926f",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "eee4d082-d48e-4e96-b0dd-be660effc208",
+        "instanceId": "c1fe5818-0bdd-4f39-aa39-44a56049926f",
         "side": "south"
       },
       "b": {
-        "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+        "instanceId": "30eb7786-1563-4f02-913a-9b643c9ce695",
         "side": "north"
       }
     },
     {
       "a": {
-        "instanceId": "fcd5be5b-d79b-40de-8d8b-e082a473697e",
+        "instanceId": "30eb7786-1563-4f02-913a-9b643c9ce695",
         "side": "south"
       },
       "b": {
@@ -200,39 +210,37 @@
   ],
   "nets": [
     [
-      "30d5e66f-7b2b-41c0-99f2-009ee35cda45:west",
-      "fcd5be5b-d79b-40de-8d8b-e082a473697e:south",
-      "ff0ed570-2630-4b3a-93a0-a3e3e46864db:south",
+      "30eb7786-1563-4f02-913a-9b643c9ce695:south",
+      "74c67ea5-9121-4484-a440-62ae5f88b621:south",
+      "c30b62b3-b2fc-4a79-b881-d3882ed9f59e:west",
       "net:PLATE_GND"
     ],
     [
-      "30d5e66f-7b2b-41c0-99f2-009ee35cda45:south",
-      "d1b15401-0ee8-4f84-abb2-f4ca078a12b0:north",
+      "74613089-8c81-4af5-bb1d-f1bf19ebf9a2:north",
+      "c30b62b3-b2fc-4a79-b881-d3882ed9f59e:south",
       "net:USB_VCC"
     ],
     [
-      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:north",
-      "d1b15401-0ee8-4f84-abb2-f4ca078a12b0:south"
+      "74613089-8c81-4af5-bb1d-f1bf19ebf9a2:south",
+      "74c67ea5-9121-4484-a440-62ae5f88b621:north",
+      "f4038ad1-6012-4888-8192-1da5a559cdcb:north",
+      "f4038ad1-6012-4888-8192-1da5a559cdcb:south"
     ],
     [
-      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:south",
-      "ff0ed570-2630-4b3a-93a0-a3e3e46864db:north"
+      "7b674a0c-c88f-45e4-acd9-23b973ef0cbd:east",
+      "f4038ad1-6012-4888-8192-1da5a559cdcb:west"
     ],
     [
-      "6e557d18-5d8b-4de8-a5cb-5e23fdf24373:west",
-      "9ad02f79-74ef-42b7-93c7-39047e889435:east"
+      "7b674a0c-c88f-45e4-acd9-23b973ef0cbd:south",
+      "b0a93e47-6254-4653-bf2d-64e90fcb1d80:north"
     ],
     [
-      "7c44981e-b9f0-42c9-918b-f0f5dc47ff39:north",
-      "9ad02f79-74ef-42b7-93c7-39047e889435:south"
+      "b0a93e47-6254-4653-bf2d-64e90fcb1d80:south",
+      "c1fe5818-0bdd-4f39-aa39-44a56049926f:north"
     ],
     [
-      "7c44981e-b9f0-42c9-918b-f0f5dc47ff39:south",
-      "eee4d082-d48e-4e96-b0dd-be660effc208:north"
-    ],
-    [
-      "eee4d082-d48e-4e96-b0dd-be660effc208:south",
-      "fcd5be5b-d79b-40de-8d8b-e082a473697e:north"
+      "30eb7786-1563-4f02-913a-9b643c9ce695:north",
+      "c1fe5818-0bdd-4f39-aa39-44a56049926f:south"
     ]
   ]
 }
